@@ -1,0 +1,9 @@
+.HomepageButton {
+  color:white;
+  font-style: normal;
+}
+
+.HomepageButton:hover {
+  color:white;
+  text-decoration: none;
+}
