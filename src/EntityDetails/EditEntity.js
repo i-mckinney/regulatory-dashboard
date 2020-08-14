@@ -5,12 +5,12 @@ import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
 // import EntityTable from "./EntityTable"
 
-function renderTableData(fields) {
-  fields.map((entityField) => {
+const renderTableData = (fields) => {
+  return fields.map((entityField) => {
     <tr key={entityField.FieldName}>
       <td key={entityField.FieldName}>{entityField.Label}</td>
     </tr>
-  })
+  });
 }
 
 const EditEntity = () => {
