@@ -18,7 +18,7 @@ function Homepage() {
         <p className="lead">File faster and easier with Helix!</p>
         <Button className="mt-5" color="primary">
           <Link to="/dashboard" className="HomepageButton">
-            Let's Get Started 
+            Get Started!
           </Link>
         </Button>
       </div>
