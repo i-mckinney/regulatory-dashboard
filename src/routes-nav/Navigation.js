@@ -9,9 +9,7 @@ import {
   NavLink,
 } from "reactstrap"
 
-/**
- * @returns {jsx} Handles Navigation for Helix Regulatory DashBoard.
- */
+/** @returns {jsx} Handles Navigation for Helix Regulatory DashBoard. */
 const Navigation = () => {
   // When the browser window gets to small, nav bar collapses and toggle is used to show and hide the navbar.
   const [isOpen, setIsOpen] = useState(false)
@@ -49,7 +47,7 @@ const Navigation = () => {
         </Collapse>
       </Navbar>
     </div>
-  );
+  )
 }
 
-export default Navigation;
+export default Navigation
