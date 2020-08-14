@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom"
 import Homepage from "../homepage/Homepage"
 import Dashboard from "../Dashboard"
 import Entity from "../Entity"
+import EditEntity from "../EntityDetails/EditEntity"
 import Loan from "../Loan"
 import Regulatory from "../Regulatory"
 import MyRequest from "../MyRequest"
@@ -25,6 +26,10 @@ function Routes() {
 
         <Route exact path="/entity">
           <Entity />
+        </Route>
+
+        <Route exact path="/editentity">
+          <EditEntity />
         </Route>
 
         <Route exact path="/loan">

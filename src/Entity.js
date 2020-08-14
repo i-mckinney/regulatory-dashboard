@@ -1,6 +1,7 @@
 import React from "react"
 import { Styles } from "./ReactTable/AdminDashboardStyle"
 import AdminDashboard from "./ReactTable/AdminDashboard"
+import { Link } from "react-router-dom" // delete later
 
 /** @return {JSX} Entity site
  * routed at /Entity
@@ -69,6 +70,13 @@ function Entity() {
           customRowRender={customRow}
           destinationString="reports"
         />
+        <button
+          type="button"
+          className="ui button primary"
+          // onClick={() => }
+        >
+          <Link to="/editentity">Edit Entity</Link>
+        </button>
       </Styles>
     </div>
   )
