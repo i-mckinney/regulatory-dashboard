@@ -4,18 +4,14 @@ import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
 import EntityTable from "./EntityTable"
 
-const EditEntity = () => {
-  //   const {
-  //     getTableProps,
-  //     getTableBodyProps,
-  //     headerGroups,
-  //     rows,
-  //     prepareRow,
-  //   } = useTable({
-  //     columns,
-  //     data,
-  //   })
+/** @return {JSX} EditEntity site
+ * routed at /EditEntity
+ */
 
+const EditEntity = () => {
+  /** TODO
+   *
+   * * */
   return (
     <div>
       <EntityCard

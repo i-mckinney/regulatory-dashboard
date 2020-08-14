@@ -1,6 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+/**
+ * @param {array} fields An array of objects containing (FieldName, Label, Records).
+ * */
 const EntityTable = ({ fields }) => {
   const renderTableData = (entityFields) => {
     return (

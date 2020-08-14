@@ -2,6 +2,13 @@ import React from "react"
 // import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap"
 import PropTypes from "prop-types"
 
+/**
+ * @param {string} RecordLabel
+ * @param {string} SystemOfRecord
+ * @param {string} ID
+ * @param {string} BorrowerName
+ * @param {string} RelationshipManager
+ * */
 const EntityCard = ({
   RecordLabel,
   SystemOfRecord,
@@ -11,7 +18,6 @@ const EntityCard = ({
 }) => {
   return (
     <div className="container entity-info-card-">
-
       <div className="entity-card-title">
         <h1>{RecordLabel}</h1>
       </div>
