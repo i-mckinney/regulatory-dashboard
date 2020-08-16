@@ -1,5 +1,5 @@
 import React from "react"
-// import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap"
+import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap"
 import PropTypes from "prop-types"
 
 /**
@@ -17,20 +17,26 @@ const EntityCard = ({
   RelationshipManager,
 }) => {
   return (
-    <div className="container entity-info-card-">
-      <div className="entity-card-title">
-        <h1>{RecordLabel}</h1>
-      </div>
-      <div className="entity-card-subtitle">
-        System of Record: {SystemOfRecord}
-      </div>
-      <div className="entity-card-content">
-        <ul>
-          <li>{ID}</li>
-          <li>{BorrowerName}</li>
-          <li>{RelationshipManager}</li>
-        </ul>
-      </div>
+    <div className="container entity-info-card-div">
+      <Card className="entity-info-card">
+        <CardBody>
+          <div className="entity-info-card-header">
+            <CardTitle className="entity-info-card-title">
+              <h1>{RecordLabel}</h1>
+            </CardTitle>
+            <CardSubtitle className="entity-info-card-subtitle">
+              System of Record: {SystemOfRecord}
+            </CardSubtitle>
+          </div>
+          <CardText className="entity-info-card-content">
+            <ul>
+              <li>{ID}</li>
+              <li>{BorrowerName}</li>
+              <li>{RelationshipManager}</li>
+            </ul>
+          </CardText>
+        </CardBody>
+      </Card>
     </div>
   )
 }

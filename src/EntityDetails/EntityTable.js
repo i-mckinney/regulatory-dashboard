@@ -1,34 +1,82 @@
 import React from "react"
+import { useTable } from "react-table"
 import PropTypes from "prop-types"
 
-/**
- * @param {array} fields An array of objects containing (FieldName, Label, Records).
- * */
-const EntityTable = ({ fields }) => {
-  const renderTableData = (entityFields) => {
-    return (
-      <div>
-        {entityFields.map((entityField) => (
-          <tr key={entityField.FieldName}>
-            <td key={entityField.FieldName}>{entityField.Label}</td>
-            {entityField.Records.map((record) => (
-              <td key={record.Soid}>{record.Value}</td>
+const EntityTable = ({ columns, data }) => {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    visibleColumns,
+    rows,
+    prepareRow,
+  } = useTable({
+    columns,
+    data,
+  })
+  // console.log(columns)
+  // console.log(data)
+  return (
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map(headerGroup => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th {...column.getHeaderProps()}></th>
             ))}
           </tr>
         ))}
-      </div>
-    )
-  }
-
-  return (
-    <div>
-      <table className="table">{renderTableData(fields)}</table>
-    </div>
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row) => {
+          prepareRow(row)
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+              })}
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
   )
+  // return (
+  //   <div>
+  //     <table {...getTableProps()}>
+  //       <thead>
+  //         {/* <tr>
+  //           <th colSpan={visibleColumns.length} style={{ textAlign: "left" }} />
+  //         </tr> */}
+  //         {headerGroups.map((headerGroup) => (
+  //           <tr {...headerGroup.getHeaderGroupProps()}>
+  //             {headerGroup.headers.map((column) => (
+  //               <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+  //             ))}
+  //           </tr>
+  //         ))}
+  //       </thead>
+  //       <tbody {...getTableBodyProps()}>
+  //         {rows.map((row) => {
+  //           prepareRow(row)
+  //           return (
+  //             <tr {...row.getRowProps()}>
+  //               {row.cells.map((cell) => {
+  //                 return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+  //               })}
+  //             </tr>
+  //           )
+  //         })}
+  //       </tbody>
+  //     </table>
+  //   </div>
+  // )
 }
 
 EntityTable.propTypes = {
-  fields: PropTypes.instanceOf(Array).isRequired,
+  // fields: PropTypes.instanceOf(Array).isRequired,
+  data: PropTypes.instanceOf(Array).isRequired,
+  columns: PropTypes.instanceOf(Array).isRequired,
 }
 
 export default EntityTable
