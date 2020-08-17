@@ -52,41 +52,42 @@ export const Styles = styled.div`
       border-bottom: none;
     }
   }
-  th {
-    :last-child {
-      border-top-right-radius: 4px;
-    }
-  }
-  th {
-    :nth-child(4) {
-      text-align: center;
-    }
-  }
-  th {
-    :nth-child(3) {
-      text-align: center;
-    }
-  }
-  td {
-    :nth-child(4) {
-      text-align: center;
-    }
-  }
-  td {
-    :nth-child(3) {
-      text-align: center;
-    }
-  }
-  td {
-    :nth-child(2) {
-      width: 300px;
-    }
-  }
-  th {
-    :first-child {
-      border-top-left-radius: 4px;
-    }
-  }
+  // th {
+  //   :first-child {
+  //     border-top-left-radius: 4px;
+  //   }
+  // }
+  // th {
+  //   :last-child {
+  //     border-top-right-radius: 4px;
+
+  //   }
+  // }
+  // th {
+  //   :nth-child(4) {
+  //     text-align: center;
+  //   }
+  // }
+  // th {
+  //   :nth-child(3) {
+  //     text-align: center;
+  //   }
+  // }
+  // td {
+  //   :nth-child(4) {
+  //     text-align: center;
+  //   }
+  // }
+  // td {
+  //   :nth-child(3) {
+  //     text-align: center;
+  //   }
+  // }
+  // td {
+  //   :nth-child(2) {
+  //     width: 300px;
+  //   }
+  // }
   tr {
     :last-child {
       border-bottom-right-radius: 4px;

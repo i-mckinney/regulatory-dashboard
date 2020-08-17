@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap"
+import { Card, CardBody, CardTitle, CardSubtitle } from "reactstrap"
 import PropTypes from "prop-types"
 
 /**
@@ -28,13 +28,13 @@ const EntityCard = ({
               System of Record: {SystemOfRecord}
             </CardSubtitle>
           </div>
-          <CardText className="entity-info-card-content">
+          <div className="entity-info-card-content">
             <ul>
               <li>{ID}</li>
               <li>{BorrowerName}</li>
               <li>{RelationshipManager}</li>
             </ul>
-          </CardText>
+          </div>
         </CardBody>
       </Card>
     </div>
