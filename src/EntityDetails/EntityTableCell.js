@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 
-const EntityTableCell = ({ value: initialValue }) => {
-  const [value, setValue] = useState(initialValue)
-  const [isHidden, setIsHidden] = useState(true)
+const EntityTableCell = ({ value: initialStateValue }) => {
+  const [value, setValue] = useState(initialStateValue)
+  const [currentStateValue, setCurrentStateValue] = useState(value)
+  const [isDivHidden, setIsDivHidden] = useState(true)
   const [saveChanges, setSaveChanges] = useState(false)
+  const [isResetHidden, setIsResetHidden] = useState(true)
+  const [isEditedHidden, setIsEditedHidden] = useState(true)
 
   useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
+    setValue(initialStateValue)
+  }, [initialStateValue])
 
   const handleInputChange = (e) => {
     setValue(e.target.value)
@@ -17,17 +20,28 @@ const EntityTableCell = ({ value: initialValue }) => {
   const handleSaveChange = (e) => {
     e.stopPropagation()
     setSaveChanges(true)
-    setIsHidden(true)
+    setCurrentStateValue(value)
+    setIsDivHidden(true)
+    setIsResetHidden(false)
+    setIsEditedHidden(false)
   }
 
   const handleCancelChange = (e) => {
     e.stopPropagation()
-    setIsHidden(true)
+    setIsDivHidden(true)
   }
 
   const handleDivChange = () => {
-    // setSaveChanges(false)
-    setIsHidden(false)
+    setIsDivHidden(false)
+  }
+
+  const handleResetChange = (e) => {
+    e.stopPropagation()
+    setCurrentStateValue("")
+    setValue(initialStateValue)
+    setIsDivHidden(true)
+    setIsResetHidden(true)
+    setIsEditedHidden(true)
   }
 
   return (
@@ -37,9 +51,22 @@ const EntityTableCell = ({ value: initialValue }) => {
       role="row"
       tabIndex="0"
     >
-      {initialValue}
-      <div style={{ display: saveChanges ? "block" : "none" }}>{value}</div>
-      <div hidden={isHidden}>
+      <div style={{ display: "inline-block" }}>{initialStateValue}</div>
+      <div style={{ display: saveChanges ? "block" : "none" }}>
+        {currentStateValue}
+        <span hidden={isEditedHidden}>-Edited</span>
+        <span
+          className="undo"
+          onClick={handleResetChange}
+          onKeyDown={handleResetChange}
+          role="row"
+          tabIndex="0"
+          hidden={isResetHidden}
+        >
+          Reset
+        </span>
+      </div>
+      <div hidden={isDivHidden}>
         <input type="text" value={value} onChange={handleInputChange} />
         <span>
           <button type="button" onClick={handleSaveChange}>

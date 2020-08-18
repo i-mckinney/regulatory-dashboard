@@ -36,7 +36,6 @@ const EntityTable = ({ columns, data }) => {
                 {row.cells.slice(1).map((cell) => {
                   return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                 })}
-                {console.log(row.cells)}
               </tr>
             )
           })}

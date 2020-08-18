@@ -176,4 +176,9 @@ export const Styles = styled.div`
     border-radius: 4px;
     overflow: visible;
   }
+
+  .undo {
+    cursor: pointer;
+    float: right;
+  }
 `
