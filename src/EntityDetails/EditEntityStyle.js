@@ -140,6 +140,7 @@ export const Styles = styled.div`
     padding-top: 50px;
     text-align: center;
     width: 100%;
+    padding-bottom: 25px;
   }
   button {
     font-family: Roboto, "Helvetica Neue", sans-serif;

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 
+/**
+ * @param {string} value string represents particular table data cell value from Cell object property
+ * @returns {JSX} renders a custom table data cell
+ */
 const EntityTableCell = ({ value: initialStateValue }) => {
   const [value, setValue] = useState(initialStateValue)
   const [currentStateValue, setCurrentStateValue] = useState(value)

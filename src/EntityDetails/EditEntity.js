@@ -7,14 +7,12 @@ import { Styles } from "./EditEntityStyle"
 import EntityTableCell from "./EntityTableCell"
 import EntityTable from "./EntityTable"
 
-/** @return {JSX} EditEntity site
+/**
+ * @param {Object} props Using the history property to route back Entity site
+ * @return {JSX} EditEntity site
  * routed at /EditEntity
  */
-
 const EditEntity = (props) => {
-  /** TODO
-   *
-   * * */
   const columns = React.useMemo(() => [
     {
       Header: "Field Name",
@@ -37,12 +35,13 @@ const EditEntity = (props) => {
   detailedInfo.Fields.forEach((entityField, entityIndex) =>
     entityField.Records.forEach(
       (record, recordIndex) =>
-        (data[entityIndex][detailedInfo.TableHeaders[recordIndex].DataWarehouseName] =
-          record.Value)
+        (data[entityIndex][
+          detailedInfo.TableHeaders[recordIndex].DataWarehouseName
+        ] = record.Value)
     )
   )
   return (
-    <div>
+    <div className="container">
       <Styles>
         <EntityCard
           RecordLabel={detailedInfo.RecordLabel}

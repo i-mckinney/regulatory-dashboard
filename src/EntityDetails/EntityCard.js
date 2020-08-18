@@ -3,11 +3,12 @@ import { Card, CardBody, CardTitle, CardSubtitle } from "reactstrap"
 import PropTypes from "prop-types"
 
 /**
- * @param {string} RecordLabel
- * @param {string} SystemOfRecord
- * @param {string} ID
- * @param {string} BorrowerName
- * @param {string} RelationshipManager
+ * @param {string} RecordLabel API result property
+ * @param {string} SystemOfRecord API result property
+ * @param {string} ID API result property of  HeaderInfo object
+ * @param {string} BorrowerName API result property of HeaderInfo object
+ * @param {string} RelationshipManager API result property of HeaderInfo object
+ * @returns {JSX} renders a entity card for edit entity dashboard
  * */
 const EntityCard = ({
   RecordLabel,
@@ -17,7 +18,7 @@ const EntityCard = ({
   RelationshipManager,
 }) => {
   return (
-    <div className="container entity-info-card-div">
+    <div className="entity-info-card-div">
       <Card className="entity-info-card">
         <CardBody>
           <div className="entity-info-card-header">
