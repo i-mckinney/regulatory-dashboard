@@ -5,7 +5,7 @@ import EntityTableHead from "./EntityTableHead"
 import EntityTableBody from "./EntityTableBody"
 
 /**
- * @param {array}  columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
+ * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
  * @param {array} data API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
  * @returns {JSX} renders a custom edit entity dashboard
  */

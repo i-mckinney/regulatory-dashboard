@@ -8,7 +8,7 @@ import PropTypes from "prop-types"
 const EntityTableCell = ({ value: initialStateValue }) => {
   /**
    * 1) value will be data from props you get from Cell object property
-   * 2) currentStateValue will be data to modified the existing value data
+   * 2) currentStateValue is a editable value data to display
    * 3) isDivHidden is a boolean to check whether div is hidden or not
    * 4) saveChanges is a boolean to check whether changes are saved
    * 5) reset is a string to display "reset"
@@ -54,13 +54,17 @@ const EntityTableCell = ({ value: initialStateValue }) => {
     setCurrentStateValue("")
     setValue(initialStateValue)
     setIsDivHidden(true)
+    setSaveChanges(false)
     setReset("")
     setEdited("")
   }
 
   // Display the initial state value
   const displayInitialStateValue = () => {
-    return <div style={{ display: "inline-block" }}>{initialStateValue}</div>
+    if (!saveChanges) {
+      return <div className="initial-state">{initialStateValue}</div>
+    }
+    return <div className="modified-initial-state">{initialStateValue}</div>
   }
 
   // Display current state value of edited changes
@@ -82,24 +86,27 @@ const EntityTableCell = ({ value: initialStateValue }) => {
         </div>
       )
     }
-    return <div />
+    return null
   }
 
   // Display the customized form with input text box and save/cancel button
   const displayCustomizedForm = () => {
-    return (
-      <div hidden={isDivHidden}>
-        <input type="text" value={value} onChange={handleInputChange} />
-        <span>
-          <button type="button" onClick={handleSaveChange}>
-            Save
-          </button>
-          <button type="button" onClick={handleCancelChange}>
-            Cancel
-          </button>
-        </span>
-      </div>
-    )
+    if (!isDivHidden) {
+      return (
+        <div>
+          <input type="text" value={value} onChange={handleInputChange} />
+          <span>
+            <button type="button" onClick={handleSaveChange}>
+              Save
+            </button>
+            <button type="button" onClick={handleCancelChange}>
+              Cancel
+            </button>
+          </span>
+        </div>
+      )
+    }
+    return null
   }
 
   return (

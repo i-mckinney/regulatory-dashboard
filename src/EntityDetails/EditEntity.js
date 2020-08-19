@@ -33,23 +33,14 @@ const EditEntity = (props) => {
     return { fieldname: entityField.Label }
   })
 
-  for (
-    let fieldIndex = 0;
-    fieldIndex < detailedInfo.Fields.length;
-    fieldIndex += 1
-  ) {
-    const entityField = detailedInfo.Fields[fieldIndex]
-    for (
-      let recordIndex = 0;
-      recordIndex < entityField.Records.length;
-      recordIndex += 1
-    ) {
-      const record = entityField.Records[recordIndex]
+  detailedInfo.Fields.forEach((entityField, fieldIndex) =>
+    entityField.Records.forEach((record, recordIndex) => {
       const headers = detailedInfo.TableHeaders
       const dataWarehouseName = headers[recordIndex].DataWarehouseName
       data[fieldIndex][dataWarehouseName] = record.Value
-    }
-  }
+    })
+  )
+
   return (
     <div className="container">
       <Styles>

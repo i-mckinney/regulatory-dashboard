@@ -5,9 +5,9 @@ export const Styles = styled.div`
   padding: 1rem;
   table {
     width: 100%;
+    display: table;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-    display: table;
     border-collapse: separate;
     box-sizing: border-box;
     border-spacing: 2px;
@@ -35,11 +35,8 @@ export const Styles = styled.div`
     }
     th,
     td {
-      // border: none;
-      // padding: 0.5rem;
       margin: 0;
       border-bottom: solid 1px #e0e4e8;
-      // border: 4px solid #ddd;
       padding: 8px;
     }
     :last-children {
@@ -97,6 +94,7 @@ export const Styles = styled.div`
     width: 100%;
     padding-bottom: 25px;
   }
+
   button {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 14px;
@@ -107,8 +105,6 @@ export const Styles = styled.div`
     background-color: #fff;
   }
   .confirm-button {
-    // color: white;
-    // background-color: #013e75;
     display: inline-block;
     width: 80px;
   }
@@ -143,5 +139,14 @@ export const Styles = styled.div`
   .undo:focus,
   .edited-field:focus {
     outline: none;
+  }
+
+  .initial-state,
+  .modified-initial-state {
+    display: inline-block;
+  }
+
+  .modified-initial-state {
+    font-size: 0.75rem;
   }
 `

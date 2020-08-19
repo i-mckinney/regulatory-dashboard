@@ -16,10 +16,7 @@ const EntityTableBody = ({ getTableBodyProps, rows, prepareRow }) => {
         prepareRow(row)
         return (
           <tr {...row.getRowProps()}>
-            {row.cells.slice(0, 1).map((cell) => {
-              return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-            })}
-            {row.cells.slice(1).map((cell) => {
+            {row.cells.map((cell) => {
               return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
             })}
           </tr>
