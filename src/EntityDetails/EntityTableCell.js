@@ -59,12 +59,18 @@ const EntityTableCell = ({ value: initialStateValue }) => {
     setEdited("")
   }
 
+  // If there is not editable data shown, return intial-state
+  // else there is editable data shown, return modified-initial-state
+  const initialState = () => {
+    if (!saveChanges) {
+      return "initial-state"
+    }
+    return "modified-initial-state"
+  }
+
   // Display the initial state value
   const displayInitialStateValue = () => {
-    if (!saveChanges) {
-      return <div className="initial-state">{initialStateValue}</div>
-    }
-    return <div className="modified-initial-state">{initialStateValue}</div>
+    return <div className={initialState()}>{initialStateValue}</div>
   }
 
   // Display current state value of edited changes
