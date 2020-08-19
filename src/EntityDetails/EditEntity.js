@@ -28,18 +28,28 @@ const EditEntity = (props) => {
     })
   })
 
+  // data[row][column] = data[FieldNames][DataWareHouse]
   const data = detailedInfo.Fields.map((entityField) => {
     return { fieldname: entityField.Label }
   })
 
-  detailedInfo.Fields.forEach((entityField, entityIndex) =>
-    entityField.Records.forEach(
-      (record, recordIndex) =>
-        (data[entityIndex][
-          detailedInfo.TableHeaders[recordIndex].DataWarehouseName
-        ] = record.Value)
-    )
-  )
+  for (
+    let fieldIndex = 0;
+    fieldIndex < detailedInfo.Fields.length;
+    fieldIndex += 1
+  ) {
+    const entityField = detailedInfo.Fields[fieldIndex]
+    for (
+      let recordIndex = 0;
+      recordIndex < entityField.Records.length;
+      recordIndex += 1
+    ) {
+      const record = entityField.Records[recordIndex]
+      const headers = detailedInfo.TableHeaders
+      const dataWarehouseName = headers[recordIndex].DataWarehouseName
+      data[fieldIndex][dataWarehouseName] = record.Value
+    }
+  }
   return (
     <div className="container">
       <Styles>

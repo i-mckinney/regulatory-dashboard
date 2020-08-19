@@ -7,12 +7,6 @@ export const Styles = styled.div`
     width: 100%;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-
-    // text-align: center;
-    // font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    // border-collapse: separate;
-    // border: 2px solid #ddd;
-
     display: table;
     border-collapse: separate;
     box-sizing: border-box;
@@ -52,42 +46,6 @@ export const Styles = styled.div`
       border-bottom: none;
     }
   }
-  // th {
-  //   :first-child {
-  //     border-top-left-radius: 4px;
-  //   }
-  // }
-  // th {
-  //   :last-child {
-  //     border-top-right-radius: 4px;
-
-  //   }
-  // }
-  // th {
-  //   :nth-child(4) {
-  //     text-align: center;
-  //   }
-  // }
-  // th {
-  //   :nth-child(3) {
-  //     text-align: center;
-  //   }
-  // }
-  // td {
-  //   :nth-child(4) {
-  //     text-align: center;
-  //   }
-  // }
-  // td {
-  //   :nth-child(3) {
-  //     text-align: center;
-  //   }
-  // }
-  // td {
-  //   :nth-child(2) {
-  //     width: 300px;
-  //   }
-  // }
   tr {
     :last-child {
       border-bottom-right-radius: 4px;
@@ -101,9 +59,7 @@ export const Styles = styled.div`
   .entity-info-card {
     box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
       0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-
     background-color: rgb(241, 239, 239);
-
     transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
     position: relative;
@@ -133,7 +89,6 @@ export const Styles = styled.div`
 
   .entity-info-card-content {
     font-size: 14px;
-    // display: block;
   }
 
   .page-progression {
@@ -181,5 +136,12 @@ export const Styles = styled.div`
   .undo {
     cursor: pointer;
     float: right;
+  }
+
+  button:focus,
+  input:focus,
+  .undo:focus,
+  .edited-field:focus {
+    outline: none;
   }
 `
