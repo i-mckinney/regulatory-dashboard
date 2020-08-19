@@ -5,8 +5,8 @@ import MicroserviceLoader from './MicroserviceLoader';
 import SpogPage from './Components/Spog/SpogPage'
 
 const {
-  DASHBOARD_HOST: dashboardHost,
-  COMPANY_VIEW_HOST: companyViewHost
+  REACT_APP_DASHBOARD_HOST: dashboardHost,
+  REACT_APP_COMPANY_VIEW_HOST: companyViewHost
 } = process.env;
 
 const Dashboard = ({ history }) => (

@@ -23,7 +23,11 @@ window.unmountCompany = containerId => {
 };
 
 // Mount to root if it is not a micro frontend
+<<<<<<< HEAD
 if (!document.getElementById('CompanyView-container')) {
+=======
+if (!document.getElementById('companyContainer')) {
+>>>>>>> 8b36cd6... added microservices
   ReactDOM.render(<App />, document.getElementById('notRoot'));
 }
 

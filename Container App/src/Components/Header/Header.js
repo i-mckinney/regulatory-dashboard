@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 
+//TODO Make Company List Dynamic
+
 const Header = () => (
   <header>
     <div className="center-column">
@@ -15,7 +17,7 @@ const Header = () => (
         <li>
           <select name="companyList" id="companies">
             <option value="Microsoft">Microsoft</option>
-            <option>City National Bank</option>
+            <option value="CNB">City National Bank</option>
           </select>       
         </li>
       </ol>

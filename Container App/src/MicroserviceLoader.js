@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 
 const MicroserviceLoader = ({ name, host, history }) => {
   useEffect(() => {
+    console.log("name: " + name)
     const scriptId = `regulatory-frontend-script-${name}`;
     const renderMicroservice = () => {
       window[`render${name}`] &&
