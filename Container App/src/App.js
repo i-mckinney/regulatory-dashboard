@@ -25,6 +25,10 @@ const App = () => (
         <Route exact path='/' component={SpogPage} />
         <Route exact path="/dashboard" component={Dashboard}/>
         <Route exact path="/company/:id" component={CompanyView} />
+        <Route exact path='/entity' component={Dashboard} />
+        <Route exact path='/loan' component={Dashboard} />
+        <Route exact path='/regulatory' component={Dashboard} />
+        <Route exact path='/myrequest' component={Dashboard} />
       </Switch>
     </React.Fragment>
   </BrowserRouter>

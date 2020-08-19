@@ -25,7 +25,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev-server": "react-app-rewired build && nodemon --watch server"
+    "dev-server": "react-app-rewired build && nodemon --watch server",
+    "bundle": "react-scripts build && react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"

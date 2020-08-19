@@ -6,9 +6,9 @@ import * as serviceWorker from './serviceWorker';
 import 'react-app-polyfill/ie11';
 
 
-window.renderCompany = (containerId) => {
+window.renderCompanyView = (containerId, history) => {
   ReactDOM.render(
-      <App />,
+      <App history={history}/>,
   document.getElementById(containerId)
   );
   // If you want your app to work offline and load faster, you can change
@@ -18,7 +18,7 @@ window.renderCompany = (containerId) => {
 };
 
 //unmounts company when leaving
-window.unmountCompany = containerId => {
+window.unmountCompanyView = containerId => {
   ReactDOM.unmountComponentAtNode(document.getElementById(containerId));
 };
 
