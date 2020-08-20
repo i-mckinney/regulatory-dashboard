@@ -3,9 +3,21 @@ import PropTypes from "prop-types"
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
+ * @param {func} saveData func is invoke, it will pass the data back to parent component to add data
+ * @param {func} removeData func is invoke, it will pass the data back to parent component to remove data
+ * @param {object} cell object represents current row and current column properties
+ * @param {string} SystemOfRecord API result property
+ * @param {array} allColumns array of columns
  * @returns {JSX} renders a custom table data cell
  */
-const EntityTableCell = ({ value: initialStateValue }) => {
+const EntityTableCell = ({
+  value: initialStateValue,
+  saveData,
+  removeData,
+  cell,
+  SystemOfRecord,
+  allColumns,
+}) => {
   /**
    * 1) value will be data from props you get from Cell object property
    * 2) currentStateValue is a editable value data to display
@@ -26,8 +38,21 @@ const EntityTableCell = ({ value: initialStateValue }) => {
     setValue(e.target.value)
   }
 
-  // Saves the text input, displays current state edited text input, and hide rest of the identifier tags
-  /// (e.g. button, span, etc...) when the save button triggers
+  // Calculate 1-dimension array indexes
+  const cellIndex = () => {
+    let colIndex = -1
+    allColumns.forEach((column, index) => {
+      if (column.Header === cell.column.Header) {
+        colIndex = index
+      }
+    })
+    const currentRowIndex = cell.row.index
+    const index = allColumns.length * currentRowIndex + colIndex
+    return index
+  }
+
+  // Saves the text input, displays current state edited text input, hide rest of the identifier tags
+  // (e.g. button, span, etc...), send the data to parent component when the save button triggers
   const handleSaveChange = (e) => {
     e.stopPropagation()
     setSaveChanges(true)
@@ -35,6 +60,16 @@ const EntityTableCell = ({ value: initialStateValue }) => {
     setIsDivHidden(true)
     setReset("Reset")
     setEdited("-Edited")
+
+    const index = cellIndex()
+    const data = {
+      FieldName: cell.row.original.fieldname,
+      SystemOfRecord,
+      PreviousValue: initialStateValue,
+      NewValue: value,
+      SourceSystem: "",
+    }
+    saveData(index, data, "SAVE")
   }
 
   // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
@@ -48,7 +83,8 @@ const EntityTableCell = ({ value: initialStateValue }) => {
     setIsDivHidden(false)
   }
 
-  // Reset current state edited text input, hides all identifier tags, and display initial state value
+  // Reset current state edited text input, hides all identifier tags, display initial state value,
+  // send the data to parent component when the reset triggers
   const handleResetChange = (e) => {
     e.stopPropagation()
     setCurrentStateValue("")
@@ -57,6 +93,9 @@ const EntityTableCell = ({ value: initialStateValue }) => {
     setSaveChanges(false)
     setReset("")
     setEdited("")
+
+    const index = cellIndex()
+    removeData(index, "RESET")
   }
 
   // If there is not editable data shown, return intial-state
@@ -84,7 +123,7 @@ const EntityTableCell = ({ value: initialStateValue }) => {
             className="undo"
             onClick={handleResetChange}
             onKeyDown={handleResetChange}
-            role="row"
+            role="button"
             tabIndex="0"
           >
             {reset}
@@ -132,6 +171,11 @@ const EntityTableCell = ({ value: initialStateValue }) => {
 
 EntityTableCell.propTypes = {
   value: PropTypes.string.isRequired,
+  saveData: PropTypes.func.isRequired,
+  removeData: PropTypes.func.isRequired,
+  cell: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  SystemOfRecord: PropTypes.string.isRequired,
+  allColumns: PropTypes.instanceOf(Array).isRequired,
 }
 
 export default EntityTableCell
