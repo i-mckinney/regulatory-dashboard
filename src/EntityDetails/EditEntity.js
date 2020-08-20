@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { withRouter } from "react-router-dom"
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
@@ -13,6 +13,13 @@ import EntityTable from "./EntityTable"
  * routed at /EditEntity
  */
 const EditEntity = (props) => {
+  /**
+   * 1) indexesOfSavedData keep records of table data cell indexes
+   * 2) savedData is modified data needed to send to next component/pipeline
+   * */
+  const [indexesOfEditEntityData, setIndexesOfEditEntityData] = useState([])
+  const [editEntityData, setEditEntityData] = useState([])
+
   const columns = React.useMemo(() => [
     {
       Header: "Field Name",
@@ -41,6 +48,42 @@ const EditEntity = (props) => {
     })
   )
 
+  // Saved the modified data to an savedData and keep record of the indexes of table data cell
+  const saveData = (index, newData, action) => {
+    if (action === "SAVE") {
+      const copyEditEntityData = [...editEntityData]
+      const copyIndexesOfSavedData = [...indexesOfEditEntityData]
+      setIndexesOfEditEntityData([...copyIndexesOfSavedData, index])
+      setEditEntityData([...copyEditEntityData, newData])
+    }
+  }
+
+  // Remove the modified data from savedData by using the records of indexes of table data cell
+  const removeData = (index, action) => {
+    if (action === "RESET") {
+      const removedIndex = indexesOfEditEntityData.indexOf(index)
+      const indexesLength = indexesOfEditEntityData.length
+      const dataLength = editEntityData.length
+
+      const firstHalfIndexesArray = [
+        ...indexesOfEditEntityData.slice(0, removedIndex),
+      ]
+      const remaningHalfIndexesArray = [
+        ...indexesOfEditEntityData.slice(removedIndex + 1, indexesLength),
+      ]
+      setIndexesOfEditEntityData([
+        ...firstHalfIndexesArray,
+        ...remaningHalfIndexesArray,
+      ])
+
+      const firstHalfDataArray = [...editEntityData.slice(0, removedIndex)]
+      const remaningHalfDataArray = [
+        ...editEntityData.slice(removedIndex + 1, dataLength),
+      ]
+      setEditEntityData([...firstHalfDataArray, ...remaningHalfDataArray])
+    }
+  }
+
   return (
     <div className="container">
       <Styles>
@@ -51,7 +94,13 @@ const EditEntity = (props) => {
           BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
           RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
         />
-        <EntityTable columns={columns} data={data} />
+        <EntityTable
+          columns={columns}
+          data={data}
+          saveData={saveData}
+          removeData={removeData}
+          SystemOfRecord={detailedInfo.SystemOfRecord}
+        />
         <div className="page-progression">
           <button
             type="button"
