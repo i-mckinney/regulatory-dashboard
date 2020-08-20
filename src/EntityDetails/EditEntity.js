@@ -15,7 +15,7 @@ import EntityTable from "./EntityTable"
 const EditEntity = (props) => {
   /**
    * 1) indexesOfSavedData keep records of table data cell indexes
-   * 2) savedData is modified data needed to send to next component/pipeline
+   * 2) editEntityData is modified data needed to send to next component/pipeline
    * */
   const [indexesOfEditEntityData, setIndexesOfEditEntityData] = useState([])
   const [editEntityData, setEditEntityData] = useState([])
