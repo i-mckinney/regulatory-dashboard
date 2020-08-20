@@ -4,7 +4,7 @@ import Navigation from "./routes-nav/Navigation"
 import Routes from "./routes-nav/Routes"
 import helixLogo from "./helixLogo.jpg"
 
-function App() {
+function App(history) {
   return (
     <BrowserRouter>
       <div>
