@@ -96,7 +96,7 @@ function Confirmation() {
     if (cell.column.Header === "Confirm Change") {
       return (
         <td style={{ display: "flex", alignItems: "center" }}>
-          <Button color="primary mr-2"> Select </Button>
+          {/* <Button color="primary mr-2"> Select </Button> */}
           {/* <Button color="danger"> Delete </Button> */}
           <FontAwesomeIcon
             style={{ color: "black" }}
