@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     gridArea: "1 / 1 / row1-end / 3",
   },
 
-  hello: {
+  NavigationBar: {
     marginTop: "15px",
     marginRight: "15px",
     gridArea: "1 / 4 / row1-end / 6",
@@ -55,7 +55,7 @@ const Navigation = () => {
         </button>
         <BottomNavigation
           value={value}
-          className={classes.hello}
+          className={classes.NavigationBar}
           onChange={(event, newValue) => {
             setValue(newValue)
             history.push(`/${newValue}`)
