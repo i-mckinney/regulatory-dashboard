@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { withRouter } from "react-router-dom"
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
@@ -33,13 +33,53 @@ const EditEntity = (props) => {
     return { fieldname: entityField.Label }
   })
 
+  /**
+   * {
+   * FieldName: string
+   * IsEdited: boolean
+   * SystemOfRecord: string
+   * PreviousValue: string
+   * NewValue: string
+   * SourceSystem: string 
+   * }
+   * Stores array of entity data objects
+   */
+  const entityData = []
+
   detailedInfo.Fields.forEach((entityField, fieldIndex) =>
     entityField.Records.forEach((record, recordIndex) => {
       const headers = detailedInfo.TableHeaders
       const dataWarehouseName = headers[recordIndex].DataWarehouseName
       data[fieldIndex][dataWarehouseName] = record.Value
+      entityData.push({   
+        FieldName: entityField.Label,
+        IsEdited: false,
+        SystemOfRecord: dataWarehouseName,
+        PreviousValue: record.Value,
+        NewValue: "",
+        SourceSystem: "",
+      })
     })
   )
+
+  // editEntityData is modified data needed to send to next component/pipeline
+  const [editEntityData, setEditEntityData] = useState(entityData)
+
+  /**
+   * @param {int} index table cell index in 1-dimension array
+   * @param {boolean} isEdited boolean represent whether cell is edited
+   * @param {string} editedValue represents new value provided from table data cell (child component)
+   */
+  const editData = (index, isEdited, editedValue) => {
+    const copyEditEntityData = ([...editEntityData])
+    const modifiedData = {...copyEditEntityData[index]}
+    modifiedData["IsEdited"] = isEdited
+    modifiedData["NewValue"] = editedValue
+    
+    // Removes 1 object at index and adds 1 object at index
+    copyEditEntityData.splice(index, 1, modifiedData)
+    setEditEntityData([...copyEditEntityData])
+  }
 
   return (
     <div className="container">
@@ -51,7 +91,11 @@ const EditEntity = (props) => {
           BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
           RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
         />
-        <EntityTable columns={columns} data={data} />
+        <EntityTable
+          columns={columns}
+          data={data}
+          editData={editData}
+        />
         <div className="page-progression">
           <button
             type="button"

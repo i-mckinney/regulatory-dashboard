@@ -3,6 +3,7 @@ import styled from "styled-components"
 // eslint-disable-next-line import/prefer-default-export
 export const Styles = styled.div`
   padding: 1rem;
+  
   table {
     width: 100%;
     display: table;
@@ -29,10 +30,12 @@ export const Styles = styled.div`
         color: #1f5587;
       }
     }
+
     th {
       background-color: #2e353d;
       color: white;
     }
+
     th,
     td {
       margin: 0;
@@ -43,12 +46,14 @@ export const Styles = styled.div`
       border-bottom: none;
     }
   }
+
   tr {
     :last-child {
       border-bottom-right-radius: 4px;
       border-bottom-left-radius: 4px;
     }
   }
+
   .entity-info-card-div {
     padding-bottom: 25px;
   }
@@ -99,7 +104,13 @@ export const Styles = styled.div`
     font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 14px;
     font-weight: 600;
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    border: none;
+    background: transparent;
   }
+
   .back-button {
     color: rgba(0, 0, 0, 0.87);
     background-color: #fff;
