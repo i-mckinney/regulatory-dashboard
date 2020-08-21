@@ -13,9 +13,6 @@ import EntityTable from "./EntityTable"
  * routed at /EditEntity
  */
 const EditEntity = (props) => {
-  /**
-   * 1) editEntityData is modified data needed to send to next component/pipeline
-   * */
   const columns = React.useMemo(() => [
     {
       Header: "Field Name",
@@ -65,7 +62,7 @@ const EditEntity = (props) => {
     })
   )
 
-  // editEntityData contains data needed to send to next component/pipeline
+  // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
 
   /**
@@ -76,10 +73,11 @@ const EditEntity = (props) => {
   const editData = (index, isEdited, editedValue) => {
     const copyEditEntityData = ([...editEntityData])
     const modifiedData = {...copyEditEntityData[index]}
-    modifiedData["isEdited"] = isEdited
+    modifiedData["IsEdited"] = isEdited
     modifiedData["NewValue"] = editedValue
-    copyEditEntityData.splice(index, 1)
-    copyEditEntityData.splice(index, 0, modifiedData)
+    
+    // Removes 1 object at index and adds 1 object at index
+    copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
   }
 
