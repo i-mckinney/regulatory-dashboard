@@ -14,12 +14,8 @@ import EntityTable from "./EntityTable"
  */
 const EditEntity = (props) => {
   /**
-   * 1) indexesOfSavedData keep records of table data cell indexes
-   * 2) editEntityData is modified data needed to send to next component/pipeline
+   * 1) editEntityData is modified data needed to send to next component/pipeline
    * */
-  const [indexesOfEditEntityData, setIndexesOfEditEntityData] = useState([])
-  const [editEntityData, setEditEntityData] = useState([])
-
   const columns = React.useMemo(() => [
     {
       Header: "Field Name",
@@ -40,48 +36,51 @@ const EditEntity = (props) => {
     return { fieldname: entityField.Label }
   })
 
+  /**
+   * {
+   * FieldName: string
+   * IsEdited: boolean
+   * SystemOfRecord: string
+   * PreviousValue: string
+   * NewValue: string
+   * SourceSystem: string 
+   * }
+   * Stores array of entity data objects
+   */
+  const entityData = []
+
   detailedInfo.Fields.forEach((entityField, fieldIndex) =>
     entityField.Records.forEach((record, recordIndex) => {
       const headers = detailedInfo.TableHeaders
       const dataWarehouseName = headers[recordIndex].DataWarehouseName
       data[fieldIndex][dataWarehouseName] = record.Value
+      entityData.push({   
+        FieldName: entityField.Label,
+        IsEdited: false,
+        SystemOfRecord: dataWarehouseName,
+        PreviousValue: record.Value,
+        NewValue: "",
+        SourceSystem: "",
+      })
     })
   )
 
-  // Saved the modified data to an savedData and keep record of the indexes of table data cell
-  const saveData = (index, newData, action) => {
-    if (action === "SAVE") {
-      const copyEditEntityData = [...editEntityData]
-      const copyIndexesOfSavedData = [...indexesOfEditEntityData]
-      setIndexesOfEditEntityData([...copyIndexesOfSavedData, index])
-      setEditEntityData([...copyEditEntityData, newData])
-    }
-  }
+  // editEntityData contains data needed to send to next component/pipeline
+  const [editEntityData, setEditEntityData] = useState(entityData)
 
-  // Remove the modified data from savedData by using the records of indexes of table data cell
-  const removeData = (index, action) => {
-    if (action === "RESET") {
-      const removedIndex = indexesOfEditEntityData.indexOf(index)
-      const indexesLength = indexesOfEditEntityData.length
-      const dataLength = editEntityData.length
-
-      const firstHalfIndexesArray = [
-        ...indexesOfEditEntityData.slice(0, removedIndex),
-      ]
-      const remaningHalfIndexesArray = [
-        ...indexesOfEditEntityData.slice(removedIndex + 1, indexesLength),
-      ]
-      setIndexesOfEditEntityData([
-        ...firstHalfIndexesArray,
-        ...remaningHalfIndexesArray,
-      ])
-
-      const firstHalfDataArray = [...editEntityData.slice(0, removedIndex)]
-      const remaningHalfDataArray = [
-        ...editEntityData.slice(removedIndex + 1, dataLength),
-      ]
-      setEditEntityData([...firstHalfDataArray, ...remaningHalfDataArray])
-    }
+  /**
+   * @param {int} index table cell index in 1-dimension array
+   * @param {boolean} isEdited boolean represent whether cell is edited
+   * @param {string} editedValue represents new value provided from table data cell (child component)
+   */
+  const editData = (index, isEdited, editedValue) => {
+    const copyEditEntityData = ([...editEntityData])
+    const modifiedData = {...copyEditEntityData[index]}
+    modifiedData["isEdited"] = isEdited
+    modifiedData["NewValue"] = editedValue
+    copyEditEntityData.splice(index, 1)
+    copyEditEntityData.splice(index, 0, modifiedData)
+    setEditEntityData([...copyEditEntityData])
   }
 
   return (
@@ -97,9 +96,7 @@ const EditEntity = (props) => {
         <EntityTable
           columns={columns}
           data={data}
-          saveData={saveData}
-          removeData={removeData}
-          SystemOfRecord={detailedInfo.SystemOfRecord}
+          editData={editData}
         />
         <div className="page-progression">
           <button

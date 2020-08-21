@@ -3,20 +3,16 @@ import PropTypes from "prop-types"
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {func} saveData func is invoke, it will pass the data back to parent component to add data
- * @param {func} removeData func is invoke, it will pass the data back to parent component to remove data
  * @param {object} cell object represents current row and current column properties
- * @param {string} SystemOfRecord API result property
  * @param {array} allColumns array of columns
+ * @param {func} editData func comes from parent component, once it is invoke, it will pass the data back to parent component to edit data
  * @returns {JSX} renders a custom table data cell
  */
 const EntityTableCell = ({
   value: initialStateValue,
-  saveData,
-  removeData,
   cell,
-  SystemOfRecord,
   allColumns,
+  editData,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -37,8 +33,10 @@ const EntityTableCell = ({
   const handleInputChange = (e) => {
     setValue(e.target.value)
   }
-
-  // Calculate 1-dimension array indexes
+  
+  /**
+   * @returns {int} return current cell index in 1-dimension array
+   * */ 
   const cellIndex = () => {
     let colIndex = -1
     allColumns.forEach((column, index) => {
@@ -47,7 +45,7 @@ const EntityTableCell = ({
       }
     })
     const currentRowIndex = cell.row.index
-    const index = allColumns.length * currentRowIndex + colIndex
+    const index = (allColumns.length-1) * currentRowIndex + colIndex-1
     return index
   }
 
@@ -60,16 +58,8 @@ const EntityTableCell = ({
     setIsDivHidden(true)
     setReset("Reset")
     setEdited("-Edited")
-
-    const index = cellIndex()
-    const data = {
-      FieldName: cell.row.original.fieldname,
-      SystemOfRecord,
-      PreviousValue: initialStateValue,
-      NewValue: value,
-      SourceSystem: "",
-    }
-    saveData(index, data, "SAVE")
+    const currentCellIndex = cellIndex()
+    editData(currentCellIndex, true, value)
   }
 
   // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
@@ -93,9 +83,8 @@ const EntityTableCell = ({
     setSaveChanges(false)
     setReset("")
     setEdited("")
-
-    const index = cellIndex()
-    removeData(index, "RESET")
+    const currentCellIndex = cellIndex()
+    editData(currentCellIndex, false, "")
   }
 
   // If there is not editable data shown, return intial-state
@@ -171,11 +160,9 @@ const EntityTableCell = ({
 
 EntityTableCell.propTypes = {
   value: PropTypes.string.isRequired,
-  saveData: PropTypes.func.isRequired,
-  removeData: PropTypes.func.isRequired,
   cell: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  SystemOfRecord: PropTypes.string.isRequired,
   allColumns: PropTypes.instanceOf(Array).isRequired,
+  editData: PropTypes.func.isRequired,
 }
 
 export default EntityTableCell
