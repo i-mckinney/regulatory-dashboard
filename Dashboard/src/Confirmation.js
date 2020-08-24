@@ -1,21 +1,109 @@
-import React, { useState } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrashAlt,
   faSquare,
   faCheckSquare,
-} from "@fortawesome/free-solid-svg-icons"
-import PropTypes from "prop-types"
-import { Button } from "reactstrap"
-import { Styles } from "./ReactTable/AdminDashboardStyle"
-import AdminConfirmTable from "./ReactTable/AdminConfirmTable"
-import ConfirmationModal from "./Common/ConfirmationModal"
+} from "@fortawesome/free-solid-svg-icons";
+import PropTypes from "prop-types";
+import { Button } from "reactstrap";
+import { Styles } from "./ReactTable/AdminDashboardStyle";
+import AdminConfirmTable from "./ReactTable/AdminConfirmTable";
+import ConfirmationModal from "./Common/ConfirmationModal";
 
 /** @return {JSX} Dashboard site
  * routed at /dashboard
  */
 
-function Confirmation() {
+function Confirmation(props) {
+  const [tableData, setInitialTableData] = useState([]);
+  const [clickedTableRows, setClickedTableRows] = useState([]);
+
+  const hanldeConfirmChange = (evt) => {
+    let copyCurrentTableData = [...tableData]
+    let index = evt.target.id
+    let currentRow = copyCurrentTableData[index]
+    
+    //toggle false and true
+    currentRow.selected = !currentRow.selected
+
+    if(currentRow.selected){
+      const selectedRow = currentRow
+      setClickedTableRows([...clickedTableRows, selectedRow])
+    } else {
+      const filteredRows = clickedTableRows.filter((row) => row.rowIndex !== currentRow.rowIndex)      
+      setClickedTableRows(filteredRows)
+    }
+    setInitialTableData(copyCurrentTableData);
+  };
+
+  console.log(clickedTableRows)
+
+  const handleDeleteChange = (evt) => {
+    let copyCurrentTableData = [...tableData]
+    let index = evt.target.id
+    let currentRow = copyCurrentTableData[index]
+
+    const filteredRows = copyCurrentTableData.filter((row) => row.rowIndex !== currentRow.rowIndex)      
+    console.log("filtered", filteredRows)
+    setInitialTableData(filteredRows)
+  };
+
+  useEffect(() => {
+    if (props.history.location.state.editEntityData) {
+      let tableData = [...props.history.location.state.editEntityData];
+
+      const markedtableData = tableData.map((data,index) => {
+        return {
+          ...data,
+          selected:false,
+          rowIndex: index
+        };
+      });
+
+      setInitialTableData(markedtableData);
+    }
+  }, []);
+
+  /** setting custom cells for each specific columns while creating rows for the dashboard */
+  const customRow = (cell, index) => {
+    if (cell.column.Header === "Confirm Change") {
+      return (
+        <td {...cell.getCellProps()} key={cell.column.Header + `${index}`}>
+          {cell.value ? (
+            <Button
+              color="success ml-2 mr-2"
+              id={cell.row.id}
+              onClick={hanldeConfirmChange}
+            >
+              {" "}
+              Selected{" "}
+            </Button>
+          ) : (
+            <Button
+              outline
+              color="primary ml-2 mr-2"
+              id={cell.row.id}
+              onClick={hanldeConfirmChange}
+            >
+              &nbsp;&nbsp;Select&nbsp;&nbsp;
+            </Button>
+          )}
+          <Button
+            outline
+            color="danger mr-2"
+            id={cell.row.id}
+            onClick={handleDeleteChange}
+          >
+            {" "}
+            Delete{" "}
+          </Button>
+        </td>
+      );
+    }
+    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+  };
 
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
@@ -29,16 +117,12 @@ function Confirmation() {
    * */
   const columns = React.useMemo(() => [
     {
-      Header: "Confirm Change",
-      accessor: "ConfirmChange",
+      Header: "FieldName",
+      accessor: "FieldName",
     },
     {
-      Header: "Data Field",
-      accessor: "DataField",
-    },
-    {
-      Header: "System of Records",
-      accessor: "SystemOfRecords",
+      Header: "System of Record",
+      accessor: "SystemOfRecord",
     },
     {
       Header: "Previous Value",
@@ -52,17 +136,11 @@ function Confirmation() {
       Header: "Source System",
       accessor: "SourceSystem",
     },
-  ]);
-  const mockData = [
     {
-      ConfirmChange: "Loan",
-      DataField: "Eric Jho",
-      SystemOfRecords: "3243262354",
-      PreviousValue: "L2343243",
-      NewValue: "3234-1235125325-324",
-      SourceSystem: "David Geisinger",
+      Header: "Confirm Change",
+      accessor: "selected",
     },
-  ];
+  ]);
 
   /** Boolean state for showing modal when delte report template button is clicked.
    * once button is clicked, it is setting Modal to true by toggle
@@ -76,32 +154,12 @@ function Confirmation() {
   };
 
   const handleConfirmationModal = () => {};
-  /** setting custom cells for each specific columns while creating rows for the dashboard */
-  const customRow = (cell, index) => {
-    console.log(index);
-    if (cell.column.Header === "Confirm Change") {
-      return (
-        <td style={{ display: "flex", alignItems: "center" }}>
-          {/* <Button color="primary mr-2"> Select </Button> */}
-          {/* <Button color="danger"> Delete </Button> */}
-          <FontAwesomeIcon
-            style={{ color: "black" }}
-            icon={["far", "square"]}
-          />
-          {/* <FontAwesomeIcon style={{color:"green"}} icon={faCheckSquare} /> */}
-          <FontAwesomeIcon style={{ color: "red" }} icon={faTrashAlt} />
-        </td>
-      );
-    }
-    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-  };
-
   return (
     <div>
       <Styles>
         <AdminConfirmTable
           columns={columns}
-          data={mockData}
+          data={tableData}
           customRowRender={customRow}
           destinationString="reports"
         />
@@ -117,7 +175,7 @@ function Confirmation() {
         <ConfirmationModal
           toggle={toggle}
           isOpen={modal}
-          // handleDelete={handleDeleteClient}
+          clickedTableRows={clickedTableRows}
           deleteString="Client"
         />
       </div>
@@ -129,4 +187,4 @@ function Confirmation() {
 //   changedData: PropTypes.instanceOf(Array).isRequired,
 // }
 
-export default Confirmation;
+export default withRouter(Confirmation);

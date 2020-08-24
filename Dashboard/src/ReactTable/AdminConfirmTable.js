@@ -20,6 +20,7 @@ import DefaultColumnFilter from "./DefaultColumnFilter"
  */
 
 function AdminConfirmTable({ columns, data, customRowRender }) {
+
   const defaultColumn = React.useMemo(
     () => ({
       // if column did not select any filters, use default filter
