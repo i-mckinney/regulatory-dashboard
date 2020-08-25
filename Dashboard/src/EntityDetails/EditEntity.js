@@ -14,14 +14,6 @@ import EntityTable from "./EntityTable";
  * routed at /EditEntity
  */
 const EditEntity = (props) => {
-  /**
-   * 1) indexesOfSavedData keep records of table data cell indexes
-   * 2) savedData is modified data needed to send to next component/pipeline
-   * */
-  const [indexesOfEditEntityData, setIndexesOfEditEntityData] = useState([]);
-  const [editEntityData, setEditEntityData] = useState([]);
-
-  console.log(editEntityData);
   const columns = React.useMemo(() => [
     {
       Header: "Field Name",
@@ -42,52 +34,52 @@ const EditEntity = (props) => {
     return { fieldname: entityField.Label };
   });
 
+  /**
+   * {
+   * FieldName: string
+   * IsEdited: boolean
+   * SystemOfRecord: string
+   * PreviousValue: string
+   * NewValue: string
+   * SourceSystem: string 
+   * }
+   * Stores array of entity data objects
+   */
+  const entityData = []
+
   detailedInfo.Fields.forEach((entityField, fieldIndex) =>
     entityField.Records.forEach((record, recordIndex) => {
-      const headers = detailedInfo.TableHeaders;
-      const dataWarehouseName = headers[recordIndex].DataWarehouseName;
-      data[fieldIndex][dataWarehouseName] = record.Value;
+      const headers = detailedInfo.TableHeaders
+      const dataWarehouseName = headers[recordIndex].DataWarehouseName
+      data[fieldIndex][dataWarehouseName] = record.Value
+      entityData.push({   
+        FieldName: entityField.Label,
+        IsEdited: false,
+        SystemOfRecord: dataWarehouseName,
+        PreviousValue: record.Value,
+        NewValue: "",
+        SourceSystem: "",
+      })
     })
   );
 
-  // Saved the modified data to an savedData and keep record of the indexes of table data cell
-  const saveData = (index, newData, action) => {
-    if (action === "SAVE") {
-      const copyEditEntityData = [...editEntityData];
-      const copyIndexesOfSavedData = [...indexesOfEditEntityData];
-      setIndexesOfEditEntityData([...copyIndexesOfSavedData, index]);
-      setEditEntityData([...copyEditEntityData, newData]);
-    }
-  };
+  // editEntityData is modified data needed to send to next component/pipeline
+  const [editEntityData, setEditEntityData] = useState(entityData)
 
-  // Remove the modified data from savedData by using the records of indexes of table data cell
-  const removeData = (index, action) => {
-    if (action === "RESET") {
-      const removedIndex = indexesOfEditEntityData.indexOf(index);
-      const indexesLength = indexesOfEditEntityData.length;
-      const dataLength = editEntityData.length;
+  /**
+   * @param {int} index table cell index in 1-dimension array
+   * @param {boolean} isEdited boolean represent whether cell is edited
+   * @param {string} editedValue represents new value provided from table data cell (child component)
+   */
+  const editData = (index, isEdited, editedValue) => {
+    const copyEditEntityData = ([...editEntityData])
+    const modifiedData = {...copyEditEntityData[index]}
+    modifiedData["IsEdited"] = isEdited
+    modifiedData["NewValue"] = editedValue
 
-      const firstHalfIndexesArray = [
-        ...indexesOfEditEntityData.slice(0, removedIndex),
-      ];
-      const remaningHalfIndexesArray = [
-        ...indexesOfEditEntityData.slice(removedIndex + 1, indexesLength),
-      ];
-      setIndexesOfEditEntityData([
-        ...firstHalfIndexesArray,
-        ...remaningHalfIndexesArray,
-      ]);
-
-      const firstHalfDataArray = [...editEntityData.slice(0, removedIndex)];
-      const remaningHalfDataArray = [
-        ...editEntityData.slice(removedIndex + 1, dataLength),
-      ];
-      setEditEntityData([...firstHalfDataArray, ...remaningHalfDataArray]);
-    }
-  };
-
-  const handleSubmitFinalChanges = ()=>{
-    props.history.push({pathname: '/confirmation', state: {editEntityData} })
+    // Removes 1 object at index and adds 1 object at index
+    copyEditEntityData.splice(index, 1, modifiedData)
+    setEditEntityData([...copyEditEntityData])
   }
 
   return (
@@ -100,19 +92,13 @@ const EditEntity = (props) => {
           BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
           RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
         />
-        <EntityTable
-          columns={columns}
-          data={data}
-          saveData={saveData}
-          removeData={removeData}
-          SystemOfRecord={detailedInfo.SystemOfRecord}
-        />
+        <EntityTable columns={columns} data={data} editData={editData} />
         <div className="page-progression">
           <button
             type="button"
             className="back-button"
             onClick={() => {
-              props.history.push("/entity");
+              props.history.push("/entity")
             }}
           >
             Back
@@ -122,16 +108,16 @@ const EditEntity = (props) => {
             disabled={editEntityData.length === 0 ? true : false}
             onClick={handleSubmitFinalChanges}
           >
-          Confirm
+            Confirm
           </Button>
         </div>
       </Styles>
     </div>
-  );
-};
+  )
+}
 
 EditEntity.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
-};
+}
 
-export default withRouter(EditEntity);
+export default withRouter(EditEntity)
