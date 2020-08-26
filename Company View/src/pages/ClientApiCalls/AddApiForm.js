@@ -5,12 +5,10 @@ import Controls from '../../components/controls/Controls';
 import * as requestService from '../../services/requestService';
 
 const parametersYesNo = [
-  {
-    id: 'yes',
-    title: 'Yes',
-  },
+  { id: 'yes', title: 'Yes'},
   { id: 'no', title: 'no' },
 ];
+
 const initialApiCallValues = {
   id: 0,
   method: '',
@@ -29,6 +27,7 @@ export default function AddApiForm() {
   const { values, setValues, handleInputChange, resetForm } = useForm(
     initialApiCallValues
   );
+
 
   return (
     <Form>
