@@ -1,5 +1,5 @@
 import React from 'react';
-import AddApiForm from './AddApiForm';
+import AddRequestForm from './AddRequestForm';
 import PageHeader from '../../layout/PageHeader';
 import CodeIcon from '@material-ui/icons/Code';
 import { Paper, makeStyles } from '@material-ui/core';
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ClientApiCalls() {
+export default function ClientRequestsPage() {
   const classes = useStyles();
   return (
     <>
@@ -21,7 +21,7 @@ export default function ClientApiCalls() {
         icon={<CodeIcon fontSize='large' />}
       />
       <Paper className={classes.pageContent}>
-        <AddApiForm />
+        <AddRequestForm />
       </Paper>
     </>
   );

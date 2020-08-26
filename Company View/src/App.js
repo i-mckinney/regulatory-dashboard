@@ -6,9 +6,7 @@ import {
   createMuiTheme,
   ThemeProvider,
 } from '@material-ui/core';
-import SideMenu from './layout/SideMenu';
-import Header from './layout/Header';
-import ClientApiCalls from './pages/ClientApiCalls/ClientApiCalls';
+import ClientRequestsPage from './pages/ClientRequestsPage/ClientRequestsPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -39,8 +37,9 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles({
-  appMain: {
-    paddingLeft: '320px',
+  companyViewMain: {
+    paddingLeft: '200px',
+    paddingRight: '200px',
     width: '100%',
   },
 });
@@ -50,11 +49,8 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <SideMenu />
-      <div className={classes.appMain}>
-        <Header />
-       
-        <ClientApiCalls />
+      <div className={classes.companyViewMain}>
+        <ClientRequestsPage />
       </div>
       <CssBaseline />
     </ThemeProvider>

@@ -23,11 +23,11 @@ const initialApiCallValues = {
   datedCreated: new Date(),
 };
 
-export default function AddApiForm() {
+export default function AddRequestForm() {
   const validate = () => {
     let temp = {};
-    temp.method = values.method.length!=0?"":"Request method is required"
-    temp.url = values.url?"":"An API request URL is required";
+    temp.method = values.method.length != 0 ? '' : 'Request method is required';
+    temp.url = values.url ? '' : 'An API request URL is required';
   };
   const { values, setValues, handleInputChange, resetForm } = useForm(
     initialApiCallValues
