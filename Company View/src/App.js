@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
-import SideMenu from './layout/SideMenu';
 import {
   makeStyles,
   CssBaseline,
   createMuiTheme,
   ThemeProvider,
 } from '@material-ui/core';
+import SideMenu from './layout/SideMenu';
 import Header from './layout/Header';
-import PageHeader from './layout/PageHeader';
-import CodeIcon from '@material-ui/icons/Code';
+import ClientApiCalls from './pages/ClientApiCalls/ClientApiCalls';
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -53,11 +53,8 @@ function App() {
       <SideMenu />
       <div className={classes.appMain}>
         <Header />
-        <PageHeader
-          title='Client API Interface'
-          subTitle='Add, Edit and Save API Request'
-          icon={<CodeIcon fontSize='large' />}
-        />
+       
+        <ClientApiCalls />
       </div>
       <CssBaseline />
     </ThemeProvider>
