@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
-import { makeStyles } from "@material-ui/core/styles"
-import Button from "@material-ui/core/Button"
-import Alert from "@material-ui/lab/Alert"
+import { makeStyles, Button } from "@material-ui/core"
+import Alert from "@material-ui/lab/alert"
 import { Styles } from "./ReactTable/AdminDashboardStyle"
 import AdminDashboard from "./ReactTable/AdminDashboard"
 
