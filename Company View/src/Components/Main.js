@@ -1,5 +1,5 @@
 import React from 'react';
-import ListItemView from './ListItemView';
+import ApiCallSummaryContainer from './CompanyApiCall/ApiCallSummaryContainer';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
@@ -16,7 +16,7 @@ export default (props) => (
     </Grid>
     <Grid item xs={8}>
       <Paper>
-        <ListItemView />
+        <ApiCallSummaryContainer />
       </Paper>
     </Grid>
   </Grid>
