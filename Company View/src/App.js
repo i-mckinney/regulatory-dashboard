@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
 
-//this is out of the box create react app
-function App() {
-  return (
-    <div>Hello</div>
-  );
-}
+import { Header, Footer } from './Layout';
+import { Main } from './Components';
 
-export default App;
+export default class extends Component {
+  render() {
+    return (
+      <Fragment>
+        <Header />
+        <Main />
+        <Footer />
+      </Fragment>
+    );
+  }
+}
