@@ -5,7 +5,7 @@ import Controls from '../../components/controls/Controls';
 import * as requestService from '../../services/requestService';
 
 const parametersYesNo = [
-  { id: 'yes', title: 'Yes'},
+  { id: 'yes', title: 'Yes' },
   { id: 'no', title: 'no' },
 ];
 
@@ -24,13 +24,23 @@ const initialApiCallValues = {
 };
 
 export default function AddApiForm() {
+  const validate = () => {
+    let temp = {};
+    temp.method = values.method.length!=0?"":"Request method is required"
+    temp.url = values.url?"":"An API request URL is required";
+  };
   const { values, setValues, handleInputChange, resetForm } = useForm(
     initialApiCallValues
   );
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    requestService.addApiRequest(values);
+    resetForm();
+  };
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={6}>
           <Controls.Select
