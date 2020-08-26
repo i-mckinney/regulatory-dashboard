@@ -1,84 +1,108 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrashAlt,
-  faSquare,
-  faCheckSquare,
-} from "@fortawesome/free-solid-svg-icons";
-import PropTypes from "prop-types";
-import { Button } from "reactstrap";
-import { Styles } from "./ReactTable/AdminDashboardStyle";
-import AdminConfirmTable from "./ReactTable/AdminConfirmTable";
-import ConfirmationModal from "./Common/ConfirmationModal";
+import React, { useState, useEffect } from "react"
+import { withRouter } from "react-router-dom"
+import PropTypes from "prop-types"
+import { Button } from "reactstrap"
+import { Styles } from "./ReactTable/AdminDashboardStyle"
+import AdminConfirmTable from "./ReactTable/AdminConfirmTable"
+import ConfirmationModal from "./Common/ConfirmationModal"
 
-/** @return {JSX} Dashboard site
- * routed at /dashboard
+/** @return {JSX} Confirmation Page
+ * routed at /confirmation
  */
 
 function Confirmation(props) {
-  const [tableData, setInitialTableData] = useState([]);
-  const [clickedTableRows, setClickedTableRows] = useState([]);
+  // tableData would be set to changes that comes from /editentity page.
+  // Once user makes changes, saves them in /editentity and then presses confirm.
+  // at /confirmation route, we are going to be able to access that edited data through using history.
+  const [tableData, setInitialTableData] = useState([])
 
+  // In the confirmation page, the only changes that are selected by the user would be in clickedTableRows,
+  // Each element will be an object that contains information about the specific change that has been clicked by the user.
+  const [clickedTableRows, setClickedTableRows] = useState([])
+
+  /**
+   * User would see the list of changes that they made in /editentity route as a table format with option to select and deselect
+   * specific change. Thus handleConfirmChange, pushes that specific change into clickedTableRows only if user selects that specific
+   * change from this page.
+   */
   const hanldeConfirmChange = (evt) => {
-    let copyCurrentTableData = [...tableData]
-    let index = evt.target.id
-    let currentRow = copyCurrentTableData[index]
-    
-    //toggle false and true
+    const copyCurrentTableData = [...tableData]
+    const index = evt.target.id
+    const currentRow = copyCurrentTableData[index]
+
+    // toggle false and true
     currentRow.selected = !currentRow.selected
 
-    if(currentRow.selected){
+    if (currentRow.selected) {
       const selectedRow = currentRow
       setClickedTableRows([...clickedTableRows, selectedRow])
     } else {
-      const filteredRows = clickedTableRows.filter((row) => row.rowIndex !== currentRow.rowIndex)      
+      const filteredRows = clickedTableRows.filter(
+        (row) => row.rowIndex !== currentRow.rowIndex
+      )
       setClickedTableRows(filteredRows)
     }
-    setInitialTableData(copyCurrentTableData);
-  };
+    setInitialTableData(copyCurrentTableData)
+  }
 
-  console.log(clickedTableRows)
-
+   /**
+   * User would see the list of changes that they made in /editentity route as a table format with option to select and deselect
+   * specific change. Thus handleDeleteChange, delete that specific change and cancel the change that has been made at /editentity page.
+   */
   const handleDeleteChange = (evt) => {
-    let copyCurrentTableData = [...tableData]
-    let index = evt.target.id
-    let currentRow = copyCurrentTableData[index]
+    const copyCurrentTableData = [...tableData]
+    const index = evt.target.id
+    const currentRow = copyCurrentTableData[index]
 
-    const filteredRows = copyCurrentTableData.filter((row) => row.rowIndex !== currentRow.rowIndex)      
-    console.log("filtered", filteredRows)
+    if (currentRow.selected) {
+      const filteredRows = clickedTableRows.filter(
+        (row) => row.rowIndex !== currentRow.rowIndex
+      )
+      setClickedTableRows(filteredRows)
+    }
+    const filteredRows = copyCurrentTableData.filter(
+      (row) => row.rowIndex !== currentRow.rowIndex
+    )
     setInitialTableData(filteredRows)
-  };
+  }
 
+  /** Renders only when it is mounted at first
+   * we can access editEntityData from /editentiy through accessing history.location.state.
+   * then we are going to filter out only ones that has been EDITED.
+   * Then we are setting adding in two extra keys selected, rowIndex.
+   * rowIndex would be used for unique identifiers
+   * selected would be used for identifying whether user click to confirm or not confirm the changes that they made in /editentity.
+   */
   useEffect(() => {
     if (props.history.location.state.editEntityData) {
-      let tableData = [...props.history.location.state.editEntityData];
+      const editedDataFromtableData = props.history.location.state.editEntityData.filter(
+        (field) => field.IsEdited === true
+      )
 
-      const markedtableData = tableData.map((data,index) => {
+      const markedtableData = editedDataFromtableData.map((data, index) => {
         return {
           ...data,
-          selected:false,
-          rowIndex: index
-        };
-      });
+          selected: false,
+          rowIndex: index,
+        }
+      })
 
-      setInitialTableData(markedtableData);
+      setInitialTableData(markedtableData)
     }
-  }, []);
+  }, [])
 
   /** setting custom cells for each specific columns while creating rows for the dashboard */
   const customRow = (cell, index) => {
     if (cell.column.Header === "Confirm Change") {
       return (
-        <td {...cell.getCellProps()} key={cell.column.Header + `${index}`}>
+        <td {...cell.getCellProps()} key={cell.column.Header + index}>
           {cell.value ? (
             <Button
               color="success ml-2 mr-2"
               id={cell.row.id}
               onClick={hanldeConfirmChange}
             >
-              {" "}
-              Selected{" "}
+              Selected
             </Button>
           ) : (
             <Button
@@ -96,14 +120,13 @@ function Confirmation(props) {
             id={cell.row.id}
             onClick={handleDeleteChange}
           >
-            {" "}
-            Delete{" "}
+            Delete
           </Button>
         </td>
-      );
+      )
     }
-    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-  };
+    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+  }
 
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
@@ -140,20 +163,18 @@ function Confirmation(props) {
       Header: "Confirm Change",
       accessor: "selected",
     },
-  ]);
+  ])
 
-  /** Boolean state for showing modal when delte report template button is clicked.
-   * once button is clicked, it is setting Modal to true by toggle
-   * inside the modal, if cancel button is clicked, toggle is dispatched once more, setting modal to false.
-   */
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
+  // Boolean to determine whether first modal is open or not
+  const [modalStepOne, setModalStepOne] = useState(false)
+  // Used to toggle modalStepOne
+  const handleStepOneOpen = () => setModalStepOne(true)
+  const handleStepOneCancel = () => setModalStepOne(false)
+  // When Cancel button is pressed, user is redirected to /editentity.
+  const handleGoBacktoEditEntity = () => {
+    props.history.push("/editentity")
+  }
 
-  const handleAcceptChange = (evt) => {
-    console.log(evt.target.id);
-  };
-
-  const handleConfirmationModal = () => {};
   return (
     <div>
       <Styles>
@@ -165,26 +186,29 @@ function Confirmation(props) {
         />
       </Styles>
       <div style={{ textAlign: "center" }}>
+        <Button className="mr-2" onClick={handleGoBacktoEditEntity}>
+          Cancel
+        </Button>
         <Button
           style={{ paddingLeft: "20px", paddingRight: "20px" }}
           color="primary"
-          onClick={toggle}
+          onClick={handleStepOneOpen}
         >
           Save Changes
         </Button>
         <ConfirmationModal
-          toggle={toggle}
-          isOpen={modal}
+          handleStepOneOpen={handleStepOneOpen}
+          handleStepOneCancel={handleStepOneCancel}
+          isModalOneOpen={modalStepOne}
           clickedTableRows={clickedTableRows}
-          deleteString="Client"
         />
       </div>
     </div>
-  );
+  )
 }
 
-// Confirmation.propTypes = {
-//   changedData: PropTypes.instanceOf(Array).isRequired,
-// }
+Confirmation.propTypes = {
+  history: PropTypes.instanceOf(Object).isRequired,
+}
 
-export default withRouter(Confirmation);
+export default withRouter(Confirmation)

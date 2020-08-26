@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, } from "react-router-dom";
+import React, { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
+import PropTypes from "prop-types"
 import {
   Button,
   Modal,
@@ -7,58 +8,79 @@ import {
   ModalBody,
   ModalFooter,
   Table,
-} from "reactstrap";
-import { Formik, Field, Form } from "formik";
+} from "reactstrap"
+import { Formik, Field, Form } from "formik"
 
 /**
- * @param {func} handleDelete makes a post request to specific URL to delete
- * @param {boolean} isOpen state for showing or not showing modal
- * @param {func} toggle Toggling state of isOpen to show and unshow modal
- * @param {string} deleteString string that represents where the delete request is being made to
- * @returns {jsx} returns modal that shows up when delete button is clicked, and sends delete request
- * when delete button is clicked again
+ * @param {func} handleStepOneOpen sets isModalOneOpen true and opens up the first modal
+ * @param {func} handleStepOneCancel  sets isModalOneOpen false and cloes the first modal
+ * @param {bool} isModalOneOpen bool to determine whether first modal opens or not
+ * @param {array} clickedTableRows array with each element as an selected object that contains data about edit changes
+ * @returns {jsx} returns a first modal that displays edit changes that are being confirmed and the 2nd modal that shows
+ * select field to choose an admin to confirm those changes.
  */
-function ConfirmationModal({ clickedTableRows, isOpen, toggle }) {
-  const [tableRows, setTableRows] = useState([]);
-  const history = useHistory();
+function ConfirmationModal({
+  handleStepOneOpen,
+  handleStepOneCancel,
+  isModalOneOpen,
+  clickedTableRows,
+}) {
+  // pre populate the table that shows on the first modal. (edit changes that have been selected on the confirm page)
+  const [tableRows, setTableRows] = useState([])
+  // Handles routes, send users to desired places in different settings.
+  const history = useHistory()
+
   useEffect(() => {
-    if (clickedTableRows.length > 0) {
+    // if we get clickedTableRows from the parent, pre populate the jsxTable that shows on the first modal.
+    if (clickedTableRows) {
       const jsxTable = clickedTableRows.map((row) => {
         return (
           <tr key={row}>
             <td>{row.FieldName}</td>
             <td>{row.SystemOfRecord}</td>
-            <td style={{color:"red"}}>{row.PreviousValue}</td>
-            <td style={{color:"green"}}>{row.NewValue}</td>
+            <td style={{ color: "red" }}>{row.PreviousValue}</td>
+            <td style={{ color: "green" }}>{row.NewValue}</td>
             <td>{row.SourceSystem}</td>
           </tr>
-        );
-      });
-      setTableRows(jsxTable);
+        )
+      })
+      setTableRows(jsxTable)
     }
-  }, [clickedTableRows]);
+  }, [clickedTableRows])
 
-  const [isAdminSelectOpen, setIsAdminSelectOpen] = useState(false);
+  // Determines whether modal two is open or not
+  const [isModalTwoOpen, setIsModalTwoOpen] = useState(false)
 
+  // Handles toggling between the state of isModalTwoOpen
+  const handleStepTwoOpen = () => setIsModalTwoOpen(true)
+  const handleStepTwoCancel = () => setIsModalTwoOpen(false)
+
+  // Next button that is in the first modal. Closes  thefirst modal and opens up the second one.
   const handleNext = () => {
-    toggle(false);
-    setIsAdminSelectOpen(!isAdminSelectOpen);
-  };
+    handleStepOneCancel()
+    handleStepTwoOpen()
+  }
 
+  // Back button that is in the second modal. Closes the second modal and opens up the first one.
+  const handleGoBackFromStep2 = () => {
+    handleStepOneOpen()
+    handleStepTwoCancel()
+  }
+
+  // Final button. directs user back to entity page. TODO: THIS will be where we make a patch request to
+  // update our entities. And if the patch request is successful, we push to history with success message.
   const handleFinal = () => {
-    setIsAdminSelectOpen(!isAdminSelectOpen);
-    history.push({pathname: '/entity', state: "Request Submitted! Waiting for the approval on your changes." })
-  };
+    handleStepTwoCancel()
+    history.push({
+      pathname: "/entity",
+      state: "Request Submitted! Waiting for the approval on your changes.",
+    })
+  }
 
-  const toggleAdminSelect = () => {
-    setIsAdminSelectOpen(!isAdminSelectOpen);
-  };
   return (
     <>
-      <Modal isOpen={isOpen} toggle={toggle} style={{ maxWidth: "60%" }}>
-        <ModalHeader toggle={toggle}>
-          Step 1 of 2 - Review and Confirm Your Changes
-        </ModalHeader>
+      <Modal isOpen={isModalOneOpen} style={{ maxWidth: "60%" }}>
+        <ModalHeader>Step 1 of 2 - Review and Confirm Your Changes</ModalHeader>
         <ModalBody>
           <Table borderless style={{ textAlign: "center" }}>
             <thead>
@@ -74,24 +96,17 @@ function ConfirmationModal({ clickedTableRows, isOpen, toggle }) {
           </Table>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
+          <Button color="primary" onClick={handleStepOneCancel}>
             Cancel
           </Button>
-          <Button color="info" onClick={handleNext}>
-            Next{" "}
-          </Button>{" "}
+          <Button color="success" onClick={handleNext}>
+            Next
+          </Button>
         </ModalFooter>
       </Modal>
 
-      <Modal
-        isOpen={isAdminSelectOpen}
-        toggle={toggleAdminSelect}
-        style={{ maxWidth: "60%" }}
-      >
-        <ModalHeader toggle={toggleAdminSelect}>
-          {" "}
-          Step 2 of 2 - Review and Confirm Your Changes
-        </ModalHeader>
+      <Modal isOpen={isModalTwoOpen} style={{ maxWidth: "60%" }}>
+        <ModalHeader>Step 2 of 2 - Review and Confirm Your Changes</ModalHeader>
         <ModalBody>
           <Formik initialValues={{ Approver: "" }}>
             <Form>
@@ -111,22 +126,28 @@ function ConfirmationModal({ clickedTableRows, isOpen, toggle }) {
                 <option value="" />
                 <option value="Neil"> Neil </option>
                 <option value="David"> David </option>
-                <option value="Damian Lillard"> Damian Lillard</option>
               </Field>
             </Form>
           </Formik>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
+          <Button color="primary" onClick={handleGoBackFromStep2}>
             Previous
           </Button>
           <Button color="success" onClick={handleFinal}>
-            Confirm{" "}
-          </Button>{" "}
+            Confirm
+          </Button>
         </ModalFooter>
       </Modal>
     </>
-  );
+  )
 }
 
-export default ConfirmationModal;
+ConfirmationModal.propTypes = {
+  handleStepOneOpen: PropTypes.func.isRequired,
+  handleStepOneCancel: PropTypes.func.isRequired,
+  isModalOneOpen: PropTypes.bool.isRequired,
+  clickedTableRows: PropTypes.instanceOf(Array).isRequired,
+}
+
+export default ConfirmationModal

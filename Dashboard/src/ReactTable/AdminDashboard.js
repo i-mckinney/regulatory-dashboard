@@ -15,7 +15,6 @@ import TablePagination from "./TablePagination"
  * which filter to use, header label and accessor for getting specific key from data object
  * @param {array} data API result from getting a list of items such as reporttemplates, clients and etc.(depending on where it is used)
  * @param {func} customRowRender function that is used to redner rows for the dashboard
- * @param {boolean} isReportTemplate true -> then renders column search fields for reporttemplates, null otherwise
  * @param {string} destinationString string to represent where dashboard is being used
  * @returns {JSX} renders a custom admin dashboard
  */

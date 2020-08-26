@@ -10,11 +10,7 @@ import EntityTableBody from "./EntityTableBody"
  * @param {func} editData func pass down to child component, and sends it back to the parent component to edit the data
  * @returns {JSX} renders a custom edit entity dashboard
  */
-const EntityTable = ({
-  columns,
-  data,
-  editData,
-}) => {
+const EntityTable = ({ columns, data, editData }) => {
   /**
    * 1) getTableProps: Function(?props) Required This function is used to resolve any props needed for your table wrapper.
    * 2) getTableBodyProps: Function(?props) Required This function is used to resolve any props needed for your table wrapper.
