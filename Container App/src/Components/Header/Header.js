@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 import {
-  BottomNavigation,
-  BottomNavigationAction,
-  makeStyles,
+  AppBar,
+  Toolbar,
+  Typography,
+  Link,
+  FormControl,
+  InputLabel,
   Select,
   MenuItem,
-  InputLabel,
-  FormControl,
 } from "@material-ui/core";
 import Computer from "@material-ui/icons/Computer";
 import FeaturedPlayListIcon from "@material-ui/icons/FeaturedPlayList";
@@ -16,37 +18,66 @@ import CreditCard from "@material-ui/icons/CreditCard";
 import AccountBalance from "@material-ui/icons/AccountBalance";
 import helixLogo from "./helixLogo.jpg";
 
-//TODO Make Company List Dynamic
-
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "grid",
+  companySelectContainer: {
+    marginBottom: "20px",
   },
-
-  homeButton: {
+  helixLogoImg: {
     backgroundColor: "white",
     border: "none",
-    width: "300px",
+    "&:hover": {
+      cursor: "pointer",
+    },
+    "&:active": {
+      marginTop: "15px",
+      marginBottom: 0,
+      marginRight: 5,
+    },
     marginTop: "15px",
-    gridArea: "1 / 1 / row1-end / 3",
+    marginBottom: 0,
+    marginRight: 5,
   },
 
-  NavigationBar: {
-    marginTop: "15px",
-    marginRight: "15px",
-    gridArea: "1 / 4 / row1-end / 6",
-  },
-
-  companySelect: {
+  companySelectField: {
     minWidth: "300px",
   },
-
-  formControl: {
+  companyFormControl: {
     marginTop: "15px",
     minWidth: 120,
   },
+  navBarContainer: {
+    flexGrow: 1,
+  },
+  navBar: {
+    backgroundColor: "#1876D2",
+  },
+  homeButton: {
+    flexGrow: 2,
+    "&:hover": {
+      cursor: "pointer",
+      color: "#0d47a1",
+    },
+  },
+  link: {
+    marginRight: theme.spacing(3),
+    display: "flex",
+    color: "white",
+    "&:hover": {
+      textDecoration: "none",
+    },
+  },
+  icon: {
+    marginRight: theme.spacing(0.5),
+    marginTop: ".8px",
+    width: 20,
+    height: 20,
+  },
 }));
 
+/**@return {jsx} returns Header component that is shared across micro services
+ * Contains company selection that will set company view
+ * Contains navbar to handle navigation in dashboard component
+ */
 function Header() {
   //History is used to handle page routes
   const history = useHistory();
@@ -66,23 +97,21 @@ function Header() {
   const handleCompanyViewChange = (event) => {
     setCompanyView(event.target.value);
   };
-
   return (
     <header>
-      <div className="center-column">
-        <button
+      <div className={classes.companySelectContainer}>
+        <img
+          className={classes.helixLogoImg}
+          src={helixLogo}
           onClick={handleHome}
-          type="button"
-          className={classes.homeButton}
-        >
-          <img src={helixLogo} alt="helixLogo" />
-        </button>
-        <FormControl className={classes.formControl}>
+          alt="helixLogo"
+        />
+        <FormControl className={classes.companyFormControl}>
           <InputLabel id="company-select-label">Company View</InputLabel>
           <Select
             labelId="company-select"
             id="company-select"
-            className={classes.companySelect}
+            className={classes.companySelectField}
             value={companyView}
             onChange={handleCompanyViewChange}
           >
@@ -92,41 +121,43 @@ function Header() {
           </Select>
         </FormControl>
       </div>
-      <div className={classes.root}>
-        <BottomNavigation
-          className={classes.NavigationBar}
-          onChange={(event, newRoute) => {
-            history.push(`/${newRoute}`);
-            window.location.reload(false);
-          }}
-          showLabels
-        >
-          <BottomNavigationAction
-            value="Dashboard"
-            label="Dashboard"
-            icon={<Computer />}
-          />
-          <BottomNavigationAction
-            value="Entity"
-            label="Entity"
-            icon={<AccountBalance />}
-          />
-          <BottomNavigationAction
-            value="Loan"
-            label="Loan"
-            icon={<CreditCard />}
-          />
-          <BottomNavigationAction
-            label="Regulatory"
-            value="Regulatory"
-            icon={<FeaturedPlayListIcon />}
-          />
-          <BottomNavigationAction
-            value="myrequest"
-            label="My Request"
-            icon={<AccountCircle />}
-          />
-        </BottomNavigation>
+      <div className={classes.navBarContainer}>
+        <AppBar position="static" className={classes.navBar}>
+          <Toolbar>
+            <Typography
+              variant="h6"
+              onClick={handleHome}
+              className={classes.homeButton}
+            >
+              Home
+            </Typography>
+
+            <Link color="inherit" href="/dashboard" className={classes.link}>
+              <Computer className={classes.icon} />
+              Dashboard
+            </Link>
+
+            <Link color="inherit" href="/entity" className={classes.link}>
+              <AccountBalance className={classes.icon} />
+              Entity
+            </Link>
+
+            <Link color="inherit" href="/loan" className={classes.link}>
+              <CreditCard className={classes.icon} />
+              Loan
+            </Link>
+
+            <Link color="inherit" href="/regulatory" className={classes.link}>
+              <FeaturedPlayListIcon className={classes.icon} />
+              Regulatory
+            </Link>
+
+            <Link color="inherit" href="/myrequest" className={classes.link}>
+              <AccountCircle className={classes.icon} />
+              My Request
+            </Link>
+          </Toolbar>
+        </AppBar>
       </div>
     </header>
   );
