@@ -68,6 +68,10 @@ export default function AddApiForm() {
             value={values.addToCollection}
             onChange={handleInputChange}
           />
+          <div>
+            <Controls.Button type='submit' text='Save' />
+            <Controls.Button type='Reset' text='Clear' />
+          </div>
         </Grid>
       </Grid>
     </Form>
