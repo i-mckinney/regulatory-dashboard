@@ -21,6 +21,7 @@ const initialApiCallValues = {
   auth: '',
   headers: '',
   body: '',
+  addToCollection: false,
   datedCreated: new Date(),
 };
 
@@ -60,6 +61,12 @@ export default function AddApiForm() {
             value={values.addParameters}
             onChange={handleInputChange}
             items={parametersYesNo}
+          />
+          <Controls.Checkbox
+            name='addToCollection'
+            label='Save this Request to a Collection?'
+            value={values.addToCollection}
+            onChange={handleInputChange}
           />
         </Grid>
       </Grid>
