@@ -24,6 +24,10 @@ const parametersYesNo = [
   { id: 'no', title: 'no' },
 ];
 
+const buttonStyle = {
+  marginTop: '150px',
+};
+
 export default function AddRequestForm() {
   const validate = () => {
     let obj = {};
@@ -79,15 +83,14 @@ export default function AddRequestForm() {
             onChange={handleInputChange}
             items={parametersYesNo}
           />
-          <Controls.Checkbox
-            name='addRequestToCollection'
-            label='Save this Request to a Collection?'
-            value={values.addRequestToCollection}
-            onChange={handleInputChange}
-          />
-          <div>
-            <Controls.Button type='submit' text='Save' />
-            <Controls.Button type='Reset' text='Clear' onClick={resetForm} />
+          <div style={buttonStyle}>
+            <Controls.Button type='submit' size='large' text='Save' />
+            <Controls.Button
+              type='Reset'
+              size='large'
+              text='Clear'
+              onClick={resetForm}
+            />
           </div>
         </Grid>
       </Grid>
