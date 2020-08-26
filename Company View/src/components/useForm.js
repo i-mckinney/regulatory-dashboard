@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
-export function useForm(initialApiCallValues) {
-  const [values, setValues] = useState(initialApiCallValues);
+export function useForm(defaultRequestValues) {
+  const [values, setValues] = useState(defaultRequestValues);
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
@@ -14,14 +14,12 @@ export function useForm(initialApiCallValues) {
   };
 
   const resetForm = () => {
-    setValues(initialApiCallValues);
+    setValues(defaultRequestValues);
     setErrors({});
   };
 
   return { values, setValues, handleInputChange, resetForm };
 }
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -4,33 +4,35 @@ import { useForm, Form } from '../../components/useForm';
 import Controls from '../../components/controls/Controls';
 import * as requestService from '../../services/requestService';
 
+const defaultRequestValues = {
+  id: 0,
+  requestName: '',
+  requestMethod: '',
+  requestUrl: '',
+  requestDescription: '',
+  addParameters: '',
+  requestParams: '',
+  requestAuth: '',
+  requestHeaders: '',
+  requestBody: '',
+  addRequestToCollection: false,
+  requestAddedDate: new Date(),
+};
+
 const parametersYesNo = [
   { id: 'yes', title: 'Yes' },
   { id: 'no', title: 'no' },
 ];
 
-const initialApiCallValues = {
-  id: 0,
-  method: '',
-  url: '',
-  description: '',
-  addParameters: '',
-  params: '',
-  auth: '',
-  headers: '',
-  body: '',
-  addToCollection: false,
-  datedCreated: new Date(),
-};
-
 export default function AddRequestForm() {
   const validate = () => {
-    let temp = {};
-    temp.method = values.method.length != 0 ? '' : 'Request method is required';
-    temp.url = values.url ? '' : 'An API request URL is required';
+    let obj = {};
+    obj.requestMethod =
+      values.requestMethod.length != 0 ? '' : 'A request method is required';
+    obj.requestUrl = values.requestUrl ? '' : 'An request URL is required';
   };
   const { values, setValues, handleInputChange, resetForm } = useForm(
-    initialApiCallValues
+    defaultRequestValues
   );
 
   const handleSubmit = (e) => {
@@ -43,23 +45,29 @@ export default function AddRequestForm() {
     <Form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={6}>
+          <Controls.Input
+            name='requestName'
+            label='Request Name'
+            value={values.requestName}
+            onChange={handleInputChange}
+          />
+          <Controls.Input
+            name='requestDescription'
+            label='Request Description'
+            value={values.requestDescription}
+            onChange={handleInputChange}
+          />
           <Controls.Select
-            name='method'
+            name='requestMethod'
             label='Method'
-            value={values.method}
+            value={values.requestMethod}
             onChange={handleInputChange}
             options={requestService.getRequestMethods()}
           />
           <Controls.Input
-            name='url'
+            name='requestUrl'
             label='Request URL'
-            value={values.url}
-            onChange={handleInputChange}
-          />
-          <Controls.Input
-            name='description'
-            label='Request Description'
-            value={values.description}
+            value={values.requestUrl}
             onChange={handleInputChange}
           />
         </Grid>
@@ -72,9 +80,9 @@ export default function AddRequestForm() {
             items={parametersYesNo}
           />
           <Controls.Checkbox
-            name='addToCollection'
+            name='addRequestToCollection'
             label='Save this Request to a Collection?'
-            value={values.addToCollection}
+            value={values.addRequestToCollection}
             onChange={handleInputChange}
           />
           <div>
