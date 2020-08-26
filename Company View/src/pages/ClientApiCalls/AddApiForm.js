@@ -26,7 +26,7 @@ const initialApiCallValues = {
 };
 
 export default function AddApiForm() {
-  const { values, setValues, handleInputChange } = useForm(
+  const { values, setValues, handleInputChange, resetForm } = useForm(
     initialApiCallValues
   );
 
@@ -70,7 +70,7 @@ export default function AddApiForm() {
           />
           <div>
             <Controls.Button type='submit' text='Save' />
-            <Controls.Button type='Reset' text='Clear' />
+            <Controls.Button type='Reset' text='Clear' onClick={resetForm} />
           </div>
         </Grid>
       </Grid>
