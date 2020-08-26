@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, TextField, makeStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useForm, Form } from '../../components/useForm';
+import Controls from '../../components/controls/Controls';
+import * as requestService from '../../services/requestService';
 
-
-
+const parametersYesNo = [
+  {
+    id: 'yes',
+    title: 'Yes',
+  },
+  { id: 'no', title: 'no' },
+];
 const initialApiCallValues = {
   id: 0,
   method: '',
   url: '',
   description: '',
+  addParameters: '',
   params: '',
   auth: '',
   headers: '',
@@ -17,31 +25,44 @@ const initialApiCallValues = {
 };
 
 export default function AddApiForm() {
-
   const { values, setValues, handleInputChange } = useForm(
     initialApiCallValues
   );
 
   return (
-      <Form>
-        <Grid container>
-          <Grid item xs={6}>
-            <TextField
-              variant='outlined'
-              label='URL'
-              name='url'
-              value={values.url}
-              onChange={handleInputChange}
-            />
-            <TextField
-              variant='outlined'
-              label='Description'
-              name='description'
-              value={values.description}
-            />
-          </Grid>
-          <Grid item xs={6}></Grid>
+    <Form>
+      <Grid container>
+        <Grid item xs={6}>
+          <Controls.Select
+            name='method'
+            label='Method'
+            value={values.method}
+            onChange={handleInputChange}
+            options={requestService.getRequestMethods()}
+          />
+          <Controls.Input
+            name='url'
+            label='Request URL'
+            value={values.url}
+            onChange={handleInputChange}
+          />
+          <Controls.Input
+            name='description'
+            label='Request Description'
+            value={values.description}
+            onChange={handleInputChange}
+          />
         </Grid>
-      </Form>
+        <Grid item xs={6}>
+          <Controls.RadioGroup
+            name='addParameters'
+            label='Add Parameters'
+            value={values.addParameters}
+            onChange={handleInputChange}
+            items={parametersYesNo}
+          />
+        </Grid>
+      </Grid>
+    </Form>
   );
 }
