@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import EntityTableHead from "./EntityTableHead"
 import EntityTableBody from "./EntityTableBody"
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     width: '100%',
     display: 'table',
@@ -15,7 +15,6 @@ const useStyles = makeStyles({
     boxSizing: 'border-box',
     borderSpacing: '2px',
     borderColor: 'grey',
-
     '& tr': {
       border: 'none',
       backgroundColor: 'white',
@@ -30,7 +29,6 @@ const useStyles = makeStyles({
         borderBottomLeftRadius: '4px',
       }
     },
-
     '& th': {
       backgroundColor: '#2e353d',
       color: 'white',
@@ -38,18 +36,16 @@ const useStyles = makeStyles({
       borderBottom: 'solid 1px #e0e4e8',
       padding: '8px',
     },
-
     '& td': {
       margin: '0',
       borderBottom: 'solid 1px #e0e4e8',
       padding: '8px',
     },
-
     '&:last-children': {
       borderBottom: 'none',
     },
   },
-})
+}))
 
 /**
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object

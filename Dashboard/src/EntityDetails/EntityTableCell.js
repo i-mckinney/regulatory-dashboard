@@ -8,7 +8,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from "prop-types"
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   initialState: {
     display: 'inline-block',
   },
@@ -46,7 +46,7 @@ const useStyles = makeStyles({
   matIcon: {
     fill: 'black',
   }
-})
+}))
 /**
  * @param {string} value string represents table data cell value from Cell object property
  * @param {object} cell object represents current row and current column properties
@@ -173,12 +173,6 @@ const EntityTableCell = ({
             <IconButton className={classes.matButton} aria-label="clear" type="button" onClick={handleSaveChange}>
               <ClearIcon className={classes.matIcon}/>
             </IconButton>
-            {/* <button className={classes.matButton} type="button" onClick={handleSaveChange}>
-              <Icon >save</Icon>
-            </button> */}
-            {/* <button className={classes.matButton} type="button" onClick={handleCancelChange}>
-              <Icon>clear</Icon>
-            </button> */}
           </span>
         </div>
       )

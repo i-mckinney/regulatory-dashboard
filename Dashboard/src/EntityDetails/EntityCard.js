@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core"
 import { Card, CardHeader, CardContent, Typography } from "@material-ui/core"
 import PropTypes from "prop-types"
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   entityInfoCardDiv: {
     paddingBottom: '25px',
   },
@@ -38,7 +38,7 @@ const useStyles = makeStyles({
       paddingBottom: '0',
    }
   },
-});
+}));
 
 
 /**
