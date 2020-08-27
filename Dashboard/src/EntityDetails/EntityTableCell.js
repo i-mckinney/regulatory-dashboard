@@ -147,27 +147,13 @@ const EntityTableCell = ({
       return (
         <div>
           {currentStateValue}
-          <Icon
-          className={classes.editedIcon}
-          >
-          check_circle
-          </Icon>
-          <Icon 
+          <CheckCircleIcon className={classes.editedIcon} />
+          <ReplayIcon 
           className={classes.undoIcon}
-          component="span"
           onClick={handleResetChange}
           onKeyDown={handleResetChange}
           role="button"
-          tabIndex="0">replay</Icon>
-
-          {/* <CheckCircleIcon className={classes.editedIcon} component="span">check_circle</CheckCircleIcon>  */}
-          {/* <ReplayIcon 
-          className={classes.undoIcon}
-          component="span"
-          onClick={handleResetChange}
-          onKeyDown={handleResetChange}
-          role="button"
-          tabIndex="0">undo</ReplayIcon> */}
+          tabIndex="0"/>
         </div>
       )
     }

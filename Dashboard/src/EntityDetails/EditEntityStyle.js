@@ -4,55 +4,55 @@ import styled from "styled-components"
 export const Styles = styled.div`
   padding: 1rem;
   
-  table {
-    width: 100%;
-    display: table;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    border-collapse: separate;
-    box-sizing: border-box;
-    border-spacing: 2px;
-    border-color: grey;
+  // table {
+  //   width: 100%;
+  //   display: table;
+  //   border-top-right-radius: 4px;
+  //   border-top-left-radius: 4px;
+  //   border-collapse: separate;
+  //   box-sizing: none;
+  //   border-spacing: 2px;
+  //   border-color: grey;
 
-    tr {
-      border: none;
-      background-color: white;
-    }
+  //   tr {
+  //     border: none;
+  //     background-color: white;
+  //   }
 
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
+  //   tr:nth-child(even) {
+  //     background-color: #f2f2f2;
+  //   }
 
-    tr:hover {
-      background-color: #add8e6;
-      .tableCellLink:hover {
-        text-decoration: none;
-        color: #1f5587;
-      }
-    }
+  //   tr:hover {
+  //     background-color: #add8e6;
+  //     .tableCellLink:hover {
+  //       text-decoration: none;
+  //       color: #1f5587;
+  //     }
+  //   }
 
-    th {
-      background-color: #2e353d;
-      color: white;
-    }
+  //   th {
+  //     background-color: #2e353d;
+  //     color: white;
+  //   }
 
-    th,
-    td {
-      margin: 0;
-      border-bottom: solid 1px #e0e4e8;
-      padding: 8px;
-    }
-    :last-children {
-      border-bottom: none;
-    }
-  }
+  //   th,
+  //   td {
+  //     margin: 0;
+  //     border-bottom: solid 1px #e0e4e8;
+  //     padding: 8px;
+  //   }
+  //   :last-children {
+  //     border-bottom: none;
+  //   }
+  // }
 
-  tr {
-    :last-child {
-      border-bottom-right-radius: 4px;
-      border-bottom-left-radius: 4px;
-    }
-  }
+  // tr {
+  //   :last-child {
+  //     border-bottom-right-radius: 4px;
+  //     border-bottom-left-radius: 4px;
+  //   }
+  // }
 
   // .entity-info-card-div {
   //   padding-bottom: 25px;
