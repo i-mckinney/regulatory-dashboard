@@ -16,7 +16,7 @@ function Routes() {
   return (
     <div className="pt-5">
       <Switch>
-        <Route exact path="/">
+        <Route path="/home">
           <Homepage />
         </Route>
 
