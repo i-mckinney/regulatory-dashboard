@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Header from './Components/Header/Header';
 import MicroserviceLoader from './MicroserviceLoader';
 import SpogPage from './Components/Spog/SpogPage'
@@ -23,6 +23,7 @@ const App = () => (
       <Header />
       <Switch>
         <Route exact path='/' component={SpogPage} />
+        <Route exact path="/home" component={Dashboard}/>
         <Route exact path="/dashboard" component={Dashboard}/>
         <Route exact path="/company/:id" component={CompanyView} />
         <Route exact path='/entity' component={Dashboard} />
