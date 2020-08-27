@@ -1,7 +1,6 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core"
-// import { Card, CardHeader, CardContent, Typography } from "@material-ui/core"
-import { Card, CardBody, CardTitle, CardSubtitle } from "reactstrap"
+import { Card, CardHeader, CardContent, Typography } from "@material-ui/core"
 import PropTypes from "prop-types"
 
 const useStyles = makeStyles({
@@ -60,45 +59,24 @@ const EntityCard = ({
   const classes = useStyles();
 
   return (
-    // <div className={classes.entityInfoCardDiv}>
-    //   <Card className={classes.entityInfoCard}>
-    //     <CardHeader className={classes.entityInfoCardHeader}
-    //       title={<Typography className={classes.entityInfoCardTitle} variant="h3" component="h1">
-    //         {RecordLabel}
-    //       </Typography>}
-    //       subheader={<Typography className={classes.entityInfoCardSubtitle} variant="subtitle2" >
-    //         System of Record: {SystemOfRecord}
-    //       </Typography>}
-    //     >
-    //     </CardHeader>
-    //     <CardContent className={classes.entityInfoCardContent}>
-    //         <ul>
-    //           <li>{`ID: ${ID}`}</li>
-    //           <li>{`Borrower Name: ${BorrowerName}`}</li>
-    //           <li>{`Relationship Manager: ${RelationshipManager}` }</li>
-    //         </ul>
-    //     </CardContent>
-    //   </Card>
-    // </div>
-    <div className="entity-info-card-div">
-      <Card className="entity-info-card">
-        <CardBody>
-          <div className="entity-info-card-header">
-            <CardTitle className="entity-info-card-title">
-              <h1>{RecordLabel}</h1>
-            </CardTitle>
-            <CardSubtitle className="entity-info-card-subtitle">
-              System of Record: {SystemOfRecord}
-            </CardSubtitle>
-          </div>
-          <div className="entity-info-card-content">
+    <div className={classes.entityInfoCardDiv}>
+      <Card className={classes.entityInfoCard}>
+        <CardHeader className={classes.entityInfoCardHeader}
+          title={<Typography className={classes.entityInfoCardTitle} variant="h3" component="h1">
+            {RecordLabel}
+          </Typography>}
+          subheader={<Typography className={classes.entityInfoCardSubtitle} variant="subtitle2" >
+            System of Record: {SystemOfRecord}
+          </Typography>}
+        >
+        </CardHeader>
+        <CardContent className={classes.entityInfoCardContent}>
             <ul>
-              <li>{ID}</li>
-              <li>{BorrowerName}</li>
-              <li>{RelationshipManager}</li>
+              <li>{`ID: ${ID}`}</li>
+              <li>{`Borrower Name: ${BorrowerName}`}</li>
+              <li>{`Relationship Manager: ${RelationshipManager}` }</li>
             </ul>
-          </div>
-        </CardBody>
+        </CardContent>
       </Card>
     </div>
   )
