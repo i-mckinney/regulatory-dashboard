@@ -36,7 +36,6 @@ export default function AddRequestForm() {
     initialFieldValues
   );
 
-  console.log('values:', values);
   /**
    * @param {Object} e the submit event object
    */
