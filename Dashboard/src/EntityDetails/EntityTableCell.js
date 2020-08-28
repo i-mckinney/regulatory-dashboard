@@ -1,6 +1,52 @@
 import React, { useState } from "react"
+import { makeStyles } from "@material-ui/core"
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ReplayIcon from '@material-ui/icons/Replay';
+import SaveIcon from '@material-ui/icons/Save';
+import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from "prop-types"
 
+const useStyles = makeStyles((theme) => ({
+  initialState: {
+    display: 'inline-block',
+  },
+  modifiedInitialState: {
+    fontSize: '0.75rem',
+    display: 'inline-block',
+  },
+  editedField: {
+    outline: 'none',
+    '& input:focus': {
+      outline: 'none',
+    }
+  },
+  editedIcon: {
+    fontSize: '1rem',
+    color: 'green',
+  },
+  undoIcon: {
+    fontSize: '1rem',
+    color: 'red',
+    cursor: 'pointer',
+    float: 'right',
+    '&:focus': {
+      outline: 'none',
+    }
+  },
+  matButton: {
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+    },
+    '&:focus': {
+      outline: 'none',
+    }
+  },
+  matIcon: {
+    fill: 'black',
+  }
+}))
 /**
  * @param {string} value string represents table data cell value from Cell object property
  * @param {object} cell object represents current row and current column properties
@@ -19,15 +65,13 @@ const EntityTableCell = ({
    * 2) currentStateValue is a editable value data to display
    * 3) isDivHidden is a boolean to check whether div is hidden or not
    * 4) saveChanges is a boolean to check whether changes are saved
-   * 5) reset is a string to display "reset"
-   * 6) edited is a string to display "edited"
    * */
   const [value, setValue] = useState(initialStateValue)
   const [currentStateValue, setCurrentStateValue] = useState(value)
   const [isDivHidden, setIsDivHidden] = useState(true)
   const [saveChanges, setSaveChanges] = useState(false)
-  const [reset, setReset] = useState("")
-  const [edited, setEdited] = useState("")
+
+  const classes = useStyles();
 
   // Text input can be typed in the input tag, when keyboard event is trigger
   const handleInputChange = (e) => {
@@ -56,8 +100,6 @@ const EntityTableCell = ({
     setSaveChanges(true)
     setCurrentStateValue(value)
     setIsDivHidden(true)
-    setReset("Reset")
-    setEdited("-Edited")
     const currentCellIndex = cellIndex()
     editData(currentCellIndex, true, value)
   }
@@ -81,8 +123,6 @@ const EntityTableCell = ({
     setValue(initialStateValue)
     setIsDivHidden(true)
     setSaveChanges(false)
-    setReset("")
-    setEdited("")
     const currentCellIndex = cellIndex()
     editData(currentCellIndex, false, "")
   }
@@ -91,9 +131,9 @@ const EntityTableCell = ({
   // else there is editable data shown, return modified-initial-state
   const initialState = () => {
     if (!saveChanges) {
-      return "initial-state"
+      return classes.initialState
     }
-    return "modified-initial-state"
+    return classes.modifiedInitialState
   }
 
   // Display the initial state value
@@ -107,16 +147,13 @@ const EntityTableCell = ({
       return (
         <div>
           {currentStateValue}
-          <span>{edited}</span>
-          <span
-            className="undo"
-            onClick={handleResetChange}
-            onKeyDown={handleResetChange}
-            role="button"
-            tabIndex="0"
-          >
-            {reset}
-          </span>
+          <CheckCircleIcon className={classes.editedIcon} />
+          <ReplayIcon 
+          className={classes.undoIcon}
+          onClick={handleResetChange}
+          onKeyDown={handleResetChange}
+          role="button"
+          tabIndex="0"/>
         </div>
       )
     }
@@ -130,12 +167,12 @@ const EntityTableCell = ({
         <div>
           <input type="text" value={value} onChange={handleInputChange} />
           <span>
-            <button type="button" onClick={handleSaveChange}>
-              Save
-            </button>
-            <button type="button" onClick={handleCancelChange}>
-              Cancel
-            </button>
+            <IconButton className={classes.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
+              <SaveIcon className={classes.matIcon} />
+            </IconButton>
+            <IconButton className={classes.matButton} aria-label="clear" type="button" onClick={handleSaveChange}>
+              <ClearIcon className={classes.matIcon}/>
+            </IconButton>
           </span>
         </div>
       )
@@ -145,7 +182,7 @@ const EntityTableCell = ({
 
   return (
     <div
-      className="edited-field"
+      className={classes.editedField}
       onClick={handleDivChange}
       onKeyDown={handleDivChange}
       role="row"

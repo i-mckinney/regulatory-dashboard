@@ -1,11 +1,23 @@
 import React, { useState } from "react"
 import { withRouter } from "react-router-dom"
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
-import { Styles } from "./EditEntityStyle"
 import EntityTableCell from "./EntityTableCell"
 import EntityTable from "./EntityTable"
+
+const theme = createMuiTheme({  
+  typography: {
+    fontSize: 14,
+},});
+
+
+const useStyles = makeStyles((theme) => ({
+  medium: {
+    padding: '2rem',
+  }
+}))
 
 /**
  * @param {Object} props Using the history property to route back Entity site
@@ -13,6 +25,8 @@ import EntityTable from "./EntityTable"
  * routed at /EditEntity
  */
 const EditEntity = (props) => {
+  const classes = useStyles();
+
   const columns = React.useMemo(() => [
     {
       Header: "Field Name",
@@ -82,8 +96,8 @@ const EditEntity = (props) => {
   }
 
   return (
-    <div className="container">
-      <Styles>
+    <div className={`container ${classes.medium}`}>
+      <ThemeProvider theme={theme}>
         <EntityCard
           RecordLabel={detailedInfo.RecordLabel}
           SystemOfRecord={detailedInfo.SystemOfRecord}
@@ -110,7 +124,7 @@ const EditEntity = (props) => {
             Confirm
           </button>
         </div>
-      </Styles>
+        </ThemeProvider>
     </div>
   )
 }

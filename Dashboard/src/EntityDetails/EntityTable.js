@@ -1,8 +1,51 @@
 import React from "react"
 import { useTable } from "react-table"
+import { makeStyles } from "@material-ui/core"
 import PropTypes from "prop-types"
 import EntityTableHead from "./EntityTableHead"
 import EntityTableBody from "./EntityTableBody"
+
+const useStyles = makeStyles((theme) => ({
+  table: {
+    width: '100%',
+    display: 'table',
+    borderTopRightRadius: '4px',
+    borderTopLeftRadius: '4px',
+    borderCollapse: 'separate',
+    boxSizing: 'border-box',
+    borderSpacing: '2px',
+    borderColor: 'grey',
+    '& tr': {
+      border: 'none',
+      backgroundColor: 'white',
+      '&:nth-child(even)': {
+        backgroundColor: '#f2f2f2',
+      },
+      '&:hover': {
+        backgroundColor: '#add8e6',
+      },
+      '&:last-child': {
+        borderBottomRightRadius: '4px',
+        borderBottomLeftRadius: '4px',
+      }
+    },
+    '& th': {
+      backgroundColor: '#2e353d',
+      color: 'white',
+      margin: '0',
+      borderBottom: 'solid 1px #e0e4e8',
+      padding: '8px',
+    },
+    '& td': {
+      margin: '0',
+      borderBottom: 'solid 1px #e0e4e8',
+      padding: '8px',
+    },
+    '&:last-children': {
+      borderBottom: 'none',
+    },
+  },
+}))
 
 /**
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
@@ -34,9 +77,12 @@ const EntityTable = ({
     data,
     editData,
   })
+
+  const classes = useStyles();
+
   return (
     <div>
-      <table {...getTableProps()}>
+      <table className={classes.table} {...getTableProps()}>
         <EntityTableHead headerGroups={headerGroups} />
         <EntityTableBody
           getTableBodyProps={getTableBodyProps}
