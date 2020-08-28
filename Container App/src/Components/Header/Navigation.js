@@ -60,46 +60,46 @@ function Navigation(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.navBarContainer}>
-        <AppBar position="static" className={classes.navBar}>
-            <Toolbar className={classes.toolbar}>
-            <Breadcrumbs aria-label="breadcrumb" separator="" className={classes.breadcrumbs}> 
-                <Typography
-                variant="h6"
-                onClick={props.handleHome}
-                className={classes.homeButton}
-                >
-                Home
-                </Typography>
+  <div className={classes.navBarContainer}>
+    <AppBar position="static" className={classes.navBar}>
+      <Toolbar className={classes.toolbar}>
+        <Breadcrumbs aria-label="breadcrumb" separator="" className={classes.breadcrumbs}> 
+          <Typography
+          variant="h6"
+          onClick={props.handleHome}
+          className={classes.homeButton}
+          >
+          Home
+          </Typography>
 
-                <Link color="inherit" href="/dashboard" className={classes.link}>
-                <Computer className={classes.icon} />
-                Dashboard
-                </Link>
+          <Link color="inherit" href="/dashboard" className={classes.link}>
+          <Computer className={classes.icon} />
+          Dashboard
+          </Link>
 
-                <Link color="inherit" href="/entity" className={classes.link}>
-                <AccountBalance className={classes.icon} />
-                Entity
-                </Link>
+          <Link color="inherit" href="/entity" className={classes.link}>
+          <AccountBalance className={classes.icon} />
+          Entity
+          </Link>
 
-                <Link color="inherit" href="/loan" className={classes.link}>
-                <CreditCard className={classes.icon} />
-                Loan
-                </Link>
+          <Link color="inherit" href="/loan" className={classes.link}>
+          <CreditCard className={classes.icon} />
+          Loan
+          </Link>
 
-                <Link color="inherit" href="/regulatory" className={classes.link}>
-                <FeaturedPlayListIcon className={classes.icon} />
-                Regulatory
-                </Link>
+          <Link color="inherit" href="/regulatory" className={classes.link}>
+          <FeaturedPlayListIcon className={classes.icon} />
+          Regulatory
+          </Link>
 
-                <Link color="inherit" href="/myrequest" className={classes.link}>
-                <AccountCircle className={classes.icon} />
-                My Request
-                </Link>
-            </Breadcrumbs>
-            </Toolbar>
-        </AppBar>
-    </div>
+          <Link color="inherit" href="/myrequest" className={classes.link}>
+          <AccountCircle className={classes.icon} />
+          My Request
+          </Link>
+        </Breadcrumbs>
+      </Toolbar>
+    </AppBar>
+  </div>
   )
 }
 
