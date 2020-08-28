@@ -4,6 +4,7 @@ import { useForm, Form } from '../../components/useForm';
 import Controls from '../../components/controls/Controls';
 import * as requestService from '../../services/requestService';
 
+// Set initial form values when a new request is added
 const defaultRequestValues = {
   id: 0,
   requestName: '',
@@ -35,6 +36,7 @@ export default function AddRequestForm() {
       values.requestMethod.length != 0 ? '' : 'A request method is required';
     obj.requestUrl = values.requestUrl ? '' : 'An request URL is required';
   };
+
   const { values, setValues, handleInputChange, resetForm } = useForm(
     defaultRequestValues
   );

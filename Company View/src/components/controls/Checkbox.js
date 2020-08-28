@@ -8,11 +8,19 @@ import {
 
 export default function Checkbox(props) {
   const { name, label, value, onChange } = props;
-  const convertToDefEventParameter = (name,value) =>({
-    target:{
-      name,value
-    }
-  })
+
+  /**
+   * @param {Object} report the report object passed to us for this company from server
+   * @param {String} key the key of the object to access in the report
+   * @returns the correct StyledTableCell
+   */
+   
+  const convertToDefEventParameter = (name, value) => ({
+    target: {
+      name,
+      value,
+    },
+  });
   return (
     <FormControl>
       <FormControlLabel
@@ -21,7 +29,9 @@ export default function Checkbox(props) {
             name={name}
             color='primary'
             checked={value}
-            onChange={ e => onChange(convertToDefEventParameter(name, e.target.checked))}
+            onChange={(e) =>
+              onChange(convertToDefEventParameter(name, e.target.checked))
+            }
           />
         }
         label={label}

@@ -25,7 +25,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PageHeader(props) {
   const classes = useStyles();
-  const { title, subTitle, icon } = props;
+
+  const {
+    /* Page title string */
+    title,
+    /* Page subtitle string */
+    subTitle,
+    /* Page icon string */
+    icon,
+  } = props;
   return (
     <Paper elevation={0} square className={classes.root}>
       <div className={classes.pageHeader}>
