@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
     border: "none",
     "&:hover": {
       cursor: "pointer",
+      outline: "none",
     },
     "&:active": {
       marginTop: "15px",

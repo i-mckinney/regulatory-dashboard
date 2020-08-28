@@ -40,8 +40,11 @@ const App = () => (
   </BrowserRouter>
 )
 
-App.propTypes = {
-  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+Dashboard.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+}
+CompanyView.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
 }
 
 export default App
