@@ -60,7 +60,8 @@ function Header() {
   return (
     <header>
       <div className={classes.companySelectContainer}>
-        <img
+        <input
+          type="image"
           className={classes.helixLogoImg}
           src={helixLogo}
           onClick={handleHome}
