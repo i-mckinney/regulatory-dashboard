@@ -2,21 +2,13 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Link,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
 } from "@material-ui/core";
-import Computer from "@material-ui/icons/Computer";
-import FeaturedPlayListIcon from "@material-ui/icons/FeaturedPlayList";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import CreditCard from "@material-ui/icons/CreditCard";
-import AccountBalance from "@material-ui/icons/AccountBalance";
 import helixLogo from "./helixLogo.jpg";
+import Navigation from "./Navigation"
 
 const useStyles = makeStyles((theme) => ({
   companySelectContainer: {
@@ -44,33 +36,6 @@ const useStyles = makeStyles((theme) => ({
   companyFormControl: {
     marginTop: "15px",
     minWidth: 120,
-  },
-  navBarContainer: {
-    flexGrow: 1,
-  },
-  navBar: {
-    backgroundColor: "#1876D2",
-  },
-  homeButton: {
-    flexGrow: 2,
-    "&:hover": {
-      cursor: "pointer",
-      color: "#0d47a1",
-    },
-  },
-  link: {
-    marginRight: theme.spacing(3),
-    display: "flex",
-    color: "white",
-    "&:hover": {
-      textDecoration: "none",
-    },
-  },
-  icon: {
-    marginRight: theme.spacing(0.5),
-    marginTop: ".8px",
-    width: 20,
-    height: 20,
   },
 }));
 
@@ -121,44 +86,7 @@ function Header() {
           </Select>
         </FormControl>
       </div>
-      <div className={classes.navBarContainer}>
-        <AppBar position="static" className={classes.navBar}>
-          <Toolbar>
-            <Typography
-              variant="h6"
-              onClick={handleHome}
-              className={classes.homeButton}
-            >
-              Home
-            </Typography>
-
-            <Link color="inherit" href="/dashboard" className={classes.link}>
-              <Computer className={classes.icon} />
-              Dashboard
-            </Link>
-
-            <Link color="inherit" href="/entity" className={classes.link}>
-              <AccountBalance className={classes.icon} />
-              Entity
-            </Link>
-
-            <Link color="inherit" href="/loan" className={classes.link}>
-              <CreditCard className={classes.icon} />
-              Loan
-            </Link>
-
-            <Link color="inherit" href="/regulatory" className={classes.link}>
-              <FeaturedPlayListIcon className={classes.icon} />
-              Regulatory
-            </Link>
-
-            <Link color="inherit" href="/myrequest" className={classes.link}>
-              <AccountCircle className={classes.icon} />
-              My Request
-            </Link>
-          </Toolbar>
-        </AppBar>
-      </div>
+      <Navigation handleHome={handleHome}/>
     </header>
   );
 }
