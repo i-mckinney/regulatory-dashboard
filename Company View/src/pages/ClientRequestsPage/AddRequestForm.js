@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 import { useForm, Form } from '../../components/useForm';
 import Controls from '../../components/controls/Controls';
-import * as requestService from '../../services/requestService';
+import * as newRequestService from '../../services/newRequestService';
 
-// Set initial form values when a new request is added
-const defaultRequestValues = {
+const initialFieldValues = {
   id: 0,
   requestName: '',
   requestMethod: '',
@@ -22,29 +21,28 @@ const defaultRequestValues = {
 
 const parametersYesNo = [
   { id: 'yes', title: 'Yes' },
-  { id: 'no', title: 'no' },
+  { id: 'no', title: 'No' },
 ];
 
 const buttonStyle = {
   marginTop: '150px',
 };
 
+/**
+ * @return {JSX} returns a custom form constructed with individual form control components
+ */
 export default function AddRequestForm() {
-  const validate = () => {
-    let obj = {};
-    obj.requestMethod =
-      values.requestMethod.length != 0 ? '' : 'A request method is required';
-    obj.requestUrl = values.requestUrl ? '' : 'An request URL is required';
-  };
-
-  const { values, setValues, handleInputChange, resetForm } = useForm(
-    defaultRequestValues
+  const { values, handleInputChange, resetForm } = useForm(
+    initialFieldValues
   );
 
+  console.log('values:', values);
+  /**
+   * @param {Object} e the submit event object
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
-    requestService.addApiRequest(values);
-    resetForm();
+    newRequestService.addNewApiRequest(values);
   };
 
   return (
@@ -68,7 +66,7 @@ export default function AddRequestForm() {
             label='Method'
             value={values.requestMethod}
             onChange={handleInputChange}
-            options={requestService.getRequestMethods()}
+            options={newRequestService.getRequestMethods()}
           />
           <Controls.Input
             name='requestUrl'

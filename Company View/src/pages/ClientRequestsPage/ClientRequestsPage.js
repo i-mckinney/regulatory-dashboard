@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @return {JSX} returns the Client API Page
+ */
 export default function ClientRequestsPage() {
   const classes = useStyles();
   return (

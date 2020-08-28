@@ -10,12 +10,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @return {JSX} returns a reusable button form control component
+ */
 export default function Button(props) {
+  /**
+   * text: text string communicating to user the button action
+   * size: the size of the component - 'large' 'medium' 'small'
+   * color: the color of the component - 'default' 'inherit' 'primary' 'secondary'
+   * onClick: the function called a onclick event
+   */
   const { text, size, color, variant, onClick, ...other } = props;
   const classes = useStyles();
 
   return (
     <MuiButton
+      // || For handling instances where a prop is not communicated by the parent component
       variant={variant || 'contained'}
       size={size || 'medium'}
       color={color || 'inherit'}
