@@ -1,17 +1,18 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react"
+import { makeStyles } from "@material-ui/core/styles"
 import {
   AppBar,
   Toolbar,
   Typography,
   Link,
   Breadcrumbs,
-} from "@material-ui/core";
-import Computer from "@material-ui/icons/Computer";
-import FeaturedPlayListIcon from "@material-ui/icons/FeaturedPlayList";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import CreditCard from "@material-ui/icons/CreditCard";
-import AccountBalance from "@material-ui/icons/AccountBalance";
+} from "@material-ui/core"
+import Computer from "@material-ui/icons/Computer"
+import FeaturedPlayListIcon from "@material-ui/icons/FeaturedPlayList"
+import AccountCircle from "@material-ui/icons/AccountCircle"
+import CreditCard from "@material-ui/icons/CreditCard"
+import AccountBalance from "@material-ui/icons/AccountBalance"
+import PropTypes from "prop-types"
 
 const useStyles = makeStyles((theme) => ({
   navBarContainer: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   link: {
-    marginRight: theme.spacing(3),
+    marginRight: theme.spacing(1),
     display: "flex",
     color: "white",
     "&:hover": {
@@ -41,66 +42,74 @@ const useStyles = makeStyles((theme) => ({
     height: 20,
   },
   toolbar: {
-    display: 'grid'
+    display: "grid",
   },
   breadcrumbs: {
-    '& li': {
-      '&:first-child': {
+    "& li": {
+      "&:first-child": {
         flexGrow: 1,
-      }
-    }
+      },
+    },
   },
-}));
+}))
 
-/**@return {jsx} Contains navbar to handle navigation in dashboard component
+/** @return {jsx} Contains navbar to handle navigation in dashboard component
  */
-function Navigation(props) {
-  //useStyles define styling for material ui. Any className that matches key of useStyles object above,
+function Navigation({ handleHome }) {
+  // useStyles define styling for material ui. Any className that matches key of useStyles object above,
   // corresponding styles will be applied
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
-  <div className={classes.navBarContainer}>
-    <AppBar position="static" className={classes.navBar}>
-      <Toolbar className={classes.toolbar}>
-        <Breadcrumbs aria-label="breadcrumb" separator="" className={classes.breadcrumbs}> 
-          <Typography
-          variant="h6"
-          onClick={props.handleHome}
-          className={classes.homeButton}
+    <div className={classes.navBarContainer}>
+      <AppBar position="static" className={classes.navBar}>
+        <Toolbar className={classes.toolbar}>
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            separator=""
+            className={classes.breadcrumbs}
           >
-          Home
-          </Typography>
+            <Typography
+              variant="h6"
+              onClick={handleHome}
+              className={classes.homeButton}
+            >
+              Home
+            </Typography>
 
-          <Link color="inherit" href="/dashboard" className={classes.link}>
-          <Computer className={classes.icon} />
-          Dashboard
-          </Link>
+            <Link color="inherit" href="/dashboard" className={classes.link}>
+              <Computer className={classes.icon} />
+              Dashboard
+            </Link>
 
-          <Link color="inherit" href="/entity" className={classes.link}>
-          <AccountBalance className={classes.icon} />
-          Entity
-          </Link>
+            <Link color="inherit" href="/entity" className={classes.link}>
+              <AccountBalance className={classes.icon} />
+              Entity
+            </Link>
 
-          <Link color="inherit" href="/loan" className={classes.link}>
-          <CreditCard className={classes.icon} />
-          Loan
-          </Link>
+            <Link color="inherit" href="/loan" className={classes.link}>
+              <CreditCard className={classes.icon} />
+              Loan
+            </Link>
 
-          <Link color="inherit" href="/regulatory" className={classes.link}>
-          <FeaturedPlayListIcon className={classes.icon} />
-          Regulatory
-          </Link>
+            <Link color="inherit" href="/regulatory" className={classes.link}>
+              <FeaturedPlayListIcon className={classes.icon} />
+              Regulatory
+            </Link>
 
-          <Link color="inherit" href="/myrequest" className={classes.link}>
-          <AccountCircle className={classes.icon} />
-          My Request
-          </Link>
-        </Breadcrumbs>
-      </Toolbar>
-    </AppBar>
-  </div>
+            <Link color="inherit" href="/myrequest" className={classes.link}>
+              <AccountCircle className={classes.icon} />
+              My Request
+            </Link>
+          </Breadcrumbs>
+        </Toolbar>
+      </AppBar>
+    </div>
   )
 }
 
-export default Navigation;
+Navigation.propTypes = {
+  handleHome: PropTypes.func.isRequired,
+}
+
+export default Navigation
