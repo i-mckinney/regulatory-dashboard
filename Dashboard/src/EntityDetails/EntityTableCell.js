@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core"
 import IconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/core/Icon';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ReplayIcon from '@material-ui/icons/Replay';
 import SaveIcon from '@material-ui/icons/Save';
@@ -170,7 +169,7 @@ const EntityTableCell = ({
             <IconButton className={classes.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
               <SaveIcon className={classes.matIcon} />
             </IconButton>
-            <IconButton className={classes.matButton} aria-label="clear" type="button" onClick={handleSaveChange}>
+            <IconButton className={classes.matButton} aria-label="clear" type="button" onClick={handleCancelChange}>
               <ClearIcon className={classes.matIcon}/>
             </IconButton>
           </span>
