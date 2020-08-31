@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from './ApiTableWrapper'
+import ClientApiDashboard from './ClientApiDashboard';
 import AddRequestForm from './AddRequestForm';
 import PageHeader from '../../layout/PageHeader';
 import CodeIcon from '@material-ui/icons/Code';
@@ -26,8 +26,7 @@ export default function ClientRequestsPage() {
       />
       <Paper className={classes.pageContent}>
         <AddRequestForm />
-        <Dashboard/>
-
+        <ClientApiDashboard />
       </Paper>
     </>
   );

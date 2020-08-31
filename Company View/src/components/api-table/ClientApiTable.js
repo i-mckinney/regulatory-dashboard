@@ -21,7 +21,7 @@ import {
  * @returns {JSX} renders a custom admin dashboard
  */
 
-function AdminDashboard({ columns, data, customRowRender, destinationString }) {
+function ClientApiTable({ columns, data, customRowRender, destinationString }) {
   // const defaultColumn = React.useMemo(
   //   () => ({
   //     // if column did not select any filters, use default filter
@@ -97,7 +97,7 @@ function AdminDashboard({ columns, data, customRowRender, destinationString }) {
   };
   return (
     <>
-      {/** Dashboard Table */}
+      {/** Client API Table */}
       <table {...getTableProps()}>
         <thead>
           <tr>
@@ -137,11 +137,11 @@ function AdminDashboard({ columns, data, customRowRender, destinationString }) {
   );
 }
 
-AdminDashboard.propTypes = {
+ClientApiTable.propTypes = {
   columns: PropTypes.instanceOf(Array).isRequired,
   data: PropTypes.instanceOf(Array).isRequired,
   customRowRender: PropTypes.func.isRequired,
   destinationString: PropTypes.string.isRequired,
 };
 
-export default AdminDashboard;
+export default ClientApiTable;
