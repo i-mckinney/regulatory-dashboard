@@ -1,15 +1,31 @@
 import React, { useState } from "react"
-import { makeStyles, Button } from "@material-ui/core"
+import { makeStyles, Button, createMuiTheme, ThemeProvider } from "@material-ui/core"
 import { withRouter } from "react-router-dom"
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
-import { Styles } from "./EditEntityStyle"
 import EntityTableCell from "./EntityTableCell"
 import EntityTable from "./EntityTable"
 
+
+// const theme = createMuiTheme({  
+//   typography: {
+//     fontSize: 14,
+// },});
+
+
+// const raymondStyles = makeStyles(() => ({
+//   medium: {
+//     padding: '2rem',
+//   }
+// }))
+
+
 // Styling used for MaterialUi
-const useStyles = makeStyles(() => ({
+const ericStyles = makeStyles((DASHBOARD_THEME) => ({
+    medium: {
+    padding: '2rem',
+  },
   cancelButton: {
     backgroundColor: "#42a5f5",
     color: "white",
@@ -34,7 +50,6 @@ const useStyles = makeStyles(() => ({
     marginBottom: "30px",
   },
 }))
-
 /**
  * @param {Object} props Using the history property to route back Entity site
  * @return {JSX} EditEntity site
@@ -42,7 +57,7 @@ const useStyles = makeStyles(() => ({
  */
 const EditEntity = (props) => {
   // Creates an object for styling. Any className that matches key in the useStyles object will have a corresponding styling
-  const classes = useStyles()
+  const classes = ericStyles();
 
   const columns = React.useMemo(() => [
     {
@@ -121,8 +136,8 @@ const EditEntity = (props) => {
   }
 
   return (
-    <div className="container">
-      <Styles>
+    <div className={`container ${classes.medium}`}>
+      {/* <ThemeProvider theme={theme}> */}
         <EntityCard
           RecordLabel={detailedInfo.RecordLabel}
           SystemOfRecord={detailedInfo.SystemOfRecord}
@@ -130,8 +145,9 @@ const EditEntity = (props) => {
           BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
           RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
         />
+        {/** */}
         <EntityTable columns={columns} data={data} editData={editData} />
-      </Styles>
+      {/* </Styles> */}
       <div className={classes.pageProgression}>
         <Button
           className={classes.cancelButton}
@@ -149,7 +165,8 @@ const EditEntity = (props) => {
         >
           Confirm
         </Button>
-      </div>
+        </div>
+        {/* </ThemeProvider> */}
     </div>
   )
 }

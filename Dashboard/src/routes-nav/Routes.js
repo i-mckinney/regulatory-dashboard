@@ -7,6 +7,7 @@ import EditEntity from "../EntityDetails/EditEntity"
 import Loan from "../Loan"
 import Regulatory from "../Regulatory"
 import MyRequest from "../MyRequest"
+import Confirmation from "../Confirmation"
 
 /** Site-wide routes.
  * Visiting a non-existant route redirects to the homepage.
@@ -30,6 +31,10 @@ function Routes() {
 
         <Route exact path="/editentity" component={EditEntity}>
           <EditEntity />
+        </Route>
+
+        <Route exact path="/confirmation" component={Confirmation}>
+          <Confirmation />
         </Route>
 
         <Route exact path="/loan">

@@ -19,34 +19,9 @@ import AccountBalance from "@material-ui/icons/AccountBalance";
 import helixLogo from "../helixLogo.jpg";
 
 const useStyles = makeStyles((theme) => ({
-  companySelectContainer: {
-    marginBottom: "20px",
-  },
-  helixLogoImg: {
-    backgroundColor: "white",
-    border: "none",
-    "&:hover": {
-      cursor: "pointer",
-    },
-    "&:active": {
-      marginTop: "15px",
-      marginBottom: 0,
-      marginRight: 5,
-    },
-    marginTop: "15px",
-    marginBottom: 0,
-    marginRight: 5,
-  },
-
-  companySelectField: {
-    minWidth: "300px",
-  },
-  companyFormControl: {
-    marginTop: "15px",
-    minWidth: 120,
-  },
   navBarContainer: {
     flexGrow: 1,
+    marginTop: 10,
   },
   navBar: {
     backgroundColor: "#1876D2",
@@ -99,28 +74,6 @@ function Navigation() {
   };
   return (
     <header>
-      <div className={classes.companySelectContainer}>
-        <img
-          className={classes.helixLogoImg}
-          src={helixLogo}
-          onClick={handleHome}
-          alt="helixLogo"
-        />
-        <FormControl className={classes.companyFormControl}>
-          <InputLabel id="company-select-label">Company View</InputLabel>
-          <Select
-            labelId="company-select"
-            id="company-select"
-            className={classes.companySelectField}
-            value={companyView}
-            onChange={handleCompanyViewChange}
-          >
-            <MenuItem value={""}></MenuItem>
-            <MenuItem value={"Microsoft"}>Microsoft</MenuItem>
-            <MenuItem value={"SalesForce"}>Sales Force</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
       <div className={classes.navBarContainer}>
         <AppBar position="static" className={classes.navBar}>
           <Toolbar>
