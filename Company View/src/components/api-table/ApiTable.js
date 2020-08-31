@@ -6,7 +6,7 @@ import {
   usePagination,
 } from 'react-table';
 import PropTypes from 'prop-types';
-import GlobalFilter from './GlobalFitler';
+import GlobalFilter from './GlobalFilter';
 import DefaultColumnFilter from './DefaultColumnFilter';
 import TablePagination from './TablePagination';
 

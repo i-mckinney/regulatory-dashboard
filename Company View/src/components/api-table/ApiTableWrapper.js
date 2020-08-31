@@ -1,6 +1,6 @@
 import React from 'react';
-import { Styles } from './ReactTable/AdminDashboardStyle';
-import AdminDashboard from './ReactTable/AdminDashboard';
+import { Styles } from './ApiTableStyle';
+import AdminDashboard from './ApiTable';
 
 /** @return {JSX} Dashboard site
  * routed at /dashboard
