@@ -1,6 +1,6 @@
 import React from 'react';
-import { Styles } from './ApiTableStyle';
-import AdminDashboard from './ApiTable';
+import AdminDashboard from '../../components/api-table/ApiTable';
+import { Styles } from '../../components/api-table/ApiTableStyle';
 
 /** @return {JSX} Dashboard site
  * routed at /dashboard
@@ -19,23 +19,23 @@ function Dashboard() {
    * */
   const columns = React.useMemo(() => [
     {
-      Header: 'Relationship Name',
+      Header: 'Request Name',
       accessor: 'RelationshipName',
     },
     {
-      Header: 'Borrower Name',
+      Header: 'METHOD',
       accessor: 'BorrowerName',
     },
     {
-      Header: 'Borrower ID',
+      Header: 'Request URL',
       accessor: 'BorrowerID',
     },
     {
-      Header: 'TIN',
+      Header: 'Description',
       accessor: 'TIN',
     },
     {
-      Header: 'Account #',
+      Header: 'Action',
       accessor: 'AccountNumber',
     },
     {
@@ -44,6 +44,38 @@ function Dashboard() {
     },
   ]);
   const mockData = [
+    {
+      RelationshipName: 'Loan',
+      BorrowerName: 'Eric Jho',
+      BorrowerID: '3243262354',
+      TIN: 'L2343243',
+      AccountNumber: '3234-1235125325-324',
+      RelationshipManager: 'David Geisinger',
+    },
+    {
+      RelationshipName: 'Loan',
+      BorrowerName: 'Eric Jho',
+      BorrowerID: '3243262354',
+      TIN: 'L2343243',
+      AccountNumber: '3234-1235125325-324',
+      RelationshipManager: 'David Geisinger',
+    },
+    {
+      RelationshipName: 'Loan',
+      BorrowerName: 'Eric Jho',
+      BorrowerID: '3243262354',
+      TIN: 'L2343243',
+      AccountNumber: '3234-1235125325-324',
+      RelationshipManager: 'David Geisinger',
+    },
+    {
+      RelationshipName: 'Loan',
+      BorrowerName: 'Eric Jho',
+      BorrowerID: '3243262354',
+      TIN: 'L2343243',
+      AccountNumber: '3234-1235125325-324',
+      RelationshipManager: 'David Geisinger',
+    },
     {
       RelationshipName: 'Loan',
       BorrowerName: 'Eric Jho',

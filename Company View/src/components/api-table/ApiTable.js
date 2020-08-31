@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import GlobalFilter from './GlobalFilter';
+// import DefaultColumnFilter from './DefaultColumnFilter';
+import TablePagination from './TablePagination';
 import {
   useTable,
   useFilters,
   useGlobalFilter,
   usePagination,
 } from 'react-table';
-import PropTypes from 'prop-types';
-import GlobalFilter from './GlobalFilter';
-import DefaultColumnFilter from './DefaultColumnFilter';
-import TablePagination from './TablePagination';
+
 
 /**
  * @param {array}  columns array of object where each object contains
@@ -21,13 +22,13 @@ import TablePagination from './TablePagination';
  */
 
 function AdminDashboard({ columns, data, customRowRender, destinationString }) {
-  const defaultColumn = React.useMemo(
-    () => ({
-      // if column did not select any filters, use default filter
-      Filter: DefaultColumnFilter,
-    }),
-    []
-  );
+  // const defaultColumn = React.useMemo(
+  //   () => ({
+  //     // if column did not select any filters, use default filter
+  //     Filter: DefaultColumnFilter,
+  //   }),
+  //   []
+  // );
 
   /**
    * 1) getTableProps: Function(?props) Required This function is used to resolve any props needed for your table wrapper.
@@ -71,7 +72,7 @@ function AdminDashboard({ columns, data, customRowRender, destinationString }) {
     {
       columns,
       data,
-      defaultColumn, // Be sure to pass the defaultColumn option
+      // defaultColumn, // Be sure to pass the defaultColumn option
       initialState: { pageIndex: 0 }, // Pass our initial table state
     },
     useFilters,
