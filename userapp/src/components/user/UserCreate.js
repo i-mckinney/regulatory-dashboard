@@ -1,10 +1,5 @@
 import React from 'react'
-// import { Dialog, 
-//     DialogActions, 
-//     DialogContent, 
-//     DialogContentText, 
-//     DialogTitle, 
-// } from '@material-ui/core'
+import UserForm from './UserForm'
 
 const initialUser = {
     FirstName: "",
@@ -24,7 +19,7 @@ const initialUser = {
 const UserCreate = () => {
     return (
     <div>
-        UserCreate
+        <UserForm initialUser={initialUser} />
     </div>
     )
 }
