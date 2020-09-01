@@ -17,7 +17,7 @@ const theme = createMuiTheme({
   props: {},
 });
 
-const useStyles = makeStyles({
+const AppStyles = makeStyles({
   companyViewMain: {
     paddingLeft: '10%',
     paddingRight: '10%',
@@ -26,11 +26,11 @@ const useStyles = makeStyles({
 });
 
 function App() {
-  const classes = useStyles();
+  const AppClasses = AppStyles();
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.companyViewMain}>
+      <div className={AppClasses.companyViewMain}>
         <ClientRequestsPage />
       </div>
       <CssBaseline />

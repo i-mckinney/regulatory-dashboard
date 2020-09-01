@@ -5,7 +5,7 @@ import PageHeader from '../../layout/PageHeader';
 import CodeIcon from '@material-ui/icons/Code';
 import { Paper, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const clientRequestPageStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
  * @return {JSX} returns the Client API Page
  */
 export default function ClientRequestsPage() {
-  const classes = useStyles();
+  const clientRequestPageClasses = clientRequestPageStyles();
   return (
     <>
       <PageHeader
@@ -24,7 +24,7 @@ export default function ClientRequestsPage() {
         subTitle='Add, Edit and Save API Request'
         icon={<CodeIcon fontSize='large' />}
       />
-      <Paper className={classes.pageContent}>
+      <Paper className={clientRequestPageClasses.pageContent}>
         <AddRequestForm />
         <ClientApiDashboard />
       </Paper>

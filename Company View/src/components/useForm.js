@@ -31,7 +31,7 @@ export function useForm(initialFieldValues) {
 }
 
 
-const useStyles = makeStyles((theme) => ({
+const useFormStyles = makeStyles((theme) => ({
   root: {
     '& .MuiFormControl-root': {
       width: '80%',
@@ -41,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Form(props) {
-  const classes = useStyles();
+  const useFormClasses = useFormStyles();
   return (
-    <form className={classes.root} autoComplete='off'>
+    <form className={useFormClasses.root} autoComplete='off'>
       {props.children}
     </form>
   );
