@@ -8,6 +8,45 @@ const userTableStyles = makeStyles(() => ({
         margin: 'auto',
         marginTop: '5rem',
         paddingBottom: '5rem',
+        '& table': {
+            width: '100%',
+            display: 'table',
+            borderTopRightRadius: '4px',
+            borderTopLeftRadius: '4px',
+            borderCollapse: 'separate',
+            boxSizing: 'border-box',
+            borderSpacing: '2px',
+            borderColor: 'grey',
+            '& tr': {
+              border: 'none',
+              backgroundColor: 'white',
+              '&:nth-child(even)': {
+                backgroundColor: '#f2f2f2',
+              },
+              '&:hover': {
+                backgroundColor: '#add8e6',
+              },
+              '&:last-child': {
+                borderBottomRightRadius: '4px',
+                borderBottomLeftRadius: '4px',
+              }
+            },
+            '& th': {
+              backgroundColor: '#2e353d',
+              color: 'white',
+              margin: '0',
+              borderBottom: 'solid 1px #e0e4e8',
+              padding: '8px',
+            },
+            '& td': {
+              margin: '0',
+              borderBottom: 'solid 1px #e0e4e8',
+              padding: '8px',
+            },
+            '&:last-children': {
+              borderBottom: 'none',
+            },
+        },
     },
     floatRight: {
         float: "right",

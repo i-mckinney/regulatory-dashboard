@@ -1,5 +1,5 @@
 import React from "react"
-import { TableBody, TableRow, TableCell } from "@material-ui/core"
+import { TableBody } from "@material-ui/core"
 import PropTypes from "prop-types"
 
 /**
