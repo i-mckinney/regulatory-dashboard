@@ -50,19 +50,21 @@ const tableStyles = {
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
  * @param {array} rows API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
  * @param {array} classes Object that contains custom inline-style solution to write component styles
+ * @param {func} customRowRender func represent custom func that return jsx of table row of table cell values
  * @returns {JSX} renders a custom edit entity dashboard
  */
 const HelixTable = ({
   columns,
   rows,
   classes,
+  customRowRender,
 }) => {
   return (
     <div>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="table">
           <UserTableHead columns={columns} />
-          <UserTableBody rows={rows} />
+          <UserTableBody rows={rows} customRowRender={customRowRender}/>
         </Table>
       </TableContainer>
     </div>
@@ -73,6 +75,7 @@ HelixTable.propTypes = {
   rows: PropTypes.instanceOf(Array).isRequired,
   columns: PropTypes.instanceOf(Array).isRequired,
   classes: PropTypes.object.isRequired,
+  customRowRender: PropTypes.func.isRequired,
 }
 
 export default withStyles(tableStyles)(HelixTable)

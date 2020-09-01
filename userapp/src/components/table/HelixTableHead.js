@@ -9,18 +9,14 @@ import PropTypes from "prop-types"
 const HelixTableHead = ({ columns }) => {
   return (
     <TableHead>
-    <TableRow>
-      {columns.map((column) => (
-          <TableCell
-            key={column.ID}
-            align={column.Align}
-            // style={{ width: 10 }}
-          >
-            {column.Label}
-          </TableCell>
-        ))}
-    </TableRow>
-  </TableHead>
+      <TableRow>
+        {columns.map((column) => (
+            <TableCell key={column.ID}>
+              {column.Label}
+            </TableCell>
+          ))}
+      </TableRow>
+    </TableHead>
   )
 }
 

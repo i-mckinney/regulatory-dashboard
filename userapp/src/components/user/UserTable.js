@@ -1,6 +1,6 @@
 import React from 'react'
 import HelixTable from "../table/HelixTable"
-import { makeStyles, Button, Typography } from '@material-ui/core'
+import { makeStyles, Button, Typography, TableRow, TableCell } from '@material-ui/core'
 
 const userTableStyles = makeStyles(() => ({
     mediumContainer: {
@@ -24,29 +24,27 @@ const userTableStyles = makeStyles(() => ({
 const UserTable = () => {
     const userTableClasses = userTableStyles();
 
+    // Table Header
     const columns = React.useMemo(() => [
         {
             Label: "First Name",
             ID: "FirstName",
-            Align: "left",
         },
         {
             Label: "Last Name",
             ID: "LastName",
-            Align: "left",
         },
         {
             Label: "Date of Birth",
             ID:"DateOfBirth",
-            Align: "left",
         },
         {
             Label: "Phone",
-            id: "Phone",
-            align: "left",
+            ID: "Phone",
         },
     ])
 
+    // Data Processed API Results
     const rows = [
         {
             FirstName: "Joe",
@@ -65,9 +63,25 @@ const UserTable = () => {
             LastName: "Smith",
             DateOfBirth: "11112011",
             Phone: "9876543210",
-        },
-        
+        },   
     ]
+
+    /**
+     * @param {object} row represent object pertaining data regarding the api result
+     * @return {JSX} Table row with table cell of object properties
+     */
+    const customRowRender = (row) => {
+        return (
+        <TableRow key={row.FirstName}>
+            <TableCell scope="row">
+                {row.FirstName}
+            </TableCell>
+            <TableCell>{row.LastName}</TableCell>
+            <TableCell >{row.DateOfBirth}</TableCell>
+            <TableCell >{row.Phone}</TableCell>
+        </TableRow>
+        )
+    }
 
     return (
         <div className={userTableClasses.mediumContainer}>
@@ -77,7 +91,7 @@ const UserTable = () => {
                     Create User
                 </Button>
             </div>
-            <HelixTable columns={columns} rows={rows} />
+            <HelixTable columns={columns} rows={rows} customRowRender={customRowRender} />
         </div>
     )
 }
