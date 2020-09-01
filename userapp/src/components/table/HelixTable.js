@@ -20,7 +20,7 @@ const HelixTable = ({
       <TableContainer component={Paper}>
         <Table aria-label="table">
           <HelixTableHead columns={columns} />
-          <HelixTableBody rows={rows} customRowRender={customRowRender}/>
+          <HelixTableBody columns={columns} rows={rows} customRowRender={customRowRender}/>
         </Table>
       </TableContainer>
     </div>

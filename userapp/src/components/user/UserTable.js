@@ -1,6 +1,6 @@
 import React from 'react'
 import HelixTable from "../table/HelixTable"
-import { makeStyles, Button, Typography, TableRow, TableCell } from '@material-ui/core'
+import { makeStyles, Button, Typography, TableCell } from '@material-ui/core'
 
 const userTableStyles = makeStyles(() => ({
     mediumContainer: {
@@ -63,7 +63,7 @@ const userTableStyles = makeStyles(() => ({
 const UserTable = () => {
     const userTableClasses = userTableStyles();
 
-    // Table Header
+    // Table Header from API Results
     const columns = React.useMemo(() => [
         {
             Label: "First Name",
@@ -81,9 +81,17 @@ const UserTable = () => {
             Label: "Phone",
             ID: "Phone",
         },
+        {
+            Label: "",
+            ID: "EditButton",
+        },
+        {
+            Label: "",
+            ID: "DeleteButton",
+        }
     ])
 
-    // Data Processed API Results
+    // Data Processed from API Results
     const rows = [
         {
             FirstName: "Joe",
@@ -109,16 +117,25 @@ const UserTable = () => {
      * @param {object} row represent object pertaining data regarding the api result
      * @return {JSX} Table row with table cell of object properties
      */
-    const customRowRender = (row) => {
+    const customRowRender = (row, columnID) => {
+        if (columnID === "EditButton") {
+            return (
+                <TableCell key={columnID}>
+                    <Button size="small" href="/user/edit" variant="contained" color="default">Edit Button</Button>
+                </TableCell>
+            )
+        }
+        else if( columnID === "DeleteButton") {
+            return (
+                <TableCell key={columnID}>
+                    <Button size="small" href="/user/delete" variant="contained" color="secondary">Delete Button</Button>
+                </TableCell>
+            )
+        }
         return (
-        <TableRow key={row.FirstName}>
-            <TableCell scope="row">
-                {row.FirstName}
+            <TableCell key={columnID}>
+                {row[columnID]}
             </TableCell>
-            <TableCell>{row.LastName}</TableCell>
-            <TableCell >{row.DateOfBirth}</TableCell>
-            <TableCell >{row.Phone}</TableCell>
-        </TableRow>
         )
     }
 
