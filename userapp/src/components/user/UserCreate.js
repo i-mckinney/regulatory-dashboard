@@ -19,7 +19,7 @@ const initialUser = {
 const UserCreate = (props) => {
 
     const onSubmit = (user) => {
-        history.push({
+        prop.history.push({
             pathname: "/",
             state: { type: "CREATE" , user }
         })
