@@ -11,7 +11,7 @@ const HelixTableBody = ({ columns, rows, customRowRender }) => {
     <TableBody>
       {rows.map((row) => {
         return (
-          <TableRow key={row.FirstName}>
+          <TableRow key={row.ID}>
             {columns.map((column) => {
               const columnID = column.ID
               return (

@@ -94,18 +94,21 @@ const UserTable = () => {
     // Data Processed from API Results
     const rows = [
         {
+            ID: 1,
             FirstName: "Joe",
             LastName: "Doe",
             DateOfBirth: "01012000",
             Phone: "5555555555",
         },
         {
+            ID: 2,
             FirstName: "John",
             LastName: "Smith",
             DateOfBirth: "12122012",
             Phone: "1234567890",
         },
         {
+            ID: 3,
             FirstName: "Ray",
             LastName: "Smith",
             DateOfBirth: "11112011",
