@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles, Button, Modal } from '@material-ui/core';
 
+// Styling used for MaterialUI
 const userDeleteStyles = makeStyles(() => ({
     modal: {
         display: "flex",
@@ -55,10 +56,11 @@ const userDeleteStyles = makeStyles(() => ({
 }))
 
 /**
- * @return {JSX} UserDelete site
- * routed at /user/delete
+ * @return {JSX} UserDelete site to delete specific user
+ * routed at /user/delete/:id
  */
-const UserDelete = ({ history }) => {
+const UserDelete = () => {
+    // Creates an object for styling. Any className that matches key in the userDeleteStyles object will have a corresponding styling
     const userDeleteClasses = userDeleteStyles();
     
     const body = (
