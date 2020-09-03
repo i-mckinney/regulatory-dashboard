@@ -117,7 +117,7 @@ const UserTable = (props) => {
             LastName: "Smith",
             DateOfBirth: "11112011",
             Phone: "9876543210",
-        },   
+        },
         {
             ID: "4",
             FirstName: "Joy",
@@ -166,8 +166,8 @@ const UserTable = (props) => {
     }, [props.location.state])
 
     /**
-     * @param {object} row represent object data regarding the api result - data
-     * @param {object} column represent object data regarding the api result - header which has an accessor
+     * @param {object} row represent object data from the api result
+     * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
      * @return {JSX} Table cell of object properties in that Table row
      */
     const customCellRender = (row, column) => {
@@ -175,14 +175,14 @@ const UserTable = (props) => {
         if (columnID === "EditButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" href={`/user/edit/${row.ID}`} variant="contained" color="default">Edit Button</Button>
+                    <Button size="small" href={`/user/edit/${row.ID}`} variant="contained" color="default">Edit</Button>
                 </TableCell>
             )
         }
         else if(columnID === "DeleteButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete Button</Button>
+                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete</Button>
                 </TableCell>
             )
         }
