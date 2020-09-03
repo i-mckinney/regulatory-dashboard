@@ -14,7 +14,7 @@ const userFormStyles = makeStyles(() => ({
 /**
  * @param {object} initialUser represent preset empty user data object
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
- * @return {JSX} UserCreate site
+ * @return {JSX} UserForm site with input form to fill in
  * routed at /user/new
  */
 const UserForm = ({ initialUser, onSubmit}) => {

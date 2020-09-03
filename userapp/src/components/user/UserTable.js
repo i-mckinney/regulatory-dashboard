@@ -60,7 +60,7 @@ const userTableStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history location to route next component with data state
- * @return {JSX} UserTable site
+ * @return {JSX} UserTable site show list of users
  * routed at /
  */
 const UserTable = (props) => {
@@ -119,7 +119,7 @@ const UserTable = (props) => {
             Phone: "9876543210",
         },   
     ])
-
+    
     /**
      * Renders only when it is mounted at first
      * It will receive a type & payload from the props.location.state
