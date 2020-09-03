@@ -8,9 +8,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
 const tablePaginationActionsStyles = makeStyles(theme => ({
-  root: {
+  paginationButton: {
     flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
+    marginLeft: 7,
   },
 }))
 
@@ -23,8 +23,7 @@ const tablePaginationActionsStyles = makeStyles(theme => ({
  */
 const HelixTablePaginationActions = ({ count, page, rowsPerPage, onChangePage }) => {
   const tablePaginationActionsClasses = tablePaginationActionsStyles()
-  const theme = useTheme()
-
+  
   /**
    * handleFirstPageButtonClick will change the page to the first page
    */
@@ -54,42 +53,34 @@ const HelixTablePaginationActions = ({ count, page, rowsPerPage, onChangePage })
   }
 
   return (
-    <div className={tablePaginationActionsClasses.root}>
+    <div className={tablePaginationActionsClasses.paginationButton}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        <FirstPageIcon />
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === 'rtl' ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
+        <KeyboardArrowLeft />
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === 'rtl' ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
+        <KeyboardArrowRight />
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        <LastPageIcon />
       </IconButton>
     </div>
   )
