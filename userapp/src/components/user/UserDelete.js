@@ -56,21 +56,23 @@ const userDeleteStyles = makeStyles(() => ({
 }))
 
 /**
- * @return {JSX} UserDelete site to delete specific user
+ * @return {JSX} UserDelete site
  * routed at /user/delete/:id
  */
-const UserDelete = () => {
+const UserDelete = (props) => {
     // Creates an object for styling. Any className that matches key in the userDeleteStyles object will have a corresponding styling
     const userDeleteClasses = userDeleteStyles();
     
+    console.log(props)
+
     const body = (
         <div className={userDeleteClasses.paper}>
-          <div className={userDeleteClasses.header} id="simple-modal-title">Delete USER</div>
+          <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete TODO: Replace with Username ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
           <div className={userDeleteClasses.content} id="simple-modal-description">
-            Are you sure you want to delete this user?
+            {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
           </div>
           <div className={userDeleteClasses.actions}>
-            <Button size="medium" className={userDeleteClasses.uiButton} href="/user/delete" variant="contained" color="secondary">Delete</Button>
+            <Button size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE"} }))} variant="contained" color="secondary">Delete</Button>
             <Button size="medium" className={userDeleteClasses.uiButton} href="/" variant="contained" color="default">Cancel</Button>
           </div>
         </div>
