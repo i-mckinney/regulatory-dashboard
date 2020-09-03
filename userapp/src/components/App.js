@@ -13,8 +13,8 @@ function App() {
           <Switch>
             <Route path="/" exact component={UserTable} />
             <Route path="/user/new" component={UserCreate}  />
-            <Route path="/user/edit/" component={UserEdit} />
-            <Route path="/user/delete/" component={UserDelete} />
+            <Route path="/user/edit/:id" component={UserEdit} />
+            <Route path="/user/delete/:id" component={UserDelete} />
           </Switch>
         </div>
     </BrowserRouter>
