@@ -63,8 +63,6 @@ const UserDelete = (props) => {
     // Creates an object for styling. Any className that matches key in the userDeleteStyles object will have a corresponding styling
     const userDeleteClasses = userDeleteStyles();
     
-    console.log(props)
-
     const body = (
         <div className={userDeleteClasses.paper}>
           <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete TODO: Replace with Username ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
