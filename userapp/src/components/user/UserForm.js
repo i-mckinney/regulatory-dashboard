@@ -32,7 +32,8 @@ const UserForm = ({ initialUser, onSubmit}) => {
      * name: the name property on the target text field element
      * value: the value property on the target text field element
      */
-    const handleInputChange = ({ target: { name, value } }) => {
+    const handleInputChange = (event) => {
+        const { name, value } = event.target
         setUser({ ...user, [name]: value })
         // validate(name, value)
     }
@@ -79,9 +80,11 @@ const UserForm = ({ initialUser, onSubmit}) => {
     // }
 
     /**
+     * @param {Object} event the event object 
      * Send the created user back to parent component
      */
-    const onSubmitForm = () => {
+    const onSubmitForm = (event) => {
+        event.preventDefault()
         onSubmit(user);
     }
 

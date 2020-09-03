@@ -17,16 +17,16 @@ const initialUser = {
  * routed at /user/new
  */
 const UserCreate = (props) => {
-
     const onSubmit = (user) => {
         props.history.push({
             pathname: "/",
-            state: { type: "CREATE", user }
+            state: { type: "CREATE", payload: user }
         })
     }
 
     return (
     <div>
+        <h3>Create a User</h3>
         <UserForm initialUser={initialUser} onSubmit={onSubmit} />
     </div>
     )

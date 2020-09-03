@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
 import HelixTable from "../table/HelixTable"
 import { makeStyles, Button, Typography, TableCell } from '@material-ui/core'
 
@@ -92,7 +93,7 @@ const UserTable = (props) => {
             Label: "",
             ID: "DeleteButton",
         }
-    ])
+    ], [])
 
     // Data Processed from API Results
     const [rows, setRows] = useState([
@@ -118,22 +119,30 @@ const UserTable = (props) => {
             Phone: "9876543210",
         },   
     ])
-    console.log("table.js",rows)
+
+    /**
+     * Renders only when it is mounted at first
+     * It will receive a type & payload from the props.location.state
+     * Depending on the type of the state, it will perform the follow CRUD operations
+     */
     useEffect(() => {
         const currentState = props.location.state
         if(currentState) {
-            const { type, user } = currentState
-            console.log('type', type, ' user', user)
+            const { type, payload } = currentState
             switch(type) {
                 case "CREATE":
-                    setRows([ ...rows, user])
+                    setRows(rows => [ ...rows, payload ])
+                    break
+                case "DELETE":
+                    const copyRows = rows.filter((row) => (row.ID !== payload.ID))
+                    setRows(rows => [ ...copyRows ])
                     break
                 default:
                     break
             }
         }
 
-    }, [])
+    }, [props.location.state])
 
     /**
      * @param {object} row represent object pertaining data regarding the api result
@@ -148,7 +157,7 @@ const UserTable = (props) => {
                 </TableCell>
             )
         }
-        else if( columnID === "DeleteButton") {
+        else if(columnID === "DeleteButton") {
             return (
                 <TableCell key={columnID}>
                     <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete Button</Button>
@@ -175,4 +184,4 @@ const UserTable = (props) => {
     )
 }
 
-export default UserTable
+export default withRouter(UserTable)
