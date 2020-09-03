@@ -117,7 +117,8 @@ const UserTable = () => {
     ]
 
     /**
-     * @param {object} row represent object pertaining data regarding the api result
+     * @param {object} row represent object data regarding the api result - data
+     * @param {object} column represent object data regarding the api result - header
      * @return {JSX} Table row with table cell of object properties
      */
     const customCellRender = (row, column) => {
@@ -143,6 +144,14 @@ const UserTable = () => {
         )
     }
 
+    /**
+     * @param {object} row represent object data regarding the api result 
+     * @return {string} provide table row with unique key props (required)
+     */
+    const customRowProps = (row) => {
+        return row.ID
+    }
+
     return (
         <div className={userTableClasses.mediumContainer}>
             <div className={userTableClasses.header}>
@@ -151,7 +160,7 @@ const UserTable = () => {
                     Create User
                 </Button>
             </div>
-            <HelixTable columns={columns} rows={rows} customCellRender={customCellRender} />
+            <HelixTable columns={columns} rows={rows} customCellRender={customCellRender} customRowProps={customRowProps}/>
         </div>
     )
 }
