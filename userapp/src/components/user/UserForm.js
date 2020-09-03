@@ -72,31 +72,23 @@ const UserForm = ({ initialUser, onSubmit}) => {
 
     return (
     <div>
-        <form className={classes.userForm} autoComplete="off" onSubmit={onSubmitForm}>
-            <Grid container
-                direction="column"
-                justify="center"
-                alignItems="center">
-                <Grid item xs={6}>
-                    <TextField
+        <form className={userFormClasses.root} autoComplete="off" >
+         {/* onSubmit={handleSubmit}> */}
+            <Grid container>
+                <Grid item xs={3}>
+                    <HelixTextField
                         name='FirstName'
                         label='First Name'
                         value={user.FirstName}
                         onChange={handleInputChange}
                     />
-                    {errors.FirstName.length > 0 && <span className='error'>{errors.FirstName}</span>}
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
+                    <HelixTextField
                         name='LastName'
                         label='Last Name'
                         value={user.LastName}
                         onChange={handleInputChange}
                     />
-                    {errors.LastName.length > 0 && <span className='error'>{errors.LastName}</span>}
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
+                    <HelixTextField
                         name='DateOfBirth'
                         label='Date Of Birth'
                         value={user.DateOfBirth}
