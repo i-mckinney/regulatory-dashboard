@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import HelixTable from "../table/HelixTable"
 import { makeStyles, Button, Typography, TableCell } from '@material-ui/core'
 
+// Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
     mediumContainer: {
         width: '80%',
@@ -60,7 +61,8 @@ const userTableStyles = makeStyles(() => ({
  * @return {JSX} UserTable site
  * routed at /
  */
-const UserTable = () => {
+const UserTable = (props) => {
+    // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
     const userTableClasses = userTableStyles();
 
     // Table Header from API Results
@@ -92,46 +94,63 @@ const UserTable = () => {
     ])
 
     // Data Processed from API Results
-    const rows = [
+    const [rows, setRows] = useState([
         {
-            ID: 1,
+            ID: "1",
             FirstName: "Joe",
             LastName: "Doe",
             DateOfBirth: "01012000",
             Phone: "5555555555",
         },
         {
-            ID: 2,
+            ID: "2",
             FirstName: "John",
             LastName: "Smith",
             DateOfBirth: "12122012",
             Phone: "1234567890",
         },
         {
-            ID: 3,
+            ID: "3",
             FirstName: "Ray",
             LastName: "Smith",
             DateOfBirth: "11112011",
             Phone: "9876543210",
         },   
-    ]
+    ])
+
+    useEffect(() => {
+        const currentState = props.location.state
+        if(currentState) {
+            const { type, user } = currentState
+            console.log('type', type, ' user', user)
+            switch(type) {
+                case "CREATE":
+                    setRows([ ...rows, user])
+                    break
+                default:
+                    break
+            }
+        }
+
+    }, [])
 
     /**
      * @param {object} row represent object pertaining data regarding the api result
+     * @param {string} columnID represent accessor for that column and needed it for key props
      * @return {JSX} Table row with table cell of object properties
      */
     const customRowRender = (row, columnID) => {
         if (columnID === "EditButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" href="/user/edit" variant="contained" color="default">Edit Button</Button>
+                    <Button size="small" href={`/user/edit/${row.ID}`} variant="contained" color="default">Edit Button</Button>
                 </TableCell>
             )
         }
         else if( columnID === "DeleteButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" href="/user/delete" variant="contained" color="secondary">Delete Button</Button>
+                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete Button</Button>
                 </TableCell>
             )
         }
