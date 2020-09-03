@@ -7,7 +7,7 @@ import LastPageIcon from '@material-ui/icons/LastPage'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
-const tablePaginationActionsStyles = makeStyles(theme => ({
+const tablePaginationActionsStyles = makeStyles(() => ({
   paginationButton: {
     flexShrink: 0,
     marginLeft: 7,
