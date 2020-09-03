@@ -57,7 +57,7 @@ const userDeleteStyles = makeStyles(() => ({
 }))
 
 /**
- * @return {JSX} UserDelete site
+ * @return {JSX} UserDelete site to delete a specific user 
  * routed at /user/delete/:id
  */
 const UserDelete = (props) => {

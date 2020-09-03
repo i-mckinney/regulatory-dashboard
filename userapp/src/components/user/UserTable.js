@@ -60,7 +60,7 @@ const userTableStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history location to route next component with data state
- * @return {JSX} UserTable site
+ * @return {JSX} UserTable site show list of users
  * routed at /
  */
 const UserTable = (props) => {
