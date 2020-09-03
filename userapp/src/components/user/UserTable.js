@@ -153,14 +153,14 @@ const UserTable = (props) => {
         if (columnID === "EditButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" href={`/user/edit/${row.ID}`} variant="contained" color="default">Edit Button</Button>
+                    <Button size="small" href={`/user/edit/${row.ID}`} variant="contained" color="default">Edit</Button>
                 </TableCell>
             )
         }
         else if(columnID === "DeleteButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete Button</Button>
+                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete</Button>
                 </TableCell>
             )
         }
