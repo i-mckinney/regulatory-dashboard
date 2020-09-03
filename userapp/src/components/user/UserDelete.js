@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { makeStyles, Button, Modal } from '@material-ui/core';
 
 // Styling used for MaterialUI
@@ -70,7 +71,7 @@ const UserDelete = (props) => {
             {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
           </div>
           <div className={userDeleteClasses.actions}>
-            <Button size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE"} }))} variant="contained" color="secondary">Delete</Button>
+            <Button size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE", payload: props.location.state.ID} }))} variant="contained" color="secondary">Delete</Button>
             <Button size="medium" className={userDeleteClasses.uiButton} href="/" variant="contained" color="default">Cancel</Button>
           </div>
         </div>
@@ -92,4 +93,4 @@ const UserDelete = (props) => {
         )
 }
 
-export default UserDelete
+export default withRouter(UserDelete)
