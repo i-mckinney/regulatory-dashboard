@@ -59,7 +59,7 @@ const userTableStyles = makeStyles(() => ({
 }))
 
 /**
- * @param {Object} props Using the location to route next component with data state
+ * @param {Object} props Using the history location to route next component with data state
  * @return {JSX} UserTable site show list of users
  * routed at /
  */
@@ -166,8 +166,8 @@ const UserTable = (props) => {
     }, [props.location.state])
 
     /**
-     * @param {object} row represent object data regarding the api result
-     * @param {string} columnID represent accessor for that column and needed it for key props
+     * @param {object} row represent object data regarding the api result - data
+     * @param {object} column represent object data regarding the api result - header which has an accessor
      * @return {JSX} Table cell of object properties in that Table row
      */
     const customCellRender = (row, column) => {
@@ -194,10 +194,18 @@ const UserTable = (props) => {
     }
 
     /**
+     * @param {object} column represent object data regarding the api result  
+     * @return {string} provide table row with unique key props (required)
+     */
+    const customHeadRowProps = (column) => {
+        return column.ID
+    }
+
+    /**
      * @param {object} row represent object data regarding the api result 
      * @return {string} provide table row with unique key props (required)
      */
-    const customRowProps = (row) => {
+    const customBodyRowProps = (row) => {
         return row.ID
     }
 
@@ -209,7 +217,7 @@ const UserTable = (props) => {
                     Create User
                 </Button>
             </div>
-            <HelixTable columns={columns} rows={rows} customCellRender={customCellRender} customRowProps={customRowProps}/>
+            <HelixTable columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
         </div>
     )
 }
