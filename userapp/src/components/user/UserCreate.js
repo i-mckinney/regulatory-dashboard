@@ -4,24 +4,24 @@ import UserForm from './UserForm'
 
 // InitialUser with preset data
 const initialUser = {
+    ID: (Math.random() * 100).toFixed(0),
     FirstName: "",
     LastName: "",
     DateOfBirth: "",
     Phone: "",
   }
 
-  /**
-   * 
-   * @param {Object} props Using the history property to route next component with data state
-   * @return {JSX} UserCreate site with UserForm provided for user creation
-   * routed at /user/new
-   */
+/**
+ * @param {Object} props Using the history property to route next component with data state
+ * @return {JSX} UserCreate site with UserForm provided for user creation
+ * routed at /user/new
+ */
 const UserCreate = (props) => {
 
     const onSubmit = (user) => {
-        prop.history.push({
+        props.history.push({
             pathname: "/",
-            state: { type: "CREATE" , user }
+            state: { type: "CREATE", user }
         })
     }
 
