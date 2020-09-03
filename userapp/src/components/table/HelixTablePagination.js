@@ -3,10 +3,9 @@ import { TablePagination } from '@material-ui/core'
 import HelixTablePaginationActions from './HelixTablePaginationActions'
 
 const HelixTablePagination = ({ rows, colSpan, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage }) => {
-  console.log(rows)
   return (
     <TablePagination
-      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+      rowsPerPageOptions={[5, 10, 25, 50, { label: 'All', value: -1 }]}
       colSpan={colSpan}
       count={rows.length}
       rowsPerPage={rowsPerPage}

@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
 import HelixTable from "../table/HelixTable"
 import { makeStyles, Button, Typography, TableCell } from '@material-ui/core'
 
+// Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
     mediumContainer: {
         width: '80%',
@@ -57,10 +59,12 @@ const userTableStyles = makeStyles(() => ({
 }))
 
 /**
- * @return {JSX} UserTable site
+ * @param {Object} props Using the location to route next component with data state
+ * @return {JSX} UserTable site show list of users
  * routed at /
  */
-const UserTable = () => {
+const UserTable = (props) => {
+    // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
     const userTableClasses = userTableStyles();
 
     // Table Header from API Results
@@ -89,51 +93,96 @@ const UserTable = () => {
             Label: "",
             ID: "DeleteButton",
         }
-    ])
+    ], [])
 
     // Data Processed from API Results
-    const rows = [
+    const [rows, setRows] = useState([
         {
-            ID: 1,
+            ID: "1",
             FirstName: "Joe",
             LastName: "Doe",
             DateOfBirth: "01012000",
             Phone: "5555555555",
         },
         {
-            ID: 2,
+            ID: "2",
             FirstName: "John",
             LastName: "Smith",
             DateOfBirth: "12122012",
             Phone: "1234567890",
         },
         {
-            ID: 3,
+            ID: "3",
             FirstName: "Ray",
             LastName: "Smith",
             DateOfBirth: "11112011",
             Phone: "9876543210",
         },   
-    ]
+        {
+            ID: "4",
+            FirstName: "Joy",
+            LastName: "Doe",
+            DateOfBirth: "01012000",
+            Phone: "5555555555",
+        },
+        {
+            ID: "5",
+            FirstName: "Irene",
+            LastName: "Smith",
+            DateOfBirth: "12122012",
+            Phone: "1234567890",
+        },
+        {
+            ID: "6",
+            FirstName: "Wendy",
+            LastName: "Smith",
+            DateOfBirth: "11112011",
+            Phone: "9876543210",
+        },   
+    ])
+    
+    /**
+     * Renders only when it is mounted at first
+     * It will receive a type & payload from the props.location.state
+     * Depending on the type of the state, it will perform the follow CRUD operations
+     */
+    useEffect(() => {
+        const currentState = props.location.state
+        if(currentState) {
+            const { type, payload } = currentState
+            switch(type) {
+                case "CREATE":
+                    setRows(rows => [ ...rows, payload ])
+                    break
+                case "DELETE":
+                    const copyRows = rows.filter((row) => (row.ID !== payload.ID))
+                    setRows(rows => [ ...copyRows ])
+                    break
+                default:
+                    break
+            }
+        }
+
+    }, [props.location.state])
 
     /**
-     * @param {object} row represent object data regarding the api result - data
-     * @param {object} column represent object data regarding the api result - header
-     * @return {JSX} Table row with table cell of object properties
+     * @param {object} row represent object data regarding the api result
+     * @param {string} columnID represent accessor for that column and needed it for key props
+     * @return {JSX} Table cell of object properties in that Table row
      */
     const customCellRender = (row, column) => {
         const columnID = column.ID
         if (columnID === "EditButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" href="/user/edit" variant="contained" color="default">Edit Button</Button>
+                    <Button size="small" href={`/user/edit/${row.ID}`} variant="contained" color="default">Edit Button</Button>
                 </TableCell>
             )
         }
-        else if( columnID === "DeleteButton") {
+        else if(columnID === "DeleteButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" href="/user/delete" variant="contained" color="secondary">Delete Button</Button>
+                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete Button</Button>
                 </TableCell>
             )
         }
@@ -165,4 +214,4 @@ const UserTable = () => {
     )
 }
 
-export default UserTable
+export default withRouter(UserTable)
