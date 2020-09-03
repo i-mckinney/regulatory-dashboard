@@ -14,24 +14,43 @@ const tablePaginationActionsStyles = makeStyles(theme => ({
   },
 }))
 
+/**
+ * @param {int} count count is total amount of row data
+ * @param {int} page page is current page currently at
+ * @param {int} rowsPerPage the rowsPerPage is a number of row per page
+ * @param {func} onChangePage this function will handle page changes and sends it back up to parent component
+ * @returns {JSX} renders a custom table pagination actions for table
+ */
 const HelixTablePaginationActions = ({ count, page, rowsPerPage, onChangePage }) => {
   const tablePaginationActionsClasses = tablePaginationActionsStyles()
   const theme = useTheme()
 
-  const handleFirstPageButtonClick = event => {
-    onChangePage(event, 0)
+  /**
+   * handleFirstPageButtonClick will change the page to the first page
+   */
+  const handleFirstPageButtonClick = () => {
+    onChangePage(0)
   }
 
-  const handleBackButtonClick = event => {
-    onChangePage(event, page - 1)
+  /**
+   * handleBackButtonClick will change the page to go back one page before (current page - 1)
+   */
+  const handleBackButtonClick = () => {
+    onChangePage(page - 1)
   }
 
-  const handleNextButtonClick = event => {
-    onChangePage(event, page + 1)
+  /**
+   * handleNextButtonClick will change the page to go next page (current page + 1)
+   */
+  const handleNextButtonClick = () => {
+    onChangePage(page + 1)
   }
 
-  const handleLastPageButtonClick = event => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
+  /**
+   * handleLastPageButtonClick will change teh page to the last page 
+   */
+  const handleLastPageButtonClick = () => {
+    onChangePage(Math.max(0, Math.ceil(count / rowsPerPage) - 1))
   }
 
   return (

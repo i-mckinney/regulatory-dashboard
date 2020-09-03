@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Paper, TableContainer, Table } from "@material-ui/core"
 import PropTypes from "prop-types"
 import HelixTableHead from "./HelixTableHead"
@@ -11,7 +11,7 @@ import HelixTableFooter from "./HelixTableFooter"
  * @param {func} customCellRender func represent custom func that return jsx of table row of table cell values
  * @param {func} customHeadRowProps func represent custom func that return key props for table row in table head (required)
  * @param {func} customBodyRowProps func represent custom func that return key props for the table row in table body (required)
- * @returns {JSX} renders a custom edit entity dashboard
+ * @returns {JSX} renders a custom table
  */
 const HelixTable = ({
   columns,
@@ -20,15 +20,24 @@ const HelixTable = ({
   customHeadRowProps,
   customBodyRowProps,
 }) => {
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  // Page is needed for pagination to determine the process of what page it is at
+  const [page, setPage] = useState(0)
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
+  // rowsPerPage is needed for pagination to determine how many rows should be display per page
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
+  /**
+   * @param {int} newPage the newPage passed from the child component
+   * it sets a new page
+   */
   const handleChangePage = (newPage) => {
     setPage(newPage)
   }
 
+  /**
+   * @param {event} event the event object hold the property of input value that passed from the child component
+   * it sets row per page by specific value and set the page to 0
+   */
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
