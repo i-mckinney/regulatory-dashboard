@@ -120,7 +120,8 @@ const UserTable = () => {
      * @param {object} row represent object pertaining data regarding the api result
      * @return {JSX} Table row with table cell of object properties
      */
-    const customRowRender = (row, columnID) => {
+    const customCellRender = (row, column) => {
+        const columnID = column.ID
         if (columnID === "EditButton") {
             return (
                 <TableCell key={columnID}>
@@ -150,7 +151,7 @@ const UserTable = () => {
                     Create User
                 </Button>
             </div>
-            <HelixTable columns={columns} rows={rows} customRowRender={customRowRender} />
+            <HelixTable columns={columns} rows={rows} customCellRender={customCellRender} />
         </div>
     )
 }

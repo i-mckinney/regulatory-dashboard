@@ -6,28 +6,28 @@ import PropTypes from "prop-types"
  * @param {array} rows An array of rows, containing array of cell objects.
  * @returns {JSX} renders a custom table body for table
  */
-const HelixTableBody = ({ columns, rows, customRowRender }) => {
+const HelixTableBody = ({ columns, rows, customCellRender }) => {
   return (
     <TableBody>
       {rows.map((row) => {
         return (
           <TableRow key={row.ID}>
             {columns.map((column) => {
-              const columnID = column.ID
               return (
-                  customRowRender(row, columnID)
+                customCellRender(row, column)
               )
             })}
           </TableRow>
         )
       })}
-  </TableBody>
+    </TableBody>
   )
 }
 
 HelixTableBody.propTypes = {
+  columns: PropTypes.instanceOf(Array).isRequired,
   rows: PropTypes.instanceOf(Array).isRequired,
-  customRowRender: PropTypes.func.isRequired,
+  customCellRender: PropTypes.func.isRequired,
 }
 
 export default HelixTableBody
