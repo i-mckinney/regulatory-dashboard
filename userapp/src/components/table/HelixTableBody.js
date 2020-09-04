@@ -15,12 +15,13 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
         {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
-          ).map((row) => {
+          ).map((row, index) => {
+            console.log(row, rowIndex)
             return (
               <TableRow key={customBodyRowProps(row)}>
                 {columns.map((column) => {
                   return (
-                    customCellRender(row, column)
+                    customCellRender(rowIndex, row, column)
                   )
                 })}
               </TableRow>
