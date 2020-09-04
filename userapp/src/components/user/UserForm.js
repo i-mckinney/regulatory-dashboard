@@ -88,13 +88,6 @@ const UserForm = ({ initialUser, onSubmit}) => {
         onSubmit(user);
     }
 
-    /**
-     * Reset the whole input form with initial values
-     */
-    const onResetForm = () => {
-        setUser(initialUser)
-    }
-
     return (
     <div>
         <form className={userFormClasses.userForm} autoComplete="off" onSubmit={onSubmitForm}>
@@ -150,11 +143,10 @@ const UserForm = ({ initialUser, onSubmit}) => {
                         <Button
                         color="default"
                         variant="contained"
-                        type="reset"
+                        type="cancel"
                         size="large"
-                        text="Clear"
-                        onClick={onResetForm}>
-                            Reset
+                        href="/">
+                            Cancel
                         </Button>
                     </div>
                 </Grid>

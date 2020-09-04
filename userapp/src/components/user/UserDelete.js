@@ -57,6 +57,7 @@ const userDeleteStyles = makeStyles(() => ({
 }))
 
 /**
+ * @param {Object} props Using the history property to route next component with data state
  * @return {JSX} UserDelete site to delete a specific user 
  * routed at /user/delete/:id
  */
@@ -87,7 +88,7 @@ const UserDelete = (props) => {
             aria-describedby="server-modal-description"
             className={userDeleteClasses.modal}
             >
-                    {body}
+                {body}
             </Modal>
         </div>
         )

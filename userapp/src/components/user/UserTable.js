@@ -127,7 +127,6 @@ const UserTable = (props) => {
      */
     useEffect(() => {
         const currentState = props.location.state
-        console.log(currentState)
         if(currentState) {
             const { type, payload } = currentState
             switch(type) {
