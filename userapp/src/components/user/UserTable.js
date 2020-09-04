@@ -178,22 +178,23 @@ const UserTable = (props) => {
      */
     const customCellRender = (row, column) => {
         const columnID = column.ID
+        const rowID = row.ID
         if (columnID === "EditButton") {
             return (
-                <TableCell key={columnID}>
+                <TableCell key={rowID}>
                     <Button size="small" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} variant="contained" color="default">Edit</Button>
                 </TableCell>
             )
         }
         else if(columnID === "DeleteButton") {
             return (
-                <TableCell key={columnID}>
+                <TableCell key={rowID}>
                     <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete</Button>
                 </TableCell>
             )
         }
         return (
-            <TableCell key={columnID}>
+            <TableCell key={rowID}>
                 {row[columnID]}
             </TableCell>
         )
