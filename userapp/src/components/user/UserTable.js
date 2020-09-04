@@ -117,6 +117,27 @@ const UserTable = (props) => {
             LastName: "Smith",
             DateOfBirth: "11112011",
             Phone: "9876543210",
+        },
+        {
+            ID: "4",
+            FirstName: "Joy",
+            LastName: "Doe",
+            DateOfBirth: "01012000",
+            Phone: "5555555555",
+        },
+        {
+            ID: "5",
+            FirstName: "Irene",
+            LastName: "Smith",
+            DateOfBirth: "12122012",
+            Phone: "1234567890",
+        },
+        {
+            ID: "6",
+            FirstName: "Wendy",
+            LastName: "Smith",
+            DateOfBirth: "11112011",
+            Phone: "9876543210",
         },   
     ])
     
@@ -145,11 +166,12 @@ const UserTable = (props) => {
     }, [props.location.state])
 
     /**
-     * @param {object} row represent object pertaining data regarding the api result
-     * @param {string} columnID represent accessor for that column and needed it for key props
-     * @return {JSX} Table row with table cell of object properties
+     * @param {object} row represent object data from the api result
+     * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
+     * @return {JSX} Table cell of object properties in that Table row
      */
-    const customRowRender = (row, columnID) => {
+    const customCellRender = (row, column) => {
+        const columnID = column.ID
         if (columnID === "EditButton") {
             return (
                 <TableCell key={columnID}>
@@ -171,6 +193,22 @@ const UserTable = (props) => {
         )
     }
 
+    /**
+     * @param {object} column represent object data regarding the api result  
+     * @return {string} provide table row with unique key props (required)
+     */
+    const customHeadRowProps = (column) => {
+        return column.ID
+    }
+
+    /**
+     * @param {object} row represent object data regarding the api result 
+     * @return {string} provide table row with unique key props (required)
+     */
+    const customBodyRowProps = (row) => {
+        return row.ID
+    }
+
     return (
         <div className={userTableClasses.mediumContainer}>
             <div className={userTableClasses.header}>
@@ -179,7 +217,7 @@ const UserTable = (props) => {
                     Create User
                 </Button>
             </div>
-            <HelixTable columns={columns} rows={rows} customRowRender={customRowRender} />
+            <HelixTable columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
         </div>
     )
 }
