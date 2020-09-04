@@ -1,11 +1,28 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
+import UserForm from './UserForm'
 
 /**
- * @return {JSX} UserEdit site
+ * @param {Object} props Using the history property to route next component with data state and location for state object
+ * @return {JSX} UserEdit site with UserForm provided for edit user
  * routed at /user/edit
  */
-const UserEdit = () => {
-    return (<div>UserEdit</div>)
+const UserEdit = (props) => {
+    const user = props.location.state
+
+    const onSubmit = (editedUser) => {
+        props.history.push({
+            pathname: "/",
+            state: { type: "UPDATE", payload: editedUser }
+        })
+    }
+
+    return (
+    <div>
+        <h3>Edit User</h3>
+        <UserForm initialUser={user} onSubmit={onSubmit} />
+    </div>
+    )
 }
 
-export default UserEdit
+export default withRouter(UserEdit)
