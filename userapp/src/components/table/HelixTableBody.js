@@ -15,8 +15,7 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
         {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
-          ).map((row, index) => {
-            console.log(row, rowIndex)
+          ).map((row, rowIndex) => {
             return (
               <TableRow key={customBodyRowProps(row)}>
                 {columns.map((column) => {
