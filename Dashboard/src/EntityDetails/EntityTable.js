@@ -5,7 +5,8 @@ import PropTypes from "prop-types"
 import EntityTableHead from "./EntityTableHead"
 import EntityTableBody from "./EntityTableBody"
 
-const useStyles = makeStyles((theme) => ({
+// Styling used for MaterialUI
+const entityTableStyles = makeStyles(() => ({
   table: {
     width: '100%',
     display: 'table',
@@ -53,11 +54,7 @@ const useStyles = makeStyles((theme) => ({
  * @param {func} editData func pass down to child component, and sends it back to the parent component to edit the data
  * @returns {JSX} renders a custom edit entity dashboard
  */
-const EntityTable = ({
-  columns,
-  data,
-  editData,
-}) => {
+const EntityTable = ({ columns, data, editData }) => {
   /**
    * 1) getTableProps: Function(?props) Required This function is used to resolve any props needed for your table wrapper.
    * 2) getTableBodyProps: Function(?props) Required This function is used to resolve any props needed for your table wrapper.
@@ -78,11 +75,12 @@ const EntityTable = ({
     editData,
   })
 
-  const classes = useStyles();
+  // Creates an object for styling. Any className that matches key in the entityTableClasses object will have a corresponding styling
+  const entityTableClasses = entityTableStyles();
 
   return (
     <div>
-      <table className={classes.table} {...getTableProps()}>
+      <table className={entityTableClasses.table} {...getTableProps()}>
         <EntityTableHead headerGroups={headerGroups} />
         <EntityTableBody
           getTableBodyProps={getTableBodyProps}

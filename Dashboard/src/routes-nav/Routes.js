@@ -28,7 +28,7 @@ function Routes() {
           <Entity />
         </Route>
 
-        <Route exact path="/editentity" component={EditEntity}>
+        <Route exact path="/editentity">
           <EditEntity />
         </Route>
 

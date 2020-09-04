@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core"
 import { Card, CardHeader, CardContent, Typography } from "@material-ui/core"
 import PropTypes from "prop-types"
 
-const useStyles = makeStyles((theme) => ({
+// Styling used for MaterialUI
+const entityCardStyles = makeStyles(() => ({
   entityInfoCardDiv: {
     paddingBottom: '25px',
   },
@@ -56,21 +57,22 @@ const EntityCard = ({
   BorrowerName,
   RelationshipManager,
 }) => {
-  const classes = useStyles();
+  // Creates an object for styling. Any className that matches key in the entityCardClasses object will have a corresponding styling
+  const entityCardClasses = entityCardStyles();
 
   return (
-    <div className={classes.entityInfoCardDiv}>
-      <Card className={classes.entityInfoCard}>
-        <CardHeader className={classes.entityInfoCardHeader}
-          title={<Typography className={classes.entityInfoCardTitle} variant="h3" component="h1">
+    <div className={entityCardClasses.entityInfoCardDiv}>
+      <Card className={entityCardClasses.entityInfoCard}>
+        <CardHeader className={entityCardClasses.entityInfoCardHeader}
+          title={<Typography className={entityCardClasses.entityInfoCardTitle} variant="h3" component="h1">
             {RecordLabel}
           </Typography>}
-          subheader={<Typography className={classes.entityInfoCardSubtitle} variant="subtitle2" >
+          subheader={<Typography className={entityCardClasses.entityInfoCardSubtitle} variant="subtitle2" >
             System of Record: {SystemOfRecord}
           </Typography>}
         >
         </CardHeader>
-        <CardContent className={classes.entityInfoCardContent}>
+        <CardContent className={entityCardClasses.entityInfoCardContent}>
             <ul>
               <li>{`ID: ${ID}`}</li>
               <li>{`Borrower Name: ${BorrowerName}`}</li>
