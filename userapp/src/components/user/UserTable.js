@@ -154,9 +154,15 @@ const UserTable = (props) => {
                 case "CREATE":
                     setRows(rows => [ ...rows, payload ])
                     break
+                case "UPDATE":
+                    const copyRowsU = [ ...rows ]
+                    const updatedRows = copyRowsU.filter((row) => (row.ID !== payload.ID))
+                    setRows(rows => [ ...updatedRows, payload ])
+                    break
                 case "DELETE":
-                    const copyRows = rows.filter((row) => (row.ID !== payload.ID))
-                    setRows(rows => [ ...copyRows ])
+                    const copyRowsD = [ ...rows ]
+                    const remainingRows = copyRowsD.filter((row) => (row.ID !== payload.ID))
+                    setRows(rows => [ ...remainingRows ])
                     break
                 default:
                     break
@@ -175,7 +181,7 @@ const UserTable = (props) => {
         if (columnID === "EditButton") {
             return (
                 <TableCell key={columnID}>
-                    <Button size="small" href={`/user/edit/${row.ID}`} variant="contained" color="default">Edit</Button>
+                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} variant="contained" color="default">Edit</Button>
                 </TableCell>
             )
         }
