@@ -7,7 +7,8 @@ import SaveIcon from '@material-ui/icons/Save';
 import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from "prop-types"
 
-const useStyles = makeStyles((theme) => ({
+// Styling used for MaterialUI
+const entityTableCellStyles = makeStyles(() => ({
   initialState: {
     display: 'inline-block',
   },
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     fill: 'black',
   }
 }))
+
 /**
  * @param {string} value string represents table data cell value from Cell object property
  * @param {object} cell object represents current row and current column properties
@@ -70,7 +72,8 @@ const EntityTableCell = ({
   const [isDivHidden, setIsDivHidden] = useState(true)
   const [saveChanges, setSaveChanges] = useState(false)
 
-  const classes = useStyles();
+  // Creates an object for styling. Any className that matches key in the entityTableCellClasses object will have a corresponding styling
+  const entityTableCellClasses = entityTableCellStyles();
 
   // Text input can be typed in the input tag, when keyboard event is trigger
   const handleInputChange = (e) => {
@@ -130,9 +133,9 @@ const EntityTableCell = ({
   // else there is editable data shown, return modified-initial-state
   const initialState = () => {
     if (!saveChanges) {
-      return classes.initialState
+      return entityTableCellClasses.initialState
     }
-    return classes.modifiedInitialState
+    return entityTableCellClasses.modifiedInitialState
   }
 
   // Display the initial state value
@@ -146,9 +149,9 @@ const EntityTableCell = ({
       return (
         <div>
           {currentStateValue}
-          <CheckCircleIcon className={classes.editedIcon} />
+          <CheckCircleIcon className={entityTableCellClasses.editedIcon} />
           <ReplayIcon 
-          className={classes.undoIcon}
+          className={entityTableCellClasses.undoIcon}
           onClick={handleResetChange}
           onKeyDown={handleResetChange}
           role="button"
@@ -166,11 +169,11 @@ const EntityTableCell = ({
         <div>
           <input type="text" value={value} onChange={handleInputChange} />
           <span>
-            <IconButton className={classes.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
-              <SaveIcon className={classes.matIcon} />
+            <IconButton className={entityTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
+              <SaveIcon className={entityTableCellClasses.matIcon} />
             </IconButton>
-            <IconButton className={classes.matButton} aria-label="clear" type="button" onClick={handleCancelChange}>
-              <ClearIcon className={classes.matIcon}/>
+            <IconButton className={entityTableCellClasses.matButton} aria-label="clear" type="button" onClick={handleCancelChange}>
+              <ClearIcon className={entityTableCellClasses.matIcon}/>
             </IconButton>
           </span>
         </div>
@@ -181,7 +184,7 @@ const EntityTableCell = ({
 
   return (
     <div
-      className={classes.editedField}
+      className={entityTableCellClasses.editedField}
       onClick={handleDivChange}
       onKeyDown={handleDivChange}
       role="row"

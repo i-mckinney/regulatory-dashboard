@@ -1,19 +1,14 @@
 import React, { useState } from "react"
 import { withRouter } from "react-router-dom"
-import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
 import EntityTableCell from "./EntityTableCell"
 import EntityTable from "./EntityTable"
 
-const theme = createMuiTheme({  
-  typography: {
-    fontSize: 14,
-},});
-
-
-const useStyles = makeStyles((theme) => ({
+// Styling used for MaterialUI
+const editEntityStyles = makeStyles(() => ({
   medium: {
     padding: '2rem',
   }
@@ -25,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
  * routed at /EditEntity
  */
 const EditEntity = (props) => {
-  const classes = useStyles();
+  // Creates an object for styling. Any className that matches key in the editEntityClasses object will have a corresponding styling
+  const editEntityClasses = editEntityStyles();
 
   const columns = React.useMemo(() => [
     {
@@ -54,7 +50,7 @@ const EditEntity = (props) => {
    * SystemOfRecord: string
    * PreviousValue: string
    * NewValue: string
-   * SourceSystem: string 
+   * SourceSystem: string
    * }
    * Stores array of entity data objects
    */
@@ -65,7 +61,7 @@ const EditEntity = (props) => {
       const headers = detailedInfo.TableHeaders
       const dataWarehouseName = headers[recordIndex].DataWarehouseName
       data[fieldIndex][dataWarehouseName] = record.Value
-      entityData.push({   
+      entityData.push({
         FieldName: entityField.Label,
         IsEdited: false,
         SystemOfRecord: dataWarehouseName,
@@ -85,8 +81,8 @@ const EditEntity = (props) => {
    * @param {string} editedValue represents new value provided from table data cell (child component)
    */
   const editData = (index, isEdited, editedValue) => {
-    const copyEditEntityData = ([...editEntityData])
-    const modifiedData = {...copyEditEntityData[index]}
+    const copyEditEntityData = [ ...editEntityData ]
+    const modifiedData = { ...copyEditEntityData[index] }
     modifiedData["IsEdited"] = isEdited
     modifiedData["NewValue"] = editedValue
     
@@ -96,35 +92,33 @@ const EditEntity = (props) => {
   }
 
   return (
-    <div className={`container ${classes.medium}`}>
-      <ThemeProvider theme={theme}>
-        <EntityCard
-          RecordLabel={detailedInfo.RecordLabel}
-          SystemOfRecord={detailedInfo.SystemOfRecord}
-          ID={detailedInfo.HeaderInfo.ID}
-          BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
-          RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
-        />
-        <EntityTable
-          columns={columns}
-          data={data}
-          editData={editData}
-        />
-        <div className="page-progression">
-          <button
-            type="button"
-            className="back-button"
-            onClick={() => {
-              props.history.push("/entity")
-            }}
-          >
-            Back
-          </button>
-          <button type="button" className="confirm-button" disabled>
-            Confirm
-          </button>
-        </div>
-        </ThemeProvider>
+    <div className={`container ${editEntityClasses.medium}`}>
+      <EntityCard
+        RecordLabel={detailedInfo.RecordLabel}
+        SystemOfRecord={detailedInfo.SystemOfRecord}
+        ID={detailedInfo.HeaderInfo.ID}
+        BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
+        RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
+      />
+      <EntityTable
+        columns={columns}
+        data={data}
+        editData={editData}
+      />
+      <div className="page-progression">
+        <button
+          type="button"
+          className="back-button"
+          onClick={() => {
+            props.history.push("/entity")
+          }}
+        >
+          Back
+        </button>
+        <button type="button" className="confirm-button" disabled>
+          Confirm
+        </button>
+      </div>
     </div>
   )
 }
