@@ -9,13 +9,12 @@ import PropTypes from "prop-types"
  * @param {func} customBodyRowProps func represent custom func that return key props for the table row (required)
  * @returns {JSX} renders a custom table body for table
  */
-const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowProps }) => {
+const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowProps, order, orderBy,getComparator, stableSort }) => {
   return (
       <TableBody>
-        {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row, rowIndex) => {
+        {stableSort(rows, getComparator(order, orderBy))
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((row, rowIndex) => {
             return (
               <TableRow key={customBodyRowProps(row)}>
                 {columns.map((column) => {
@@ -25,7 +24,8 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
                 })}
               </TableRow>
             )
-          })}
+          })
+        }
       </TableBody>
   )
 }

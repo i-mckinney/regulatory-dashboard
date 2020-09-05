@@ -5,6 +5,32 @@ import HelixTableHead from "./HelixTableHead"
 import HelixTableBody from "./HelixTableBody"
 import HelixTableFooter from "./HelixTableFooter"
 
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy)
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index])
+  stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+  })
+  return stabilizedThis.map((el) => el[0])
+}
+
 /**
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
  * @param {array} rows API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
@@ -19,10 +45,7 @@ const HelixTable = ({
   customCellRender,
   customHeadRowProps,
   customBodyRowProps,
-  visuallyHidden,
-  order,
-  orderBy,
-  onRequestSort,
+  initialiOrderBy,
   }) => {
   // Page is needed for pagination to determine the process of what page it is at
   const [page, setPage] = useState(0)
@@ -47,38 +70,21 @@ const HelixTable = ({
     setPage(0)
   }
 
-  function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1
-    }
-    return 0;
-  }
-  
-  function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy)
-  }
-  
-  function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index])
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    })
-    return stabilizedThis.map((el) => el[0])
+  const [order, setOrder] = useState('asc')
+  const [orderBy, setOrderBy] = useState(initialiOrderBy)
+
+  const onRequestSort = (property) => {
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
   }
 
   return (
     <div>
       <TableContainer component={Paper}>
         <Table aria-label="table">
-          <HelixTableHead visuallyHidden={visuallyHidden} order={order} orderBy={orderBy} onRequestSort={onRequestSort} columns={columns} customHeadRowProps={customHeadRowProps}/>
-          <HelixTableBody descendingComparator={descendingComparator} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowProps={customBodyRowProps}/>
+          <HelixTableHead order={order} orderBy={orderBy} onRequestSort={onRequestSort} columns={columns} customHeadRowProps={customHeadRowProps}/>
+          <HelixTableBody order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowProps={customBodyRowProps}/>
           <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
         </Table>
       </TableContainer>

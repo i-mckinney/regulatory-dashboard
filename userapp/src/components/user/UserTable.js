@@ -223,7 +223,7 @@ const UserTable = (props) => {
                     Create User
                 </Button>
             </div>
-            <HelixTable columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
+            <HelixTable initialiOrderBy={"FirstName"} columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
         </div>
     )
 }

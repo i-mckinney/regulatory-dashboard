@@ -22,7 +22,7 @@ const UserForm = ({ initialUser, onSubmit}) => {
     const [user, setUser] = useState(initialUser)
     
     // Perform error check for form validatation upon user data
-    const [errors, setErrors] = useState(initialUser)
+    // const [errors, setErrors] = useState(initialUser)
 
     // Creates an object for styling. Any className that matches key in the userFormStyles object will have a corresponding styling
     const userFormClasses = userFormStyles()
@@ -102,7 +102,7 @@ const UserForm = ({ initialUser, onSubmit}) => {
                         value={user.FirstName}
                         onChange={handleInputChange}
                     />
-                    {errors.FirstName.length > 0 && <span className='error'>{errors.FirstName}</span>}
+                    {/* {errors.FirstName.length > 0 && <span className='error'>{errors.FirstName}</span>} */}
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
@@ -111,7 +111,7 @@ const UserForm = ({ initialUser, onSubmit}) => {
                         value={user.LastName}
                         onChange={handleInputChange}
                     />
-                    {errors.LastName.length > 0 && <span className='error'>{errors.LastName}</span>}
+                    {/* {errors.LastName.length > 0 && <span className='error'>{errors.LastName}</span>} */}
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
@@ -120,7 +120,7 @@ const UserForm = ({ initialUser, onSubmit}) => {
                         value={user.DateOfBirth}
                         onChange={handleInputChange}
                     />
-                    {errors.DateOfBirth.length > 0 && <span className='error'>{errors.DateOfBirth}</span>}
+                    {/* {errors.DateOfBirth.length > 0 && <span className='error'>{errors.DateOfBirth}</span>} */}
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
@@ -129,7 +129,7 @@ const UserForm = ({ initialUser, onSubmit}) => {
                         value={user.Phone}
                         onChange={handleInputChange}
                     />
-                    {errors.Phone.length > 0 && <span className='error'>{errors.Phone}</span>}
+                    {/* {errors.Phone.length > 0 && <span className='error'>{errors.Phone}</span>} */}
                 </Grid>
                 <Grid item xs={6}>
                     <div>
