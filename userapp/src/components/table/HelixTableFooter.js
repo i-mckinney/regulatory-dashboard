@@ -1,6 +1,7 @@
 import React from 'react'
 import { TableFooter, TableRow } from '@material-ui/core'
 import HelixTablePagination from './HelixTablePagination'
+import PropTypes from "prop-types"
 
 /**
  * @param {array} rows API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
@@ -26,6 +27,15 @@ const HelixTableFooter = ({ rows, colSpan, rowsPerPage, page, handleChangePage, 
             </TableRow>
       </TableFooter>
     )
+}
+
+HelixTableFooter.propTypes = {
+    rows: PropTypes.instanceOf(Array).isRequired,
+    colSpan: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
+    page: PropTypes.number.isRequired,
+    handleChangePage: PropTypes.func.isRequired,
+    handleChangeRowsPerPage: PropTypes.func.isRequired,
 }
 
 export default HelixTableFooter

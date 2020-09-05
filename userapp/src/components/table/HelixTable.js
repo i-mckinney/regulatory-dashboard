@@ -5,38 +5,55 @@ import HelixTableHead from "./HelixTableHead"
 import HelixTableBody from "./HelixTableBody"
 import HelixTableFooter from "./HelixTableFooter"
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+/**
+ * 
+ * @param {object} self self object that contains column accessor 
+ * @param {object} other other object that contains column accessor
+ * @param {string} orderBy orderBy is a column accessor property
+ * @return {int} object "self" will compare with object "other" by ascii value of the column header
+ */
+function descendingComparator(self, other, orderBy) {
+  if (other[orderBy] < self[orderBy]) {
     return -1
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (other[orderBy] > self[orderBy]) {
     return 1
   }
   return 0;
 }
 
+/**
+ * @param {string} order string represents ascending or descending order
+ * @param {string} orderBy string represents a property of the column header 
+ */
 function getComparator(order, orderBy) {
   return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy)
+      ? (self, other) => descendingComparator(self, other, orderBy)
+      : (self, other) => -descendingComparator(self, other, orderBy)
 }
 
+/**
+ * @param {array} array the array that will be sorted
+ * @param {func} comparator func that has the rules of how to sort array by either ascending or descending 
+ * @return {array} return a new array of sorted items 
+ */
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
-  stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
+  const stabilizedThis = array.map((elem, index) => [elem, index])
+  stabilizedThis.sort((self, other) => {
+    const order = comparator(self[0], other[0]);
+    if (order !== 0) return order;
+    return self[1] - other[1];
   })
-  return stabilizedThis.map((el) => el[0])
+  return stabilizedThis.map((elem) => elem[0])
 }
 
 /**
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
  * @param {array} rows API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
- * @param {func} customCellRender func represent custom func that return jsx of table row of table cell values
- * @param {func} customHeadRowProps func represent custom func that return key props for table row in table head (required)
- * @param {func} customBodyRowProps func represent custom func that return key props for the table row in table body (required)
+ * @param {func} customCellRender func represents custom func that return jsx of table row of table cell values
+ * @param {func} customHeadRowProps func represents custom func that return key props for table row in table head (required)
+ * @param {func} customBodyRowProps func represents custom func that return key props for the table row in table body (required)
+ * @param {string} initialOrderBy string represents what the column in the table should order by initially
  * @returns {JSX} renders a custom table
  */
 const HelixTable = ({
@@ -45,7 +62,7 @@ const HelixTable = ({
   customCellRender,
   customHeadRowProps,
   customBodyRowProps,
-  initialiOrderBy,
+  initialOrderBy,
   }) => {
   // Page is needed for pagination to determine the process of what page it is at
   const [page, setPage] = useState(0)
@@ -70,10 +87,16 @@ const HelixTable = ({
     setPage(0)
   }
 
+  // order is a conditional string for ascending or descending order
   const [order, setOrder] = useState('asc')
-  const [orderBy, setOrderBy] = useState(initialiOrderBy)
 
-  const onRequestSort = (property) => {
+  // orderBy is a string to order by column in ascending or descending order
+  const [orderBy, setOrderBy] = useState(initialOrderBy)
+
+  /**
+   * @param {string} property the property is a column header
+   */
+  const onSort = (property) => {
     const isAsc = orderBy === property && order === 'asc'
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
@@ -83,7 +106,7 @@ const HelixTable = ({
     <div>
       <TableContainer component={Paper}>
         <Table aria-label="table">
-          <HelixTableHead order={order} orderBy={orderBy} onRequestSort={onRequestSort} columns={columns} customHeadRowProps={customHeadRowProps}/>
+          <HelixTableHead order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadRowProps={customHeadRowProps}/>
           <HelixTableBody order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowProps={customBodyRowProps}/>
           <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
         </Table>
@@ -93,11 +116,12 @@ const HelixTable = ({
 }
 
 HelixTable.propTypes = {
-  rows: PropTypes.instanceOf(Array).isRequired,
   columns: PropTypes.instanceOf(Array).isRequired,
+  rows: PropTypes.instanceOf(Array).isRequired,
   customCellRender: PropTypes.func.isRequired,
   customHeadRowProps: PropTypes.func.isRequired,
   customBodyRowProps: PropTypes.func.isRequired,
+  initialOrderBy: PropTypes.string.isRequired,
 }
 
 export default HelixTable

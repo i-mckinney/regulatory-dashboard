@@ -1,6 +1,7 @@
 import React from 'react'
 import { TablePagination } from '@material-ui/core'
 import HelixTablePaginationActions from './HelixTablePaginationActions'
+import PropTypes from "prop-types"
 
 /**
  * @param {array} rows API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
@@ -28,6 +29,15 @@ const HelixTablePagination = ({ rows, colSpan, rowsPerPage, page, handleChangePa
       ActionsComponent={HelixTablePaginationActions}
     />
   )
+}
+
+HelixTablePagination.propTypes = {
+  rows: PropTypes.instanceOf(Array).isRequired,
+  colSpan: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  handleChangePage: PropTypes.func.isRequired,
+  handleChangeRowsPerPage: PropTypes.func.isRequired,
 }
 
 export default HelixTablePagination
