@@ -41,7 +41,6 @@ function stableSort(array, comparator) {
   const stabilizedThis = array.map((elem, index) => [elem, index])
   stabilizedThis.sort((self, other) => {
     const order = comparator(self[0], other[0])
-    if (order !== 0) return order
     return order
   })
   return stabilizedThis.map((elem) => elem[0])
