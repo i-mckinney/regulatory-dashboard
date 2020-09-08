@@ -1,13 +1,29 @@
 import React, { useState } from 'react'
-import { makeStyles, Button, Grid }  from '@material-ui/core'
+import { makeStyles, Button, Grid, Typography }  from '@material-ui/core'
 import HelixTextField from '../controls/HelixTextField'
 
 // Styling used for MaterialUI
 const userFormStyles = makeStyles(() => ({
-    userForm: {
+    userFormStyle: {
         marginTop: '8rem',
         width: '50%',
         margin: 'auto',
+        boxShadow: '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)',
+        transition: 'box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1)',
+        display: 'block',
+        position: 'relative',
+        padding: '48px',
+        borderRadius: '4px',
+    },
+    buttonStyle: {
+        '& button': {
+            marginTop: '16px',
+            marginRight: '16px',
+        },
+        '& a': {
+            marginTop: '16px',
+            marginRight: '16px',
+        }
     },
 }));
 
@@ -17,7 +33,7 @@ const userFormStyles = makeStyles(() => ({
  * @return {JSX} UserForm site with input form to fill in
  * routed at /user/new
  */
-const UserForm = ({ initialUser, onSubmit}) => {
+const UserForm = ({ initialUser, header, onSubmit}) => {
     // Set user with preset empty data for user creation e.g. { FirstName: "", LastName: "", ...}
     const [user, setUser] = useState(initialUser)
     
@@ -35,49 +51,15 @@ const UserForm = ({ initialUser, onSubmit}) => {
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setUser({ ...user, [name]: value })
-        // validate(name, value)
+        validate(name, value)
     }
 
     /**
-     * TODO: Function will need to change
      * @param {string} name represent accessor of the object
      * @param {string} value represent the keyboard input value from the event object
      */
-    // const validate = (name, value) => {
-    //     switch(name) {
-    //         case "FirstName":
-    //             if(value.length > 3) {
-    //                 console.log("no name")
-    //                 setErrors({ ...user, [name]: ""})
-    //             } else {
-    //                 setErrors({ ...user, [name]: "First name cannot be empty"})
-    //             }
-    //             break
-    //         case "LastName":
-    //             if(value.length > 3) {
-    //                 setErrors({ ...user, [name]: ""})
-    //             } else {
-    //                 setErrors({ ...user, [name]: "Last name cannot be empty"})
-    //             }
-    //             break
-    //         case "DateOfBirth":
-    //             if(value.length === 8) {
-    //                 setErrors({ ...user, [name]: ""})
-    //             } else {
-    //                 setErrors({ ...user, [name]: "Date of Birth should be  MMDDYYYY"})
-    //             }
-    //             break
-    //         case "Phone":
-    //             if(value.length === 10) {
-    //                 setErrors({ ...user, [name]: ""})
-    //             } else {
-    //                 setErrors({ ...user, [name]: "Phone must have length of 10"})
-    //             }
-    //             break
-    //         default:
-    //             break
-    //     }
-    // }
+    const validate = (name, value) => {
+    }
 
     /**
      * @param {Object} event the event object 
@@ -90,65 +72,62 @@ const UserForm = ({ initialUser, onSubmit}) => {
 
     return (
     <div>
-        <form className={userFormClasses.userForm} autoComplete="off" onSubmit={onSubmitForm}>
+        <form className={userFormClasses.userFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
+            <Typography variant="h5" component="h2">{header}</Typography>
             <Grid container
-                direction="column"
-                justify="center"
-                alignItems="center">
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start"
+                spacing={1}>
                 <Grid item xs={6}>
                     <HelixTextField
-                        name='FirstName'
-                        label='First Name'
-                        value={user.FirstName}
-                        onChange={handleInputChange}
+                    name='FirstName'
+                    label='First Name'
+                    value={user.FirstName}
+                    onChange={handleInputChange}
                     />
-                    {errors.FirstName.length > 0 && <span className='error'>{errors.FirstName}</span>}
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
-                        name='LastName'
-                        label='Last Name'
-                        value={user.LastName}
-                        onChange={handleInputChange}
+                    name='LastName'
+                    label='Last Name'
+                    value={user.LastName}
+                    onChange={handleInputChange}
                     />
-                    {errors.LastName.length > 0 && <span className='error'>{errors.LastName}</span>}
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
-                        name='DateOfBirth'
-                        label='Date Of Birth'
-                        value={user.DateOfBirth}
-                        onChange={handleInputChange}
+                    name='DateOfBirth'
+                    label='Date Of Birth'
+                    value={user.DateOfBirth}
+                    onChange={handleInputChange}
                     />
-                    {errors.DateOfBirth.length > 0 && <span className='error'>{errors.DateOfBirth}</span>}
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
-                        name='Phone'
-                        label='Phone'
-                        value={user.Phone}
-                        onChange={handleInputChange}
+                    name='Phone'
+                    label='Phone'
+                    value={user.Phone}
+                    onChange={handleInputChange}
                     />
-                    {errors.Phone.length > 0 && <span className='error'>{errors.Phone}</span>}
                 </Grid>
-                <Grid item xs={6}>
-                    <div>
-                        <Button 
-                        color="primary" 
-                        variant="contained" 
-                        type="submit" 
-                        size="large">
-                            Save
-                        </Button>
-                        <Button
-                        color="default"
-                        variant="contained"
-                        type="cancel"
-                        size="large"
-                        href="/">
-                            Cancel
-                        </Button>
-                    </div>
+                <Grid item xs></Grid>
+                <Grid item xs={6} className={userFormClasses.buttonStyle}>
+                    <Button 
+                    color="primary" 
+                    variant="contained" 
+                    type="submit" 
+                    size="small">
+                        Save
+                    </Button>
+                    <Button
+                    color="default"
+                    variant="contained"
+                    type="cancel"
+                    size="small"
+                    href="/">
+                        Cancel
+                    </Button>
                 </Grid>
             </Grid>
         </form>
