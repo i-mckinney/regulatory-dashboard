@@ -26,7 +26,7 @@ const UserCreate = (props) => {
 
     return (
     <div>
-        <UserForm header="Create a User" initialUser={initialUser} onSubmit={onSubmit} />
+        <UserForm header="Create User" initialUser={initialUser} onSubmit={onSubmit} />
     </div>
     )
 }

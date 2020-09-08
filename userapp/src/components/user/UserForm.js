@@ -84,6 +84,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                     name='FirstName'
                     label='First Name'
                     value={user.FirstName}
+                    required={true}
                     onChange={handleInputChange}
                     />
                 </Grid>
@@ -92,6 +93,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                     name='LastName'
                     label='Last Name'
                     value={user.LastName}
+                    required={true}
                     onChange={handleInputChange}
                     />
                 </Grid>
