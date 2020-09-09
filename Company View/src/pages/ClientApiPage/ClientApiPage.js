@@ -42,6 +42,9 @@ const headCells = [
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
+/**
+ * @return {JSX} returns the Client API Page
+ */
 export default function ClientApiPage() {
   const useClientApiPageClasses = useClientApiPageStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
@@ -51,7 +54,8 @@ export default function ClientApiPage() {
       return items;
     },
   });
-  const [openPopup, setOpenPopup] = useState(false);
+  
+  const [openModal, setOpenModal] = useState(false);
 
   const {
     TblContainer,
@@ -78,13 +82,13 @@ export default function ClientApiPage() {
     else apiCallService.updateApiCall(apiCall);
     resetForm();
     setRecordForEdit(null);
-    setOpenPopup(false);
+    setOpenModal(false);
     setRecords(apiCallService.getAllApiCalls());
   };
 
   const openInPopup = (item) => {
     setRecordForEdit(item);
-    setOpenPopup(true);
+    setOpenModal(true);
   };
 
   return (
@@ -114,7 +118,7 @@ export default function ClientApiPage() {
             startIcon={<AddIcon />}
             className={useClientApiPageClasses.addButton}
             onClick={() => {
-              setOpenPopup(true);
+              setOpenModal(true);
               setRecordForEdit(null);
             }}
           />
@@ -149,8 +153,8 @@ export default function ClientApiPage() {
       </Paper>
       <ModalDialog
         title='Client API Form'
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
       >
         <ApiCallForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
       </ModalDialog>

@@ -12,6 +12,9 @@ const initialFValues = {
   requestDescription: '',
 };
 
+/**
+ * @return {JSX} returns a custom form constructed with individual form control components
+ */
 export default function ApiCallForm(props) {
   const { addOrEdit, recordForEdit } = props;
 
@@ -23,7 +26,7 @@ export default function ApiCallForm(props) {
         fieldValues.departmentId.length !== 0 ? '' : 'This field is required.';
     if ('requestName' in fieldValues)
       temp.requestName =
-        fieldValues.requestName.length > 3 ? '' : 'This field is required.';
+        fieldValues.requestName.length > 2 ? '' : 'This field is required.';
     setErrors({
       ...temp,
     });

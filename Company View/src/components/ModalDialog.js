@@ -20,13 +20,22 @@ const useModalDialogStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @return {JSX} returns a reusable Modal Dialog component
+ */
 export default function ModalDialog(props) {
-  const { title, children, openPopup, setOpenPopup } = props;
+  /** 
+   title: the title displayed at the top of the modal
+   children: stores any children components rendered inside the material ui Popup component
+   openModal: state variable 
+   setOpenModal: set function
+  */
+  const { title, children, openModal, setOpenModal } = props;
   const modalDialogClasses = useModalDialogStyles();
 
   return (
     <Dialog
-      open={openPopup}
+      open={openModal}
       maxWidth='md'
       modalDialogClasses={{ paper: modalDialogClasses.dialogWrapper }}
     >
@@ -38,7 +47,7 @@ export default function ModalDialog(props) {
           <Controls.ActionButton
             color='secondary'
             onClick={() => {
-              setOpenPopup(false);
+              setOpenModal(false);
             }}
           >
             <CloseIcon />

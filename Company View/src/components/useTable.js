@@ -19,6 +19,12 @@ const useTableStyles = makeStyles(theme => ({
     },
 }))
 
+/**
+ * @param {Array} records array of API records returned by the apiCallService
+ * @param {Array} headCells array of objects containing table header cell labels and id
+ * @param {Function} filterFn filter API records by call name
+ * @returns {JSX} Table with paging, sorting and filtering
+ */
 export default function useTable(records, headCells,filterFn) {
 
     const useTableClasses = useTableStyles();

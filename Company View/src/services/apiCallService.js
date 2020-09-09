@@ -3,6 +3,7 @@ const KEYS = {
   apiCallId: 'apiCallId',
 };
 
+// Provides ApiCallForm with available options for the Methods dropdown select menu
 export const getMethodCollection = () => [
   { id: '1', title: 'GET' },
   { id: '2', title: 'POST' },
@@ -10,6 +11,7 @@ export const getMethodCollection = () => [
   { id: '4', title: 'DELETE' },
 ];
 
+// Saving data from ApiCallForm in local storage until backend is set up
 export function addNewApiCall(data) {
   let apiCallList = getAllApiCalls();
   data['id'] = generateApiCallId();
@@ -17,6 +19,7 @@ export function addNewApiCall(data) {
   localStorage.setItem(KEYS.apiCallList, JSON.stringify(apiCallList));
 }
 
+// Updates API table records
 export function updateApiCall(data) {
   let apiCallList = getAllApiCalls();
   let recordIndex = apiCallList.findIndex((x) => x.id === data.id);
@@ -32,11 +35,11 @@ export function generateApiCallId() {
   return id;
 }
 
+// Retrieves all of the API request records that have been stored 
 export function getAllApiCalls() {
   if (localStorage.getItem(KEYS.apiCallList) == null)
     localStorage.setItem(KEYS.apiCallList, JSON.stringify([]));
   let apiCallList = JSON.parse(localStorage.getItem(KEYS.apiCallList));
-  //map method id to method title
   let apiMethods = getMethodCollection();
   return apiCallList.map((x) => ({
     ...x,

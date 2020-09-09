@@ -23,27 +23,25 @@ const pageHeaderStyles = makeStyles(theme => ({
     }
 }))
 
+/**
+ * @return {JSX} returns a reusable header component
+ */
 export default function PageHeader(props) {
-
-    const pageHeaderClasses = pageHeaderStyles();
-    const { title, subTitle, icon } = props;
-    return (
-        <Paper elevation={0} square className={pageHeaderClasses.root}>
-            <div className={pageHeaderClasses.pageHeader}>
-                <Card className={pageHeaderClasses.pageIcon}>
-                    {icon}
-                </Card>
-                <div className={pageHeaderClasses.pageTitle}>
-                    <Typography
-                        variant="h6"
-                        component="div">
-                        {title}</Typography>
-                    <Typography
-                        variant="subtitle2"
-                        component="div">
-                        {subTitle}</Typography>
-                </div>
-            </div>
-        </Paper>
-    )
+  const pageHeaderClasses = pageHeaderStyles();
+  const { title, subTitle, icon } = props;
+  return (
+    <Paper elevation={0} square className={pageHeaderClasses.root}>
+      <div className={pageHeaderClasses.pageHeader}>
+        <Card className={pageHeaderClasses.pageIcon}>{icon}</Card>
+        <div className={pageHeaderClasses.pageTitle}>
+          <Typography variant='h6' component='div'>
+            {title}
+          </Typography>
+          <Typography variant='subtitle2' component='div'>
+            {subTitle}
+          </Typography>
+        </div>
+      </div>
+    </Paper>
+  );
 }

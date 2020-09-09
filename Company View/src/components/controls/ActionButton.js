@@ -1,7 +1,9 @@
 import React from 'react'
 import { Button, makeStyles } from '@material-ui/core';
 
-
+/**
+ * @return {JSX} returns a reusable button form control component
+ */
 const useActionButtonStyles = makeStyles(theme => ({
     root: {
         minWidth: 0,
