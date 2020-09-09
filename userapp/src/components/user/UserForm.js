@@ -1,4 +1,4 @@
-import React, { useState, useDebugValue } from 'react'
+import React, { useState } from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import HelixTextField from '../controls/HelixTextField'
 import HelixButton from '../controls/HelixButton'
@@ -114,17 +114,9 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     }
 
     /**
-     * @param {bool} error a boolean true or false to declare the text field to have an error
      * @param {string} name the form control name 
      * @param {string} label the form control label
-     * @param {string} value the form control value
-     * @param {bool} required text field required to have text
      * @param {string} placeholder a text in the textfield with default value as a placeholder
-     * @param {string} helperText a label that can provide content in the UI
-     * @param {func} onChange the function called on form change detection
-     * @param {object} InputLabelProps the properties of input label (e.g. label size)
-     * @param {object} inputProps the properties of input (e.g. length of input text)
-     * @param {string} type the type of component TextField (e.g. date)
      */
     const setNameHelixTextField = (name, label, placeholder) => {
         console.log(user)
