@@ -72,7 +72,7 @@ export default function EmployeeForm(props) {
             label='METHOD'
             value={values.departmentId}
             onChange={handleInputChange}
-            options={employeeService.getDepartmentCollection()}
+            options={employeeService.getMethodCollection()}
             error={errors.departmentId}
           />
           <Controls.Input
@@ -98,7 +98,11 @@ export default function EmployeeForm(props) {
           />
           <div>
             <Controls.Button type='submit' text='Save' />
-            <Controls.Button text='Cancel' color='default' onClick={resetForm} />
+            <Controls.Button
+              text='Cancel'
+              color='default'
+              onClick={resetForm}
+            />
           </div>
         </Grid>
       </Grid>
