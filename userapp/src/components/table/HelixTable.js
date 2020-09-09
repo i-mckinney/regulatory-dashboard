@@ -1,9 +1,11 @@
 import React, { useState } from "react"
-import { Paper, TableContainer, Table } from "@material-ui/core"
+import { Paper, TableContainer, Table, Toolbar, InputAdornment } from "@material-ui/core"
 import PropTypes from "prop-types"
 import HelixTableHead from "./HelixTableHead"
 import HelixTableBody from "./HelixTableBody"
 import HelixTableFooter from "./HelixTableFooter"
+import HelixTextField from "../controls/HelixTextField"
+import SearchIcon from '@material-ui/icons/Search';
 
 /**
  * 
@@ -101,12 +103,37 @@ const HelixTable = ({
     setOrderBy(property)
   }
 
+  const [searchFilter, setSearchFilter] = useState({ fn: (items) => { return items }})
+  
+  const onSearch = (event) => {
+    const { value } = event.target
+    setSearchFilter({ fn: (items) => {
+        if (value === '') return items
+        else
+          return items.filter((item) =>
+            item.FirstName.toLowerCase().includes(value)
+      )}
+    })
+  }
   return (
     <div>
+      <Toolbar disableGutters>
+        <HelixTextField
+        label="Search User"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <SearchIcon />
+            </InputAdornment>
+          )
+        }}
+        onChange={onSearch}
+        />
+      </Toolbar>
       <TableContainer component={Paper}>
         <Table aria-label="table">
           <HelixTableHead order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadRowProps={customHeadRowProps}/>
-          <HelixTableBody order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowProps={customBodyRowProps}/>
+          <HelixTableBody searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowProps={customBodyRowProps}/>
           <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
         </Table>
       </TableContainer>

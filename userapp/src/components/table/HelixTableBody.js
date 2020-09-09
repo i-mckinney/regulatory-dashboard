@@ -15,15 +15,15 @@ import PropTypes from "prop-types"
  * @param {func} stableSort func that uses getComparator to sort it in order
  * @returns {JSX} renders a custom table body for table
  */
-const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowProps, order, orderBy, getComparator, stableSort }) => {
+const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowProps, order, orderBy, getComparator, stableSort, searchFilter }) => {
   
   //If rowsPerPage is always greater than 0, then we sort the rows by indicating column
   //and display rowsPerPage by each page
   //Else display all the sorted rows order by indicating columns
   const sortedRows = (rowsPerPage > 0 
-    ? stableSort(rows, getComparator(order, orderBy))
+    ? stableSort(searchFilter.fn(rows), getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    : stableSort(rows, getComparator(order, orderBy))
+    : stableSort(searchFilter.fn(rows), getComparator(order, orderBy))
   )
 
   return (
