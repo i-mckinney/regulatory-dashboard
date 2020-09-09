@@ -12,7 +12,7 @@ import {
   InputAdornment,
 } from '@material-ui/core';
 import useTable from '../../components/useTable';
-import * as employeeService from '../../services/employeeService';
+import * as apiCallService from '../../services/apiCallService';
 import Controls from '../../components/controls/Controls';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
@@ -45,7 +45,7 @@ const headCells = [
 export default function ClientApiPage() {
   const useClientApiPageClasses = useClientApiPageStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
-  const [records, setRecords] = useState(employeeService.getAllApiCalls());
+  const [records, setRecords] = useState(apiCallService.getAllApiCalls());
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -74,12 +74,12 @@ export default function ClientApiPage() {
   };
 
   const addOrEdit = (employee, resetForm) => {
-    if (employee.id == 0) employeeService.addNewApiCall(employee);
-    else employeeService.updateApiCall(employee);
+    if (employee.id == 0) apiCallService.addNewApiCall(employee);
+    else apiCallService.updateApiCall(employee);
     resetForm();
     setRecordForEdit(null);
     setOpenPopup(false);
-    setRecords(employeeService.getAllApiCalls());
+    setRecords(apiCallService.getAllApiCalls());
   };
 
   const openInPopup = (item) => {
