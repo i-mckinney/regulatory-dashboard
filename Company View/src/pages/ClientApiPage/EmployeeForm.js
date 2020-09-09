@@ -6,14 +6,10 @@ import * as employeeService from '../../services/employeeService';
 
 const initialFValues = {
   id: 0,
-  fullName: '',
-  email: '',
-  mobile: '',
-  city: '',
-  gender: 'male',
+  requestDescription: '',
+  requestName: '',
+  requestUrl: '',
   departmentId: '',
-  hireDate: new Date(),
-  isPermanent: false,
 };
 
 export default function EmployeeForm(props) {
@@ -21,15 +17,17 @@ export default function EmployeeForm(props) {
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ('fullName' in fieldValues)
-      temp.fullName = fieldValues.fullName ? '' : 'This field is required.';
-    if ('email' in fieldValues)
-      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
+    if ('requestDescription' in fieldValues)
+      temp.requestDescription = fieldValues.requestDescription
+        ? ''
+        : 'This field is required.';
+    if ('requestName' in fieldValues)
+      temp.requestName = /$^|.+@.+..+/.test(fieldValues.requestName)
         ? ''
         : 'Email is not valid.';
-    if ('mobile' in fieldValues)
-      temp.mobile =
-        fieldValues.mobile.length > 9 ? '' : 'Minimum 10 numbers required.';
+    if ('requestUrl' in fieldValues)
+      temp.requestUrl =
+        fieldValues.requestUrl.length > 9 ? '' : 'Minimum 10 numbers required.';
     if ('departmentId' in fieldValues)
       temp.departmentId =
         fieldValues.departmentId.length != 0 ? '' : 'This field is required.';
@@ -76,25 +74,25 @@ export default function EmployeeForm(props) {
             error={errors.departmentId}
           />
           <Controls.Input
-            name='fullName'
+            name='requestDescription'
             label='Request Name'
-            value={values.fullName}
+            value={values.requestDescription}
             onChange={handleInputChange}
-            error={errors.fullName}
+            error={errors.requestDescription}
           />
           <Controls.Input
             label='Request URL'
-            name='email'
-            value={values.email}
+            name='requestName'
+            value={values.requestName}
             onChange={handleInputChange}
-            error={errors.email}
+            error={errors.requestName}
           />
           <Controls.Input
             label='Description'
-            name='mobile'
-            value={values.mobile}
+            name='requestUrl'
+            value={values.requestUrl}
             onChange={handleInputChange}
-            error={errors.mobile}
+            error={errors.requestUrl}
           />
           <div>
             <Controls.Button type='submit' text='Save' />

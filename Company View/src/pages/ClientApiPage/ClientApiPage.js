@@ -20,7 +20,7 @@ import ModalDialog from '../../components/ModalDialog';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 
-const useStyles = makeStyles((theme) => ({
+const useClientApiPageStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
@@ -36,14 +36,14 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'apiMethod', label: 'METHOD' },
-  { id: 'email', label: 'Request Name' },
-  { id: 'mobile', label: 'Request URL' },
-  { id: 'fullName', label: 'Description' },
+  { id: 'requestName', label: 'Request Name' },
+  { id: 'requestUrl', label: 'Request URL' },
+  { id: 'requestDescription', label: 'Description' },
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
 export default function ClientApiPage() {
-  const classes = useStyles();
+  const useClientApiPageClasses = useClientApiPageStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [records, setRecords] = useState(employeeService.getAllApiCalls());
   const [filterFn, setFilterFn] = useState({
@@ -67,7 +67,7 @@ export default function ClientApiPage() {
         if (target.value == '') return items;
         else
           return items.filter((x) =>
-            x.fullName.toLowerCase().includes(target.value)
+            x.requestDescription.toLowerCase().includes(target.value)
           );
       },
     });
@@ -89,7 +89,7 @@ export default function ClientApiPage() {
 
   return (
     <React.Fragment>
-      <Paper className={classes.pageContent}>
+      <Paper className={useClientApiPageClasses.pageContent}>
         <PageHeader
           title='Client API Page'
           subTitle='Add new and edit existing API call requests'
@@ -98,7 +98,7 @@ export default function ClientApiPage() {
         <Toolbar>
           <Controls.Input
             label='Search API call list'
-            className={classes.searchInput}
+            className={useClientApiPageClasses.searchInput}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -112,7 +112,7 @@ export default function ClientApiPage() {
             text='Add New'
             variant='outlined'
             startIcon={<AddIcon />}
-            className={classes.addButton}
+            className={useClientApiPageClasses.addButton}
             onClick={() => {
               setOpenPopup(true);
               setRecordForEdit(null);
@@ -124,9 +124,9 @@ export default function ClientApiPage() {
           <TableBody>
             {recordsAfterPagingAndSorting().map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{item.fullName}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{item.mobile}</TableCell>
+                <TableCell>{item.requestDescription}</TableCell>
+                <TableCell>{item.requestName}</TableCell>
+                <TableCell>{item.requestUrl}</TableCell>
                 <TableCell>{item.apiMethod}</TableCell>
                 <TableCell>
                   <Controls.ActionButton
