@@ -38,7 +38,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     const [user, setUser] = useState(initialUser)
     
     // Perform error check for form validatation upon user data
-    const [errors, setErrors] = useState(initialUser)
+    const [error, setErrors] = useState(initialUser)
 
     // Creates an object for styling. Any className that matches key in the userFormStyles object will have a corresponding styling
     const userFormClasses = userFormStyles()
@@ -59,6 +59,42 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
      * @param {string} value represent the keyboard input value from the event object
      */
     const validate = (name, value) => {
+        switch(name) {
+            case "FirstName":
+                if(value.length === 0) {
+                    setErrors({ ...error, [name]: "First Name cannot be empty" })
+                }
+                else {
+                    setErrors({ ...error, [name]: "" })
+                }
+                break
+            case "LastName":
+                if(value.length === 0) {
+                    setErrors({ ...error, [name]: "Last Name cannot be empty" })
+                }
+                else {
+                    setErrors({ ...error, [name]: "" })
+                }
+                break
+            case "DateOfBirth":
+                if(0 < value.length && value.length < 10) {
+                    setErrors({ ...error, [name]: "MM/DD/YYYY" })
+                }
+                else {
+                    setErrors({ ...error, [name]: "" })
+                }
+                break
+            case "Phone":
+                if(0 < value.length && value.length < 12) {
+                    setErrors({ ...error, [name]: "Invalid format: ###-###-####" })
+                }
+                else {
+                    setErrors({ ...error, [name]: "" })
+                }
+                break
+            default:
+                break
+        }
     }
 
     /**
@@ -81,35 +117,45 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 spacing={1}>
                 <Grid item xs={6}>
                     <HelixTextField
+                    error={error.FirstName.length !== 0}
                     name='FirstName'
                     label='First Name'
                     value={user.FirstName}
                     required={true}
+                    placeholder="John"
+                    helperText={error.FirstName}
                     onChange={handleInputChange}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
+                    error={error.LastName.length !== 0}
                     name='LastName'
                     label='Last Name'
                     value={user.LastName}
                     required={true}
+                    placeholder="Doe"
+                    helperText={error.LastName}
                     onChange={handleInputChange}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
+                    error={error.DateOfBirth.length > 0}
                     name='DateOfBirth'
                     label='Date Of Birth'
                     value={user.DateOfBirth}
+                    helperText={error.DateOfBirth}
                     onChange={handleInputChange}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
+                    error={error.Phone.length > 0}
                     name='Phone'
                     label='Phone'
                     value={user.Phone}
+                    helperText={error.Phone}
                     onChange={handleInputChange}
                     />
                 </Grid>
