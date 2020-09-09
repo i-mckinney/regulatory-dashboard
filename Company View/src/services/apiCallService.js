@@ -19,7 +19,7 @@ export function addNewApiCall(data) {
 
 export function updateApiCall(data) {
   let apiCallList = getAllApiCalls();
-  let recordIndex = apiCallList.findIndex((x) => x.id == data.id);
+  let recordIndex = apiCallList.findIndex((x) => x.id === data.id);
   apiCallList[recordIndex] = { ...data };
   localStorage.setItem(KEYS.apiCallList, JSON.stringify(apiCallList));
 }

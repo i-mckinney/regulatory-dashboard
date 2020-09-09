@@ -64,7 +64,7 @@ export default function ClientApiPage() {
     let target = e.target;
     setFilterFn({
       fn: (items) => {
-        if (target.value == '') return items;
+        if (target.value === '') return items;
         else
           return items.filter((x) =>
             x.requestDescription.toLowerCase().includes(target.value)
@@ -74,7 +74,7 @@ export default function ClientApiPage() {
   };
 
   const addOrEdit = (apiCall, resetForm) => {
-    if (apiCall.id == 0) apiCallService.addNewApiCall(apiCall);
+    if (apiCall.id === 0) apiCallService.addNewApiCall(apiCall);
     else apiCallService.updateApiCall(apiCall);
     resetForm();
     setRecordForEdit(null);
