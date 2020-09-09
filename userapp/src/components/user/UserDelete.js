@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, Button, Modal } from '@material-ui/core';
+import { makeStyles, Modal } from '@material-ui/core';
+import HelixButton from '../controls/HelixButton'
 
 // Styling used for MaterialUI
 const userDeleteStyles = makeStyles(() => ({
@@ -67,13 +68,13 @@ const UserDelete = (props) => {
     
     const body = (
         <div className={userDeleteClasses.paper}>
-          <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete TODO: Replace with Username ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
+          <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
           <div className={userDeleteClasses.content} id="simple-modal-description">
             {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
           </div>
           <div className={userDeleteClasses.actions}>
-            <Button size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE", payload: props.location.state.ID} }))} variant="contained" color="secondary">Delete</Button>
-            <Button size="medium" className={userDeleteClasses.uiButton} href="/" variant="contained" color="default">Cancel</Button>
+            <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE", payload: props.location.state.ID} }))} variant="contained" color="secondary">Delete</HelixButton>
+            <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/" variant="contained" color="default">Cancel</HelixButton>
           </div>
         </div>
       )

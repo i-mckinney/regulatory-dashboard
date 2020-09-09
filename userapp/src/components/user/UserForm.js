@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { makeStyles, Button, Grid, Typography }  from '@material-ui/core'
+import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import HelixTextField from '../controls/HelixTextField'
+import HelixButton from '../controls/HelixButton'
 
 // Styling used for MaterialUI
 const userFormStyles = makeStyles(() => ({
@@ -55,35 +56,40 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     /**
      * @param {Object} event the event object
      * name: the name property on the target text field element
-     * value: the value property on the target text field element
+     * value: the value property on the target text field element as user input text
      */
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setUser({ ...user, [name]: value })
-        validate(name, value)
+        validation(name, value)
+    }
+
+    /**
+     * 
+     * @param {string} name  the name property on the target text field element
+     * @param {string} value the value property on the target text field element as user input text
+     * @param {string} label the label is used for logging errors
+     */
+    const validateName = (name, value, label) => {
+        if(value.length === 0) {
+            setError({ ...error, [name]: `${label} cannot be empty` })
+        }
+        else {
+            setError({ ...error, [name]: "" })
+        }
     }
 
     /**
      * @param {string} name represent accessor of the object
      * @param {string} value represent the keyboard input value from the event object
      */
-    const validate = (name, value) => {
+    const validation = (name, value) => {
         switch(name) {
             case "FirstName":
-                if(value.length === 0) {
-                    setError({ ...error, [name]: "First Name cannot be empty" })
-                }
-                else {
-                    setError({ ...error, [name]: "" })
-                }
+                validateName(name, value, "First Name")
                 break
             case "LastName":
-                if(value.length === 0) {
-                    setError({ ...error, [name]: "Last Name cannot be empty" })
-                }
-                else {
-                    setError({ ...error, [name]: "" })
-                }
+                validateName(name, value, "Last Name")
                 break
             case "Phone":
                 if(0 < value.length && value.length < 10) {
@@ -107,6 +113,37 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         onSubmit(user);
     }
 
+    /**
+     * @param {bool} error a boolean true or false to declare the text field to have an error
+     * @param {string} name the form control name 
+     * @param {string} label the form control label
+     * @param {string} value the form control value
+     * @param {bool} required text field required to have text
+     * @param {string} placeholder a text in the textfield with default value as a placeholder
+     * @param {string} helperText a label that can provide content in the UI
+     * @param {func} onChange the function called on form change detection
+     * @param {object} InputLabelProps the properties of input label (e.g. label size)
+     * @param {object} inputProps the properties of input (e.g. length of input text)
+     * @param {string} type the type of component TextField (e.g. date)
+     */
+    const setHelixTextField = (error, name, label, value, required, placeholder, helperText, onChange, InputLabelProps = {}, inputProps = {}, type = "") => {
+        return (
+            <HelixTextField
+            error={error}
+            name={name}
+            type={type}
+            label={label}
+            value={value}
+            required={required}
+            placeholder={placeholder}
+            helperText={helperText}
+            onChange={onChange}
+            InputLabelProps={InputLabelProps}
+            inputProps={inputProps}
+            />
+        )
+    }
+
     return (
     <div>
         <form className={userFormClasses.userFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
@@ -117,68 +154,34 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 alignItems="flex-start"
                 spacing={1}>
                 <Grid item xs={6}>
-                    <HelixTextField
-                    error={error.FirstName.length !== 0}
-                    name='FirstName'
-                    label='First Name'
-                    value={user.FirstName}
-                    required={true}
-                    placeholder="John"
-                    helperText={error.FirstName}
-                    onChange={handleInputChange}
-                    />
+                    {setHelixTextField(error.FirstName.length !== 0, "FirstName", "First Name", user.FirstName, true, "Joe", error.FirstName, handleInputChange, {}, { maxLength: 26 })}
                 </Grid>
                 <Grid item xs={6}>
-                    <HelixTextField
-                    error={error.LastName.length !== 0}
-                    name='LastName'
-                    label='Last Name'
-                    value={user.LastName}
-                    required={true}
-                    placeholder="Doe"
-                    helperText={error.LastName}
-                    onChange={handleInputChange}
-                    />
+                    {setHelixTextField(error.LastName.length !== 0, "LastName", "Last Name", user.LastName, true, "Doe", error.LastName, handleInputChange, {}, { maxLength: 26 })}
                 </Grid>
                 <Grid item xs={6}>
-                    <HelixTextField
-                    name='DateOfBirth'
-                    label='Date Of Birth'
-                    type="date"
-                    value={user.DateOfBirth}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={handleInputChange}
-                    />
+                    {setHelixTextField(false, "DateOfBirth", "Date Of Birth", user.DateOfBirth, false, "", "", handleInputChange, { shrink: true }, {}, "date")}
                 </Grid>
-                {error.DateOfBirth.length > 0 && <span className='error'>{error.DateOfBirth}</span>}
                 <Grid item xs={6}>
-                    <HelixTextField
-                    error={error.Phone.length > 0}
-                    name='Phone'
-                    label='Phone'
-                    value={user.Phone}
-                    helperText={error.Phone}
-                    onChange={handleInputChange}
-                    inputProps={{ maxLength: 10 }}
-                    />
+                    {setHelixTextField(error.Phone.length > 0, "Phone", "Phone", user.Phone, false, "", error.Phone, handleInputChange, {}, { maxLength: 10 })}
                 </Grid>
                 <Grid item xs></Grid>
                 <Grid item xs={6} className={userFormClasses.buttonStyle}>
-                    <Button 
+                    <HelixButton 
                     color="primary" 
                     variant="contained" 
                     type="submit" 
                     size="small">
                         Save
-                    </Button>
-                    <Button
+                    </HelixButton>
+                    <HelixButton
                     color="default"
                     variant="contained"
                     type="cancel"
                     size="small"
                     href="/">
                         Cancel
-                    </Button>
+                    </HelixButton>
                 </Grid>
             </Grid>
         </form>

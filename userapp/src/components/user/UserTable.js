@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import HelixTable from "../table/HelixTable"
-import { makeStyles, Button, Typography, TableCell } from '@material-ui/core'
+import { makeStyles, Typography, TableCell } from '@material-ui/core'
+import HelixButton from '../controls/HelixButton'
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -15,7 +18,6 @@ const userTableStyles = makeStyles(() => ({
             display: 'table',
             borderTopRightRadius: '4px',
             borderTopLeftRadius: '4px',
-            borderCollapse: 'separate',
             boxSizing: 'border-box',
             borderSpacing: '2px',
             borderColor: 'grey',
@@ -55,7 +57,14 @@ const userTableStyles = makeStyles(() => ({
     },
     header: {
         paddingBottom: '2rem',
-    }
+    },
+    iconStyle: {
+        '& svg': {
+            marginRight: '1rem',
+            cursor: 'pointer',
+        },
+        
+    },
 }))
 
 /**
@@ -86,13 +95,9 @@ const UserTable = (props) => {
             ID: "Phone",
         },
         {
-            Label: "",
-            ID: "EditButton",
+            Label: "Actions",
+            ID: "Actions",
         },
-        {
-            Label: "",
-            ID: "DeleteButton",
-        }
     ], [])
 
     // Data Processed from API Results
@@ -178,17 +183,11 @@ const UserTable = (props) => {
      */
     const customCellRender = (rowIndex, row, column) => {
         const columnID = column.ID
-        if (columnID === "EditButton") {
+        if (columnID === "Actions") {
             return (
-                <TableCell key={`${rowIndex} ${columnID}`}>
-                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} variant="contained" color="default">Edit</Button>
-                </TableCell>
-            )
-        }
-        else if(columnID === "DeleteButton") {
-            return (
-                <TableCell key={`${rowIndex} ${columnID}`}>
-                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete</Button>
+                <TableCell className={userTableClasses.iconStyle} key={`${rowIndex} ${columnID}`}>
+                    <EditIcon role="button" size="medium" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} />
+                    <DeleteIcon role="button" size="medium" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} />
                 </TableCell>
             )
         }
@@ -222,9 +221,9 @@ const UserTable = (props) => {
         <div className={userTableClasses.mediumContainer}>
             <div className={userTableClasses.header}>
                 <Typography variant="h5">Users</Typography>
-                <Button className={userTableClasses.floatRight} size="small" href="/user/new" variant="contained" color="primary">
+                <HelixButton className={userTableClasses.floatRight} size="small" href="/user/new" variant="contained" color="primary">
                     Create User
-                </Button>
+                </HelixButton>
             </div>
             <HelixTable initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
         </div>
