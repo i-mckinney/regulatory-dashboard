@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'department', label: 'METHOD' },
+  { id: 'apiMethod', label: 'METHOD' },
   { id: 'email', label: 'Request Name' },
   { id: 'mobile', label: 'Request URL' },
   { id: 'fullName', label: 'Description' },
@@ -127,7 +127,7 @@ export default function Employees() {
                 <TableCell>{item.fullName}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>{item.mobile}</TableCell>
-                <TableCell>{item.department}</TableCell>
+                <TableCell>{item.apiMethod}</TableCell>
                 <TableCell>
                   <Controls.ActionButton
                     color='primary'
