@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { useForm, Form } from '../../components/useForm';
 import Controls from '../../components/controls/Controls';
-import * as newRequestService from '../../services/newRequestService';
+import * as apiRequestService from '../../services/apiRequestService';
 
 const initialFieldValues = {
   id: 0,
@@ -32,16 +32,14 @@ const buttonStyle = {
  * @return {JSX} returns a custom form constructed with individual form control components
  */
 export default function AddRequestForm() {
-  const { values, handleInputChange, resetForm } = useForm(
-    initialFieldValues
-  );
+  const { values, handleInputChange, resetForm } = useForm(initialFieldValues);
 
   /**
    * @param {Object} e the submit event object
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    newRequestService.addNewApiRequest(values);
+    apiRequestService.insertEmployee(values);
   };
 
   return (
@@ -65,7 +63,7 @@ export default function AddRequestForm() {
             label='Method'
             value={values.requestMethod}
             onChange={handleInputChange}
-            options={newRequestService.getRequestMethods()}
+            options={apiRequestService.getAllEmployees()}
           />
           <Controls.Input
             name='requestUrl'
