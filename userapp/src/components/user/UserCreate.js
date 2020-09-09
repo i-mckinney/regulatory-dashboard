@@ -9,7 +9,7 @@ const initialUser = {
     LastName: "",
     DateOfBirth: "",
     Phone: "",
-  }
+}
 
 /**
  * @param {Object} props Using the history property to route next component with data state

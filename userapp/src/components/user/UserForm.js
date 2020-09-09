@@ -27,8 +27,17 @@ const userFormStyles = makeStyles(() => ({
     },
 }));
 
+//Used to perform error checks for validation
+const userError = {
+    FirstName: "",
+    LastName: "",
+    DateOfBirth: "",
+    Phone: "",
+}
+
 /**
  * @param {object} initialUser represent preset empty user data object
+ * @param {string} header represent the header title of this form
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
  * @return {JSX} UserForm site with input form to fill in
  * routed at /user/new
@@ -38,7 +47,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     const [user, setUser] = useState(initialUser)
     
     // Perform error check for form validatation upon user data
-    const [error, setErrors] = useState(initialUser)
+    const [error, setErrors] = useState(userError)
 
     // Creates an object for styling. Any className that matches key in the userFormStyles object will have a corresponding styling
     const userFormClasses = userFormStyles()
@@ -76,17 +85,9 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                     setErrors({ ...error, [name]: "" })
                 }
                 break
-            case "DateOfBirth":
-                if(0 < value.length && value.length < 10) {
-                    setErrors({ ...error, [name]: "MM/DD/YYYY" })
-                }
-                else {
-                    setErrors({ ...error, [name]: "" })
-                }
-                break
             case "Phone":
-                if(0 < value.length && value.length < 12) {
-                    setErrors({ ...error, [name]: "Invalid format: ###-###-####" })
+                if(0 < value.length && value.length < 10) {
+                    setErrors({ ...error, [name]: "Must be length of 10" })
                 }
                 else {
                     setErrors({ ...error, [name]: "" })
@@ -141,14 +142,15 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 </Grid>
                 <Grid item xs={6}>
                     <HelixTextField
-                    error={error.DateOfBirth.length > 0}
                     name='DateOfBirth'
                     label='Date Of Birth'
+                    type="date"
                     value={user.DateOfBirth}
-                    helperText={error.DateOfBirth}
+                    InputLabelProps={{ shrink: true }}
                     onChange={handleInputChange}
                     />
                 </Grid>
+                {error.DateOfBirth.length > 0 && <span className='error'>{error.DateOfBirth}</span>}
                 <Grid item xs={6}>
                     <HelixTextField
                     error={error.Phone.length > 0}
@@ -157,6 +159,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                     value={user.Phone}
                     helperText={error.Phone}
                     onChange={handleInputChange}
+                    inputProps={{ maxLength: 10 }}
                     />
                 </Grid>
                 <Grid item xs></Grid>
