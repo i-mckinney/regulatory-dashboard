@@ -4,10 +4,10 @@ const KEYS = {
 }
 
 export const getDepartmentCollection = () => ([
-    { id: '1', title: 'Development' },
-    { id: '2', title: 'Marketing' },
-    { id: '3', title: 'Accounting' },
-    { id: '4', title: 'HR' },
+    { id: '1', title: 'GET' },
+    { id: '2', title: 'POST' },
+    { id: '3', title: 'PUT' },
+    { id: '4', title: 'DELETE' },
 ])
 
 export function insertEmployee(data) {

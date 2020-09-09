@@ -138,7 +138,7 @@ export default function Employees() {
           <TblPagination />
         </Paper>
         <Popup
-          title='Employee Form'
+          title='Client API Form'
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
