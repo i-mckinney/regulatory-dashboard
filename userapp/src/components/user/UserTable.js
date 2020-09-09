@@ -215,6 +215,9 @@ const UserTable = (props) => {
         return row.ID
     }
 
+    // Initially, we can start the table to order by First Name, ascending order
+    const initialOrderBy = "FirstName"
+
     return (
         <div className={userTableClasses.mediumContainer}>
             <div className={userTableClasses.header}>
@@ -223,7 +226,7 @@ const UserTable = (props) => {
                     Create User
                 </Button>
             </div>
-            <HelixTable columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
+            <HelixTable initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
         </div>
     )
 }

@@ -7,6 +7,7 @@ import LastPageIcon from '@material-ui/icons/LastPage'
 import { makeStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
+// Styling used for MaterialUI
 const tablePaginationActionsStyles = makeStyles(() => ({
   paginationButton: {
     flexShrink: 0,
@@ -22,6 +23,7 @@ const tablePaginationActionsStyles = makeStyles(() => ({
  * @returns {JSX} renders a custom table pagination actions for table
  */
 const HelixTablePaginationActions = ({ count, page, rowsPerPage, onChangePage }) => {
+  // Creates an object for styling. Any className that matches key in the tablePaginationActionsStyles object will have a corresponding styling
   const tablePaginationActionsClasses = tablePaginationActionsStyles()
   
   /**
@@ -88,9 +90,9 @@ const HelixTablePaginationActions = ({ count, page, rowsPerPage, onChangePage })
 
 HelixTablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
 }
 
 export default HelixTablePaginationActions

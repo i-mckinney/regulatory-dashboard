@@ -47,7 +47,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     const [user, setUser] = useState(initialUser)
     
     // Perform error check for form validatation upon user data
-    const [error, setErrors] = useState(userError)
+    const [error, setError] = useState(userError)
 
     // Creates an object for styling. Any className that matches key in the userFormStyles object will have a corresponding styling
     const userFormClasses = userFormStyles()
@@ -71,26 +71,26 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         switch(name) {
             case "FirstName":
                 if(value.length === 0) {
-                    setErrors({ ...error, [name]: "First Name cannot be empty" })
+                    setError({ ...error, [name]: "First Name cannot be empty" })
                 }
                 else {
-                    setErrors({ ...error, [name]: "" })
+                    setError({ ...error, [name]: "" })
                 }
                 break
             case "LastName":
                 if(value.length === 0) {
-                    setErrors({ ...error, [name]: "Last Name cannot be empty" })
+                    setError({ ...error, [name]: "Last Name cannot be empty" })
                 }
                 else {
-                    setErrors({ ...error, [name]: "" })
+                    setError({ ...error, [name]: "" })
                 }
                 break
             case "Phone":
                 if(0 < value.length && value.length < 10) {
-                    setErrors({ ...error, [name]: "Must be length of 10" })
+                    setError({ ...error, [name]: "Must be length of 10" })
                 }
                 else {
-                    setErrors({ ...error, [name]: "" })
+                    setError({ ...error, [name]: "" })
                 }
                 break
             default:
