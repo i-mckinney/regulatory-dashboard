@@ -16,7 +16,7 @@ import * as employeeService from '../../services/employeeService';
 import Controls from '../../components/controls/Controls';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
-import Popup from '../../components/Popup';
+import ModalDialog from '../../components/ModalDialog';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   searchInput: {
     width: '75%',
   },
-  newButton: {
+  addButton: {
     position: 'absolute',
     right: '10px',
   },
@@ -42,7 +42,7 @@ const headCells = [
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function Employees() {
+export default function ClientApiPage() {
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [records, setRecords] = useState(employeeService.getAllApiCalls());
@@ -112,7 +112,7 @@ export default function Employees() {
             text='Add New'
             variant='outlined'
             startIcon={<AddIcon />}
-            className={classes.newButton}
+            className={classes.addButton}
             onClick={() => {
               setOpenPopup(true);
               setRecordForEdit(null);
@@ -147,13 +147,13 @@ export default function Employees() {
         </TblContainer>
         <TblPagination />
       </Paper>
-      <Popup
+      <ModalDialog
         title='Client API Form'
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
         <EmployeeForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
-      </Popup>
+      </ModalDialog>
     </React.Fragment>
   );
 }

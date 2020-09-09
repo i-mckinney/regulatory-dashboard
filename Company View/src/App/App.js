@@ -7,7 +7,7 @@ import {
   ThemeProvider,
 } from '@material-ui/core';
 
-import Employees from '../pages/Employees/Employees';
+import ClientApiPage from '../pages/ClientApiPage/ClientApiPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -51,7 +51,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.appMain}>
-        <Employees />
+        <ClientApiPage />
       </div>
       <CssBaseline />
     </ThemeProvider>

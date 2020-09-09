@@ -2,7 +2,7 @@ import React from 'react'
 import { Button as MuiButton, makeStyles } from "@material-ui/core";
 
 
-const useStyles = makeStyles(theme => ({
+const useButtonStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(0.5)
     },
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 export default function Button(props) {
 
     const { text, size, color, variant, onClick, ...other } = props
-    const classes = useStyles();
+    const buttonClasses = useButtonStyles();
 
     return (
         <MuiButton
@@ -23,7 +23,7 @@ export default function Button(props) {
             color={color || "secondary"}
             onClick={onClick}
             {...other}
-            classes={{ root: classes.root, label: classes.label }}>
+            buttonClasses={{ root: buttonClasses.root, label: buttonClasses.label }}>
             {text}
         </MuiButton>
     )

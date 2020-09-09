@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Table, TableHead, TableRow, TableCell, makeStyles, TablePagination, TableSortLabel } from '@material-ui/core'
 
-const useStyles = makeStyles(theme => ({
+const useTableStyles = makeStyles(theme => ({
     table: {
         marginTop: theme.spacing(3),
         '& thead th': {
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function useTable(records, headCells,filterFn) {
 
-    const classes = useStyles();
+    const useTableClasses = useTableStyles();
 
     const pages = [5, 10, 25]
     const [page, setPage] = useState(0)
@@ -30,7 +30,7 @@ export default function useTable(records, headCells,filterFn) {
     const [orderBy, setOrderBy] = useState()
 
     const TblContainer = props => (
-        <Table className={classes.table}>
+        <Table className={useTableClasses.table}>
             {props.children}
         </Table>
     )
