@@ -6,22 +6,21 @@ import {
   createMuiTheme,
   ThemeProvider,
 } from '@material-ui/core';
-import PageHeader from '../components/PageHeader';
 
 import Employees from '../pages/Employees/Employees';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#333996',
-      light: '#3c44b126',
+      main: '#ffffff',
+      light: '#000000',
     },
     secondary: {
       main: '#f83245',
       light: '#f8324526',
     },
     background: {
-      default: '#f4f5fd',
+      default: '#ebebf0',
     },
   },
   overrides: {
@@ -40,7 +39,8 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({
   appMain: {
-    paddingLeft: '320px',
+    paddingLeft: '100px',
+    paddingRight: '100px',
     width: '100%',
   },
 });

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import EmployeeForm from "./EmployeeForm";
 import PageHeader from "../../components/PageHeader";
-import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
-import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@material-ui/core';
+import TelegramIcon from '@material-ui/icons/Telegram';import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@material-ui/core';
 import useTable from "../../components/useTable";
 import * as employeeService from "../../services/employeeService";
 import Controls from "../../components/controls/Controls";
@@ -82,13 +81,13 @@ export default function Employees() {
       <React.Fragment>
         <Paper className={classes.pageContent}>
           <PageHeader
-            title='New Employee'
-            subTitle='Form design with validation'
-            icon={<PeopleOutlineTwoToneIcon fontSize='large' />}
+            title='Client API Page'
+            subTitle='Add new and edit existing API call requests'
+            icon={<TelegramIcon fontSize='large' />}
           />
           <Toolbar>
             <Controls.Input
-              label='Search Employees'
+              label='Search API call list'
               className={classes.searchInput}
               InputProps={{
                 startAdornment: (
