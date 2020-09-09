@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import EmployeeForm from './EmployeeForm';
+import ApiCallForm from './ApiCallForm';
 import PageHeader from '../../components/PageHeader';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import {
@@ -73,9 +73,9 @@ export default function ClientApiPage() {
     });
   };
 
-  const addOrEdit = (employee, resetForm) => {
-    if (employee.id == 0) apiCallService.addNewApiCall(employee);
-    else apiCallService.updateApiCall(employee);
+  const addOrEdit = (apiCall, resetForm) => {
+    if (apiCall.id == 0) apiCallService.addNewApiCall(apiCall);
+    else apiCallService.updateApiCall(apiCall);
     resetForm();
     setRecordForEdit(null);
     setOpenPopup(false);
@@ -152,7 +152,7 @@ export default function ClientApiPage() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <EmployeeForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+        <ApiCallForm recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
       </ModalDialog>
     </React.Fragment>
   );

@@ -12,7 +12,7 @@ const initialFValues = {
   departmentId: '',
 };
 
-export default function EmployeeForm(props) {
+export default function ApiCallForm(props) {
   const { addOrEdit, recordForEdit } = props;
 
   const validate = (fieldValues = values) => {
