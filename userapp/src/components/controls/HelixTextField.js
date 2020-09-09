@@ -14,15 +14,35 @@ const HelixTextField = (props) => {
      * onChange: the function called on form change detection
      * other: other properties that TextField has
      */
-  const { name, label, value,  onChange, ...other } = props
+    const { 
+      name, 
+      type = "", 
+      error = false, 
+      label, 
+      InputLabelProps = {}, 
+      value,
+      required = false,
+      helperText = "", 
+      placeholder = "", 
+      onChange, 
+      inputProps = { maxLength: 26 },
+      other
+    } = props
 
   return (
     <TextField
-      label={label}
-      name={name}
-      value={value}
-      onChange={onChange}
-      {...other}
+    error={error}
+    label={label}
+    InputLabelProps={InputLabelProps}
+    name={name}
+    type={type}
+    value={value}
+    required={required}
+    helperText={helperText}
+    placeholder={placeholder}
+    onChange={onChange}
+    inputProps={inputProps}
+    {...other}
     />
   );
 }

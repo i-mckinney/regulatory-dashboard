@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useDebugValue } from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import HelixTextField from '../controls/HelixTextField'
 import HelixButton from '../controls/HelixButton'
@@ -126,20 +126,18 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
      * @param {object} inputProps the properties of input (e.g. length of input text)
      * @param {string} type the type of component TextField (e.g. date)
      */
-    const setHelixTextField = (error, name, label, value, required, placeholder, helperText, onChange, InputLabelProps = {}, inputProps = {}, type = "") => {
+    const setNameHelixTextField = (name, label, placeholder) => {
+        console.log(user)
         return (
             <HelixTextField
-            error={error}
+            error={error[[name]].length > 0}
             name={name}
-            type={type}
             label={label}
-            value={value}
-            required={required}
+            value={user[[name]]}
             placeholder={placeholder}
-            helperText={helperText}
-            onChange={onChange}
-            InputLabelProps={InputLabelProps}
-            inputProps={inputProps}
+            helperText={error[[name]]}
+            required={true}
+            onChange={handleInputChange}
             />
         )
     }
@@ -154,16 +152,31 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 alignItems="flex-start"
                 spacing={1}>
                 <Grid item xs={6}>
-                    {setHelixTextField(error.FirstName.length !== 0, "FirstName", "First Name", user.FirstName, true, "Joe", error.FirstName, handleInputChange, {}, { maxLength: 26 })}
+                    {setNameHelixTextField("FirstName", "First Name", "John")}
                 </Grid>
                 <Grid item xs={6}>
-                    {setHelixTextField(error.LastName.length !== 0, "LastName", "Last Name", user.LastName, true, "Doe", error.LastName, handleInputChange, {}, { maxLength: 26 })}
+                    {setNameHelixTextField("LastName", "Last Name", "Doe")}
                 </Grid>
                 <Grid item xs={6}>
-                    {setHelixTextField(false, "DateOfBirth", "Date Of Birth", user.DateOfBirth, false, "", "", handleInputChange, { shrink: true }, {}, "date")}
+                <HelixTextField
+                    name='DateOfBirth'
+                    label='Date Of Birth'
+                    type="date"
+                    value={user.DateOfBirth}
+                    InputLabelProps={{ shrink: true }}
+                    onChange={handleInputChange}
+                    />
                 </Grid>
                 <Grid item xs={6}>
-                    {setHelixTextField(error.Phone.length > 0, "Phone", "Phone", user.Phone, false, "", error.Phone, handleInputChange, {}, { maxLength: 10 })}
+                <HelixTextField
+                    error={error.Phone.length > 0}
+                    name='Phone'
+                    label='Phone'
+                    value={user.Phone}
+                    helperText={error.Phone}
+                    onChange={handleInputChange}
+                    inputProps={{ maxLength: 10 }}
+                    />
                 </Grid>
                 <Grid item xs></Grid>
                 <Grid item xs={6} className={userFormClasses.buttonStyle}>
