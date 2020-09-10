@@ -74,10 +74,14 @@ const HelixTable = ({
   const onSearch = (event) => {
     const { value } = event.target
     setSearchFilter({ search: (users) => {
+        console.log(users)
         if (value === '') return users
         else
           return users.filter((user) =>
-            user.FirstName.toLowerCase().includes(value)
+            (user.FirstName.toLowerCase().includes(value.toLowerCase()) ||
+            user.LastName.toLowerCase().includes(value.toLowerCase()) ||
+            user.DateOfBirth.includes(value) ||
+            user.Phone.includes(value))
       )}
     })
   }
