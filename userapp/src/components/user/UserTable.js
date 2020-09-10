@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import HelixTable from "../table/HelixTable"
-import { makeStyles, Button, Typography, TableCell } from '@material-ui/core'
+import { makeStyles, Typography, TableCell } from '@material-ui/core'
+import HelixButton from '../controls/HelixButton'
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -15,7 +18,6 @@ const userTableStyles = makeStyles(() => ({
             display: 'table',
             borderTopRightRadius: '4px',
             borderTopLeftRadius: '4px',
-            borderCollapse: 'separate',
             boxSizing: 'border-box',
             borderSpacing: '2px',
             borderColor: 'grey',
@@ -55,7 +57,14 @@ const userTableStyles = makeStyles(() => ({
     },
     header: {
         paddingBottom: '2rem',
-    }
+    },
+    iconStyle: {
+        '& svg': {
+            marginRight: '1rem',
+            cursor: 'pointer',
+        },
+        
+    },
 }))
 
 /**
@@ -86,13 +95,9 @@ const UserTable = (props) => {
             ID: "Phone",
         },
         {
-            Label: "",
-            ID: "EditButton",
+            Label: "Actions",
+            ID: "Actions",
         },
-        {
-            Label: "",
-            ID: "DeleteButton",
-        }
     ], [])
 
     // Data Processed from API Results
@@ -101,43 +106,43 @@ const UserTable = (props) => {
             ID: "1",
             FirstName: "Joe",
             LastName: "Doe",
-            DateOfBirth: "01012000",
-            Phone: "5555555555",
+            DateOfBirth: "1987-01-01",
+            Phone: "8861551515",
         },
         {
             ID: "2",
             FirstName: "John",
             LastName: "Smith",
-            DateOfBirth: "12122012",
-            Phone: "1234567890",
+            DateOfBirth: "1989-12-12",
+            Phone: "8002552525",
         },
         {
             ID: "3",
             FirstName: "Ray",
             LastName: "Smith",
-            DateOfBirth: "11112011",
-            Phone: "9876543210",
+            DateOfBirth: "1988-11-11",
+            Phone: "8003553535",
         },
         {
             ID: "4",
             FirstName: "Joy",
             LastName: "Doe",
-            DateOfBirth: "01012000",
-            Phone: "5555555555",
+            DateOfBirth: "1991-09-03",
+            Phone: "2136746045",
         },
         {
             ID: "5",
             FirstName: "Irene",
             LastName: "Smith",
-            DateOfBirth: "12122012",
-            Phone: "1234567890",
+            DateOfBirth: "1991-03-29",
+            Phone: "9496458858",
         },
         {
             ID: "6",
             FirstName: "Wendy",
-            LastName: "Smith",
-            DateOfBirth: "11112011",
-            Phone: "9876543210",
+            LastName: "Hernandez",
+            DateOfBirth: "1990-09-09",
+            Phone: "4156749201",
         },   
     ])
     
@@ -178,17 +183,11 @@ const UserTable = (props) => {
      */
     const customCellRender = (rowIndex, row, column) => {
         const columnID = column.ID
-        if (columnID === "EditButton") {
+        if (columnID === "Actions") {
             return (
-                <TableCell key={`${rowIndex} ${columnID}`}>
-                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} variant="contained" color="default">Edit</Button>
-                </TableCell>
-            )
-        }
-        else if(columnID === "DeleteButton") {
-            return (
-                <TableCell key={`${rowIndex} ${columnID}`}>
-                    <Button size="small" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} variant="contained" color="secondary">Delete</Button>
+                <TableCell className={userTableClasses.iconStyle} key={`${rowIndex} ${columnID}`}>
+                    <EditIcon role="button" size="medium" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} />
+                    <DeleteIcon role="button" size="medium" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} />
                 </TableCell>
             )
         }
@@ -222,9 +221,9 @@ const UserTable = (props) => {
         <div className={userTableClasses.mediumContainer}>
             <div className={userTableClasses.header}>
                 <Typography variant="h5">Users</Typography>
-                <Button className={userTableClasses.floatRight} size="small" href="/user/new" variant="contained" color="primary">
+                <HelixButton className={userTableClasses.floatRight} size="small" href="/user/new" variant="contained" color="primary">
                     Create User
-                </Button>
+                </HelixButton>
             </div>
             <HelixTable initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
         </div>

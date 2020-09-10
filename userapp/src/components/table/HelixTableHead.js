@@ -51,7 +51,6 @@ const HelixTableHead = ({ columns, customHeadRowProps, order, orderBy, onSort })
    * @return the ascending order when clicked on a new column to order by otherwise descending order on the same column that we are at    
    */
   const orderByDirection = (order, orderBy, column) => {
-    console.log(order)
     return orderBy === customHeadRowProps(column) ? order : 'asc'
   }
 

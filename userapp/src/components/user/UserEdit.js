@@ -19,8 +19,7 @@ const UserEdit = (props) => {
 
     return (
     <div>
-        <h3>Edit User</h3>
-        <UserForm initialUser={user} onSubmit={onSubmit} />
+        <UserForm header="Edit User" initialUser={user} onSubmit={onSubmit} />
     </div>
     )
 }

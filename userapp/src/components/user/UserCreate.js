@@ -9,7 +9,7 @@ const initialUser = {
     LastName: "",
     DateOfBirth: "",
     Phone: "",
-  }
+}
 
 /**
  * @param {Object} props Using the history property to route next component with data state
@@ -26,8 +26,7 @@ const UserCreate = (props) => {
 
     return (
     <div>
-        <h3>Create a User</h3>
-        <UserForm initialUser={initialUser} onSubmit={onSubmit} />
+        <UserForm header="Create User" initialUser={initialUser} onSubmit={onSubmit} />
     </div>
     )
 }
