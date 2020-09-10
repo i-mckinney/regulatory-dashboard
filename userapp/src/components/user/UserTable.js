@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import HelixTable from "../table/HelixTable"
 import { makeStyles, Typography, TableCell } from '@material-ui/core'
 import HelixButton from '../controls/HelixButton'
+import AddBoxIcon from '@material-ui/icons/AddBox';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -52,13 +53,14 @@ const userTableStyles = makeStyles(() => ({
             },
         },
     },
-    floatRight: {
-        float: "right",
+    createIconStyle: {
+        float: 'right',
+        cursor: 'pointer',
     },
     header: {
         paddingBottom: '2rem',
     },
-    iconStyle: {
+    actionsIconStyle: {
         '& svg': {
             marginRight: '1rem',
             cursor: 'pointer',
@@ -185,9 +187,9 @@ const UserTable = (props) => {
         const columnID = column.ID
         if (columnID === "Actions") {
             return (
-                <TableCell className={userTableClasses.iconStyle} key={`${rowIndex} ${columnID}`}>
-                    <EditIcon role="button" size="medium" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} />
-                    <DeleteIcon role="button" size="medium" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} />
+                <TableCell className={userTableClasses.actionsIconStyle} key={`${rowIndex} ${columnID}`}>
+                    <EditIcon role="button" color="action" size="medium" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} />
+                    <DeleteIcon role="button" color="secondary" size="medium" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} />
                 </TableCell>
             )
         }
@@ -217,15 +219,22 @@ const UserTable = (props) => {
     // Initially, we can start the table to order by First Name, ascending order
     const initialOrderBy = "FirstName"
 
+    const displayCreateUserIcon = () => {
+        return (
+            <AddBoxIcon 
+            className={userTableClasses.createIconStyle} 
+            color="primary" 
+            fontSize="large" 
+            onClick={() => (props.history.push("/user/new"))} />
+        )
+    }
+
     return (
         <div className={userTableClasses.mediumContainer}>
             <div className={userTableClasses.header}>
                 <Typography variant="h5">Users</Typography>
-                <HelixButton className={userTableClasses.floatRight} size="small" href="/user/new" variant="contained" color="primary">
-                    Create User
-                </HelixButton>
             </div>
-            <HelixTable initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
+            <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
         </div>
     )
 }

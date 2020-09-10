@@ -14,17 +14,6 @@ const HelixTextField = (props) => {
      * onChange: the function called on form change detection
      * other: other properties that TextField has
      */
-<<<<<<< HEAD
-  const { name, label, value, onChange, ...other } = props
-
-  return (
-    <TextField
-      label={label}
-      name={name}
-      value={value}
-      onChange={onChange}
-      {...other}
-=======
     const { 
       name, 
       type = "", 
@@ -37,7 +26,7 @@ const HelixTextField = (props) => {
       placeholder = "", 
       onChange, 
       inputProps = { maxLength: 26 },
-      other
+      ...other
     } = props
 
   return (
@@ -54,9 +43,8 @@ const HelixTextField = (props) => {
     onChange={onChange}
     inputProps={inputProps}
     {...other}
->>>>>>> user-microservice
     />
-  );
+  )
 }
 
 export default HelixTextField

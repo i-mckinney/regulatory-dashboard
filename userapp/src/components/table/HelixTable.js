@@ -1,11 +1,19 @@
 import React, { useState } from "react"
-import { Paper, TableContainer, Table, Toolbar, InputAdornment } from "@material-ui/core"
+import { makeStyles, Paper, TableContainer, Table, Toolbar, InputAdornment } from "@material-ui/core"
 import PropTypes from "prop-types"
 import HelixTableHead from "./HelixTableHead"
 import HelixTableBody from "./HelixTableBody"
 import HelixTableFooter from "./HelixTableFooter"
 import HelixTextField from "../controls/HelixTextField"
 import SearchIcon from '@material-ui/icons/Search';
+
+// Styling used for MaterialUI
+const helixTableStyles = makeStyles(() => ({
+  searchStyles: {
+    width: "28%",
+    marginRight: "auto",
+  },
+}))
 
 /**
  * 
@@ -64,7 +72,11 @@ const HelixTable = ({
   customHeadRowProps,
   customBodyRowProps,
   initialOrderBy,
+  displayCreateIcon,
   }) => {
+    // Creates an object for styling. Any className that matches key in the helixTableStyles object will have a corresponding styling
+    const helixTableClasses = helixTableStyles()
+
   // Page is needed for pagination to determine the process of what page it is at
   const [page, setPage] = useState(0)
 
@@ -119,6 +131,7 @@ const HelixTable = ({
     <div>
       <Toolbar disableGutters>
         <HelixTextField
+        className={helixTableClasses.searchStyles}
         label="Search User"
         InputProps={{
           startAdornment: (
@@ -129,6 +142,7 @@ const HelixTable = ({
         }}
         onChange={onSearch}
         />
+        {displayCreateIcon()}
       </Toolbar>
       <TableContainer component={Paper}>
         <Table aria-label="table">
