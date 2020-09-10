@@ -13,6 +13,7 @@ import PropTypes from "prop-types"
  * @param {string} orderBy string represents which column should it order by
  * @param {func} getComparator func that set up a rule to compare the orderby column by acsending or descending order
  * @param {func} stableSort func that uses getComparator to sort it in order
+ * @param {object} searchFilter object that contains a function for filtering search query
  * @returns {JSX} renders a custom table body for table
  */
 const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowProps, order, orderBy, getComparator, stableSort, searchFilter }) => {
@@ -21,9 +22,9 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
   //and display rowsPerPage by each page
   //Else display all the sorted rows order by indicating columns
   const sortedRows = (rowsPerPage > 0 
-    ? stableSort(searchFilter.fn(rows), getComparator(order, orderBy))
+    ? stableSort(searchFilter.search(rows), getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    : stableSort(searchFilter.fn(rows), getComparator(order, orderBy))
+    : stableSort(searchFilter.search(rows), getComparator(order, orderBy))
   )
 
   return (
@@ -47,12 +48,15 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
 HelixTableBody.propTypes = {
   columns: PropTypes.instanceOf(Array).isRequired,
   rows: PropTypes.instanceOf(Array).isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
   customCellRender: PropTypes.func.isRequired,
   customBodyRowProps: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   getComparator: PropTypes.func.isRequired,
   stableSort: PropTypes.func.isRequired,
+  searchFilter: PropTypes.shape({ search: PropTypes.func.isRequired }).isRequired,
 }
 
 export default HelixTableBody

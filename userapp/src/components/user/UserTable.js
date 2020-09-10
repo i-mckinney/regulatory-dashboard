@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import HelixTable from "../table/HelixTable"
 import { makeStyles, Typography, TableCell } from '@material-ui/core'
-import HelixButton from '../controls/HelixButton'
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -61,11 +61,10 @@ const userTableStyles = makeStyles(() => ({
         paddingBottom: '2rem',
     },
     actionsIconStyle: {
-        '& svg': {
+        '& button': {
             marginRight: '1rem',
             cursor: 'pointer',
         },
-        
     },
 }))
 
@@ -188,8 +187,12 @@ const UserTable = (props) => {
         if (columnID === "Actions") {
             return (
                 <TableCell className={userTableClasses.actionsIconStyle} key={`${rowIndex} ${columnID}`}>
-                    <EditIcon role="button" color="action" size="medium" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} />
-                    <DeleteIcon role="button" color="secondary" size="medium" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} />
+                    <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} color="default">
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} color="secondary">
+                        <DeleteIcon />
+                    </IconButton>
                 </TableCell>
             )
         }
@@ -221,11 +224,12 @@ const UserTable = (props) => {
 
     const displayCreateUserIcon = () => {
         return (
-            <AddBoxIcon 
+            <IconButton
             className={userTableClasses.createIconStyle} 
-            color="primary" 
-            fontSize="large" 
-            onClick={() => (props.history.push("/user/new"))} />
+            color="primary"
+            onClick={() => (props.history.push("/user/new"))}>
+                <AddBoxIcon fontSize="large" />
+            </IconButton>
         )
     }
 
