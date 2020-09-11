@@ -26,7 +26,7 @@ const HelixTextField = (props) => {
       placeholder = "", 
       onChange, 
       inputProps = { maxLength: 26 },
-      other
+      ...other
     } = props
 
   return (

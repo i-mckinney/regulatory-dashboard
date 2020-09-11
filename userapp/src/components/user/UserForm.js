@@ -118,17 +118,20 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
      * @param {string} label the form control label
      * @param {string} placeholder a text in the textfield with default value as a placeholder
      */
-    const setNameHelixTextField = (name, label, placeholder) => {
+    const setHelixTextField = (name, label, placeholder = "", required = false) => {
         console.log(user)
         return (
             <HelixTextField
             error={error[[name]].length > 0}
             name={name}
+            type={name === "DateOfBirth" ? "date" : ""}
             label={label}
             value={user[[name]]}
             placeholder={placeholder}
             helperText={error[[name]]}
-            required={true}
+            required={required}
+            InputLabelProps={name === "DateOfBirth" ? { shrink: true } : {}}
+            inputProps={name === "Phone" ? { maxLength: 10 } : {}}
             onChange={handleInputChange}
             />
         )
@@ -144,23 +147,25 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 alignItems="flex-start"
                 spacing={1}>
                 <Grid item xs={6}>
-                    {setNameHelixTextField("FirstName", "First Name", "John")}
+                    {setHelixTextField("FirstName", "First Name", "John", true)}
                 </Grid>
                 <Grid item xs={6}>
-                    {setNameHelixTextField("LastName", "Last Name", "Doe")}
+                    {setHelixTextField("LastName", "Last Name", "Doe", true)}
                 </Grid>
                 <Grid item xs={6}>
-                <HelixTextField
+                    {setHelixTextField("DateOfBirth", "Date of Birth")}
+                    {/* <HelixTextField
                     name='DateOfBirth'
                     label='Date Of Birth'
                     type="date"
                     value={user.DateOfBirth}
                     InputLabelProps={{ shrink: true }}
                     onChange={handleInputChange}
-                    />
+                    /> */}
                 </Grid>
                 <Grid item xs={6}>
-                <HelixTextField
+                {setHelixTextField("Phone", "Phone")}
+                    {/* <HelixTextField
                     error={error.Phone.length > 0}
                     name='Phone'
                     label='Phone'
@@ -168,7 +173,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                     helperText={error.Phone}
                     onChange={handleInputChange}
                     inputProps={{ maxLength: 10 }}
-                    />
+                    /> */}
                 </Grid>
                 <Grid item xs></Grid>
                 <Grid item xs={6} className={userFormClasses.buttonStyle}>
