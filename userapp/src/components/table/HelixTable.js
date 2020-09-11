@@ -81,7 +81,7 @@ const HelixTable = ({
               row[column.ID]
               .toLowerCase()
               .includes(value.toLowerCase()))
-              .length === 1 
+              .length > 0 
               ? true
               : false
             )
@@ -90,7 +90,6 @@ const HelixTable = ({
     })
   }
   
-  console.log(searchFilter)
   return (
     <div>
       <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateIcon} />
