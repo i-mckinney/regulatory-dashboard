@@ -2,6 +2,8 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { makeStyles, Modal } from '@material-ui/core';
 import HelixButton from '../controls/HelixButton'
+import DeleteIcon from '@material-ui/icons/Delete';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 // Styling used for MaterialUI
 const userDeleteStyles = makeStyles(() => ({
@@ -16,7 +18,6 @@ const userDeleteStyles = makeStyles(() => ({
         width: "900px",
         margin: 0,
         border: "2px solid #000",
-        // padding: "16px 32px 24px",
         boxShadow: "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), 0px 1px 14px 0px rgba(0,0,0,0.12)",
         backgroundColor: "#fff",
         borderRadius: ".28571429rem",
@@ -39,7 +40,6 @@ const userDeleteStyles = makeStyles(() => ({
     },
     content: {
         display: "block",
-        // width: "100%",
         fontSize: "1em",
         lineHeight: "1.4",
         padding: "1.5rem",
@@ -73,8 +73,8 @@ const UserDelete = (props) => {
             {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
           </div>
           <div className={userDeleteClasses.actions}>
-            <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE", payload: props.location.state.ID} }))} variant="contained" color="secondary">Delete</HelixButton>
-            <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/" variant="contained" color="default">Cancel</HelixButton>
+            <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE", payload: props.location.state.ID} }))} startIcon={<DeleteIcon />} variant="contained" color="secondary">Delete</HelixButton>
+            <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/" startIcon={<CancelIcon />} variant="contained" color="default">Cancel</HelixButton>
           </div>
         </div>
       )

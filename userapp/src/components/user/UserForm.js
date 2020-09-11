@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import HelixTextField from '../controls/HelixTextField'
 import HelixButton from '../controls/HelixButton'
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 // Styling used for MaterialUI
 const userFormStyles = makeStyles(() => ({
@@ -70,8 +72,11 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
      * @param {string} value the value property on the target text field element as user input text
      * @param {string} label the label is used for logging errors
      */
-    const validateName = (name, value, label) => {
-        if(value.length === 0) {
+    const validate = (name, value, label) => {
+        if(name === "Phone" && 0 < value.length && value.length < 10) {
+            setError({ ...error, [name]: `${label} must be length of 10` })
+        }
+        else if((name === "FirstName" || name === "LastName") && value.length === 0) {
             setError({ ...error, [name]: `${label} cannot be empty` })
         }
         else {
@@ -86,18 +91,13 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     const validation = (name, value) => {
         switch(name) {
             case "FirstName":
-                validateName(name, value, "First Name")
+                validate(name, value, "First Name")
                 break
             case "LastName":
-                validateName(name, value, "Last Name")
+                validate(name, value, "Last Name")
                 break
             case "Phone":
-                if(0 < value.length && value.length < 10) {
-                    setError({ ...error, [name]: "Must be length of 10" })
-                }
-                else {
-                    setError({ ...error, [name]: "" })
-                }
+                validate(name, value, "Phone")
                 break
             default:
                 break
@@ -117,12 +117,14 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
      * @param {string} name the form control name 
      * @param {string} label the form control label
      * @param {string} placeholder a text in the textfield with default value as a placeholder
+     * @param {bool} required the required toggles the required state to fill in the textfield
+     * @return {jsx} return a jsx object of HelixTextField
      */
     const setHelixTextField = (name, label, placeholder = "", required = false) => {
-        console.log(user)
         return (
             <HelixTextField
             error={error[[name]].length > 0}
+            description={label}
             name={name}
             type={name === "DateOfBirth" ? "date" : ""}
             label={label}
@@ -131,9 +133,36 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
             helperText={error[[name]]}
             required={required}
             InputLabelProps={name === "DateOfBirth" ? { shrink: true } : {}}
-            inputProps={name === "Phone" ? { maxLength: 10 } : {}}
+            inputProps={name === "Phone" ? { maxLength: 10 } : { maxLength: 40 }}
             onChange={handleInputChange}
             />
+        )
+    }
+
+    /**
+     * @return {jsx} return a jsx object of HelixButtons 
+     */
+    const renderButtonActions = () => {
+        return (
+            <React.Fragment>
+                <HelixButton 
+                color="primary" 
+                variant="contained" 
+                type="submit" 
+                size="small"
+                startIcon={<SaveIcon />}>
+                    Save
+                </HelixButton>
+                <HelixButton
+                color="default"
+                variant="contained"
+                type="cancel"
+                size="small"
+                href="/"
+                startIcon={<CancelIcon />}>
+                    Cancel
+                </HelixButton>
+            </React.Fragment>
         )
     }
 
@@ -154,44 +183,13 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 </Grid>
                 <Grid item xs={6}>
                     {setHelixTextField("DateOfBirth", "Date of Birth")}
-                    {/* <HelixTextField
-                    name='DateOfBirth'
-                    label='Date Of Birth'
-                    type="date"
-                    value={user.DateOfBirth}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={handleInputChange}
-                    /> */}
                 </Grid>
                 <Grid item xs={6}>
-                {setHelixTextField("Phone", "Phone")}
-                    {/* <HelixTextField
-                    error={error.Phone.length > 0}
-                    name='Phone'
-                    label='Phone'
-                    value={user.Phone}
-                    helperText={error.Phone}
-                    onChange={handleInputChange}
-                    inputProps={{ maxLength: 10 }}
-                    /> */}
+                    {setHelixTextField("Phone", "Phone")}
                 </Grid>
                 <Grid item xs></Grid>
                 <Grid item xs={6} className={userFormClasses.buttonStyle}>
-                    <HelixButton 
-                    color="primary" 
-                    variant="contained" 
-                    type="submit" 
-                    size="small">
-                        Save
-                    </HelixButton>
-                    <HelixButton
-                    color="default"
-                    variant="contained"
-                    type="cancel"
-                    size="small"
-                    href="/">
-                        Cancel
-                    </HelixButton>
+                    {renderButtonActions()}
                 </Grid>
             </Grid>
         </form>
