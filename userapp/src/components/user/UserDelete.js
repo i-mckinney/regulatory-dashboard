@@ -66,18 +66,24 @@ const UserDelete = (props) => {
     // Creates an object for styling. Any className that matches key in the userDeleteStyles object will have a corresponding styling
     const userDeleteClasses = userDeleteStyles();
     
-    const body = (
-        <div className={userDeleteClasses.paper}>
-          <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
-          <div className={userDeleteClasses.content} id="simple-modal-description">
-            {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
-          </div>
-          <div className={userDeleteClasses.actions}>
-            <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE", payload: props.location.state.ID} }))} startIcon={<DeleteIcon />} variant="contained" color="secondary">Delete</HelixButton>
-            <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/" startIcon={<CancelIcon />} variant="contained" color="default">Cancel</HelixButton>
-          </div>
-        </div>
-      )
+    /**
+     * @return {jsx} return jsx modal-style object with header, content, and actions
+     */
+    const renderModalBody = () => { 
+        return (
+            <div className={userDeleteClasses.paper}>
+                <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
+                <div className={userDeleteClasses.content} id="simple-modal-description">
+                    {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
+                </div>
+                <div className={userDeleteClasses.actions}>
+                    <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/", state: { type: "DELETE", payload: props.location.state.ID} }))} startIcon={<DeleteIcon />} variant="contained" color="secondary">Delete</HelixButton>
+                    <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/" startIcon={<CancelIcon />} variant="contained" color="default">Cancel</HelixButton>
+                </div>
+            </div>
+        )
+    }
+    
     return (
         <div>
             <Modal
@@ -89,7 +95,7 @@ const UserDelete = (props) => {
             aria-describedby="server-modal-description"
             className={userDeleteClasses.modal}
             >
-                {body}
+                {renderModalBody()}
             </Modal>
         </div>
         )
