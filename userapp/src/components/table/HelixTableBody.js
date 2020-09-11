@@ -22,9 +22,9 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
   //and display rowsPerPage by each page
   //Else display all the sorted rows order by indicating columns
   const sortedRows = (rowsPerPage > 0 
-    ? stableSort(searchFilter.search(rows), getComparator(order, orderBy))
+    ? stableSort(searchFilter.search(rows, columns), getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    : stableSort(searchFilter.search(rows), getComparator(order, orderBy))
+    : stableSort(searchFilter.search(rows, columns), getComparator(order, orderBy))
   )
 
   return (

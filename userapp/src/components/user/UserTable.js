@@ -80,6 +80,10 @@ const UserTable = (props) => {
     // Table Header from API Results
     const columns = React.useMemo(() => [
         {
+            Label: "ID",
+            ID: "ID",
+        },
+        {
             Label: "First Name",
             ID: "FirstName",
         },
@@ -109,6 +113,7 @@ const UserTable = (props) => {
             LastName: "Doe",
             DateOfBirth: "1987-01-01",
             Phone: "8861551515",
+            Actions: "",
         },
         {
             ID: "2",
@@ -116,6 +121,7 @@ const UserTable = (props) => {
             LastName: "Smith",
             DateOfBirth: "1989-12-12",
             Phone: "8002552525",
+            Actions: "",
         },
         {
             ID: "3",
@@ -123,6 +129,7 @@ const UserTable = (props) => {
             LastName: "Smith",
             DateOfBirth: "1988-11-11",
             Phone: "8003553535",
+            Actions: "",
         },
         {
             ID: "4",
@@ -130,6 +137,7 @@ const UserTable = (props) => {
             LastName: "Doe",
             DateOfBirth: "1991-09-03",
             Phone: "2136746045",
+            Actions: "",
         },
         {
             ID: "5",
@@ -137,6 +145,7 @@ const UserTable = (props) => {
             LastName: "Smith",
             DateOfBirth: "1991-03-29",
             Phone: "9496458858",
+            Actions: "",
         },
         {
             ID: "6",
@@ -144,6 +153,7 @@ const UserTable = (props) => {
             LastName: "Hernandez",
             DateOfBirth: "1990-09-09",
             Phone: "4156749201",
+            Actions: "",
         },   
     ])
     

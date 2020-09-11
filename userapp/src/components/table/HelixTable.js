@@ -65,7 +65,7 @@ const HelixTable = ({
   }
 
   // searchFilter contains a func that store filter query search upon user input
-  const [searchFilter, setSearchFilter] = useState({ search: (users) => { return users }})
+  const [searchFilter, setSearchFilter] = useState({ search: (rows, columns) => { return rows }})
   
   /**
    * @param {object} event the event object contains user input
@@ -73,19 +73,24 @@ const HelixTable = ({
    */
   const onSearch = (event) => {
     const { value } = event.target
-    setSearchFilter({ search: (users) => {
-        console.log(users)
-        if (value === '') return users
-        else
-          return users.filter((user) =>
-            (user.FirstName.toLowerCase().includes(value.toLowerCase()) ||
-            user.LastName.toLowerCase().includes(value.toLowerCase()) ||
-            user.DateOfBirth.includes(value) ||
-            user.Phone.includes(value))
-      )}
+    setSearchFilter({ search: (rows, columns) => {
+        if (value === '') return rows
+        else 
+          return rows.filter((row) => 
+            (columns.filter((column) => 
+              row[column.ID]
+              .toLowerCase()
+              .includes(value.toLowerCase()))
+              .length === 1 
+              ? true
+              : false
+            )
+          )
+      }
     })
   }
-
+  
+  console.log(searchFilter)
   return (
     <div>
       <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateIcon} />
