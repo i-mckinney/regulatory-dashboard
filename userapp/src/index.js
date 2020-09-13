@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 
 const ID = "User-container"
 
+// Mount to root if it is not a micro frontend
 if (!document.getElementById(ID)) {
   ReactDOM.render(
     <App />,
