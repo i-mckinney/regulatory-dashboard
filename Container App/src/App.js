@@ -8,6 +8,7 @@ import SpogPage from "./Components/Spog/SpogPage"
 const {
   REACT_APP_DASHBOARD_HOST: dashboardHost,
   REACT_APP_COMPANY_VIEW_HOST: companyViewHost,
+  REACT_APP_USER_HOST: userHost,
 } = process.env
 
 const Dashboard = ({ history }) => (
@@ -22,6 +23,10 @@ const CompanyView = ({ history }) => (
   />
 )
 
+const User = ({ history }) => {
+  <MicroserviceLoader history={history} host={userHost} name="User" />
+}
+
 const App = () => (
   <BrowserRouter>
     <>
@@ -35,6 +40,10 @@ const App = () => (
         <Route exact path="/loan" component={Dashboard} />
         <Route exact path="/regulatory" component={Dashboard} />
         <Route exact path="/myrequest" component={Dashboard} />
+        <Route path="/" exact component={User} />
+        <Route path="/user/new" component={User}  />
+        <Route path="/user/edit/:id" component={User} />
+        <Route path="/user/delete/:id" component={User} />
       </Switch>
     </>
   </BrowserRouter>
@@ -44,6 +53,9 @@ Dashboard.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
 }
 CompanyView.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+}
+User.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
 }
 
