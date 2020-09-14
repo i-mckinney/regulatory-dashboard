@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Code from '../assets/code-brackets.svg';
+
+<Meta title="Dev Style Guide/ Branching and Code Quality" />
+
+# Developer Instructions for branching and code quality:
+
+1. Create a branch off Develop or whatever release branch you are targeting.
+Make sure what you are working on is a bite sized feature that ideally meets the following requirements:
+  - You have communicated with other developers what you are working on in case there is shared code.
+  - Ideally you should not be creating more than a few files
+  - Each of the files should be kept to a relatively reasonable length (try to keep .js files under 200 lines)
+  - Be sure to leave a comment at the top of the file explaining what the file does, who calls it, etc
+  - Try to ensure functions or return statements are no longer than 30 lines (there are times when this can be hard to avoid)
+Comment each function that is built with the following style 
+    /**
+    * @param {Object} report the report object passed to us for this company from server
+    * @param {String} key the key of the object to access in the report
+    * @returns the correct StyledTableCell
+    */
+    const getStyledTableCells = (report, key) => {
+
+2. Give a description of the method at the top, describe each input (potentially their shape if they are objects) and what is returned
+3. Be sure to comment every state variable with its purpose
+4. Make sure you get rid of any warnings in the inspector in the browser and any warnings from the linter (if something weird comes up from the linter bring it up with the team).
+5. When you are finished developing and you have tested your code on the UI and with unit tests (if applicable), create a merge request targeting the branch you wish to merge into.
+6. Look over the files changed in your merge request to ensure they are ready for review.
+7. Leave a message in the slack group giving a brief description of your merge request and provide a link to the merge request.
+8. If you leave comments on another person’s merge request leave a comment on slack that you have left comments.
+9. If you approve and merge a request, comment on slack as well.
+
+
