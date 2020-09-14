@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { TableCell } from "@material-ui/core"
 import { withKnobs } from "@storybook/addon-knobs"
 import ThemeSelector from "../themes/ThemeSelector"
@@ -12,60 +12,100 @@ export default {
 
 const columns = [
     {
-        Label: "UUID",
-        ID: "Uuid",
+        Label: "Helix UUID",
+        accessor: "HelixUuid",
         sortable: false,
     },
     {
         Label: "First Name",
-        ID: "FirstName",
+        accessor: "FirstName",
         sortable: true,
     },
     {
         Label: "Last Name",
-        ID: "LastName",
+        accessor: "LastName",
         sortable: true,
     },
     {
-        Label: "Date of Birth",
-        ID:"DateOfBirth",
+        Label: "Business Name",
+        accessor:"BusinessName",
+        sortable: true,
+    },
+    {
+        Label: "Loan Amount",
+        accessor: "LoanAmount",
+        sortable: true,
+    },
+    {
+        Label: "Tax ID",
+        accessor: "TaxID",
         sortable: true,
     },
     {
         Label: "Phone",
-        ID: "Phone",
+        accessor: "Phone",
+        sortable: true,
+    },
+    {
+        Label: "NAICS",
+        accessor: "NAICS",
+        sortable: true,
+    },
+    {
+        Label: "Profitable",
+        accessor: "IsProfitable",
+        sortable: true,
+    },
+    {
+        Label: "Bankrupted In Last 10 Years",
+        accessor: "BankruptedInLast10Years",
         sortable: true,
     },
 ]
 
 const rows = [
     {
-        ID: "1",
-        FirstName: "Joe",
-        LastName: "Doe",
-        DateOfBirth: "1987-01-01",
-        Phone: "8861551515",
+        "HelixUUID": "59413728",
+        "FirstName": "John",
+        "LastName": "Doe",
+        "BusinessName": "Kircuit City",
+        "LoanAmount": "125000",
+        "TaxID": "283375991",
+        "Phone": "8001498422",
+        "NAICS": "32541",
+        "IsProfitable": "No",
+        "BankruptedInLast10Years": "Yes",
     },
     {
-        ID: "2",
-        FirstName: "John",
-        LastName: "Smith",
-        DateOfBirth: "1989-12-12",
-        Phone: "8002552525",
+        "HelixUUID": "75643829",
+        "FirstName": "Joy",
+        "LastName": "Doe",
+        "BusinessName": "Pi Inc",
+        "LoanAmount": "75000",
+        "TaxID": "590193680",
+        "Phone": "8662138532",
+        "NAICS": "99542",
+        "IsProfitable": "Yes",
+        "BankruptedInLast10Years": "No",
     },
     {
-        ID: "3",
-        FirstName: "Ray",
-        LastName: "Smith",
-        DateOfBirth: "1988-11-11",
-        Phone: "8003553535",
-    },
+        "HelixUUID": "92387456",
+        "FirstName": "Ray",
+        "LastName": "Smith",
+        "BusinessName": "Apple LLC",
+        "LoanAmount": "1000000",
+        "TaxID": "258456913",
+        "Phone": "8009498588",
+        "NAICS": "79232",
+        "IsProfitable": "Yes",
+        "BankruptedInLast10Years": "No",
+    }
 ]
 
-const initialOrderBy = "FirstName"
+const initialOrderBy = "Owner"
 
 const customCellRender = (rowIndex, row, column) => {
-    const columnID = column.ID
+    const columnID = column.accessor
     return (
         <TableCell key={`${rowIndex} ${columnID}`}>
             {row[columnID]}
@@ -73,17 +113,11 @@ const customCellRender = (rowIndex, row, column) => {
     )
 }
 
-const customHeadRowProps = (column) => {
-    return column.Uuid
-}
+const customHeadRowProps = (column) => column.accessor
 
-const customBodyRowProps = (row) => {
-    return row.Uuid
-}
+const customBodyRowProps = (row) => row.Uuid
 
-const displayCreateEmptyIcon = () => {
-    return null
-}
+const displayCreateEmptyIcon = () => null
 
 export const SampleHelixTable = () => {
     return (
