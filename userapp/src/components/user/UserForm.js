@@ -36,6 +36,7 @@ const userError = {
     LastName: "",
     DateOfBirth: "",
     Phone: "",
+    Actions: "",
 }
 
 /**
