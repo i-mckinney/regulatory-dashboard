@@ -22,13 +22,13 @@ const helixTableHeadStyles = makeStyles(() => ({
 
 /**
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
- * @param {func} customHeadRowProps func represents custom function that return key props for table row in table head (required)
+ * @param {func} customHeadColumnKeyProp func represents custom function that return key props for table row in table head (required)
  * @param {string} order string represents ascending or descending order
  * @param {string} orderBy string represents which column should it order by
  * @param {func} onSort func that sort the table by column either ascending or descending order
  * @returns {JSX} renders a custom table head for table
  */
-const HelixTableHead = ({ columns, customHeadRowProps, order, orderBy, onSort }) => {
+const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSort }) => {
   // Creates an object for styling. Any className that matches key in the helixTableHeadStyles object will have a corresponding styling
   const helixTableHeadClasses = helixTableHeadStyles()
 
@@ -37,21 +37,21 @@ const HelixTableHead = ({ columns, customHeadRowProps, order, orderBy, onSort })
    * it passes the column header property back up to parent component to sort
    */
   const createSortHandler = (column) => () => {
-    onSort(customHeadRowProps(column))
+    onSort(customHeadColumnKeyProp(column))
   }
 
   /**
    * @return true if current order by is current column identifier else turn off active sorting
    */
   const isActive = (orderBy, column) => {
-    return orderBy === customHeadRowProps(column)
+    return orderBy === customHeadColumnKeyProp(column)
   }
 
   /**
    * @return the ascending order when clicked on a new column to order by otherwise descending order on the same column that we are at    
    */
   const orderByDirection = (order, orderBy, column) => {
-    return orderBy === customHeadRowProps(column) ? order : 'asc'
+    return orderBy === customHeadColumnKeyProp(column) ? order : 'asc'
   }
 
   /**
@@ -61,14 +61,14 @@ const HelixTableHead = ({ columns, customHeadRowProps, order, orderBy, onSort })
    */
   const renderTableSortLabel = (column) => {
     return (
-      column.sortable ? <TableSortLabel
+      column.Sortable ? <TableSortLabel
       className={helixTableHeadClasses.sortLabel}
       active={isActive(orderBy, column)}
       direction={orderByDirection(order, orderBy, column)}
       onClick={createSortHandler(column)}
       >
         {column.Label}
-        {orderBy === customHeadRowProps(column) ? (
+        {orderBy === customHeadColumnKeyProp(column) ? (
         <span className={helixTableHeadClasses.visuallyHidden}>
           {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
         </span>
@@ -83,8 +83,8 @@ const HelixTableHead = ({ columns, customHeadRowProps, order, orderBy, onSort })
       <TableRow>
         {columns.map((column) => (
             <TableCell 
-            key={customHeadRowProps(column)}
-            sortDirection={orderBy === customHeadRowProps(column) ? order : false}>
+            key={customHeadColumnKeyProp(column)}
+            sortDirection={orderBy === customHeadColumnKeyProp(column) ? order : false}>
               {renderTableSortLabel(column)}
             </TableCell>
           ))}
@@ -95,7 +95,7 @@ const HelixTableHead = ({ columns, customHeadRowProps, order, orderBy, onSort })
 
 HelixTableHead.propTypes = {
   columns: PropTypes.instanceOf(Array).isRequired,
-  customHeadRowProps: PropTypes.func.isRequired,
+  customHeadColumnKeyProp: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   onSort: PropTypes.func.isRequired,
