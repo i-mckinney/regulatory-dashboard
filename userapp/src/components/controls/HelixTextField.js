@@ -18,10 +18,6 @@ const HelixTextField = (props) => {
       label, 
       value,
       onChange, 
-<<<<<<< HEAD
-=======
-      inputProps = { maxLength: 26 },
->>>>>>> user-microservice
       ...other
     } = props
 
