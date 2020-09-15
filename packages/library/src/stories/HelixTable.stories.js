@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, TableCell } from "@material-ui/core"
+import { TableCell } from "@material-ui/core"
 import { withKnobs } from "@storybook/addon-knobs"
 import ThemeSelector from "../themes/ThemeSelector"
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,53 +14,53 @@ export default {
 const columns = [
     {
         Label: "Helix UUID",
-        accessor: "HelixUuid",
-        sortable: false,
+        Accessor: "HelixUuid",
+        Sortable: false,
     },
     {
         Label: "First Name",
-        accessor: "FirstName",
-        sortable: true,
+        Accessor: "FirstName",
+        Sortable: true,
     },
     {
         Label: "Last Name",
-        accessor: "LastName",
-        sortable: true,
+        Accessor: "LastName",
+        Sortable: true,
     },
     {
         Label: "Business Name",
-        accessor:"BusinessName",
-        sortable: true,
+        Accessor:"BusinessName",
+        Sortable: true,
     },
     {
         Label: "Loan Amount",
-        accessor: "LoanAmount",
-        sortable: true,
+        Accessor: "LoanAmount",
+        Sortable: true,
     },
     {
         Label: "Tax ID",
-        accessor: "TaxID",
-        sortable: true,
+        Accessor: "TaxID",
+        Sortable: true,
     },
     {
         Label: "Phone",
-        accessor: "Phone",
-        sortable: true,
+        Accessor: "Phone",
+        Sortable: true,
     },
     {
         Label: "NAICS",
-        accessor: "NAICS",
-        sortable: true,
+        Accessor: "NAICS",
+        Sortable: true,
     },
     {
         Label: "Profitable",
-        accessor: "IsProfitable",
-        sortable: true,
+        Accessor: "IsProfitable",
+        Sortable: true,
     },
     {
         Label: "Bankrupted In Last 10 Years",
-        accessor: "BankruptedInLast10Years",
-        sortable: true,
+        Accessor: "BankruptedInLast10Years",
+        Sortable: true,
     },
 ]
 
@@ -106,21 +106,21 @@ const rows = [
 const initialOrderBy = "FirstName"
 
 const customCellRender = (rowIndex, row, column) => {
-    const columnID = column.accessor
+    const columnAccessor = column.Accessor
     return (
-        <TableCell key={`${rowIndex} ${columnID}`}>
-            {row[columnID]}
+        <TableCell key={`${rowIndex} ${columnAccessor}`}>
+            {row[columnAccessor]}
         </TableCell>
     )
 }
 
 
-const customHeadRowProps = (column) => column.accessor
+const customHeadColumnKeyProp = (column) => column.Accessor
 
 // The unique idenifier for whole row
-const customBodyRowProps = (row) => row.HelixUUID
+const customBodyRowKeyProp = (row) => row.HelixUUID
 
-// If your service does not need to Add Icon return null ()
+// If your service does not need to AddIcon/Button return null ()
 const displayCreateEmptyIcon = () => null
 
 export const SampleHelixTable = (args) => {
@@ -138,6 +138,6 @@ SampleHelixTable.args ={
     columns: columns.slice(1),
     rows: rows,
     customCellRender: customCellRender,
-    customHeadRowProps: customHeadRowProps,
-    customBodyRowProps: customBodyRowProps,
+    customHeadColumnKeyProp: customHeadColumnKeyProp,
+    customBodyRowKeyProp: customBodyRowKeyProp,
 }

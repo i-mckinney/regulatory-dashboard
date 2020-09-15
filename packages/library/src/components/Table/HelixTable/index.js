@@ -25,8 +25,8 @@ const HelixTable = ({
   columns,
   rows,
   customCellRender,
-  customHeadRowProps,
-  customBodyRowProps,
+  customHeadColumnKeyProp,
+  customBodyRowKeyProp,
   initialOrderBy,
   displayCreateIcon,
   }) => {
@@ -81,15 +81,14 @@ const HelixTable = ({
         if (value === '') return rows
         else 
           return rows.filter((row) => 
-            (columns.filter((column) =>
-              row[column.accessor]
+            (columns.filter((column) => 
+              row[column.Accessor]
               .toLowerCase()
-              .includes(value.toLowerCase())
-              )
+              .includes(value.toLowerCase()))
+              .length > 0 
+              ? true
+              : false
             )
-            .length > 0 
-            ? true 
-            : false
           )
       }
     })
@@ -100,8 +99,8 @@ const HelixTable = ({
       <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateIcon} />
       <TableContainer component={Paper}>
         <Table aria-label="table">
-          <HelixTableHead order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadRowProps={customHeadRowProps}/>
-          <HelixTableBody searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowProps={customBodyRowProps}/>
+          <HelixTableHead order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
+          <HelixTableBody searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
           <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
         </Table>
       </TableContainer>
@@ -113,8 +112,8 @@ HelixTable.propTypes = {
   columns: PropTypes.instanceOf(Array).isRequired,
   rows: PropTypes.instanceOf(Array).isRequired,
   customCellRender: PropTypes.func.isRequired,
-  customHeadRowProps: PropTypes.func.isRequired,
-  customBodyRowProps: PropTypes.func.isRequired,
+  customHeadColumnKeyProp: PropTypes.func.isRequired,
+  customBodyRowKeyProp: PropTypes.func.isRequired,
   initialOrderBy: PropTypes.string.isRequired,
   displayCreateIcon: PropTypes.func.isRequired,
 }
