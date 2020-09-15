@@ -2,7 +2,8 @@ import React from 'react'
 import { TextField } from '@material-ui/core'
 
 /**
- * @return {JSX} returns a reusable form input text field component
+ * ###Returns 
+ * * **\<JSX\>** returns a reusable form input text field component
  */
 const HelixTextField = (props) => {
 
@@ -23,6 +24,7 @@ const HelixTextField = (props) => {
 
   return (
     <TextField
+    varitant="outlined"
     label={label}
     name={name}
     value={value}

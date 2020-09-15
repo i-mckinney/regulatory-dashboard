@@ -1,5 +1,5 @@
-import React from 'react'
-import { TextField } from '@material-ui/core'
+import React from "react"
+import { TextField } from "@material-ui/core"
 
 /**
  * @return {JSX} returns a reusable form input text field component
@@ -23,6 +23,7 @@ const HelixTextField = (props) => {
 
   return (
     <TextField
+    variant="outlined"
     label={label}
     name={name}
     value={value}
