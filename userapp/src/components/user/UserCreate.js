@@ -9,6 +9,7 @@ const initialUser = {
     LastName: "",
     DateOfBirth: "",
     Phone: "",
+    Actions: "",
 }
 
 /**
