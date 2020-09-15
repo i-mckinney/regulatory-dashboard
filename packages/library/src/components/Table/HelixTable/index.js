@@ -8,14 +8,18 @@ import HelixToolBarSearch from "../HelixToolBarSearch/index"
 import { getComparator, stableSort } from '../HelixTableSortFunc/index'
 
 /**
- * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
- * @param {array} rows API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
- * @param {func} customCellRender func represents custom func that return jsx of table row of table cell values
- * @param {func} customHeadRowProps func represents custom func that return key props for table row in table head (required)
- * @param {func} customBodyRowProps func represents custom func that return key props for the table row in table body (required)
- * @param {string} initialOrderBy string represents what the column in the table should order by initially
- * @param {func} displayCreateIcon func displays jsx object of create icon into toolbar
- * @returns {JSX} renders a custom table
+ * 
+ * ###Params
+ * * _**columns**_ **\<array\>** Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
+ * * _**rows**_ **\<array\>**  API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
+ * * _**customCellRender**_ **\<func\>** customCellRender func represents custom func that return jsx of table row of table cell values
+ * * _**customHeadRowProps**_ **\<func\>**  func represents custom func that return key props for table row in table head (required)
+ * * _**customBodyRowProps**_ **\<func\>**  func represents custom func that return key props for the table row in table body (required)
+ * * _**initialOrderBy**_ **\<string\>** string represents what the column in the table should order by initially
+ * * _**displayCreateIcon**_ **\<func\>** func displays jsx object of create icon into toolbar
+ * 
+ * ###Returns 
+ * * **\<JSX\>** renders a react custom table component
  */
 const HelixTable = ({
   columns,
@@ -77,14 +81,15 @@ const HelixTable = ({
         if (value === '') return rows
         else 
           return rows.filter((row) => 
-            (columns.filter((column) => 
-              row[column.ID]
+            (columns.filter((column) =>
+              row[column.accessor]
               .toLowerCase()
-              .includes(value.toLowerCase()))
-              .length > 0 
-              ? true
-              : false
+              .includes(value.toLowerCase())
+              )
             )
+            .length > 0 
+            ? true 
+            : false
           )
       }
     })

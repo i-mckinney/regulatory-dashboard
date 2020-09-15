@@ -1,7 +1,8 @@
-import React, { useState } from "react"
-import { TableCell } from "@material-ui/core"
+import React from "react"
+import { Box, TableCell } from "@material-ui/core"
 import { withKnobs } from "@storybook/addon-knobs"
 import ThemeSelector from "../themes/ThemeSelector"
+import CssBaseline from "@material-ui/core/CssBaseline";
 import HelixTable from "../components/Table/HelixTable/index"
 
 export default {
@@ -102,7 +103,7 @@ const rows = [
     }
 ]
 
-const initialOrderBy = "Owner"
+const initialOrderBy = "FirstName"
 
 const customCellRender = (rowIndex, row, column) => {
     const columnID = column.accessor
@@ -113,23 +114,30 @@ const customCellRender = (rowIndex, row, column) => {
     )
 }
 
+
 const customHeadRowProps = (column) => column.accessor
 
-const customBodyRowProps = (row) => row.Uuid
+// The unique idenifier for whole row
+const customBodyRowProps = (row) => row.HelixUUID
 
+// If your service does not need to Add Icon return null ()
 const displayCreateEmptyIcon = () => null
 
-export const SampleHelixTable = () => {
+export const SampleHelixTable = (args) => {
     return (
         <ThemeSelector>
-            <HelixTable 
-            displayCreateIcon={displayCreateEmptyIcon}
-            initialOrderBy={initialOrderBy} 
-            columns={columns.slice(1)} 
-            rows={rows} 
-            customCellRender={customCellRender} 
-            customHeadRowProps={customHeadRowProps} 
-            customBodyRowProps={customBodyRowProps} />
+            <CssBaseline />
+            <HelixTable { ...args } />
         </ThemeSelector>
     )
+}
+
+SampleHelixTable.args ={
+    displayCreateIcon: displayCreateEmptyIcon,
+    initialOrderBy: initialOrderBy,
+    columns: columns.slice(1),
+    rows: rows,
+    customCellRender: customCellRender,
+    customHeadRowProps: customHeadRowProps,
+    customBodyRowProps: customBodyRowProps,
 }

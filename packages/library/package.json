@@ -43,6 +43,7 @@
     "@storybook/addon-knobs": "^6.0.21",
     "@storybook/addon-links": "^6.0.21",
     "@storybook/react": "^6.0.21",
+    "@storybook/theming": "^6.0.21",
     "auto": "^9.52.0",
     "babel-loader": "^8.1.0",
     "react": "^16.13.1",
