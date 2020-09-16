@@ -24,7 +24,7 @@ const HelixTextField = (props) => {
 
   return (
     <TextField
-    varitant="outlined"
+    variant="outlined"
     label={label}
     name={name}
     value={value}
