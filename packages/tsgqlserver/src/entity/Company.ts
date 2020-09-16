@@ -1,11 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { Field, Int, ObjectType } from "type-graphql";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+} from "typeorm";
+import { Field, Int, ObjectType, ID } from "type-graphql";
+import { EmployeeEmployer } from "./EmployeeEmployer";
 
 //Specify class decorators for type-graphql here
 @ObjectType()
 @Entity()
 export class Company extends BaseEntity {
-  @Field(() => Int)
+  //()=> Int is specifying type for DB. simple types like string can be inferred
+  @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -36,4 +44,7 @@ export class Company extends BaseEntity {
   @Field(() => Int)
   @Column("int", { default: 50 })
   employees: number;
+
+  @OneToMany(() => EmployeeEmployer, (employer) => employer.company)
+  userConnection: Promise<EmployeeEmployer[]>;
 }

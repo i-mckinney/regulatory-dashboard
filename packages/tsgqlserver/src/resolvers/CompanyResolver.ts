@@ -8,6 +8,7 @@ import {
   Field,
 } from "type-graphql";
 import { Company } from "../entity/Company";
+import { User } from "../entity/User";
 
 @InputType()
 class CompanyInput {
@@ -32,6 +33,44 @@ class CompanyInput {
   //number cannot be inferred
   @Field(() => Int)
   employees: number;
+}
+
+@InputType()
+class UserInput {
+  @Field()
+  firstName: string;
+
+  @Field()
+  lastName: string;
+
+  @Field(() => Int)
+  age: number;
+}
+
+@InputType()
+class UpdateCompanyInput {
+  @Field(() => String, { nullable: true })
+  //? denotes that it will allow undefined - aka input is optional
+  name?: string;
+
+  @Field(() => String, { nullable: true })
+  address1?: string;
+
+  @Field(() => String, { nullable: true })
+  address2?: string;
+
+  @Field(() => String, { nullable: true })
+  companyType?: string;
+
+  @Field(() => String, { nullable: true })
+  startDate?: string;
+
+  @Field(() => String, { nullable: true })
+  phoneNumber?: string;
+
+  //number cannot be inferred
+  @Field(() => Int, { nullable: true })
+  employees?: number;
 }
 
 //Where we describe our queries
@@ -65,11 +104,32 @@ export class CompanyResolver {
   }
 
   @Mutation(() => String)
+  async createUser(@Arg("userParams", () => UserInput) userParams: UserInput) {
+    await User.insert(userParams);
+    return "Inserted: " + JSON.stringify(userParams);
+  }
+
+  @Mutation(() => String)
+  async addEmployee(
+    @Arg()
+  )
+
+  @Mutation(() => String)
   async createCompany2(
     @Arg("params", () => CompanyInput) params: CompanyInput
   ) {
     await Company.insert(params);
     return "Inserted: " + JSON.stringify(params);
+  }
+
+  @Mutation(() => Boolean)
+  async updateCompany(
+    @Arg("id", () => Int) id: number,
+    @Arg("updateParams", () => UpdateCompanyInput)
+    updateParams: UpdateCompanyInput
+  ) {
+    await Company.update({ id }, updateParams);
+    return true;
   }
 
   @Query(() => [Company])
