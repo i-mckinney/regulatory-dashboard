@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import HelixTable from "../table/HelixTable"
 import { makeStyles, Typography, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { HelixTable } from 'helixmonorepo-lib'
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -194,6 +194,7 @@ const UserTable = (props) => {
     }, [props.location.state])
 
     /**
+     * @param {int} rowIndex represents row index
      * @param {object} row represent object data from the api result
      * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
      * @return {JSX} Table cell of object properties in that Table row
