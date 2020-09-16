@@ -3,5 +3,5 @@ import { themes } from '@storybook/theming';
 
 // The theme set the storybook UI to dark 
 addons.setConfig({
-  theme: themes.dark,
+  // theme: themes.dark,
 });
