@@ -21,7 +21,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1",
     "start-dev": "npm install && start-storybook -p 6006",
     "build": "npm install && npx babel src --out-dir lib --ignore \"src/**/*.stories.js\",\"src/**/*.stories.mdx\"",
-    "prepack": "npm run build"
+    "prepublish": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/i-mckinney/helixmonorepo/issues"
@@ -51,5 +51,5 @@
     "react-dom": "^16.13.1",
     "react-is": "^16.13.1"
   },
-  "gitHead": "65f8131e2be31cb8e353ada2c9295cd1af2f9bb1"
+  "gitHead": "ac1166345b446f2a47e10d9600a7091cbf82fb60"
 }
