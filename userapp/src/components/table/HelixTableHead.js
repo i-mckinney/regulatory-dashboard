@@ -54,6 +54,30 @@ const HelixTableHead = ({ columns, customHeadRowProps, order, orderBy, onSort })
     return orderBy === customHeadRowProps(column) ? order : 'asc'
   }
 
+  /**
+   * 
+   * @param {object} column the column is an object that contains header label and header accessor
+   * @return {jsx} return a jsx sortable column label or regular column label
+   */
+  const renderTableSortLabel = (column) => {
+    return (
+      column.sortable ? <TableSortLabel
+      className={helixTableHeadClasses.sortLabel}
+      active={isActive(orderBy, column)}
+      direction={orderByDirection(order, orderBy, column)}
+      onClick={createSortHandler(column)}
+      >
+        {column.Label}
+        {orderBy === customHeadRowProps(column) ? (
+        <span className={helixTableHeadClasses.visuallyHidden}>
+          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+        </span>
+        ) : null}
+      </TableSortLabel>
+      : column.Label
+    )
+  }
+
   return (
     <TableHead>
       <TableRow>
@@ -61,19 +85,7 @@ const HelixTableHead = ({ columns, customHeadRowProps, order, orderBy, onSort })
             <TableCell 
             key={customHeadRowProps(column)}
             sortDirection={orderBy === customHeadRowProps(column) ? order : false}>
-              <TableSortLabel
-              className={helixTableHeadClasses.sortLabel}
-              active={isActive(orderBy, column)}
-              direction={orderByDirection(order, orderBy, column)}
-              onClick={createSortHandler(column)}
-              >
-                {column.Label}
-                {orderBy === customHeadRowProps(column) ? (
-                <span className={helixTableHeadClasses.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-              ) : null}
-              </TableSortLabel>
+              {renderTableSortLabel(column)}
             </TableCell>
           ))}
       </TableRow>

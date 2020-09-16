@@ -82,26 +82,32 @@ const UserTable = (props) => {
         {
             Label: "ID",
             ID: "ID",
+            sortable: false,
         },
         {
             Label: "First Name",
             ID: "FirstName",
+            sortable: true,
         },
         {
             Label: "Last Name",
             ID: "LastName",
+            sortable: true,
         },
         {
             Label: "Date of Birth",
             ID:"DateOfBirth",
+            sortable: true,
         },
         {
             Label: "Phone",
             ID: "Phone",
+            sortable: true,
         },
         {
             Label: "Actions",
             ID: "Actions",
+            sortable: false,
         },
     ], [])
 
@@ -251,7 +257,7 @@ const UserTable = (props) => {
             <div className={userTableClasses.header}>
                 <Typography variant="h5">Users</Typography>
             </div>
-            <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
+            <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
         </div>
     )
 }
