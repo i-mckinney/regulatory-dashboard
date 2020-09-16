@@ -2,7 +2,7 @@ import React from "react"
 import { TableCell } from "@material-ui/core"
 import { withKnobs } from "@storybook/addon-knobs"
 import ThemeSelector from "../themes/ThemeSelector"
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from "@material-ui/core/CssBaseline"
 import HelixTable from "../components/Table/HelixTable/index"
 
 export default {
@@ -10,6 +10,18 @@ export default {
     decorators: [withKnobs],
     component: HelixTable,    
 }
+
+/**
+ * 
+ * HelixTable.stories.js contains this code. 
+ * the index.js file that is in the same folder HelixTable is straight from our repo
+ * this file is loading that code.
+ * @title is the name of the component "Story" folder
+ * @component needs to be set to the import component for the cool controls to populate
+ * @ThemeSelector is this goofy way I figured out how to change themes on the components 
+ * @decorator You have to add the decorator withKnobs for it to work.
+ * 
+ */
 
 const columns = [
     {
@@ -123,6 +135,9 @@ const customBodyRowKeyProp = (row) => row.HelixUUID
 // If your service does not need to AddIcon/Button return null ()
 const displayCreateEmptyIcon = () => null
 
+/**
+ * @param {object} args represents arguments that SampleHelixTable needs
+ */
 export const SampleHelixTable = (args) => {
     return (
         <ThemeSelector>
@@ -132,7 +147,10 @@ export const SampleHelixTable = (args) => {
     )
 }
 
-SampleHelixTable.args ={
+/**
+ * SampleHelixTable.args are arguments will provide to SampleHelixTable to work functionality
+ */
+SampleHelixTable.args = {
     displayCreateIcon: displayCreateEmptyIcon,
     initialOrderBy: initialOrderBy,
     columns: columns.slice(1),
