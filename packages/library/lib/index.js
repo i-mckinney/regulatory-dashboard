@@ -15,6 +15,12 @@ Object.defineProperty(exports, "HelixButton", {
     return _HelixButton["default"];
   }
 });
+Object.defineProperty(exports, "HelixTable", {
+  enumerable: true,
+  get: function get() {
+    return _HelixTable["default"];
+  }
+});
 Object.defineProperty(exports, "dark", {
   enumerable: true,
   get: function get() {
@@ -31,6 +37,8 @@ Object.defineProperty(exports, "tropical", {
 var _MUIButton = _interopRequireDefault(require("./components/MUIButton"));
 
 var _HelixButton = _interopRequireDefault(require("./components/HelixButton"));
+
+var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"));
 
 var _dark = _interopRequireDefault(require("./themes/dark"));
 
