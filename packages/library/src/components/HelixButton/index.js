@@ -32,7 +32,7 @@ export default function HelixButton(props) {
       color={color || 'inherit'}
       onClick={onClick}
       {...other}
-      buttonClasses={{ root: buttonClasses.root, label: buttonClasses.label }}
+      classes={{ root: buttonClasses.root, label: buttonClasses.label }}
     >
       {text}
     </Button>
