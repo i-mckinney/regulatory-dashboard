@@ -8,7 +8,7 @@ import PropTypes from "prop-types"
  * @param {int} rowsPerPage the rowsPerPage is a number of row per page
  * @param {int} page page is current page currently at
  * @param {func} customCellRender func represent custom func that return jsx of table row of table cell values
- * @param {func} customBodyRowProps func represent custom func that return key props for the table row (required)
+ * @param {func} customBodyRowKeyProp func represent custom func that return key props for the table row (required)
  * @param {string} order string represents ascending or descending order
  * @param {string} orderBy string represents which column should it order by
  * @param {func} getComparator func that set up a rule to compare the orderby column by acsending or descending order
@@ -16,7 +16,7 @@ import PropTypes from "prop-types"
  * @param {object} searchFilter object that contains a function for filtering search query
  * @returns {JSX} renders a custom table body for table
  */
-const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowProps, order, orderBy, getComparator, stableSort, searchFilter }) => {
+const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowKeyProp, order, orderBy, getComparator, stableSort, searchFilter }) => {
   
   //If rowsPerPage is always greater than 0, then we sort the rows by indicating column
   //and display rowsPerPage by each page
@@ -31,7 +31,7 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
       <TableBody>
         {sortedRows.map((row, rowIndex) => {
             return (
-              <TableRow key={customBodyRowProps(row)}>
+              <TableRow key={customBodyRowKeyProp(row)}>
                 {columns.map((column) => {
                   return (
                     customCellRender(rowIndex, row, column)
@@ -51,7 +51,7 @@ HelixTableBody.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   customCellRender: PropTypes.func.isRequired,
-  customBodyRowProps: PropTypes.func.isRequired,
+  customBodyRowKeyProp: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   getComparator: PropTypes.func.isRequired,

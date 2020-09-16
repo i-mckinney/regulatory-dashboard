@@ -11,8 +11,8 @@ import { getComparator, stableSort } from './HelixTableSortFunc'
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
  * @param {array} rows API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)
  * @param {func} customCellRender func represents custom func that return jsx of table row of table cell values
- * @param {func} customHeadRowProps func represents custom func that return key props for table row in table head (required)
- * @param {func} customBodyRowProps func represents custom func that return key props for the table row in table body (required)
+ * @param {func} customHeadColumnKeyProp func represents custom func that return key props for table row in table head (required)
+ * @param {func} customBodyRowKeyProp func represents custom func that return key props for the table row in table body (required)
  * @param {string} initialOrderBy string represents what the column in the table should order by initially
  * @param {func} displayCreateIcon func displays jsx object of create icon into toolbar
  * @returns {JSX} renders a custom table
@@ -21,8 +21,8 @@ const HelixTable = ({
   columns,
   rows,
   customCellRender,
-  customHeadRowProps,
-  customBodyRowProps,
+  customHeadColumnKeyProp,
+  customBodyRowKeyProp,
   initialOrderBy,
   displayCreateIcon,
   }) => {
@@ -78,7 +78,7 @@ const HelixTable = ({
         else 
           return rows.filter((row) => 
             (columns.filter((column) => 
-              row[column.ID]
+              row[column.Accessor]
               .toLowerCase()
               .includes(value.toLowerCase()))
               .length > 0 
@@ -95,8 +95,8 @@ const HelixTable = ({
       <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateIcon} />
       <TableContainer component={Paper}>
         <Table aria-label="table">
-          <HelixTableHead order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadRowProps={customHeadRowProps}/>
-          <HelixTableBody searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowProps={customBodyRowProps}/>
+          <HelixTableHead order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
+          <HelixTableBody searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
           <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
         </Table>
       </TableContainer>
@@ -108,8 +108,8 @@ HelixTable.propTypes = {
   columns: PropTypes.instanceOf(Array).isRequired,
   rows: PropTypes.instanceOf(Array).isRequired,
   customCellRender: PropTypes.func.isRequired,
-  customHeadRowProps: PropTypes.func.isRequired,
-  customBodyRowProps: PropTypes.func.isRequired,
+  customHeadColumnKeyProp: PropTypes.func.isRequired,
+  customBodyRowKeyProp: PropTypes.func.isRequired,
   initialOrderBy: PropTypes.string.isRequired,
   displayCreateIcon: PropTypes.func.isRequired,
 }

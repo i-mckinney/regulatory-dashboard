@@ -81,33 +81,33 @@ const UserTable = (props) => {
     const columns = React.useMemo(() => [
         {
             Label: "ID",
-            ID: "ID",
-            sortable: false,
+            Accessor: "ID",
+            Sortable: false,
         },
         {
             Label: "First Name",
-            ID: "FirstName",
-            sortable: true,
+            Accessor: "FirstName",
+            Sortable: true,
         },
         {
             Label: "Last Name",
-            ID: "LastName",
-            sortable: true,
+            Accessor: "LastName",
+            Sortable: true,
         },
         {
             Label: "Date of Birth",
-            ID:"DateOfBirth",
-            sortable: true,
+            Accessor:"DateOfBirth",
+            Sortable: true,
         },
         {
             Label: "Phone",
-            ID: "Phone",
-            sortable: true,
+            Accessor: "Phone",
+            Sortable: true,
         },
         {
             Label: "Actions",
-            ID: "Actions",
-            sortable: false,
+            Accessor: "Actions",
+            Sortable: false,
         },
     ], [])
 
@@ -199,10 +199,10 @@ const UserTable = (props) => {
      * @return {JSX} Table cell of object properties in that Table row
      */
     const customCellRender = (rowIndex, row, column) => {
-        const columnID = column.ID
-        if (columnID === "Actions") {
+        const columnAccessor = column.Accessor
+        if (columnAccessor === "Actions") {
             return (
-                <TableCell className={userTableClasses.actionsIconStyle} key={`${rowIndex} ${columnID}`}>
+                <TableCell className={userTableClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
                     <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} color="default">
                         <EditIcon />
                     </IconButton>
@@ -213,8 +213,8 @@ const UserTable = (props) => {
             )
         }
         return (
-            <TableCell key={`${rowIndex} ${columnID}`}>
-                {row[columnID]}
+            <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                {row[columnAccessor]}
             </TableCell>
         )
     }
@@ -223,15 +223,15 @@ const UserTable = (props) => {
      * @param {object} column represent object data regarding the api result  
      * @return {string} provide table row with unique key props (required)
      */
-    const customHeadRowProps = (column) => {
-        return column.ID
+    const customHeadColumnKeyProp = (column) => {
+        return column.Accessor
     }
 
     /**
      * @param {object} row represent object data regarding the api result 
      * @return {string} provide table row with unique key props (required)
      */
-    const customBodyRowProps = (row) => {
+    const customBodyRowKeyProp = (row) => {
         return row.ID
     }
 
@@ -257,7 +257,7 @@ const UserTable = (props) => {
             <div className={userTableClasses.header}>
                 <Typography variant="h5">Users</Typography>
             </div>
-            <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadRowProps={customHeadRowProps} customBodyRowProps={customBodyRowProps} />
+            <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
         </div>
     )
 }
