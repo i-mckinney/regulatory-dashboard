@@ -159,7 +159,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 variant="contained"
                 type="cancel"
                 size="small"
-                href="/"
+                href="/user"
                 startIcon={<CancelIcon />}>
                     Cancel
                 </HelixButton>

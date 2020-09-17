@@ -12,7 +12,7 @@ const UserEdit = (props) => {
 
     const onSubmit = (editedUser) => {
         props.history.push({
-            pathname: "/",
+            pathname: "/user",
             state: { type: "UPDATE", payload: editedUser }
         })
     }
