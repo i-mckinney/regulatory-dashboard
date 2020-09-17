@@ -19,7 +19,7 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "start-dev": "npm install && start-storybook -p 6006",
+    "start-storybook": "npm install && start-storybook -p 6006",
     "build": "npm install && npx babel src --out-dir lib --ignore \"src/**/*.stories.js\",\"src/**/*.stories.mdx\"",
     "prepare": "npx babel src --out-dir lib --ignore \"src/**/*.stories.js\",\"src/**/*.stories.mdx\""
   },
