@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route path="/" exact component={UserTable} />
+            <Route path="/user" exact component={UserTable} />
             <Route path="/user/new" component={UserCreate}  />
             <Route path="/user/edit/:id" component={UserEdit} />
             <Route path="/user/delete/:id" component={UserDelete} />
