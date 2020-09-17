@@ -23,9 +23,9 @@ const CompanyView = ({ history }) => (
   />
 )
 
-const User = ({ history }) => {
+const User = ({ history }) => (
   <MicroserviceLoader history={history} host={userHost} name="User" />
-}
+)
 
 const App = () => (
   <BrowserRouter>
@@ -41,7 +41,7 @@ const App = () => (
         <Route exact path="/regulatory" component={Dashboard} />
         <Route exact path="/myrequest" component={Dashboard} />
         <Route exact path="/user" component={User} />
-        <Route exact path="/user/new" component={User}  />
+        <Route exact path="/user/new" component={User} />
         <Route exact path="/user/edit/:id" component={User} />
         <Route exact path="/user/delete/:id" component={User} />
       </Switch>
