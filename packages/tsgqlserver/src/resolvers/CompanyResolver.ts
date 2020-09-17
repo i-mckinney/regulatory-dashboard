@@ -8,43 +8,31 @@ import {
   Field,
 } from "type-graphql";
 import { Company } from "../entity/Company";
-import { User } from "../entity/User";
+import { EmployeeEmployer } from "../entity/EmployeeEmployer";
 
 @InputType()
 class CompanyInput {
-  @Field()
-  name: string;
+  @Field(() => String, { nullable: true })
+  name?: string;
 
-  @Field()
-  address1: string;
+  @Field(() => String, { nullable: true })
+  address1?: string;
 
   @Field({ nullable: true, defaultValue: "" })
-  address2: string;
+  address2?: string;
 
-  @Field()
-  companyType: string;
+  @Field(() => String, { nullable: true })
+  companyType?: string;
 
-  @Field()
-  startDate: string;
+  @Field(() => String, { nullable: true })
+  startDate?: string;
 
-  @Field()
-  phoneNumber: string;
+  @Field(() => String, { nullable: true })
+  phoneNumber?: string;
 
   //number cannot be inferred
-  @Field(() => Int)
-  employees: number;
-}
-
-@InputType()
-class UserInput {
-  @Field()
-  firstName: string;
-
-  @Field()
-  lastName: string;
-
-  @Field(() => Int)
-  age: number;
+  @Field(() => Int, { nullable: true })
+  employees?: number;
 }
 
 @InputType()
@@ -104,17 +92,6 @@ export class CompanyResolver {
   }
 
   @Mutation(() => String)
-  async createUser(@Arg("userParams", () => UserInput) userParams: UserInput) {
-    await User.insert(userParams);
-    return "Inserted: " + JSON.stringify(userParams);
-  }
-
-  @Mutation(() => String)
-  async addEmployee(
-    @Arg()
-  )
-
-  @Mutation(() => String)
   async createCompany2(
     @Arg("params", () => CompanyInput) params: CompanyInput
   ) {
@@ -132,8 +109,22 @@ export class CompanyResolver {
     return true;
   }
 
+  @Mutation(() => String)
+  async deleteCompany(@Arg("companyId", () => Int) companyId: number) {
+    await EmployeeEmployer.delete({ companyId: companyId });
+    await Company.delete({ id: companyId });
+    return "Deleted company: " + companyId;
+  }
+
   @Query(() => [Company])
   companies() {
     return Company.find();
+  }
+
+  @Query(() => Company)
+  async company(
+    @Arg("id", () => Int) id: number
+  ): Promise<Company | undefined> {
+    return await Company.find((company) => company.id === id);
   }
 }

@@ -1,10 +1,12 @@
-import "reflect-metadata";
 import { createConnection, getConnectionOptions } from "typeorm";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { HelloWorldResolver } from "./resolvers/HelloWorldResolver";
 import { CompanyResolver } from "./resolvers/CompanyResolver";
+import { createCompaniesLoader } from "./utils/companyLoader";
+import { EmployeeEmployerResolver } from "./resolvers/EmployeeEmployerResolver";
+import { UserResolver } from "./resolvers/UserResolver";
 
 (async () => {
   const app = express();
@@ -16,10 +18,19 @@ import { CompanyResolver } from "./resolvers/CompanyResolver";
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloWorldResolver, CompanyResolver],
+      resolvers: [
+        HelloWorldResolver,
+        CompanyResolver,
+        EmployeeEmployerResolver,
+        UserResolver,
+      ],
       validate: true,
     }),
-    context: ({ req, res }) => ({ req, res }),
+    context: ({ req, res }) => ({
+      req,
+      res,
+      companyLoader: createCompaniesLoader(),
+    }),
   });
 
   apolloServer.applyMiddleware({ app, cors: false });
