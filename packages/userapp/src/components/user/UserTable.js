@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, Typography, TableCell } from '@material-ui/core'
+import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
@@ -56,6 +56,7 @@ const userTableStyles = makeStyles(() => ({
     createIconStyle: {
         float: 'right',
         cursor: 'pointer',
+        marginLeft: "auto",
     },
     header: {
         paddingBottom: '2rem',
@@ -254,12 +255,14 @@ const UserTable = (props) => {
     }
 
     return (
-        <div className={userTableClasses.mediumContainer}>
-            <div className={userTableClasses.header}>
-                <Typography variant="h5">Users</Typography>
+        <StylesProvider injectFirst>
+            <div className={userTableClasses.mediumContainer}>
+                <div className={userTableClasses.header}>
+                    <Typography variant="h5">Users</Typography>
+                </div>
+                <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             </div>
-            <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
-        </div>
+        </StylesProvider>
     )
 }
 
