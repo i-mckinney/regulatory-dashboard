@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
-import HelixTextField from '../controls/HelixTextField'
-import HelixButton from '../controls/HelixButton'
+import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
+// import HelixTextField from '../controls/HelixTextField'
+// import HelixButton from '../controls/HelixButton'
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 
@@ -145,25 +146,23 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
      */
     const renderButtonActions = () => {
         return (
-            <React.Fragment>
+            <>
                 <HelixButton 
                 color="primary" 
                 variant="contained" 
                 type="submit" 
                 size="small"
-                startIcon={<SaveIcon />}>
-                    Save
-                </HelixButton>
+                startIcon={<SaveIcon />}
+                text="Save" />
                 <HelixButton
                 color="default"
                 variant="contained"
                 type="cancel"
                 size="small"
                 href="/user"
-                startIcon={<CancelIcon />}>
-                    Cancel
-                </HelixButton>
-            </React.Fragment>
+                startIcon={<CancelIcon />}
+                text="Cancel" />
+            </>
         )
     }
 

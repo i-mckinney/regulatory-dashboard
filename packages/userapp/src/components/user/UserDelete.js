@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { makeStyles, Modal } from '@material-ui/core';
-import HelixButton from '../controls/HelixButton'
+import { HelixButton } from 'helixmonorepo-lib'
 import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
 
@@ -77,8 +77,8 @@ const UserDelete = (props) => {
                     {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
                 </div>
                 <div className={userDeleteClasses.actions}>
-                    <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/user", state: { type: "DELETE", payload: props.location.state.ID} }))} startIcon={<DeleteIcon />} variant="contained" color="secondary">Delete</HelixButton>
-                    <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/user" startIcon={<CancelIcon />} variant="contained" color="default">Cancel</HelixButton>
+                    <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/user", state: { type: "DELETE", payload: props.location.state.ID} }))} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />
+                    <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/user" startIcon={<CancelIcon />} variant="contained" color="default" text="Cancel" />
                 </div>
             </div>
         )
