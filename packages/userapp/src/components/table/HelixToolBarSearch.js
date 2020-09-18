@@ -8,7 +8,6 @@ import HelixTextField from '../controls/HelixTextField'
 const helixToolBarSearchStyles = makeStyles(() => ({
   searchStyles: {
     width: "28%",
-    marginRight: "auto",
   },
 }))
 
