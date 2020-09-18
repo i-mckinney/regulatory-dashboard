@@ -7,7 +7,7 @@
 - ##### Install dependencies for packages and create symlinks. Read more [here](https://github.com/lerna/lerna/tree/master/commands/bootstrap#readme)
 `lerna bootstrap` 
 - ##### Launch Storybook for local view of web components
-`npm run starat-storybook`
+`npm run start-storybook`
 - ##### Build Storybook for NPM Deployment
 `npm run build`
 
