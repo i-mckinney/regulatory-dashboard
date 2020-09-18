@@ -15,6 +15,12 @@ Object.defineProperty(exports, "HelixButton", {
     return _HelixButton["default"];
   }
 });
+Object.defineProperty(exports, "HelixTextField", {
+  enumerable: true,
+  get: function get() {
+    return _HelixTextField["default"];
+  }
+});
 Object.defineProperty(exports, "HelixTable", {
   enumerable: true,
   get: function get() {
@@ -37,6 +43,8 @@ Object.defineProperty(exports, "tropical", {
 var _MUIButton = _interopRequireDefault(require("./components/MUIButton"));
 
 var _HelixButton = _interopRequireDefault(require("./components/HelixButton"));
+
+var _HelixTextField = _interopRequireDefault(require("./components/HelixTextField"));
 
 var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"));
 

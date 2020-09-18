@@ -14,7 +14,7 @@ import CreditCard from "@material-ui/icons/CreditCard"
 import AccountBalance from "@material-ui/icons/AccountBalance"
 import PropTypes from "prop-types"
 
-const useStyles = makeStyles((theme) => ({
+const navStyles = makeStyles((theme) => ({
   navBarContainer: {
     flexGrow: 1,
   },
@@ -47,58 +47,64 @@ const useStyles = makeStyles((theme) => ({
   breadcrumbs: {
     "& li": {
       "&:first-child": {
-        flexGrow: 1,
+        marginRight: "auto",
       },
     },
   },
 }))
 
-/** @return {jsx} Contains navbar to handle navigation in dashboard component
+/**
+ * @param {func} handleHome func represents when home button is clicked (helix logo) redirects to home page
+ * @return {jsx} Contains navbar to handle navigation in dashboard component
  */
 function Navigation({ handleHome }) {
-  // useStyles define styling for material ui. Any className that matches key of useStyles object above,
+  // navStyles define styling for material ui. Any className that matches key of navStyles object above,
   // corresponding styles will be applied
-  const classes = useStyles()
+  const navClasses = navStyles()
 
   return (
-    <div className={classes.navBarContainer}>
-      <AppBar position="static" className={classes.navBar}>
-        <Toolbar className={classes.toolbar}>
+    <div className={navClasses.navBarContainer}>
+      <AppBar position="static" className={navClasses.navBar}>
+        <Toolbar className={navClasses.toolbar}>
           <Breadcrumbs
             aria-label="breadcrumb"
             separator=""
-            className={classes.breadcrumbs}
+            className={navClasses.breadcrumbs}
           >
             <Typography
               variant="h6"
               onClick={handleHome}
-              className={classes.homeButton}
+              className={navClasses.homeButton}
             >
               Home
             </Typography>
 
-            <Link color="inherit" href="/dashboard" className={classes.link}>
-              <Computer className={classes.icon} />
+            <Link color="inherit" href="/dashboard" className={navClasses.link}>
+              <Computer className={navClasses.icon} />
               Dashboard
             </Link>
 
-            <Link color="inherit" href="/entity" className={classes.link}>
-              <AccountBalance className={classes.icon} />
+            <Link color="inherit" href="/entity" className={navClasses.link}>
+              <AccountBalance className={navClasses.icon} />
               Entity
             </Link>
 
-            <Link color="inherit" href="/loan" className={classes.link}>
-              <CreditCard className={classes.icon} />
+            <Link color="inherit" href="/loan" className={navClasses.link}>
+              <CreditCard className={navClasses.icon} />
               Loan
             </Link>
 
-            <Link color="inherit" href="/regulatory" className={classes.link}>
-              <FeaturedPlayListIcon className={classes.icon} />
+            <Link
+              color="inherit"
+              href="/regulatory"
+              className={navClasses.link}
+            >
+              <FeaturedPlayListIcon className={navClasses.icon} />
               Regulatory
             </Link>
 
-            <Link color="inherit" href="/myrequest" className={classes.link}>
-              <AccountCircle className={classes.icon} />
+            <Link color="inherit" href="/myrequest" className={navClasses.link}>
+              <AccountCircle className={navClasses.icon} />
               My Request
             </Link>
           </Breadcrumbs>

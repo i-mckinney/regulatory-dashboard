@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import { makeStyles } from "@material-ui/core/styles"
-import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core"
+import { HelixTextField } from "helixmonorepo-lib"
 import helixLogo from "./helixLogo.jpg"
 import Navigation from "./Navigation"
 
-const useStyles = makeStyles(() => ({
+const headerStyles = makeStyles(() => ({
   companySelectContainer: {
     marginBottom: "20px",
   },
@@ -25,10 +25,6 @@ const useStyles = makeStyles(() => ({
     marginBottom: 0,
     marginRight: 5,
   },
-
-  companySelectField: {
-    minWidth: "300px",
-  },
   companyFormControl: {
     marginTop: "15px",
     minWidth: 120,
@@ -42,9 +38,9 @@ const useStyles = makeStyles(() => ({
 function Header() {
   // History is used to handle page routes
   const history = useHistory()
-  // useStyles define styling for material ui. Any className that matches key of useStyles object above,
+  // headerStyles define styling for material ui. Any className that matches key of headerStyles object above,
   // corresponding styles will be applied
-  const classes = useStyles()
+  const headerClasses = headerStyles()
 
   // when home button is clicked (helix logo) redirects to home page
   const handleHome = () => {
@@ -52,36 +48,67 @@ function Header() {
     window.location.reload(false)
   }
 
+  // companies is an option selection that contains label and value for selected option
+  const companies = [
+    {
+      value: "Facebook",
+      label: "Facebook",
+    },
+    {
+      value: "Amazon",
+      label: "Amazon",
+    },
+    {
+      value: "Apple",
+      label: "Apple",
+    },
+    {
+      value: "Netflix",
+      label: "Netflix",
+    },
+    {
+      value: "Google",
+      label: "Google",
+    },
+  ]
+
   // This will keep track of what the user selects in company view select field
-  const [companyView, setCompanyView] = useState("")
+  const [company, setCompany] = useState("Apple")
+
   // will be used in the future to send display different nav pages
-  const handleCompanyViewChange = (event) => {
-    setCompanyView(event.target.value)
+  const handleChange = (event) => {
+    setCompany(event.target.value)
   }
+
   return (
     <header>
-      <div className={classes.companySelectContainer}>
+      <div className={headerClasses.companySelectContainer}>
         <input
           type="image"
-          className={classes.helixLogoImg}
+          className={headerClasses.helixLogoImg}
           src={helixLogo}
           onClick={handleHome}
           alt="helixLogo"
         />
-        <FormControl className={classes.companyFormControl}>
-          <InputLabel id="company-select-label">Company View</InputLabel>
-          <Select
-            labelId="company-select"
-            id="company-select"
-            className={classes.companySelectField}
-            value={companyView}
-            onChange={handleCompanyViewChange}
-          >
-            <MenuItem value="" />
-            <MenuItem value="Microsoft">Microsoft</MenuItem>
-            <MenuItem value="SalesForce">Sales Force</MenuItem>
-          </Select>
-        </FormControl>
+        <HelixTextField
+          className={headerClasses.companyFormControl}
+          id="outlined-select-currency-native"
+          select
+          label="Company"
+          value={company}
+          onChange={handleChange}
+          SelectProps={{
+            native: true,
+          }}
+          helperText="Please select your company"
+          variant="outlined"
+        >
+          {companies.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </HelixTextField>
       </div>
       <Navigation handleHome={handleHome} />
     </header>

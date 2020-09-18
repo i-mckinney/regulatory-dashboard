@@ -53,7 +53,7 @@ function HelixButton(props) {
     color: color || 'inherit',
     onClick: onClick
   }, other, {
-    buttonClasses: {
+    classes: {
       root: buttonClasses.root,
       label: buttonClasses.label
     }
