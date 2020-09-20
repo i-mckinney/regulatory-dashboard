@@ -67,6 +67,9 @@ const UserDelete = (props) => {
     // Creates an object for styling. Any className that matches key in the userDeleteStyles object will have a corresponding styling
     const userDeleteClasses = userDeleteStyles();
     
+    /**
+     * deleteUser calls backend api through delete protocol to remove a user with the specific id and nagivate to next component
+     */
     const deleteUser = async () => {
         const id = props.location.state._id
         await users.delete(`/users/${id}`)

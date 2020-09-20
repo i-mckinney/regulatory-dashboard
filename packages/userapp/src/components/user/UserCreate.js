@@ -17,14 +17,17 @@ const initialUser = {
  * routed at /user/new
  */
 const UserCreate = (props) => {
-    const onSubmitCreateUser = async (user) => {
+    /**
+     * @param {object} user represent user object with props values that it will create 
+     */
+    const createUser = async (user) => {
         await users.post("/users", user)
         props.history.push("/user")
     }
 
     return (
     <div>
-        <UserForm header="Create User" initialUser={initialUser} onSubmit={onSubmitCreateUser} />
+        <UserForm header="Create User" initialUser={initialUser} onSubmit={createUser} />
     </div>
     )
 }

@@ -80,8 +80,10 @@ const UserTable = (props) => {
     // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
     const userTableClasses = userTableStyles();
 
+    // rows will stores users from GET Method fetchUsers via Rest API 
     const [rows, setRows] = useState([])
     
+    // columns will store column header that we want to show in the front end
     const columns = useMemo(() => [], [])
 
     if (rows.length !== 0) {
@@ -108,6 +110,10 @@ const UserTable = (props) => {
      * Depending on the type of the state, it will perform the follow CRUD operations
      */
     useEffect(() => {
+        
+        /**
+         * fetchUsers calls backend api through get protocol to get all the users
+         */
         const fetchUsers = async () => {
             const response = await users.get("/users")
             setRows(response.data)

@@ -13,14 +13,17 @@ const UserEdit = (props) => {
     const id = user._id
     delete user._id
 
-    const onSubmitEditedUser = async (editedUser) => {
+    /**
+     * @param {object} editedUser represent object with edited user props values
+     */
+    const editUser = async (editedUser) => {
         await users.put(`/users/${id}`, editedUser)
         props.history.push("/user")
     }
 
     return (
     <div>
-        <UserForm header="Edit User" initialUser={user} onSubmit={onSubmitEditedUser} />
+        <UserForm header="Edit User" initialUser={user} onSubmit={editUser} />
     </div>
     )
 }
