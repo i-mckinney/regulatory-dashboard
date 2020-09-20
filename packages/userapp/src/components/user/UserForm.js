@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
-// import HelixTextField from '../controls/HelixTextField'
-// import HelixButton from '../controls/HelixButton'
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 

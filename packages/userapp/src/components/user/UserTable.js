@@ -7,7 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib'
 import users from '../apis/users'
-import { optionSortableExcludes } from '../../config'
+import { sortableExcludes, columnExcludes } from '../../config'
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -81,17 +81,20 @@ const UserTable = (props) => {
     const userTableClasses = userTableStyles();
 
     const [rows, setRows] = useState([])
+    
     const columns = useMemo(() => [], [])
 
     if (rows.length !== 0) {
         const headerColumns = Object.keys(rows[0])
-        headerColumns.map((key) => (
-            columns.push({
-            Label: key,
-            Accessor: key,
-            Sortable: optionSortableExcludes.includes(key) ? false : true,
-            })
-        ))
+        headerColumns.map((key) => {
+            if (!columnExcludes.includes(key)) {
+                columns.push({
+                Label: key,
+                Accessor: key,
+                Sortable: sortableExcludes.includes(key) ? false : true,
+                })
+            }
+        })
         columns.push({
             Label: "Actions",
             Accessor: "Actions",
