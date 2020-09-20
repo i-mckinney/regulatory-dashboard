@@ -4,6 +4,7 @@ import { makeStyles, Modal } from '@material-ui/core';
 import { HelixButton } from 'helixmonorepo-lib'
 import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
+import users from '../apis/users'
 
 // Styling used for MaterialUI
 const userDeleteStyles = makeStyles(() => ({
@@ -66,6 +67,13 @@ const UserDelete = (props) => {
     // Creates an object for styling. Any className that matches key in the userDeleteStyles object will have a corresponding styling
     const userDeleteClasses = userDeleteStyles();
     
+    const deleteUser = async () => {
+        const id = props.location.state._id
+        await users.delete(`/users/${id}`)
+        props.history.push("/user")
+    }
+
+
     /**
      * @return {jsx} return jsx modal-style object with header, content, and actions
      */
@@ -77,7 +85,7 @@ const UserDelete = (props) => {
                     {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
                 </div>
                 <div className={userDeleteClasses.actions}>
-                    <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/user", state: { type: "DELETE", payload: props.location.state.ID} }))} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />
+                    <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={deleteUser} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />
                     <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/user" startIcon={<CancelIcon />} variant="contained" color="default" text="Cancel" />
                 </div>
             </div>

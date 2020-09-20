@@ -107,7 +107,6 @@ const UserTable = (props) => {
     useEffect(() => {
         const fetchUsers = async () => {
             const response = await users.get("/users")
-            console.log(response.data)
             setRows(response.data)
         }
         fetchUsers()
