@@ -7,7 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib'
 import users from '../apis/users'
-import { sortableExcludes, columnExcludes } from '../../config'
+import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -88,10 +88,10 @@ const UserTable = (props) => {
 
     if (rows.length !== 0) {
         const headerColumns = Object.keys(rows[0])
-        headerColumns.forEach((key) => {
+        headerColumns.forEach((key, index) => {
             if (!columnExcludes.includes(key)) {
                 columns.push({
-                Label: key,
+                Label: columnLabels[index] ? columnLabels[index] : key,
                 Accessor: key,
                 Sortable: sortableExcludes.includes(key) ? false : true,
                 })
@@ -105,19 +105,37 @@ const UserTable = (props) => {
     }
 
     /**
+     * @param {object} user represent object of user with particular props
+     * @param {string} accessor represents the accessor which user with acessor can access the property value
+     */
+    const isoToDate = (user, accessor) => {
+        const strDate = user[accessor];
+        user[accessor] = strDate.substring(0, 10)
+    }
+
+    /**
+     * fetchUsers calls backend api through get protocol to get all the users
+     */
+    const fetchUsers = async () => {
+        const response = await users.get("/users")
+
+        response.data.forEach((user) => {
+            if (user["createdAt"] !== undefined) {
+                isoToDate(user, "createdAt")
+            }
+            if (user["updatedAt"] !== undefined) {
+                isoToDate(user, "updatedAt")
+            }
+        })
+        setRows(response.data)
+    }
+
+    /**
      * Renders only when it is mounted at first
      * It will receive a type & payload from the props.location.state
      * Depending on the type of the state, it will perform the follow CRUD operations
      */
     useEffect(() => {
-        
-        /**
-         * fetchUsers calls backend api through get protocol to get all the users
-         */
-        const fetchUsers = async () => {
-            const response = await users.get("/users")
-            setRows(response.data)
-        }
         fetchUsers()
     }, [])
 

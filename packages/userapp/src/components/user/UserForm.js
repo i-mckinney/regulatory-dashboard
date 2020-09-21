@@ -3,7 +3,7 @@ import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
-import { columnFields, columnLabels, dateFields } from '../../config'
+import { columnFields, columnLabels, dateTypeFields } from '../../config'
 
 // Styling used for MaterialUI
 const userFormStyles = makeStyles(() => ({
@@ -75,7 +75,6 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
             setError({ ...error, [name]: `${label} must be length of 10` })
         }
         else if((name === "FirstName" || name === "LastName") && value.length === 0) {
-            console.log("here")
             setError({ ...error, [name]: `${label} cannot be empty` })
         }
         else {
@@ -125,14 +124,14 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
             error={error[[name]].length > 0}
             description={label}
             name={name}
-            type={dateFields.includes(name) ? "date" : ""}
+            type={dateTypeFields.includes(name) ? "date" : ""}
             label={label}
             value={user[[name]]}
             placeholder={placeholder}
             helperText={error[[name]]}
             required={required}
             fullWidth 
-            InputLabelProps={dateFields.includes(name) ? { shrink: true } : {}}
+            InputLabelProps={dateTypeFields.includes(name) ? { shrink: true } : {}}
             inputProps={name === "Phone" ? { maxLength: 10 } : { maxLength: 40 }}
             onChange={handleInputChange}
             />
@@ -176,7 +175,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 {columnFields.map((fields, index) => {
                     return (
                         <Grid item xs={12} key={`${index} ${fields}`}>
-                            {setHelixTextField(fields, columnLabels[index], "", false)}
+                            {setHelixTextField(fields, columnLabels[index+1], "", false)}
                         </Grid>
                     )}
                 )}
