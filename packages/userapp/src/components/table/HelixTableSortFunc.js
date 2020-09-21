@@ -12,7 +12,7 @@ export const descendingComparator = (self, other, orderBy) => {
     if (other[orderBy] > self[orderBy]) {
       return 1
     }
-    return 0;
+    return 0
 }
   
 /**
