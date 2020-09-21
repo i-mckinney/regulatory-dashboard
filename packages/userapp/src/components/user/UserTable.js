@@ -88,7 +88,7 @@ const UserTable = (props) => {
 
     if (rows.length !== 0) {
         const headerColumns = Object.keys(rows[0])
-        headerColumns.map((key) => {
+        headerColumns.forEach((key) => {
             if (!columnExcludes.includes(key)) {
                 columns.push({
                 Label: key,

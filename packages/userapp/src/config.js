@@ -1,3 +1,5 @@
 export const sortableExcludes = ["_id", "createdAt", "updatedAt", "MiddleName", "PhoneType", "Actions", "Address1", "Address2", "City", "State", "Country", "Zipcode"]
 export const columnExcludes = ["Address2", "City", "State", "Country", "Zipcode"]
-export const columnFields = ["Username","Firstname", "Middlename", "Lastname", "Address1", "Address2", "City", "State", "Country", "Zipcode", "DateOfBirth", "JoinDate", "Role"]
+export const columnFields = ["Username","FirstName", "MiddleName", "LastName", "Address1", "Address2", "City", "State", "Country", "Zipcode", "DateOfBirth", "JoinDate", "Role"]
+export const columnLabels = ["Username","First Name", "Middle Name", "Last Name", "Address1", "Address2", "City", "State", "Country", "Zip Code", "Date Of Birth", "Join Date", "Role"]
+export const dateFields = ["DateOfBirth", "JoinDate"]

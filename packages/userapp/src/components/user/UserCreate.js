@@ -2,14 +2,13 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import UserForm from './UserForm'
 import users from '../apis/users'
+import { columnFields } from '../../config'
 
 // InitialUser with preset data
-const initialUser = {
-    FirstName: "",
-    LastName: "",
-    DateOfBirth: "",
-    Phone: "",
-}
+const initialUser = {}
+columnFields.forEach((columnField) => {
+    initialUser[[columnField]] = ""
+})
 
 /**
  * @param {Object} props Using the history property to route next component with data state
