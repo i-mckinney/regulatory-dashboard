@@ -1,6 +1,6 @@
 import React from 'react'
 import { TablePagination } from '@material-ui/core'
-import HelixTablePaginationActions from './HelixTablePaginationActions'
+import HelixTablePaginationActions from '../HelixTablePaginationActions/index'
 import PropTypes from "prop-types"
 
 /**
