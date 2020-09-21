@@ -108,6 +108,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
      */
     const onSubmitForm = (event) => {
         event.preventDefault()
+        user["Actions"] = ""
         onSubmit(user);
     }
 
