@@ -5,7 +5,8 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { HelixTable } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
+// import { HelixTable } from 'helixmonorepo-lib'
 import users from '../apis/users'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
@@ -97,11 +98,6 @@ const UserTable = (props) => {
                 })
             }
         })
-        columns.push({
-            Label: "Actions",
-            Accessor: "Actions",
-            Sortable: false,
-        })
     }
 
     /**
@@ -114,30 +110,31 @@ const UserTable = (props) => {
     }
 
     /**
-     * fetchUsers calls backend api through get protocol to get all the users
-     */
-    const fetchUsers = async () => {
-        const response = await users.get("/users")
-
-        response.data.forEach((user) => {
-            if (user["createdAt"] !== undefined) {
-                isoToDate(user, "createdAt")
-            }
-            if (user["updatedAt"] !== undefined) {
-                isoToDate(user, "updatedAt")
-            }
-        })
-        setRows(response.data)
-    }
-
-    /**
      * Renders only when it is mounted at first
      * It will receive a type & payload from the props.location.state
      * Depending on the type of the state, it will perform the follow CRUD operations
      */
     useEffect(() => {
+        
+        /**
+         * fetchUsers calls backend api through get protocol to get all the users
+         */
+        const fetchUsers = async () => {
+            const response = await users.get("/users")
+
+            response.data.forEach((user) => {
+                if (user["createdAt"] !== undefined) {
+                    isoToDate(user, "createdAt")
+                }
+                if (user["updatedAt"] !== undefined) {
+                    isoToDate(user, "updatedAt")
+                }
+            })
+            setRows(response.data)
+        }
+
         fetchUsers()
-    }, [])
+    }, [columns])
 
     /**
      * @param {int} rowIndex represents row index
