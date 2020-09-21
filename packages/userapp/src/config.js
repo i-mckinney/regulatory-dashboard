@@ -5,7 +5,7 @@ export const sortableExcludes = ["_id", "MiddleName", "PhoneType", "Actions", "A
 export const columnExcludes = ["updatedAt", "MiddleName", "Address1", "Address2", "City", "State", "Country", "Zipcode"]
 
 // columnFields is array of fields that UserForm will have 
-export const columnFields = ["Username","FirstName", "MiddleName", "LastName", "Address1", "Address2", "City", "State", "Country", "Zipcode", "DateOfBirth", "Role", "Actions"]
+export const columnFields = ["Username","FirstName", "MiddleName", "LastName", "Address1", "Address2", "City", "State", "Country", "Zipcode", "DateOfBirth", "Role"]
 
 // columnLabels is array of label name that correspondings to columnFields EXCEPT _id (primary key)
 // PRIMARY KEY must be FIRST in the array
