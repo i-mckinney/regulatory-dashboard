@@ -1,3 +1,3 @@
-export const sortableExcludes = ["_id", "createdAt", "updatedAt", "MiddleName", "PhoneType", "Actions", "Address1", "Address2", "City", "State", "Country", "Zip"]
-export const columnExcludes = [""]
-export const columnFields = [""]
+export const sortableExcludes = ["_id", "createdAt", "updatedAt", "MiddleName", "PhoneType", "Actions", "Address1", "Address2", "City", "State", "Country", "Zipcode"]
+export const columnExcludes = ["Address2", "City", "State", "Country", "Zipcode"]
+export const columnFields = ["Username","Firstname", "Middlename", "Lastname", "Address1", "Address2", "City", "State", "Country", "Zipcode", "DateOfBirth", "JoinDate", "Role"]

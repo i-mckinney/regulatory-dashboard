@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, Modal } from '@material-ui/core';
+import { makeStyles, Modal, Backdrop, Fade } from '@material-ui/core';
 import { HelixButton } from 'helixmonorepo-lib'
 import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -82,33 +82,38 @@ const UserDelete = (props) => {
      */
     const renderModalBody = () => { 
         return (
-            <div className={userDeleteClasses.paper}>
-                <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
-                <div className={userDeleteClasses.content} id="simple-modal-description">
-                    {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
+            <Fade in>
+                <div className={userDeleteClasses.paper}>
+                    <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
+                    <div className={userDeleteClasses.content} id="simple-modal-description">
+                        {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
+                    </div>
+                    <div className={userDeleteClasses.actions}>
+                        <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={deleteUser} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />
+                        <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/user" startIcon={<CancelIcon />} variant="contained" color="default" text="Cancel" />
+                    </div>
                 </div>
-                <div className={userDeleteClasses.actions}>
-                    <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={deleteUser} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />
-                    <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/user" startIcon={<CancelIcon />} variant="contained" color="default" text="Cancel" />
-                </div>
-            </div>
+            </Fade>
         )
     }
     
     return (
-        <div>
-            <Modal
-            disablePortal
-            disableEnforceFocus
-            disableAutoFocus
-            open
-            aria-labelledby="server-modal-title"
-            aria-describedby="server-modal-description"
-            className={userDeleteClasses.modal}
-            >
-                {renderModalBody()}
-            </Modal>
-        </div>
+        <Modal
+        disablePortal
+        disableEnforceFocus
+        disableAutoFocus
+        open
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+        aria-labelledby="server-modal-title"
+        aria-describedby="server-modal-description"
+        className={userDeleteClasses.modal}
+        >
+            {renderModalBody()}
+        </Modal>
         )
 }
 
