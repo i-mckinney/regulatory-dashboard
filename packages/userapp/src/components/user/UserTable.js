@@ -146,10 +146,10 @@ const UserTable = (props) => {
         if (columnAccessor === "Actions") {
             return (
                 <TableCell className={userTableClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
-                    <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/user/edit/${row._id}`, state: row }))} color="default">
+                    <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/edit/${row._id}`, state: row }))} color="default">
                         <EditIcon />
                     </IconButton>
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/user/delete/${row._id}`, state: row }))} color="secondary">
+                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/delete/${row._id}`, state: row }))} color="secondary">
                         <DeleteIcon />
                     </IconButton>
                 </TableCell>
@@ -189,7 +189,7 @@ const UserTable = (props) => {
             <IconButton
             className={userTableClasses.createIconStyle} 
             color="primary"
-            onClick={() => (props.history.push("/user/new"))}>
+            onClick={() => (props.history.push("/users/new"))}>
                 <AddBoxIcon fontSize="large" />
             </IconButton>
         )

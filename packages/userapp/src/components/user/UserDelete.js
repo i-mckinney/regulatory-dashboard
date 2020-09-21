@@ -73,7 +73,7 @@ const UserDelete = (props) => {
     const deleteUser = async () => {
         const id = props.location.state._id
         await users.delete(`/users/${id}`)
-        props.history.push("/user")
+        props.history.push("/users")
     }
 
 
@@ -90,7 +90,7 @@ const UserDelete = (props) => {
                     </div>
                     <div className={userDeleteClasses.actions}>
                         <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={deleteUser} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />
-                        <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/user" startIcon={<CancelIcon />} variant="contained" color="default" text="Cancel" />
+                        <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/users" startIcon={<CancelIcon />} variant="contained" color="default" text="Cancel" />
                     </div>
                 </div>
             </Fade>

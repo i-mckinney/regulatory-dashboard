@@ -157,7 +157,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 variant="contained"
                 type="cancel"
                 size="small"
-                href="/user"
+                href="/users"
                 startIcon={<CancelIcon />}
                 text="Cancel" />
             </>

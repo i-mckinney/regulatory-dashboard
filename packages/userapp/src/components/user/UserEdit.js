@@ -18,7 +18,7 @@ const UserEdit = (props) => {
      */
     const editUser = async (editedUser) => {
         await users.put(`/users/${id}`, editedUser)
-        props.history.push("/user")
+        props.history.push("/users")
     }
 
     return (

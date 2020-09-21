@@ -21,7 +21,7 @@ const UserCreate = (props) => {
      */
     const createUser = async (user) => {
         await users.post("/users", user)
-        props.history.push("/user")
+        props.history.push("/users")
     }
 
     return (
