@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Grid, List, Card, CardHeader, ListItem, ListItemText, ListItemIcon, Checkbox, Divider } from '@material-ui/core'
+import { Grid, List, Card, CardHeader, ListItem, ListItemText, Typography, ListItemIcon, Checkbox, Divider } from '@material-ui/core'
 import { HelixButton } from 'helixmonorepo-lib'
 
 const transferListuseStyles = makeStyles((theme) => ({
@@ -15,6 +15,10 @@ const transferListuseStyles = makeStyles((theme) => ({
     height: 230,
     backgroundColor: theme.palette.background.paper,
     overflow: 'auto',
+  },
+  listItem : {
+    fontSize: "12px",
+    display: "inline",
   },
   button: {
     margin: theme.spacing(0.5, 0),
@@ -103,14 +107,23 @@ const TransferList = () => {
                 return (
                     <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
                     <ListItemIcon>
-                        <Checkbox
-                        checked={checked.indexOf(value) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{ 'aria-labelledby': labelId }}
-                        />
+                      <Checkbox
+                      checked={checked.indexOf(value) !== -1}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ 'aria-labelledby': labelId }}
+                      />
                     </ListItemIcon>
-                    <ListItemText id={labelId} primary={value} />
+                    <ListItemText 
+                    id={labelId} 
+                    primary={
+                      <Typography
+                        component="span"
+                        className={transferListclasses.listItem}
+                      >
+                      {value}
+                      </Typography>
+                    }/>
                     </ListItem>
             )})}
         </List>
