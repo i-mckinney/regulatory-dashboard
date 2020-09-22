@@ -24,9 +24,9 @@ var descendingComparator = function descendingComparator(self, other, orderBy) {
   return 0;
 };
 /**
- * @param {string} order string represents ascending or descending order
- * @param {string} orderBy string represents a property of the column header 
- */
+* @param {string} order string represents ascending or descending order
+* @param {string} orderBy string represents a property of the column header 
+*/
 
 
 exports.descendingComparator = descendingComparator;
@@ -39,10 +39,10 @@ var getComparator = function getComparator(order, orderBy) {
   };
 };
 /**
- * @param {array} array the array that will be sorted
- * @param {func} comparator func that has the rules of how to sort array by either ascending or descending 
- * @return {array} return a new array of sorted items 
- */
+* @param {array} array the array that will be sorted
+* @param {func} comparator func that has the rules of how to sort array by either ascending or descending 
+* @return {array} return a new array of sorted items 
+*/
 
 
 exports.getComparator = getComparator;

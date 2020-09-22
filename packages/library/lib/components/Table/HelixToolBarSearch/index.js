@@ -21,8 +21,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var helixToolBarSearchStyles = (0, _core.makeStyles)(function () {
   return {
     searchStyles: {
-      width: "28%",
-      marginRight: "auto"
+      width: "28%"
     }
   };
 });
