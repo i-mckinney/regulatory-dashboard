@@ -47,6 +47,9 @@ const userDeleteStyles = makeStyles(() => ({
         background: "#fff",
         fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
     },
+    username: {
+        fontWeight: "700",
+    },
     actions: {
         background:" #f9fafb",
         padding: "1rem 1rem",
@@ -76,6 +79,16 @@ const UserDelete = (props) => {
         props.history.push("/users")
     }
 
+    /**
+     * displayUserName return a jsx object with bold font for clarity when delete a username
+     */
+    const displayUserName = () => {
+        return (
+            <span className={userDeleteClasses.username}>
+                {` ${props.location.state.Username}`}
+            </span>
+        )
+    }
 
     /**
      * @return {jsx} return jsx modal-style object with header, content, and actions
@@ -84,9 +97,9 @@ const UserDelete = (props) => {
         return (
             <Fade in>
                 <div className={userDeleteClasses.paper}>
-                    <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
+                    <div className={userDeleteClasses.header} id="simple-modal-title">Delete User</div>
                     <div className={userDeleteClasses.content} id="simple-modal-description">
-                        {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
+                        Are you sure you want to delete this user: {displayUserName()}?
                     </div>
                     <div className={userDeleteClasses.actions}>
                         <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={deleteUser} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />

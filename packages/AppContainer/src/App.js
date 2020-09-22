@@ -40,10 +40,10 @@ const App = () => (
         <Route exact path="/loan" component={Dashboard} />
         <Route exact path="/regulatory" component={Dashboard} />
         <Route exact path="/myrequest" component={Dashboard} />
-        <Route exact path="/user" component={User} />
-        <Route exact path="/user/new" component={User} />
-        <Route exact path="/user/edit/:id" component={User} />
-        <Route exact path="/user/delete/:id" component={User} />
+        <Route exact path="/users" component={User} />
+        <Route exact path="/users/new" component={User} />
+        <Route exact path="/users/edit/:id" component={User} />
+        <Route exact path="/users/delete/:id" component={User} />
       </Switch>
     </>
   </BrowserRouter>
