@@ -4,6 +4,7 @@ import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { columnFields, columnLabels, dateTypeFields } from '../../config'
+import TransferList from '../controls/TransferList'
 
 // Styling used for MaterialUI
 const userFormStyles = makeStyles(() => ({
@@ -179,6 +180,11 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                         </Grid>
                     )}
                 )}
+            </Grid>
+            <Grid container spacing={4}>
+                <Grid item xs={12}>
+                    <TransferList />
+                </Grid>
             </Grid>
             <Grid container spacing={3}>
                 <Grid item xs></Grid>
