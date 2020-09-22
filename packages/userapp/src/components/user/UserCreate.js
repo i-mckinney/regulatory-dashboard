@@ -20,6 +20,9 @@ const UserCreate = (props) => {
      * @param {object} user represent user object with props values that it will create 
      */
     const createUser = async (user) => {
+        user["createdAt"] = ""
+        user["updatedAt"] = ""
+        user["Actions"] = ""
         await users.post("/users", user)
         props.history.push("/users")
     }

@@ -91,7 +91,7 @@ const UserTable = (props) => {
         headerColumns.forEach((key, index) => {
             if (!columnExcludes.includes(key)) {
                 columns.push({
-                Label: columnLabels[index] ? columnLabels[index] : key,
+                Label: columnLabels[index],
                 Accessor: key,
                 Sortable: sortableExcludes.includes(key) ? false : true,
                 })
@@ -127,7 +127,6 @@ const UserTable = (props) => {
                 if (user["updatedAt"] !== undefined) {
                     isoToDate(user, "updatedAt")
                 }
-                user["Actions"] = ""
             })
             setRows(response.data)
         }
