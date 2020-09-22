@@ -110,8 +110,7 @@ const UserTable = (props) => {
 
     /**
      * Renders only when it is mounted at first
-     * It will receive a type & payload from the props.location.state
-     * Depending on the type of the state, it will perform the follow CRUD operations
+     * It will fetchUsers whenever UserTable loads
      */
     useEffect(() => {
         
@@ -128,6 +127,7 @@ const UserTable = (props) => {
                 if (user["updatedAt"] !== undefined) {
                     isoToDate(user, "updatedAt")
                 }
+                user["Actions"] = ""
             })
             setRows(response.data)
         }
