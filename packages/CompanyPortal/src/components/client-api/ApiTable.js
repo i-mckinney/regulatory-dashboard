@@ -78,7 +78,7 @@ const userTableStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history location to route next component with data state
- * @return {JSX} ApiTable site show list of users
+ * @return {JSX} ApiTable of the client's custom APIs
  * routed at /
  */
 const ApiTable = (props) => {

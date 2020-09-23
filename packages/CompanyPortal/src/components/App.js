@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import ApiTable from './user/ApiTable';
-import CreateApi from './user/CreateApi';
-import EditApi from './user/EditApi';
-import DeleteApi from './user/DeleteApi';
+import ApiTable from './client-api/ApiTable';
+import CreateApi from './client-api/CreateApi';
+import EditApi from './client-api/EditApi';
+import DeleteApi from './client-api/DeleteApi';
 
 function App() {
   return (
