@@ -20,6 +20,7 @@ const UserCreate = (props) => {
      * @param {object} user represent user object with props values that it will create 
      */
     const createUser = async (user) => {
+        console.log(user)
         user["createdAt"] = ""
         user["updatedAt"] = ""
         user["Actions"] = ""

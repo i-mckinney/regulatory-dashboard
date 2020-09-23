@@ -154,11 +154,24 @@ const UserTable = (props) => {
                 </TableCell>
             )
         }
-        return (
-            <TableCell key={`${rowIndex} ${columnAccessor}`}>
-                {row[columnAccessor]}
-            </TableCell>
-        )
+        else if (columnAccessor === "Role") {
+            const assignedRoles = row[columnAccessor].reduce((result, roles) => {
+                return `${result} ${roles}`.trim()
+            }, "")
+            
+            return (
+                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                    {assignedRoles}
+                </TableCell>
+            )
+        }
+        else {
+            return (
+                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                    {row[columnAccessor]}
+                </TableCell>
+            )
+        }
     }
 
     /**
