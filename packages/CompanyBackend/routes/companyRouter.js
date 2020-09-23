@@ -1,108 +1,125 @@
 // import modules
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {ObjectId} = require('mongodb');
-const dateTimeHelper = require('../utils/dateTimeHelper');
+const { ObjectId } = require("mongodb");
+const dateTimeHelper = require("../utils/dateTimeHelper");
 
 // db setup
-const DbConnection = require('../db');
+const DbConnection = require("../db");
 
 // GET all companies
 router.get("/companies", async (req, res) => {
-		const dbCollection = await DbConnection.getCollection("helixcompany");
-		console.log(dbCollection)
-		const companies = await dbCollection.find().toArray((err, result) => {
-			console.log(result)
-			if (err) throw err;
-			res.json(result);
-		});
-	}
-);
+  const dbCollection = await DbConnection.getCollection("helixcompany");
+  console.log(dbCollection);
+  const companies = await dbCollection.find().toArray((err, result) => {
+    console.log(result);
+    if (err) throw err;
+    res.json(result);
+  });
+});
 
 // GET one company identified by id
 router.get("/companies/:id", async (req, res) => {
-    try {
-        const companyId = req.params.id
-        const dbCollection = await DbConnection.getCollection("helixcompany");
-        const company = await dbCollection.findOne({ _id: ObjectId(companyId) })
-        res.json(company)
-    } catch(err) {
-        throw new Error("Db Call error: " + err);
-    }
+  try {
+    const companyId = req.params.id;
+    const dbCollection = await DbConnection.getCollection("helixcompany");
+    const company = await dbCollection.findOne({ _id: ObjectId(companyId) });
+    res.json(company);
+  } catch (err) {
+    throw new Error("Db Call error: " + err.message);
+  }
 });
 
-// POST (create) a company 
+// POST (create) a company
 router.post("/companies", async (req, res) => {
-	const newCompany = req.body;
+  try {
+    const newCompany = req.body;
 
-	if (!newCompany.CustomApiRequests){
-		newCompany.CustomApiRequests = [];
-	}
-	console.log('Adding new company: ', newCompany);
+    if (!newCompany.CustomApiRequests) {
+      newCompany.CustomApiRequests = [];
+    }
 
-	const dbCollection = await DbConnection.getCollection("helixcompany");
-	const company = await dbCollection.findOne({_id: ObjectId(newCompany.id)});
+    console.log("Adding new company: ", newCompany);
+    if (newCompany["_id"])
+      throw Error("Not allowed to manually give _id to new Company");
 
-	if (company) {
-		res.json({
-			error: "Company with given Company Id already exists"
-		})
-	} else {
-		let companies = await dbCollection.find().toArray();
+    const dbCollection = await DbConnection.getCollection("helixcompany");
+    let companies = await dbCollection.find().toArray();
 
-		await dbCollection.insertOne({
-			...newCompany,
-			createdAt: dateTimeHelper.getTimeStamp(),
-		});
+    await dbCollection.insertOne({
+      ...newCompany,
+      createdAt: dateTimeHelper.getTimeStamp(),
+    });
 
-		// return updated list
-        companies = await dbCollection.find().toArray();
-        res.json(companies)
-	}
+    // return updated list
+    companies = await dbCollection.find().toArray();
+		res.json(companies);
+		
+  } catch (error) {
+    res.json({ Error: error.message });
+  }
 });
 
 // PUT (update) a company
 router.put("/companies/:id", async (req, res) => {
-	const companyId = req.params.id;
-	const updatedcompany = req.body;
-	console.log("Editing company ", companyId, " to be ", updatedcompany);
+  try {
+    const companyId = req.params.id;
+    const updatedcompany = req.body;
+    console.log("Editing company ", companyId, " to be ", updatedcompany);
 
-	const dbCollection = await DbConnection.getCollection("helixcompany");
-	const company = await dbCollection.findOne({ _id: ObjectId(companyId) });
+    if (updatedcompany["_id"])
+      throw Error("Not allowed to manually update _id of a company");
 
-	if (!company) {
-		res.json({
-			error: "company with given id doesn't exist"
-		})
-	}
+    const dbCollection = await DbConnection.getCollection("helixcompany");
+    const company = await dbCollection.findOne({ _id: ObjectId(companyId) });
 
-	updatedcompany.updatedAt = dateTimeHelper.getTimeStamp();
-	await dbCollection.updateOne({ _id: ObjectId(companyId) }, { $set: updatedcompany });
+    if (!company) {
+      res.json({
+        error: "Company with given id doesn't exist",
+      });
+    }
 
-	// return updated list
-    const companies = await dbCollection.find().toArray();
-    res.json(companies)
+    updatedcompany.updatedAt = dateTimeHelper.getTimeStamp();
+    await dbCollection.updateOne(
+      { _id: ObjectId(companyId) },
+      { $set: updatedcompany }
+    );
+
+    // return updated company
+    const companies = await dbCollection.findOne({ _id: ObjectId(companyId) });
+    res.json(companies);
+  } catch (error) {
+    res.json({ Error: error.message });
+  }
 });
 
 // DELETE a company
 router.delete("/companies/:id", async (req, res) => {
-	const companyId = req.params.id;
-	console.log("Delete company with id: ", companyId);
+  const companyId = req.params.id;
+  console.log("Delete Company with id: ", companyId);
 
-	const dbCollection = await DbConnection.getCollection("helixcompany");
-	const company = await dbCollection.findOne({ _id : ObjectId(companyId) });
+  try {
+    const dbCollection = await DbConnection.getCollection("helixcompany");
+    const company = await dbCollection.findOne({ _id: ObjectId(companyId) });
 
-	if (!company) {
-		res.json({
-			error: "company with given id doesn't exist"
-		})
-	}
+    if (!company) {
+      res.json({
+        error: "Company with given id doesn't exist",
+      });
+    } else {
+      await dbCollection.deleteOne({ _id: ObjectId(companyId) });
 
-	await dbCollection.deleteOne({ _id: ObjectId(companyId) });
-
-	// return updated list
-	const companies = await dbCollection.find().toArray();
-	res.json(companies)
+      // return success message
+      res.json({
+        Success: "Company successfully deleted",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.json({
+      Error: error.message,
+    });
+  }
 });
 
-module.exports = router; 
+module.exports = router;
