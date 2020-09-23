@@ -4,7 +4,7 @@ import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { columnFields, columnLabels, dateTypeFields } from '../../config'
-import TransferList from '../controls/TransferList'
+import RolePicker from '../controls/RolePicker'
 
 // Styling used for MaterialUI
 const userFormStyles = makeStyles(() => ({
@@ -194,7 +194,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                     if (fields === "Roles") {
                         return (
                             <Grid item xs={12} key={`${index} ${fields}`}>
-                                <TransferList currentRoles={user["Roles"]} handleRolesChange={handleRolesChange}/>
+                                <RolePicker currentRoles={user["Roles"]} handleRolesChange={handleRolesChange}/>
                             </Grid>
                         )
                     }
