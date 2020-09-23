@@ -38,6 +38,7 @@
     "history": "^5.0.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
+    "mongodb": "^3.6.2",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "prop-types": "^15.7.2",
