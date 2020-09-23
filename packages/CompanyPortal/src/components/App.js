@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import UserTable from './user/UserTable';
-import UserCreate from './user/UserCreate';
-import UserEdit from './user/UserEdit';
-import UserDelete from './user/UserDelete';
+import ApiTable from './user/ApiTable';
+import CreateApi from './user/CreateApi';
+import EditApi from './user/EditApi';
+import DeleteApi from './user/DeleteApi';
 
 function App() {
   return (
@@ -11,10 +11,10 @@ function App() {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route path='/client-api' exact component={UserTable} />
-            <Route path='/client-api/new' component={UserCreate} />
-            <Route path='/client-api/edit/:id' component={UserEdit} />
-            <Route path='/client-api/delete/:id' component={UserDelete} />
+            <Route path='/client-api' exact component={ApiTable} />
+            <Route path='/client-api/new' component={CreateApi} />
+            <Route path='/client-api/edit/:id' component={EditApi} />
+            <Route path='/client-api/delete/:id' component={DeleteApi} />
           </Switch>
         </div>
       </BrowserRouter>

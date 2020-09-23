@@ -78,10 +78,10 @@ const userTableStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history location to route next component with data state
- * @return {JSX} UserTable site show list of users
+ * @return {JSX} ApiTable site show list of users
  * routed at /
  */
-const UserTable = (props) => {
+const ApiTable = (props) => {
   // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
   const userTableClasses = userTableStyles();
 
@@ -115,7 +115,7 @@ const UserTable = (props) => {
 
   /**
    * Renders only when it is mounted at first
-   * It will fetchUsers whenever UserTable loads
+   * It will fetchUsers whenever ApiTable loads
    */
   useEffect(() => {
     /**
@@ -248,4 +248,4 @@ const UserTable = (props) => {
   );
 };
 
-export default withRouter(UserTable);
+export default withRouter(ApiTable);
