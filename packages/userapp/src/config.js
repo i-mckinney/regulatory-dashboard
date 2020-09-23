@@ -10,8 +10,8 @@ export const columnFields = ["Username","FirstName", "MiddleName", "LastName", "
 // columnLabels is array of label name that correspondings to columnFields EXCEPT _id (primary key)
 // PRIMARY KEY must be FIRST in the array (required)
 // These KEYS must be LAST in the array (required unless place it in columnExcludes)
-// (1) User Created ( It replaces "createdAt" (mongodb semantics) )
-// (2) User Updated ( It replaces "updatedAt" (mongodb semantics) )
+// (1) User Created ( refers to "createdAt" (mongodb semantics) )
+// (2) User Updated ( refers to replaces "updatedAt" (mongodb semantics) )
 // (3) Actions
 export const columnLabels = ["_id","Username","First Name", "Middle Name", "Last Name", "Address1", "Address2", "City", "State", "Country", "Zip Code", "Date Of Birth", "User Created", "User Updated", "Actions"]
 
