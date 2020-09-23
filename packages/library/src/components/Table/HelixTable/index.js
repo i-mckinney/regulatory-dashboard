@@ -81,13 +81,22 @@ const HelixTable = ({
         if (value === '') return rows
         else 
           return rows.filter((row) => 
-            (columns.filter((column) => 
-              row[column.Accessor]
-              .toLowerCase()
-              .includes(value.toLowerCase()))
-              .length > 0 
-              ? true
-              : false
+            (columns.filter((column) => {
+              const columnAccessor = column.Accessor
+              if (typeof(row[columnAccessor]) === 'string') {
+                return row[columnAccessor]
+                .toLowerCase()
+                .includes(value.toLowerCase())
+              } else {
+                const assignedRoles = row[columnAccessor].reduce((result, roles) => {
+                  return `${result} ${roles}`.trim()
+                }, "")
+                return assignedRoles.toLowerCase().includes(value.toLowerCase())
+              }
+            })
+            .length > 0 
+            ? true
+            : false
             )
           )
       }

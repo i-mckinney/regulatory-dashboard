@@ -133,7 +133,7 @@ const UserTable = (props) => {
 
         fetchUsers()
     }, [columns])
-    console.log(rows)
+
     /**
      * @param {int} rowIndex represents row index
      * @param {object} row represent object data from the api result
