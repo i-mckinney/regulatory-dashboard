@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Grid, List, Card, CardHeader, ListItem, ListItemText, Typography, ListItemIcon, Checkbox, Divider } from '@material-ui/core'
 import { HelixButton } from 'helixmonorepo-lib'
 
+// Styling used for MaterialUI
 const transferListuseStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
@@ -25,28 +26,55 @@ const transferListuseStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @param {array} self the self is an array of roles that we want to have available
+ * @param {array} other the other is an array of roles that is taken
+ * @return the array of roles that are not taken
+ */
 function not(self, other) {
   return self.filter((value) => other.indexOf(value) === -1)
 }
 
+/**
+ * @param {array} self the self is an array of roles that we want to have available
+ * @param {array} other the other is an array of roles that is taken
+ * @return the array of roles that are same through comparison of (self, other)
+ */
 function intersection(self, other) {
   return self.filter((value) => other.indexOf(value) !== -1)
 }
 
+/**
+ * @param {array} self the self is an array of roles that we want to have available
+ * @param {array} other the other is an array of roles that is taken
+ * @return the array of roles from self and other (without duplicates from self array) 
+ */
 function union(self, other) {
   return [...self, ...not(other, self)]
 }
 
-const TransferList = (props) => {
+/**
+ * @param {Object} props the props contains methods and properties from parent component that will used to deliver props back up
+ * @return {JSX} RolePicker component - one textbox in left and one textbox in right where you can pick role from left to the right vice versa
+ */
+const RolePicker = (props) => {
   const transferListclasses = transferListuseStyles()
 
+  // Checked store array of roles that are ready to move to available or assigned
   const [checked, setChecked] = useState([])
+
+  // availableRole stores array of roles available
   const [availableRole, setAvailableRole] = useState(not(["Admin", "Analyst", "Approver"], props.currentRoles))
+  
+  // assignedRole stores array of roles taken/assigned
   const [assignedRole, setAssignedRole] = useState(props.currentRoles)
 
   const availableRoleChecked = intersection(checked, availableRole);
   const assignedRoleChecked = intersection(checked, assignedRole);
 
+  /**
+   * @param {string} value represents the role label name
+   */
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value)
     const newChecked = [...checked]
@@ -59,8 +87,15 @@ const TransferList = (props) => {
     setChecked(newChecked)
   }
 
+  /**
+   * @param {array} items represents an array of roles
+   * @return the length of checked roles
+   */
   const numberOfChecked = (items) => intersection(checked, items).length
 
+  /**
+   * @param {array} items represents an array of roles 
+   */
   const handleToggleAll = (items) => () => {
     if (numberOfChecked(items) === items.length) {
         setChecked(not(checked, items))
@@ -69,6 +104,9 @@ const TransferList = (props) => {
     }
   }
   
+  /**
+   * handleCheckedRight change the state for availableRole and assignedRole and propagate data to parent component
+   */
   const handleCheckedRight = () => {
     setAssignedRole(assignedRole.concat(availableRoleChecked))
     setAvailableRole(not(availableRole, availableRoleChecked))
@@ -76,6 +114,9 @@ const TransferList = (props) => {
     props.handleRolesChange(assignedRole.concat(availableRoleChecked))
   }
 
+  /**
+   * handleCheckedLeft change the state for availableRole and assignedRole and propagate data to parent component
+   */
   const handleCheckedLeft = () => {
     setAvailableRole(availableRole.concat(assignedRoleChecked))
     setAssignedRole(not(assignedRole, assignedRoleChecked))
@@ -83,6 +124,11 @@ const TransferList = (props) => {
     props.handleRolesChange(not(assignedRole, assignedRoleChecked))
   }
 
+  /**
+   * @param {string} title the name of cardheader (either Available Roles or Assigned Roles)
+   * @param {array} items array of roles
+   * @return jsx object of role picker component
+   */
   const customList = (title, items) => (
     <Card>
       <CardHeader
@@ -160,4 +206,4 @@ const TransferList = (props) => {
   )
 }
 
-export default TransferList
+export default RolePicker
