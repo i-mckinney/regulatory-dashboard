@@ -133,7 +133,7 @@ const UserTable = (props) => {
 
         fetchUsers()
     }, [columns])
-
+    console.log(rows)
     /**
      * @param {int} rowIndex represents row index
      * @param {object} row represent object data from the api result
@@ -154,11 +154,11 @@ const UserTable = (props) => {
                 </TableCell>
             )
         }
-        else if (columnAccessor === "Role") {
+        else if (columnAccessor === "Roles") {
             const assignedRoles = row[columnAccessor].reduce((result, roles) => {
                 return `${result} ${roles}`.trim()
             }, "")
-            
+
             return (
                 <TableCell key={`${rowIndex} ${columnAccessor}`}>
                     {assignedRoles}
@@ -190,8 +190,8 @@ const UserTable = (props) => {
         return row._id
     }
 
-    // Initially, we can start the table to order by First Name, ascending order
-    const initialOrderBy = "FirstName"
+    // Initially, we can start the table to order by Username or First Name or etc in ascending order
+    const initialOrderBy = "Username"
 
     /**
      * @return jsx object of create icon in child component's toolbar

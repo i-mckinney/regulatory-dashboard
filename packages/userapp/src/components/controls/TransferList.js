@@ -41,11 +41,11 @@ const TransferList = (props) => {
   const transferListclasses = transferListuseStyles()
 
   const [checked, setChecked] = useState([])
-  const [availableRole, setAvailableRole] = useState(["Admin", "Analyst", "Approver"])
-  const [assignRole, setAssignRole] = useState([])
+  const [availableRole, setAvailableRole] = useState(not(["Admin", "Analyst", "Approver"], props.currentRoles))
+  const [assignedRole, setAssignedRole] = useState(props.currentRoles)
 
   const availableRoleChecked = intersection(checked, availableRole);
-  const assignRoleChecked = intersection(checked, assignRole);
+  const assignedRoleChecked = intersection(checked, assignedRole);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value)
@@ -70,17 +70,17 @@ const TransferList = (props) => {
   }
   
   const handleCheckedRight = () => {
-    setAssignRole(assignRole.concat(availableRoleChecked))
+    setAssignedRole(assignedRole.concat(availableRoleChecked))
     setAvailableRole(not(availableRole, availableRoleChecked))
     setChecked(not(checked, availableRoleChecked))
-    props.handleRolesChange(assignRole.concat(availableRoleChecked))
+    props.handleRolesChange(assignedRole.concat(availableRoleChecked))
   }
 
   const handleCheckedLeft = () => {
-    setAvailableRole(availableRole.concat(assignRoleChecked))
-    setAssignRole(not(assignRole, assignRoleChecked))
-    setChecked(not(checked, assignRoleChecked))
-    props.handleRolesChange(not(assignRole, assignRoleChecked))
+    setAvailableRole(availableRole.concat(assignedRoleChecked))
+    setAssignedRole(not(assignedRole, assignedRoleChecked))
+    setChecked(not(checked, assignedRoleChecked))
+    props.handleRolesChange(not(assignedRole, assignedRoleChecked))
   }
 
   const customList = (title, items) => (
@@ -132,7 +132,7 @@ const TransferList = (props) => {
 
   return (
     <Grid container spacing={4} justify="center" alignItems="center" className={transferListclasses.root}>
-      <Grid item>{customList('Role(s)', availableRole)}</Grid>
+      <Grid item>{customList('Available Role(s)', availableRole)}</Grid>
       <Grid item>
         <Grid container direction="column" alignItems="center">
           <HelixButton
@@ -149,13 +149,13 @@ const TransferList = (props) => {
             size="small"
             className={transferListclasses.button}
             onClick={handleCheckedLeft}
-            disabled={assignRoleChecked.length === 0}
+            disabled={assignedRoleChecked.length === 0}
             aria-label="move selected left"
             text={"<"}
           />
         </Grid>
       </Grid>
-      <Grid item>{customList('Selected Role(s)', assignRole)}</Grid>
+      <Grid item>{customList('Assigned Role(s)', assignedRole)}</Grid>
     </Grid>
   )
 }

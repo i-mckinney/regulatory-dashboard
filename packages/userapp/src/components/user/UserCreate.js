@@ -7,7 +7,11 @@ import { columnFields } from '../../config'
 // InitialUser with preset data
 const initialUser = {}
 columnFields.forEach((columnField) => {
-    initialUser[[columnField]] = ""
+    if ("Roles" === columnField) {
+        initialUser[[columnField]] = []
+    } else {
+        initialUser[[columnField]] = ""
+    }
 })
 
 /**
@@ -27,7 +31,7 @@ const UserCreate = (props) => {
         await users.post("/users", user)
         props.history.push("/users")
     }
-
+    console.log(initialUser)
     return (
     <div>
         <UserForm header="Create User" initialUser={initialUser} onSubmit={createUser} />
