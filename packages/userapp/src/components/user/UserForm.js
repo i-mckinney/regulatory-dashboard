@@ -3,7 +3,7 @@ import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
-import { columnFields, columnLabels, dateTypeFields, PASSWORD } from '../../config'
+import { columnFields, columnLabels, dateTypeFields } from '../../config'
 import TransferList from '../controls/TransferList'
 
 // Styling used for MaterialUI
@@ -66,8 +66,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     }
 
     const handleRolesChange = (roles) => {
-        console.log(roles)
-        setUser({ ...user, Role: roles})
+        setUser({ ...user, Roles: roles})
     }
 
     /**
@@ -120,12 +119,11 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     /**
      * 
      * @param {string} name the column text field name
+     * @return the data type in a form of string
      */
     const dataType = (name) => {
         if (dateTypeFields.includes(name)) {
             return "date"
-        } else if (PASSWORD === name) {
-            return "password"
         } else {
             return ""
         }
@@ -193,10 +191,10 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 spacing={4}>
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
-                    if (fields === "Role") {
+                    if (fields === "Roles") {
                         return (
                             <Grid item xs={12} key={`${index} ${fields}`}>
-                                <TransferList handleRolesChange={handleRolesChange}/>
+                                <TransferList currentRoles={user["Roles"]} handleRolesChange={handleRolesChange}/>
                             </Grid>
                         )
                     }
