@@ -37,11 +37,11 @@ function union(self, other) {
   return [...self, ...not(other, self)]
 }
 
-const TransferList = () => {
+const TransferList = (props) => {
   const transferListclasses = transferListuseStyles()
 
   const [checked, setChecked] = useState([])
-  const [availableRole, setAvailableRole] = useState(["Admin", "Member", "Banker", "Financial Analyst", "Investment Analyst", "Rating Analyst"])
+  const [availableRole, setAvailableRole] = useState(["Admin", "Analyst", "Approver"])
   const [assignRole, setAssignRole] = useState([])
 
   const availableRoleChecked = intersection(checked, availableRole);
@@ -73,12 +73,14 @@ const TransferList = () => {
     setAssignRole(assignRole.concat(availableRoleChecked))
     setAvailableRole(not(availableRole, availableRoleChecked))
     setChecked(not(checked, availableRoleChecked))
+    props.handleRolesChange(assignRole.concat(availableRoleChecked))
   }
 
   const handleCheckedLeft = () => {
     setAvailableRole(availableRole.concat(assignRoleChecked))
     setAssignRole(not(assignRole, assignRoleChecked))
     setChecked(not(checked, assignRoleChecked))
+    props.handleRolesChange(not(assignRole, assignRoleChecked))
   }
 
   const customList = (title, items) => (

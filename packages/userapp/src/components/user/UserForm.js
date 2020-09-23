@@ -3,7 +3,7 @@ import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
-import { columnFields, columnLabels, dateTypeFields } from '../../config'
+import { columnFields, columnLabels, dateTypeFields, PASSWORD } from '../../config'
 import TransferList from '../controls/TransferList'
 
 // Styling used for MaterialUI
@@ -65,6 +65,11 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         validation(name, value)
     }
 
+    const handleRolesChange = (roles) => {
+        console.log(roles)
+        setUser({ ...user, Role: roles})
+    }
+
     /**
      * 
      * @param {string} name  the name property on the target text field element
@@ -111,6 +116,20 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         event.preventDefault()
         onSubmit(user);
     }
+    
+    /**
+     * 
+     * @param {string} name the column text field name
+     */
+    const dataType = (name) => {
+        if (dateTypeFields.includes(name)) {
+            return "date"
+        } else if (PASSWORD === name) {
+            return "password"
+        } else {
+            return ""
+        }
+    }
 
     /**
      * @param {string} name the form control name 
@@ -125,7 +144,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
             error={error[[name]].length > 0}
             description={label}
             name={name}
-            type={dateTypeFields.includes(name) ? "date" : ""}
+            type={dataType(name)}
             label={label}
             value={user[[name]]}
             placeholder={placeholder}
@@ -174,17 +193,19 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 spacing={4}>
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
+                    if (fields === "Role") {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                <TransferList handleRolesChange={handleRolesChange}/>
+                            </Grid>
+                        )
+                    }
                     return (
                         <Grid item xs={12} key={`${index} ${fields}`}>
                             {setHelixTextField(fields, columnLabels[index+1], "", false)}
                         </Grid>
                     )}
                 )}
-            </Grid>
-            <Grid container spacing={4}>
-                <Grid item xs={12}>
-                    <TransferList />
-                </Grid>
             </Grid>
             <Grid container spacing={3}>
                 <Grid item xs></Grid>
