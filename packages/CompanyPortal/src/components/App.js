@@ -11,10 +11,10 @@ function App() {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route path='/users' exact component={UserTable} />
-            <Route path='/users/new' component={UserCreate} />
-            <Route path='/users/edit/:id' component={UserEdit} />
-            <Route path='/users/delete/:id' component={UserDelete} />
+            <Route path='/client-api' exact component={UserTable} />
+            <Route path='/client-api/new' component={UserCreate} />
+            <Route path='/client-api/edit/:id' component={UserEdit} />
+            <Route path='/client-api/delete/:id' component={UserDelete} />
           </Switch>
         </div>
       </BrowserRouter>

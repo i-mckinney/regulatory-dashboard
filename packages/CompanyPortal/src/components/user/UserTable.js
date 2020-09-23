@@ -162,7 +162,7 @@ const UserTable = (props) => {
             edge='start'
             onClick={() =>
               props.history.push({
-                pathname: `/users/edit/${row._id}`,
+                pathname: `/client-api/edit/${row._id}`,
                 state: row,
               })
             }
@@ -176,7 +176,7 @@ const UserTable = (props) => {
             edge='start'
             onClick={() =>
               props.history.push({
-                pathname: `/users/delete/${row._id}`,
+                pathname: `/client-api/delete/${row._id}`,
                 state: row,
               })
             }
@@ -221,7 +221,7 @@ const UserTable = (props) => {
       <IconButton
         className={userTableClasses.createIconStyle}
         color='primary'
-        onClick={() => props.history.push('/users/new')}
+        onClick={() => props.history.push('/client-api/new')}
       >
         <AddBoxIcon fontSize='large' />
       </IconButton>
