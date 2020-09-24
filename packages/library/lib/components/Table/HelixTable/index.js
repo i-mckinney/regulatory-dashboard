@@ -138,7 +138,16 @@ var HelixTable = function HelixTable(_ref) {
       search: function search(rows, columns) {
         if (value === '') return rows;else return rows.filter(function (row) {
           return columns.filter(function (column) {
-            return row[column.Accessor].toLowerCase().includes(value.toLowerCase());
+            var columnAccessor = column.Accessor;
+
+            if (typeof row[columnAccessor] === 'string') {
+              return row[columnAccessor].toLowerCase().includes(value.toLowerCase());
+            } else {
+              var assignedRoles = row[columnAccessor].reduce(function (result, roles) {
+                return "".concat(result, " ").concat(roles).trim();
+              }, "");
+              return assignedRoles.toLowerCase().includes(value.toLowerCase());
+            }
           }).length > 0 ? true : false;
         });
       }

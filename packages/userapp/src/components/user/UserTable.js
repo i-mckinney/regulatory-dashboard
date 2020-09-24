@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
-import AddBoxIcon from '@material-ui/icons/AddBox';
+import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { HelixTable } from 'helixmonorepo-lib'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
+// import { HelixTable } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
 import users from '../apis/users'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
@@ -14,8 +15,8 @@ const userTableStyles = makeStyles(() => ({
     mediumContainer: {
         width: '80%',
         margin: 'auto',
-        marginTop: '5rem',
-        paddingBottom: '5rem',
+        marginTop: '3rem',
+        paddingBottom: '3rem',
         '& table': {
             width: '100%',
             display: 'table',
@@ -154,11 +155,24 @@ const UserTable = (props) => {
                 </TableCell>
             )
         }
-        return (
-            <TableCell key={`${rowIndex} ${columnAccessor}`}>
-                {row[columnAccessor]}
-            </TableCell>
-        )
+        else if (columnAccessor === "Roles") {
+            const assignedRoles = row[columnAccessor].reduce((result, roles, index) => {
+                return index ? `${result}, ${roles}`.trim() : `${result} ${roles}`.trim()
+            }, "")
+
+            return (
+                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                    {assignedRoles}
+                </TableCell>
+            )
+        }
+        else {
+            return (
+                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                    {row[columnAccessor]}
+                </TableCell>
+            )
+        }
     }
 
     /**
@@ -177,8 +191,8 @@ const UserTable = (props) => {
         return row._id
     }
 
-    // Initially, we can start the table to order by First Name, ascending order
-    const initialOrderBy = "FirstName"
+    // Initially, we can start the table to order by Username or First Name or etc in ascending order
+    const initialOrderBy = "Username"
 
     /**
      * @return jsx object of create icon in child component's toolbar
