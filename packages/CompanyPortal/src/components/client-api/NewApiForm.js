@@ -38,17 +38,17 @@ columnFields.forEach((columnField) => {
 });
 
 /**
- * @param {object} initialUser represent preset empty user data object
+ * @param {object} initialUser represent preset empty api data object
  * @param {string} header represent the header title of this form
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
  * @return {JSX} NewApiForm site with input form to fill in
- * routed at /user/new
+ * routed at /api/new
  */
 const NewApiForm = ({ initialUser, header, onSubmit }) => {
-  // Set user with preset empty data for user creation e.g. { FirstName: "", LastName: "", ...}
-  const [user, setUser] = useState(initialUser);
+  // Set api with preset empty data for api creation e.g. { FirstName: "", LastName: "", ...}
+  const [api, setUser] = useState(initialUser);
 
-  // Perform error check for form validatation upon user data
+  // Perform error check for form validatation upon api data
   const [error, setError] = useState(userError);
 
   // Creates an object for styling. Any className that matches key in the userFormStyles object will have a corresponding styling
@@ -57,18 +57,18 @@ const NewApiForm = ({ initialUser, header, onSubmit }) => {
   /**
    * @param {Object} event the event object
    * name: the name property on the target text field element
-   * value: the value property on the target text field element as user input text
+   * value: the value property on the target text field element as api input text
    */
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
+    setUser({ ...api, [name]: value });
     validation(name, value);
   };
 
   /**
    *
    * @param {string} name  the name property on the target text field element
-   * @param {string} value the value property on the target text field element as user input text
+   * @param {string} value the value property on the target text field element as api input text
    * @param {string} label the label is used for logging errors
    */
   const validate = (name, value, label) => {
@@ -106,11 +106,11 @@ const NewApiForm = ({ initialUser, header, onSubmit }) => {
 
   /**
    * @param {Object} event the event object
-   * Send the created user back to parent component
+   * Send the created api back to parent component
    */
   const onSubmitForm = (event) => {
     event.preventDefault();
-    onSubmit(user);
+    onSubmit(api);
   };
 
   /**
@@ -133,7 +133,7 @@ const NewApiForm = ({ initialUser, header, onSubmit }) => {
         name={name}
         type={dateTypeFields.includes(name) ? 'date' : ''}
         label={label}
-        value={user[[name]]}
+        value={api[[name]]}
         placeholder={placeholder}
         helperText={error[[name]]}
         required={required}

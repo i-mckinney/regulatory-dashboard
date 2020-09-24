@@ -1,8 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import NewApiForm from './NewApiForm';
+// import NewApiForm from './NewApiForm';
 import users from '../apis/users';
 import { columnFields } from '../../config';
+import ApiCallForm from './ApiCallForm';
+// import * as apiCallService from '../../services/apiCallService';
+
 
 // InitialUser with preset data
 const initialUser = {};
@@ -12,28 +15,29 @@ columnFields.forEach((columnField) => {
 
 /**
  * @param {Object} props Using the history property to route next component with data state
- * @return {JSX} CreateApi site with NewApiForm provided for user creation
- * routed at /user/new
+ * @return {JSX} CreateApi site with NewApiForm provided for api creation
+ * routed at /api/new
  */
 const CreateApi = (props) => {
   /**
-   * @param {object} user represent user object with props values that it will create
+   * @param {object} api represent api object with props values that it will create
    */
-  const createUser = async (user) => {
-    user['createdAt'] = '';
-    user['updatedAt'] = '';
-    user['Actions'] = '';
-    await users.post('/users', user);
+  const createUser = async (api) => {
+    api['createdAt'] = '';
+    api['updatedAt'] = '';
+    api['Actions'] = '';
+    await users.post('/users', api);
     props.history.push('/users');
   };
 
   return (
     <div>
-      <NewApiForm
-        header='Create User'
+      <ApiCallForm/>
+      {/* <NewApiForm
+        header='Add API Call'
         initialUser={initialUser}
         onSubmit={createUser}
-      />
+      /> */}
     </div>
   );
 };

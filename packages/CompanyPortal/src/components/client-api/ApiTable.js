@@ -6,13 +6,15 @@ import {
   Typography,
   TableCell,
 } from '@material-ui/core';
-import AddBoxIcon from '@material-ui/icons/AddBox';
+import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib';
 import users from '../apis/users';
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config';
+import { Button as MuiButton } from '@material-ui/core';
+
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -105,12 +107,12 @@ const ApiTable = (props) => {
   }
 
   /**
-   * @param {object} user represent object of user with particular props
-   * @param {string} accessor represents the accessor which user with acessor can access the property value
+   * @param {object} api represent object of api with particular props
+   * @param {string} accessor represents the accessor which api with acessor can access the property value
    */
-  const isoToDate = (user, accessor) => {
-    const strDate = user[accessor];
-    user[accessor] = strDate.substring(0, 10);
+  const isoToDate = (api, accessor) => {
+    const strDate = api[accessor];
+    api[accessor] = strDate.substring(0, 10);
   };
 
   /**
@@ -125,12 +127,12 @@ const ApiTable = (props) => {
       try {
         const response = await users.get('/users');
 
-        response.data.forEach((user) => {
-          if (user['createdAt'] !== undefined) {
-            isoToDate(user, 'createdAt');
+        response.data.forEach((api) => {
+          if (api['createdAt'] !== undefined) {
+            isoToDate(api, 'createdAt');
           }
-          if (user['updatedAt'] !== undefined) {
-            isoToDate(user, 'updatedAt');
+          if (api['updatedAt'] !== undefined) {
+            isoToDate(api, 'updatedAt');
           }
         });
         setRows(response.data);
@@ -218,13 +220,15 @@ const ApiTable = (props) => {
    */
   const displayCreateUserIcon = () => {
     return (
-      <IconButton
+      <MuiButton
         className={userTableClasses.createIconStyle}
-        color='primary'
+        variant="outlined"
+        color='default'
         onClick={() => props.history.push('/client-api/new')}
       >
-        <AddBoxIcon fontSize='large' />
-      </IconButton>
+      Add New
+        <AddIcon fontSize='default' />
+      </MuiButton>
     );
   };
 
@@ -232,7 +236,7 @@ const ApiTable = (props) => {
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
         <div className={userTableClasses.header}>
-          <Typography variant='h5'>Users</Typography>
+          <Typography variant='h5'>Client API Interface</Typography>
         </div>
         <HelixTable
           displayCreateIcon={displayCreateUserIcon}

@@ -64,15 +64,15 @@ const userDeleteStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history property to route next component with data state
- * @return {JSX} DeleteApi site to delete a specific user
- * routed at /user/delete/:id
+ * @return {JSX} DeleteApi site to delete a specific api
+ * routed at /api/delete/:id
  */
 const DeleteApi = (props) => {
   // Creates an object for styling. Any className that matches key in the userDeleteStyles object will have a corresponding styling
   const userDeleteClasses = userDeleteStyles();
 
   /**
-   * deleteUser calls backend api through delete protocol to remove a user with the specific id and nagivate to next component
+   * deleteUser calls backend api through delete protocol to remove a api with the specific id and nagivate to next component
    */
   const deleteUser = async () => {
     const id = props.location.state._id;
@@ -105,7 +105,7 @@ const DeleteApi = (props) => {
             className={userDeleteClasses.content}
             id='simple-modal-description'
           >
-            Are you sure you want to delete this user: {displayUserName()}?
+            Are you sure you want to delete this api: {displayUserName()}?
           </div>
           <div className={userDeleteClasses.actions}>
             <HelixButton
