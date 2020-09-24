@@ -21,6 +21,12 @@ Object.defineProperty(exports, "HelixTextField", {
     return _HelixTextField["default"];
   }
 });
+Object.defineProperty(exports, "HelixSideNavbar", {
+  enumerable: true,
+  get: function get() {
+    return _HelixSideNavbar["default"];
+  }
+});
 Object.defineProperty(exports, "HelixTable", {
   enumerable: true,
   get: function get() {
@@ -45,6 +51,8 @@ var _MUIButton = _interopRequireDefault(require("./components/MUIButton"));
 var _HelixButton = _interopRequireDefault(require("./components/HelixButton"));
 
 var _HelixTextField = _interopRequireDefault(require("./components/HelixTextField"));
+
+var _HelixSideNavbar = _interopRequireDefault(require("./components/HelixSideNavbar"));
 
 var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"));
 
