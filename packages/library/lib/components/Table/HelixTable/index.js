@@ -142,11 +142,16 @@ var HelixTable = function HelixTable(_ref) {
 
             if (typeof row[columnAccessor] === 'string') {
               return row[columnAccessor].toLowerCase().includes(value.toLowerCase());
-            } else {
+            }
+
+            try {
               var assignedRoles = row[columnAccessor].reduce(function (result, roles) {
                 return "".concat(result, " ").concat(roles).trim();
               }, "");
               return assignedRoles.toLowerCase().includes(value.toLowerCase());
+            } catch (error) {
+              console.log("Error Type", error);
+              return error;
             }
           }).length > 0 ? true : false;
         });
