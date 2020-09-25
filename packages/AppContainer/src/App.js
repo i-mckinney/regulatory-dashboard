@@ -1,9 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 import PropTypes from "prop-types"
-import Header from "./Components/Header/Header"
+import clsx from "clsx"
+import { useTheme, CssBaseline } from "@material-ui/core"
 import MicroserviceLoader from "./MicroserviceLoader"
 import SpogPage from "./Components/Spog/SpogPage"
+import Header from "./Components/Header/Header"
+import containerAppUseStyles from "./ContainerStyles"
 
 const {
   REACT_APP_DASHBOARD_HOST: dashboardHost,
@@ -27,27 +30,50 @@ const User = ({ history }) => (
   <MicroserviceLoader history={history} host={userHost} name="User" />
 )
 
-const App = () => (
-  <BrowserRouter>
-    <>
-      <Header />
-      <Switch>
-        <Route exact path="/" component={SpogPage} />
-        <Route exact path="/home" component={Dashboard} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/company/:id" component={CompanyView} />
-        <Route exact path="/entity" component={Dashboard} />
-        <Route exact path="/loan" component={Dashboard} />
-        <Route exact path="/regulatory" component={Dashboard} />
-        <Route exact path="/myrequest" component={Dashboard} />
-        <Route exact path="/users" component={User} />
-        <Route exact path="/users/new" component={User} />
-        <Route exact path="/users/edit/:id" component={User} />
-        <Route exact path="/users/delete/:id" component={User} />
-      </Switch>
-    </>
-  </BrowserRouter>
-)
+const App = () => {
+  // Styles for Container application
+  const topContainerClasses = containerAppUseStyles()
+  // Theme for container application
+  const topContainerTheme = useTheme()
+
+  // State to determine whether side navigation is open or not
+  const [sideNavOpen, setSideNavOpen] = useState(false)
+
+  return (
+    <BrowserRouter>
+      <div className={topContainerClasses.topContainerClassesRoot}>
+        <CssBaseline />
+        <Header
+          topContainerClasses={topContainerClasses}
+          topContainerTheme={topContainerTheme}
+          sideNavOpen={sideNavOpen}
+          setSideNavOpen={setSideNavOpen}
+        />
+        <main
+          className={clsx(topContainerClasses.microServiceContent, {
+            [topContainerClasses.microServiceContentShift]: sideNavOpen,
+          })}
+        >
+          <div className={topContainerClasses.sideNavDrawerHeader} />
+          <Switch>
+            <Route exact path="/" component={SpogPage} />
+            <Route exact path="/home" component={Dashboard} />
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/company" component={CompanyView} />
+            <Route exact path="/entity" component={Dashboard} />
+            <Route exact path="/loan" component={Dashboard} />
+            <Route exact path="/regulatory" component={Dashboard} />
+            <Route exact path="/myrequest" component={Dashboard} />
+            <Route exact path="/users" component={User} />
+            <Route exact path="/users/new" component={User} />
+            <Route exact path="/users/edit/:id" component={User} />
+            <Route exact path="/users/delete/:id" component={User} />
+          </Switch>
+        </main>
+      </div>
+    </BrowserRouter>
+  )
+}
 
 Dashboard.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
