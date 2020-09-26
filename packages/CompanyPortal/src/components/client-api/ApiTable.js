@@ -14,6 +14,7 @@ import { HelixTable } from 'helixmonorepo-lib';
 import users from '../apis/users';
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config';
 import { Button as MuiButton } from '@material-ui/core';
+import axios from 'axios';
 
 
 // Styling used for MaterialUI
@@ -91,7 +92,11 @@ const ApiTable = (props) => {
   const [rows, setRows] = useState([]);
 
   // columns will store column header that we want to show in the front end
-  const columns = useMemo(() => [], []);
+  const columns = [
+      { field: 'requestName', headerName: 'Request Name', width: 70 },
+      { field: 'requestMethod', headerName: 'Request Method' },
+      { field: 'requestUrl', headerName: 'Request URL' },
+  ]
 
   if (rows.length !== 0) {
     const headerColumns = Object.keys(rows[0]);
@@ -105,6 +110,9 @@ const ApiTable = (props) => {
       }
     });
   }
+
+  //what is the structure of the columns and the rows ?
+  
 
   /**
    * @param {object} api represent object of api with particular props
@@ -141,7 +149,15 @@ const ApiTable = (props) => {
       }
     };
 
+    const fetchCompanies = () => {
+        axios.get('http://localhost:4005/companies', {
+          headers: {"Access-Control-Allow-Origin" : "*"}
+        })
+        .then(res => console.log(res.data[0]))
+    }
+
     fetchUsers();
+    fetchCompanies();
   }, [columns]);
 
   /**
