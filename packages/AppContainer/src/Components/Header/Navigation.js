@@ -12,6 +12,7 @@ import FeaturedPlayListIcon from "@material-ui/icons/FeaturedPlayList"
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import CreditCard from "@material-ui/icons/CreditCard"
 import AccountBalance from "@material-ui/icons/AccountBalance"
+import AssignmentIcon from "@material-ui/icons/Assignment"
 import PropTypes from "prop-types"
 
 const navStyles = makeStyles((theme) => ({
@@ -104,8 +105,13 @@ function Navigation({ handleHome }) {
             </Link>
 
             <Link color="inherit" href="/myrequest" className={navClasses.link}>
-              <AccountCircle className={navClasses.icon} />
+              <AssignmentIcon className={navClasses.icon} />
               My Request
+            </Link>
+
+            <Link color="inherit" href="/users" className={navClasses.link}>
+              <AccountCircle className={navClasses.icon} />
+              Users
             </Link>
           </Breadcrumbs>
         </Toolbar>
