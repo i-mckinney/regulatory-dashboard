@@ -1,42 +1,11 @@
 // sortableExcludes is array of identifier that we do not want to sort
-export const sortableExcludes = [
-  '_id',
-  'MiddleName',
-  'PhoneType',
-  'Address1',
-  'Address2',
-  'City',
-  'State',
-  'Country',
-  'Zipcode',
-  'Actions',
-];
+export const sortableExcludes = ['_id'];
 
 // columnExcludes is array of identifier that we do not want to display in the table
-export const columnExcludes = [
-  'MiddleName',
-  'Address1',
-  'Address2',
-  'City',
-  'State',
-  'Country',
-  'Zipcode',
-];
+export const columnExcludes = ['requestBody'];
 
 // columnFields is array of fields that NewApiForm will have
-export const columnFields = [
-  'Username',
-  'FirstName',
-  'MiddleName',
-  'LastName',
-  'Address1',
-  'Address2',
-  'City',
-  'State',
-  'Country',
-  'Zipcode',
-  'DateOfBirth',
-];
+export const columnFields = [];
 
 // columnLabels is array of label name that correspondings to columnFields EXCEPT _id (primary key)
 // PRIMARY KEY must be FIRST in the array (required)
@@ -46,19 +15,10 @@ export const columnFields = [
 // (3) Actions
 export const columnLabels = [
   '_id',
-  'TEST',
-  'First Name',
-  'Middle Name',
-  'Last Name',
-  'Address1',
-  'Address2',
-  'City',
-  'State',
-  'Country',
-  'Zip Code',
-  'Date Of Birth',
-  'User Created',
-  'User Updated',
+  'Request Name',
+  'Request Method',
+  'Request URL',
+  'Request Body',
   'Actions',
 ];
 

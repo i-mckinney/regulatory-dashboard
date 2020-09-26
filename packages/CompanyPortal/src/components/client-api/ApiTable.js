@@ -11,11 +11,11 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib';
+// import HelixTable from '../table/HelixTable';
 import users from '../apis/users';
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config';
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
-
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -92,16 +92,13 @@ const ApiTable = (props) => {
   const [rows, setRows] = useState([]);
 
   // columns will store column header that we want to show in the front end
-  const columns = [
-      { field: 'requestName', headerName: 'Request Name', width: 70 },
-      { field: 'requestMethod', headerName: 'Request Method' },
-      { field: 'requestUrl', headerName: 'Request URL' },
-  ]
+  const columns = [];
 
   if (rows.length !== 0) {
     const headerColumns = Object.keys(rows[0]);
     headerColumns.forEach((key, index) => {
       if (!columnExcludes.includes(key)) {
+        console.log('keys', key);
         columns.push({
           Label: columnLabels[index],
           Accessor: key,
@@ -109,10 +106,14 @@ const ApiTable = (props) => {
         });
       }
     });
+    columns.push({
+      Label: 'Actions',
+      Accessor: 'Actions',
+      Sortable: false,
+    });
   }
 
   //what is the structure of the columns and the rows ?
-  
 
   /**
    * @param {object} api represent object of api with particular props
@@ -123,40 +124,24 @@ const ApiTable = (props) => {
     api[accessor] = strDate.substring(0, 10);
   };
 
+  console.log('rows:', rows);
+
   /**
    * Renders only when it is mounted at first
    * It will fetchUsers whenever ApiTable loads
    */
   useEffect(() => {
-    /**
-     * fetchUsers calls backend api through get protocol to get all the users
-     */
-    const fetchUsers = async () => {
-      try {
-        const response = await users.get('/users');
-
-        response.data.forEach((api) => {
-          if (api['createdAt'] !== undefined) {
-            isoToDate(api, 'createdAt');
-          }
-          if (api['updatedAt'] !== undefined) {
-            isoToDate(api, 'updatedAt');
-          }
+    const fetchCompanies = () => {
+      axios
+        .get('http://localhost:4005/companies', {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        })
+        .then((res) => {
+          console.log('res', res.data[0].CustomApiRequests);
+          setRows(res.data[0].CustomApiRequests);
         });
-        setRows(response.data);
-      } catch (error) {
-        console.log(error);
-      }
     };
 
-    const fetchCompanies = () => {
-        axios.get('http://localhost:4005/companies', {
-          headers: {"Access-Control-Allow-Origin" : "*"}
-        })
-        .then(res => console.log(res.data[0]))
-    }
-
-    fetchUsers();
     fetchCompanies();
   }, [columns]);
 
@@ -168,6 +153,7 @@ const ApiTable = (props) => {
    */
   const customCellRender = (rowIndex, row, column) => {
     const columnAccessor = column.Accessor;
+    console.log('---', columnAccessor);
     if (columnAccessor === 'Actions') {
       return (
         <TableCell
@@ -180,7 +166,7 @@ const ApiTable = (props) => {
             edge='start'
             onClick={() =>
               props.history.push({
-                pathname: `/client-api/edit/${row._id}`,
+                pathname: `/users/edit/${row._id}`,
                 state: row,
               })
             }
@@ -194,7 +180,7 @@ const ApiTable = (props) => {
             edge='start'
             onClick={() =>
               props.history.push({
-                pathname: `/client-api/delete/${row._id}`,
+                pathname: `/users/delete/${row._id}`,
                 state: row,
               })
             }
@@ -238,11 +224,11 @@ const ApiTable = (props) => {
     return (
       <MuiButton
         className={userTableClasses.createIconStyle}
-        variant="outlined"
+        variant='outlined'
         color='default'
         onClick={() => props.history.push('/client-api/new')}
       >
-      Add New
+        Add New
         <AddIcon fontSize='default' />
       </MuiButton>
     );
