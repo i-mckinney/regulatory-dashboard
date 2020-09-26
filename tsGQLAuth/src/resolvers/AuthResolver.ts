@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { Arg, Ctx, Mutation, Resolver, Query } from "type-graphql";
 import { User } from "../entity/User";
 import { AuthInput } from "../graphql-types/AuthInput";
-import { MyContext } from "../graphql-types/MyContext";
+import { HelixContext } from "../graphql-types/HelixContext";
 import { UserResponse } from "../graphql-types/UserResponse";
 
 const invalidLoginResponse = {
@@ -47,7 +47,7 @@ export class AuthResolver {
   @Mutation(() => UserResponse)
   async login(
     @Arg("input") { email, password }: AuthInput,
-    @Ctx() ctx: MyContext
+    @Ctx() ctx: HelixContext
   ): Promise<UserResponse> {
     const user = await User.findOne({ where: { email } });
 
@@ -67,7 +67,7 @@ export class AuthResolver {
   }
 
   @Query(() => User, { nullable: true })
-  async me(@Ctx() ctx: MyContext): Promise<User | undefined> {
+  async whoAmI(@Ctx() ctx: HelixContext): Promise<User | undefined> {
     if (!ctx.req.session!.userId) {
       return undefined;
     }
@@ -76,7 +76,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
-  async logout(@Ctx() ctx: MyContext): Promise<Boolean> {
+  async logout(@Ctx() ctx: HelixContext): Promise<Boolean> {
     return new Promise((res, rej) =>
       ctx.req.session!.destroy(err => {
         if (err) {
@@ -84,7 +84,7 @@ export class AuthResolver {
           return rej(false);
         }
 
-        ctx.res.clearCookie("qid");
+        ctx.res.clearCookie("thisIsTheCookieName");
         return res(true);
       })
     );

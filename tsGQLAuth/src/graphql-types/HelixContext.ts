@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-export interface MyContext {
+export interface HelixContext {
   req: Request;
   res: Response;
 }

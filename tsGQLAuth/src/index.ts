@@ -6,7 +6,7 @@ import connectSqlite3 from "connect-sqlite3";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { AuthResolver } from "./resolvers/AuthResolver";
-import { BookResolver } from "./resolvers/BookResolver";
+import { UserResolver } from "./resolvers/UserResolver";
 
 const SQLiteStore = connectSqlite3(session);
 
@@ -19,8 +19,8 @@ const SQLiteStore = connectSqlite3(session);
         db: "database.sqlite",
         concurrentDB: true
       }),
-      name: "nothingimportanthere",
-      secret: process.env.SESSION_SECRET || "HelixBoysForLife",
+      name: "thisIsTheCookieName",
+      secret: "thisIsWhatIsUsedToHash",
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -39,7 +39,7 @@ const SQLiteStore = connectSqlite3(session);
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [AuthResolver, BookResolver],
+      resolvers: [AuthResolver, UserResolver],
       validate: false
     }),
     context: ({ req, res }) => ({ req, res })
