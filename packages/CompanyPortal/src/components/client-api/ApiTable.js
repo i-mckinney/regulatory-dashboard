@@ -5,6 +5,11 @@ import {
   makeStyles,
   Typography,
   TableCell,
+  Dialog,
+  TextField,
+  Button,
+  DialogTitle,
+  CircularProgress,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,6 +21,9 @@ import users from '../apis/users';
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config';
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
+
+const MODAL_ACTION_CREATE = 'MODAL_ACTION_CREATE';
+const MODAL_ACTION_UPDATE = 'MODAL_ACTION_UPDATE';
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -79,6 +87,69 @@ const userTableStyles = makeStyles(() => ({
   },
 }));
 
+const EditDialog = ({
+  open,
+  onClose,
+  data,
+  loading,
+  onUpdate,
+  onCreate,
+  modalAction,
+}) => {
+  const [requestName, setRequestName] = useState(data.requestName);
+  const [requestMethod, setRequestMethod] = useState(data.requestMethod);
+  const [requestURL, setrequestURL] = useState(data.requestURL);
+  let handleClick, title, buttonText;
+
+  if (modalAction === MODAL_ACTION_CREATE) {
+    handleClick = onCreate;
+    title = 'Create row';
+    buttonText = 'Create';
+  } else if (modalAction === MODAL_ACTION_UPDATE) {
+    handleClick = onUpdate;
+    title = 'Update row';
+    buttonText = 'Update';
+  }
+
+  useEffect(() => {
+    setRequestName(data.requestName);
+    setRequestMethod(data.requestMethod);
+    setrequestURL(data.requestURL);
+  }, [data]);
+
+  return (
+    <Dialog onClose={onClose} aria-labelledby='simple-dialog-title' open={open}>
+      <DialogTitle id='simple-dialog-title'>{title}</DialogTitle>
+      <TextField
+        label='Request Name'
+        value={requestName}
+        onChange={(e) => setRequestName(e.target.value)}
+      />
+      <TextField
+        label='Request Method'
+        value={requestMethod}
+        onChange={(e) => setRequestMethod(e.target.value)}
+      />
+      <TextField
+        label='Request URL'
+        value={requestURL}
+        onChange={(e) => setrequestURL(e.target.value)}
+      />
+      <Button
+        variant='contained'
+        disabled={loading}
+        onClick={() =>
+          handleClick({ ...data, requestName, requestMethod, requestURL })
+        }
+      >
+        {buttonText}
+        {` `}
+        {loading ? <CircularProgress /> : null}
+      </Button>
+    </Dialog>
+  );
+};
+
 /**
  * @param {Object} props Using the history location to route next component with data state
  * @return {JSX} ApiTable of the client's custom APIs
@@ -89,10 +160,45 @@ const ApiTable = (props) => {
   const userTableClasses = userTableStyles();
 
   // rows will stores users from GET Method fetchUsers via Rest API
-  const [rows, setRows] = useState([]);
+  // const [rows, setRows] = useState([]);
+
+  const [companyData, setCompanyData] = useState({});
+
+  const [openEditModal, setOpenEditModal] = React.useState(false);
+
+  const [editModalData, setEditModalData] = useState({});
+
+  const [modalAction, setModalAction] = useState(MODAL_ACTION_CREATE);
+
+  const [loading, setLoading] = useState(false);
+
+  const handleOpenEditModal = (_id) => {
+    if (!!_id) {
+      setModalAction(MODAL_ACTION_UPDATE);
+      setEditModalData({
+        ...companyData.CustomApiRequests.find((item) => item._id === _id),
+      });
+    } else {
+      setModalAction(MODAL_ACTION_CREATE);
+      setEditModalData({
+        _id: new Date().getTime(),
+        requestName: '',
+        requestMethod: '',
+        requestURL: '',
+      });
+    }
+    setOpenEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setOpenEditModal(false);
+    setEditModalData({});
+  };
 
   // columns will store column header that we want to show in the front end
   const columns = [];
+
+  const rows = companyData.CustomApiRequests || [];
 
   if (rows.length !== 0) {
     const headerColumns = Object.keys(rows[0]);
@@ -113,18 +219,63 @@ const ApiTable = (props) => {
     });
   }
 
-  //what is the structure of the columns and the rows ?
-
   /**
    * @param {object} api represent object of api with particular props
-   * @param {string} accessor represents the accessor which api with acessor can access the property value
+   * @param {string} accessor represents the accessor which api with accessor can access the property value
    */
   const isoToDate = (api, accessor) => {
     const strDate = api[accessor];
     api[accessor] = strDate.substring(0, 10);
   };
 
-  console.log('rows:', rows);
+  console.log('companyData:', companyData);
+
+  const handleCreateRow = async (newRow) => {
+    setLoading(true);
+    const response = await axios.put(
+      `http://localhost:4005/companies/${companyData._id}`,
+      {
+        CustomApiRequests: [...rows, newRow],
+      },
+      {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      }
+    );
+    setCompanyData(response.data);
+    setLoading(false);
+    handleCloseEditModal();
+  };
+
+  const handleEditRow = async (updatedRow) => {
+    setLoading(true);
+    const response = await axios.put(
+      `http://localhost:4005/companies/${companyData._id}`,
+      {
+        CustomApiRequests: rows.map((row) =>
+          row._id === updatedRow._id ? updatedRow : row
+        ),
+      },
+      {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      }
+    );
+    setCompanyData(response.data);
+    setLoading(false);
+    handleCloseEditModal();
+  };
+
+  const handleDeleteRow = async (_id) => {
+    const response = await axios.put(
+      `http://localhost:4005/companies/${companyData._id}`,
+      {
+        CustomApiRequests: rows.filter((row) => row._id !== _id),
+      },
+      {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+      }
+    );
+    setCompanyData(response.data);
+  };
 
   /**
    * Renders only when it is mounted at first
@@ -137,13 +288,14 @@ const ApiTable = (props) => {
           headers: { 'Access-Control-Allow-Origin': '*' },
         })
         .then((res) => {
-          console.log('res', res.data[0].CustomApiRequests);
-          setRows(res.data[0].CustomApiRequests);
+          // console.log('res', res.data[0].CustomApiRequests);
+          // setRows(res.data[0].CustomApiRequests);
+          setCompanyData(res.data[0]);
         });
     };
 
     fetchCompanies();
-  }, [columns]);
+  }, []);
 
   /**
    * @param {int} rowIndex represents row index
@@ -153,7 +305,6 @@ const ApiTable = (props) => {
    */
   const customCellRender = (rowIndex, row, column) => {
     const columnAccessor = column.Accessor;
-    console.log('---', columnAccessor);
     if (columnAccessor === 'Actions') {
       return (
         <TableCell
@@ -164,12 +315,7 @@ const ApiTable = (props) => {
             aria-label='edit'
             size='small'
             edge='start'
-            onClick={() =>
-              props.history.push({
-                pathname: `/users/edit/${row._id}`,
-                state: row,
-              })
-            }
+            onClick={() => handleOpenEditModal(row._id)}
             color='default'
           >
             <EditIcon />
@@ -178,12 +324,7 @@ const ApiTable = (props) => {
             aria-label='delete'
             size='small'
             edge='start'
-            onClick={() =>
-              props.history.push({
-                pathname: `/users/delete/${row._id}`,
-                state: row,
-              })
-            }
+            onClick={() => handleDeleteRow(row._id)}
             color='secondary'
           >
             <DeleteIcon />
@@ -226,7 +367,7 @@ const ApiTable = (props) => {
         className={userTableClasses.createIconStyle}
         variant='outlined'
         color='default'
-        onClick={() => props.history.push('/client-api/new')}
+        onClick={() => handleOpenEditModal()}
       >
         Add New
         <AddIcon fontSize='default' />
@@ -250,8 +391,19 @@ const ApiTable = (props) => {
           customBodyRowKeyProp={customBodyRowKeyProp}
         />
       </div>
+      <EditDialog
+        open={openEditModal}
+        onClose={handleCloseEditModal}
+        data={editModalData}
+        loading={loading}
+        onUpdate={handleEditRow}
+        onCreate={handleCreateRow}
+        modalAction={modalAction}
+      />
     </StylesProvider>
   );
 };
+
+//loading, onUpdate, onCreate, modalAction
 
 export default withRouter(ApiTable);
