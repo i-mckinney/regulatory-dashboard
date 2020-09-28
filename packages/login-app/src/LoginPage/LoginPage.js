@@ -43,7 +43,8 @@ const useLoginPageStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    background: '#4000ff',
+    color: 'white',
+    background: 'primary',
     margin: theme.spacing(3, 0, 2),
   },
 }));
@@ -99,7 +100,6 @@ export default function Login() {
             Login
           </Button>
         </form>
-        <h3>Or use Google Sign-In</h3>
       </div>
       <Box mt={8}>
         <Copyright />
