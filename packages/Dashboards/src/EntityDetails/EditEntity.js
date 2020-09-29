@@ -5,7 +5,6 @@ import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
 import EntityTableCell from "./EntityTableCell"
-import EntityTable from "./EntityTable"
 import { HelixButton } from 'helixmonorepo-lib'
 import HelixTable from './HelixTable'
 
@@ -54,8 +53,29 @@ const editEntityStyles = makeStyles(() => ({
         borderBottom: 'none',
       },
     },
-  }
-  
+  },
+  cancelButton: {
+    backgroundColor: "#42a5f5",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#2196f3",
+      color: "white",
+    },
+  },
+  confirmButton: {
+    marginLeft: "15px",
+    backgroundColor: "#1976d2",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#1565c0",
+      color: "white",
+    },
+  },
+  pageProgression: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "30px",
+  },
 }))
 
 /**
@@ -78,7 +98,6 @@ const EditEntity = (props) => {
     columns.push({
       Header: header.DataWarehouseName,
       Accessor: header.DataWarehouseName,
-      // Cell: EntityTableCell,
     })
   })
 
@@ -86,6 +105,7 @@ const EditEntity = (props) => {
   const data = detailedInfo.Fields.map((entityField) => {
     return { FieldName: entityField.Label }
   })
+
   /**
    * {
    * FieldName: string
@@ -104,7 +124,6 @@ const EditEntity = (props) => {
       const headers = detailedInfo.TableHeaders
       const dataWarehouseName = headers[recordIndex].DataWarehouseName
       data[fieldIndex][dataWarehouseName] = record.Value
-      console.log(entityField, record, data)
       entityData.push({
         FieldName: entityField.Label,
         IsEdited: false,
@@ -115,20 +134,18 @@ const EditEntity = (props) => {
       })
     })
   )
-  // console.log(columns)
-  // console.log(data)
 
-const customHeadColumnKeyProp = (column) => {
-  return column.Accessor
-}
+  const customHeadColumnKeyProp = (column) => {
+    return column.Accessor
+  }
 
-const customBodyRowKeyProp = (row) => {
-  return row.FieldName
+  const customBodyRowKeyProp = (row) => {
+    return row.FieldName
   }
 
   // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
-  
+  console.log(editEntityData)
   /**
    * @param {int} index table cell index in 1-dimension array
    * @param {boolean} isEdited boolean represent whether cell is edited
@@ -159,28 +176,29 @@ const customBodyRowKeyProp = (row) => {
 
   return (
     <div className={`container ${editEntityClasses.medium}`}>
-      {/* <EntityCard
+      <EntityCard
         RecordLabel={detailedInfo.RecordLabel}
         SystemOfRecord={detailedInfo.SystemOfRecord}
         ID={detailedInfo.HeaderInfo.ID}
         BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
         RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
-      /> */}
-      <HelixTable columns={columns} rows={data} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp} customHeadColumnKeyProp={customHeadColumnKeyProp} />
-      {/* <EntityTable
-        columns={columns}
-        data={data}
-        editData={editData}
-      /> */}
-      <div className="page-progression">
+      />
+      <HelixTable 
+      columns={columns} 
+      rows={data} 
+      customCellRender={customCellRender} 
+      customBodyRowKeyProp={customBodyRowKeyProp} 
+      customHeadColumnKeyProp={customHeadColumnKeyProp} 
+      />
+      <div className={editEntityClasses.pageProgression}>
         <HelixButton
-          className="back-button"
+          className={editEntityClasses.cancelButton}
           onClick={() => {
             props.history.push("/entity")
           }}
           text="Back"
         />
-        <HelixButton className="confirm-button" disabled text="Confirm" />
+        <HelixButton className={editEntityClasses.confirmButton} disabled text="Confirm" />
       </div>
     </div>
   )
