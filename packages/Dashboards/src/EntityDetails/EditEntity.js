@@ -87,6 +87,7 @@ const EditEntity = (props) => {
   // Creates an object for styling. Any className that matches key in the editEntityClasses object will have a corresponding styling
   const editEntityClasses = editEntityStyles();
 
+  // columns will store column header that we want to show in the front end
   const columns = React.useMemo(() => [
     {
       Header: "Field Name",
@@ -134,18 +135,26 @@ const EditEntity = (props) => {
       })
     })
   )
-
+  
+  /**
+   * @param {object} column represent object data regarding the api result  
+   * @return {string} provide table row with unique key props (required)
+   */
   const customHeadColumnKeyProp = (column) => {
     return column.Accessor
   }
 
+  /**
+   * @param {object} row represent object data regarding the api result 
+   * @return {string} provide table row with unique key props (required)
+   */
   const customBodyRowKeyProp = (row) => {
     return row.FieldName
   }
 
   // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
-  console.log(editEntityData)
+
   /**
    * @param {int} index table cell index in 1-dimension array
    * @param {boolean} isEdited boolean represent whether cell is edited
@@ -162,7 +171,15 @@ const EditEntity = (props) => {
     setEditEntityData([...copyEditEntityData])
   }
   
+  /**
+   * 
+   * @param {int} rowIndex the rowIndex represents index of the row
+   * @param {object} row the row is an object of data
+   * @param {object} column the column is an object of the header with accessor and label props
+   * @param {int} columnIndex the columnIndex represents index of the column
+   */
   const customCellRender = (rowIndex, row, column, columnIndex) => {
+    console.log(rowIndex, row, column, columnIndex)
     const columnAccessor = column.Accessor
     if (columnIndex === 0) {
       return <TableCell key={`${rowIndex} ${columnAccessor}`}>{row[columnAccessor]}</TableCell>
@@ -172,6 +189,19 @@ const EditEntity = (props) => {
         <EntityTableCell key={`${rowIndex} ${columnAccessor}`} columnAccessor={columnAccessor} value={row[columnAccessor]} allColumns={columns} rowIndex={rowIndex} editData={editData} />
       )
     }
+  }
+
+  // Go back to parent component
+  const handleBackButton = () => {
+    props.history.push("/entity")
+  }
+
+  // Passes editEntityData to the confirmation route
+  const handleConfirmButton = () => {
+    props.history.push({
+      pathname: "/confirmation",
+      state: { editEntityData },
+    })
   }
 
   return (
@@ -193,12 +223,13 @@ const EditEntity = (props) => {
       <div className={editEntityClasses.pageProgression}>
         <HelixButton
           className={editEntityClasses.cancelButton}
-          onClick={() => {
-            props.history.push("/entity")
-          }}
+          onClick={handleBackButton}
           text="Back"
         />
-        <HelixButton className={editEntityClasses.confirmButton} disabled text="Confirm" />
+        <HelixButton 
+        className={editEntityClasses.confirmButton} 
+        onClick={handleConfirmButton} 
+        text="Confirm" />
       </div>
     </div>
   )
