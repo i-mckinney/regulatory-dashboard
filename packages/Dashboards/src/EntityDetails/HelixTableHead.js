@@ -93,12 +93,12 @@ const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSo
   )
 }
 
-HelixTableHead.propTypes = {
-  columns: PropTypes.instanceOf(Array).isRequired,
-  customHeadColumnKeyProp: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  onSort: PropTypes.func.isRequired,
-}
+// HelixTableHead.propTypes = {
+//   columns: PropTypes.instanceOf(Array).isRequired,
+//   customHeadColumnKeyProp: PropTypes.func.isRequired,
+//   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+//   orderBy: PropTypes.string.isRequired,
+//   onSort: PropTypes.func.isRequired,
+// }
 
 export default HelixTableHead

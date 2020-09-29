@@ -45,18 +45,18 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
   )
 }
 
-HelixTableBody.propTypes = {
-  columns: PropTypes.instanceOf(Array).isRequired,
-  rows: PropTypes.instanceOf(Array).isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-  page: PropTypes.number.isRequired,
-  customCellRender: PropTypes.func.isRequired,
-  customBodyRowKeyProp: PropTypes.func.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
-  getComparator: PropTypes.func.isRequired,
-  stableSort: PropTypes.func.isRequired,
-  searchFilter: PropTypes.shape({ search: PropTypes.func.isRequired }).isRequired,
-}
+// HelixTableBody.propTypes = {
+//   columns: PropTypes.instanceOf(Array).isRequired,
+//   rows: PropTypes.instanceOf(Array).isRequired,
+//   rowsPerPage: PropTypes.number.isRequired,
+//   page: PropTypes.number.isRequired,
+//   customCellRender: PropTypes.func.isRequired,
+//   customBodyRowKeyProp: PropTypes.func.isRequired,
+//   order: PropTypes.string.isRequired,
+//   orderBy: PropTypes.string.isRequired,
+//   getComparator: PropTypes.func.isRequired,
+//   stableSort: PropTypes.func.isRequired,
+//   searchFilter: PropTypes.shape({ search: PropTypes.func.isRequired }).isRequired,
+// }
 
 export default HelixTableBody

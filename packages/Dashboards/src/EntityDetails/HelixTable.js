@@ -104,14 +104,14 @@ const HelixTable = ({
   )
 }
 
-HelixTable.propTypes = {
-  columns: PropTypes.instanceOf(Array).isRequired,
-  rows: PropTypes.instanceOf(Array).isRequired,
-  customCellRender: PropTypes.func.isRequired,
-  customHeadColumnKeyProp: PropTypes.func.isRequired,
-  customBodyRowKeyProp: PropTypes.func.isRequired,
-  initialOrderBy: PropTypes.string.isRequired,
-  displayCreateIcon: PropTypes.func.isRequired,
-}
+// HelixTable.propTypes = {
+//   columns: PropTypes.instanceOf(Array).isRequired,
+//   rows: PropTypes.instanceOf(Array).isRequired,
+//   customCellRender: PropTypes.func.isRequired,
+//   customHeadColumnKeyProp: PropTypes.func.isRequired,
+//   customBodyRowKeyProp: PropTypes.func.isRequired,
+//   initialOrderBy: PropTypes.string.isRequired,
+//   displayCreateIcon: PropTypes.func.isRequired,
+// }
 
 export default HelixTable
