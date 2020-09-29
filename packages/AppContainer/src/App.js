@@ -12,23 +12,28 @@ const {
   REACT_APP_DASHBOARD_HOST: dashboardHost,
   REACT_APP_COMPANY_VIEW_HOST: companyViewHost,
   REACT_APP_USER_HOST: userHost,
-} = process.env
+  REACT_APP_LOGIN_HOST: loginViewHost,
+} = process.env;
 
 const Dashboard = ({ history }) => (
-  <MicroserviceLoader history={history} host={dashboardHost} name="Dashboard" />
-)
+  <MicroserviceLoader history={history} host={dashboardHost} name='Dashboard' />
+);
 
 const CompanyView = ({ history }) => (
   <MicroserviceLoader
     history={history}
     host={companyViewHost}
-    name="CompanyView"
+    name='CompanyView'
   />
-)
+);
+
+const LoginView = ({ history }) => (
+  <MicroserviceLoader history={history} host={loginViewHost} name='LoginView' />
+);
 
 const User = ({ history }) => (
-  <MicroserviceLoader history={history} host={userHost} name="User" />
-)
+  <MicroserviceLoader history={history} host={userHost} name='User' />
+);
 
 const App = () => {
   // Styles for Container application
@@ -56,7 +61,8 @@ const App = () => {
         >
           <div className={topContainerClasses.sideNavDrawerHeader} />
           <Switch>
-            <Route exact path="/" component={SpogPage} />
+            <Route exact path='/' component={LoginView} />
+            <Route exact path='/spogpage' component={SpogPage} />
             <Route exact path="/home" component={Dashboard} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/company" component={CompanyView} />
@@ -77,12 +83,12 @@ const App = () => {
 
 Dashboard.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-}
+};
 CompanyView.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-}
+};
 User.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-}
+};
 
-export default App
+export default App;
