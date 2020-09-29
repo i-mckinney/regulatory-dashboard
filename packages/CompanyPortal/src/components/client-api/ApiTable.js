@@ -17,7 +17,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib';
 // import HelixTable from '../table/HelixTable';
-import users from '../apis/users';
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config';
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
@@ -85,6 +84,9 @@ const userTableStyles = makeStyles(() => ({
       cursor: 'pointer',
     },
   },
+  testButtonStyle: {
+    color: '#00c200',
+  },
 }));
 
 const EditDialog = ({
@@ -104,11 +106,11 @@ const EditDialog = ({
   if (modalAction === MODAL_ACTION_CREATE) {
     handleClick = onCreate;
     title = 'Create row';
-    buttonText = 'Create';
+    buttonText = 'ADD';
   } else if (modalAction === MODAL_ACTION_UPDATE) {
     handleClick = onUpdate;
     title = 'Update row';
-    buttonText = 'Update';
+    buttonText = 'Save';
   }
 
   useEffect(() => {
@@ -311,6 +313,14 @@ const ApiTable = (props) => {
           className={userTableClasses.actionsIconStyle}
           key={`${rowIndex} ${columnAccessor}`}
         >
+          <MuiButton
+            className={userTableClasses.testButtonStyle}
+            variant='outlined'
+            color='default'
+            onClick={() => handleOpenEditModal()}
+          >
+            Perform Test
+          </MuiButton>
           <IconButton
             aria-label='edit'
             size='small'
