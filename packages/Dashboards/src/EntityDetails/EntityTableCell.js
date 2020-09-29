@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { makeStyles } from "@material-ui/core"
+import { makeStyles, TableCell } from "@material-ui/core"
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -57,7 +57,9 @@ const entityTableCellStyles = makeStyles(() => ({
  */
 const EntityTableCell = ({
   value: initialStateValue,
-  cell,
+  // cell,
+  columnAccessor,
+  rowIndex,
   allColumns,
   editData,
 }) => {
@@ -86,11 +88,11 @@ const EntityTableCell = ({
   const cellIndex = () => {
     let colIndex = -1
     allColumns.forEach((column, index) => {
-      if (column.Header === cell.column.Header) {
+      if (column.Header === columnAccessor) {
         colIndex = index
       }
     })
-    const currentRowIndex = cell.row.index
+    const currentRowIndex = rowIndex
     const index = (allColumns.length-1) * currentRowIndex + colIndex-1
     return index
   }
@@ -183,7 +185,7 @@ const EntityTableCell = ({
   }
 
   return (
-    <div
+    <TableCell 
       className={entityTableCellClasses.editedField}
       onClick={handleDivChange}
       onKeyDown={handleDivChange}
@@ -193,15 +195,15 @@ const EntityTableCell = ({
       {displayInitialStateValue()}
       {displayCurrentStateChanges()}
       {displayCustomizedForm()}
-    </div>
+    </TableCell>
   )
 }
 
-EntityTableCell.propTypes = {
-  value: PropTypes.string.isRequired,
-  cell: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  allColumns: PropTypes.instanceOf(Array).isRequired,
-  editData: PropTypes.func.isRequired,
-}
+// EntityTableCell.propTypes = {
+//   value: PropTypes.string.isRequired,
+//   cell: PropTypes.oneOfType([PropTypes.object]).isRequired,
+//   allColumns: PropTypes.instanceOf(Array).isRequired,
+//   editData: PropTypes.func.isRequired,
+// }
 
 export default EntityTableCell
