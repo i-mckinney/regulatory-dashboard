@@ -1,17 +1,61 @@
 import React, { useState } from "react"
 import { withRouter } from "react-router-dom"
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, TableCell } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
 import EntityTableCell from "./EntityTableCell"
 import EntityTable from "./EntityTable"
+import { HelixButton } from 'helixmonorepo-lib'
+import HelixTable from './HelixTable'
 
 // Styling used for MaterialUI
 const editEntityStyles = makeStyles(() => ({
   medium: {
-    padding: '2rem',
+    margin: 'auto',
+    marginTop: '5rem',
+    marginBottom: '5rem',
+    '& table': {
+      width: '100%',
+      display: 'table',
+      borderTopRightRadius: '4px',
+      borderTopLeftRadius: '4px',
+      borderCollapse: 'separate',
+      boxSizing: 'border-box',
+      borderSpacing: '2px',
+      borderColor: 'grey',
+      '& tr': {
+        border: 'none',
+        backgroundColor: 'white',
+        '&:nth-child(even)': {
+          backgroundColor: '#f2f2f2',
+        },
+        '&:hover': {
+          backgroundColor: '#add8e6',
+        },
+        '&:last-child': {
+          borderBottomRightRadius: '4px',
+          borderBottomLeftRadius: '4px',
+        }
+      },
+      '& th': {
+        backgroundColor: '#2e353d',
+        color: 'white',
+        margin: '0',
+        borderBottom: 'solid 1px #e0e4e8',
+        padding: '8px',
+      },
+      '& td': {
+        margin: '0',
+        borderBottom: 'solid 1px #e0e4e8',
+        padding: '8px',
+      },
+      '&:last-children': {
+        borderBottom: 'none',
+      },
+    },
   }
+  
 }))
 
 /**
@@ -26,23 +70,22 @@ const EditEntity = (props) => {
   const columns = React.useMemo(() => [
     {
       Header: "Field Name",
-      accessor: "fieldname",
+      Accessor: "FieldName",
     },
   ])
 
   detailedInfo.TableHeaders.forEach((header) => {
     columns.push({
       Header: header.DataWarehouseName,
-      accessor: header.DataWarehouseName,
-      Cell: EntityTableCell,
+      Accessor: header.DataWarehouseName,
+      // Cell: EntityTableCell,
     })
   })
 
   // data[row][column] = data[FieldNames][DataWareHouse]
   const data = detailedInfo.Fields.map((entityField) => {
-    return { fieldname: entityField.Label }
+    return { FieldName: entityField.Label }
   })
-
   /**
    * {
    * FieldName: string
@@ -61,6 +104,7 @@ const EditEntity = (props) => {
       const headers = detailedInfo.TableHeaders
       const dataWarehouseName = headers[recordIndex].DataWarehouseName
       data[fieldIndex][dataWarehouseName] = record.Value
+      console.log(entityField, record, data)
       entityData.push({
         FieldName: entityField.Label,
         IsEdited: false,
@@ -71,10 +115,20 @@ const EditEntity = (props) => {
       })
     })
   )
+  // console.log(columns)
+  // console.log(data)
+
+const customHeadColumnKeyProp = (column) => {
+  return column.Accessor
+}
+
+const customBodyRowKeyProp = (row) => {
+  return row.FieldName
+  }
 
   // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
-
+  
   /**
    * @param {int} index table cell index in 1-dimension array
    * @param {boolean} isEdited boolean represent whether cell is edited
@@ -90,34 +144,43 @@ const EditEntity = (props) => {
     copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
   }
+  
+  const customCellRender = (rowIndex, row, column, columnIndex) => {
+    const columnAccessor = column.Accessor
+    if (columnIndex === 0) {
+      return <TableCell key={`${rowIndex} ${columnAccessor}`}>{row[columnAccessor]}</TableCell>
+    }
+    else {
+      return (
+        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} columnAccessor={columnAccessor} value={row[columnAccessor]} allColumns={columns} rowIndex={rowIndex} editData={editData} />
+      )
+    }
+  }
 
   return (
     <div className={`container ${editEntityClasses.medium}`}>
-      <EntityCard
+      {/* <EntityCard
         RecordLabel={detailedInfo.RecordLabel}
         SystemOfRecord={detailedInfo.SystemOfRecord}
         ID={detailedInfo.HeaderInfo.ID}
         BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
         RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
-      />
-      <EntityTable
+      /> */}
+      <HelixTable columns={columns} rows={data} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp} customHeadColumnKeyProp={customHeadColumnKeyProp} />
+      {/* <EntityTable
         columns={columns}
         data={data}
         editData={editData}
-      />
+      /> */}
       <div className="page-progression">
-        <button
-          type="button"
+        <HelixButton
           className="back-button"
           onClick={() => {
             props.history.push("/entity")
           }}
-        >
-          Back
-        </button>
-        <button type="button" className="confirm-button" disabled>
-          Confirm
-        </button>
+          text="Back"
+        />
+        <HelixButton className="confirm-button" disabled text="Confirm" />
       </div>
     </div>
   )
