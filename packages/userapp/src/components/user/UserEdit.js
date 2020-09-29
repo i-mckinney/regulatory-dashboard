@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import UserForm from './UserForm'
+import users from '../apis/users'
 
 /**
  * @param {Object} props Using the history property to route next component with data state and location for state object
@@ -8,18 +9,21 @@ import UserForm from './UserForm'
  * routed at /user/edit
  */
 const UserEdit = (props) => {
-    const user = props.location.state
+    const user = { ...props.location.state }
+    const id = user._id
+    delete user._id
 
-    const onSubmit = (editedUser) => {
-        props.history.push({
-            pathname: "/user",
-            state: { type: "UPDATE", payload: editedUser }
-        })
+    /**
+     * @param {object} editedUser represent object with edited user props values
+     */
+    const editUser = async (editedUser) => {
+        await users.put(`/users/${id}`, editedUser)
+        props.history.push("/users")
     }
 
     return (
     <div>
-        <UserForm header="Edit User" initialUser={user} onSubmit={onSubmit} />
+        <UserForm header="Edit User" initialUser={user} onSubmit={editUser} />
     </div>
     )
 }

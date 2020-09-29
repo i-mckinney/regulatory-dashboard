@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
-// import HelixTextField from '../controls/HelixTextField'
-// import HelixButton from '../controls/HelixButton'
-import SaveIcon from '@material-ui/icons/Save';
-import CancelIcon from '@material-ui/icons/Cancel';
+import SaveIcon from '@material-ui/icons/Save'
+import CancelIcon from '@material-ui/icons/Cancel'
+import { columnFields, columnLabels, dateTypeFields } from '../../config'
+import RolePicker from '../controls/RolePicker'
 
 // Styling used for MaterialUI
 const userFormStyles = makeStyles(() => ({
@@ -32,13 +32,10 @@ const userFormStyles = makeStyles(() => ({
 }));
 
 //Used to perform error checks for validation
-const userError = {
-    FirstName: "",
-    LastName: "",
-    DateOfBirth: "",
-    Phone: "",
-    Actions: "",
-}
+const userError = {}
+columnFields.forEach((columnField) => {
+    userError[[columnField]] = ""
+})
 
 /**
  * @param {object} initialUser represent preset empty user data object
@@ -66,6 +63,10 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         const { name, value } = event.target
         setUser({ ...user, [name]: value })
         validation(name, value)
+    }
+
+    const handleRolesChange = (roles) => {
+        setUser({ ...user, Roles: roles})
     }
 
     /**
@@ -114,6 +115,19 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         event.preventDefault()
         onSubmit(user);
     }
+    
+    /**
+     * 
+     * @param {string} name the column text field name
+     * @return the data type in a form of string
+     */
+    const dataType = (name) => {
+        if (dateTypeFields.includes(name)) {
+            return "date"
+        } else {
+            return ""
+        }
+    }
 
     /**
      * @param {string} name the form control name 
@@ -128,13 +142,14 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
             error={error[[name]].length > 0}
             description={label}
             name={name}
-            type={name === "DateOfBirth" ? "date" : ""}
+            type={dataType(name)}
             label={label}
             value={user[[name]]}
             placeholder={placeholder}
             helperText={error[[name]]}
             required={required}
-            InputLabelProps={name === "DateOfBirth" ? { shrink: true } : {}}
+            fullWidth 
+            InputLabelProps={dateTypeFields.includes(name) ? { shrink: true } : {}}
             inputProps={name === "Phone" ? { maxLength: 10 } : { maxLength: 40 }}
             onChange={handleInputChange}
             />
@@ -159,7 +174,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 variant="contained"
                 type="cancel"
                 size="small"
-                href="/user"
+                href="/users"
                 startIcon={<CancelIcon />}
                 text="Cancel" />
             </>
@@ -169,26 +184,30 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     return (
     <div>
         <form className={userFormClasses.userFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
-            <Typography variant="h5" component="h2">{header}</Typography>
             <Grid container
                 direction="row"
                 justify="flex-start"
                 alignItems="flex-start"
-                spacing={1}>
-                <Grid item xs={6}>
-                    {setHelixTextField("FirstName", "First Name", "John", true)}
-                </Grid>
-                <Grid item xs={6}>
-                    {setHelixTextField("LastName", "Last Name", "Doe", true)}
-                </Grid>
-                <Grid item xs={6}>
-                    {setHelixTextField("DateOfBirth", "Date of Birth")}
-                </Grid>
-                <Grid item xs={6}>
-                    {setHelixTextField("Phone", "Phone")}
-                </Grid>
+                spacing={4}>
+                <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
+                {columnFields.map((fields, index) => {
+                    if (fields === "Roles") {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                <RolePicker currentRoles={user["Roles"]} handleRolesChange={handleRolesChange}/>
+                            </Grid>
+                        )
+                    }
+                    return (
+                        <Grid item xs={12} key={`${index} ${fields}`}>
+                            {setHelixTextField(fields, columnLabels[index+1], "", false)}
+                        </Grid>
+                    )}
+                )}
+            </Grid>
+            <Grid container spacing={3}>
                 <Grid item xs></Grid>
-                <Grid item xs={6} className={userFormClasses.buttonStyle}>
+                <Grid item xs={4} className={userFormClasses.buttonStyle}>
                     {renderButtonActions()}
                 </Grid>
             </Grid>

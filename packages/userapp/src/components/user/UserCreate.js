@@ -1,16 +1,18 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import UserForm from './UserForm'
+import users from '../apis/users'
+import { columnFields } from '../../config'
 
 // InitialUser with preset data
-const initialUser = {
-    ID: (Math.random() * 100).toFixed(0),
-    FirstName: "",
-    LastName: "",
-    DateOfBirth: "",
-    Phone: "",
-    Actions: "",
-}
+const initialUser = {}
+columnFields.forEach((columnField) => {
+    if ("Roles" === columnField) {
+        initialUser[[columnField]] = []
+    } else {
+        initialUser[[columnField]] = ""
+    }
+})
 
 /**
  * @param {Object} props Using the history property to route next component with data state
@@ -18,16 +20,20 @@ const initialUser = {
  * routed at /user/new
  */
 const UserCreate = (props) => {
-    const onSubmit = (user) => {
-        props.history.push({
-            pathname: "/user",
-            state: { type: "CREATE", payload: user }
-        })
+    /**
+     * @param {object} user represent user object with props values that it will create 
+     */
+    const createUser = async (user) => {
+        user["createdAt"] = ""
+        user["updatedAt"] = ""
+        user["Actions"] = ""
+        await users.post("/users", user)
+        props.history.push("/users")
     }
 
     return (
     <div>
-        <UserForm header="Create User" initialUser={initialUser} onSubmit={onSubmit} />
+        <UserForm header="Create User" initialUser={initialUser} onSubmit={createUser} />
     </div>
     )
 }

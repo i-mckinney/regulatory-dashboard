@@ -1,9 +1,10 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, Modal } from '@material-ui/core';
+import { makeStyles, Modal, Backdrop, Fade } from '@material-ui/core'
 import { HelixButton } from 'helixmonorepo-lib'
-import DeleteIcon from '@material-ui/icons/Delete';
-import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteIcon from '@material-ui/icons/Delete'
+import CancelIcon from '@material-ui/icons/Cancel'
+import users from '../apis/users'
 
 // Styling used for MaterialUI
 const userDeleteStyles = makeStyles(() => ({
@@ -46,6 +47,9 @@ const userDeleteStyles = makeStyles(() => ({
         background: "#fff",
         fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
     },
+    username: {
+        fontWeight: "700",
+    },
     actions: {
         background:" #f9fafb",
         padding: "1rem 1rem",
@@ -67,37 +71,62 @@ const UserDelete = (props) => {
     const userDeleteClasses = userDeleteStyles();
     
     /**
+     * deleteUser calls backend api through delete protocol to remove a user with the specific id and nagivate to next component
+     */
+    const deleteUser = async () => {
+        const id = props.location.state._id
+        await users.delete(`/users/${id}`)
+        props.history.push("/users")
+    }
+
+    /**
+     * displayUserName return a jsx object with bold font for clarity when delete a username
+     */
+    const displayUserName = () => {
+        return (
+            <span className={userDeleteClasses.username}>
+                {` ${props.location.state.Username}`}
+            </span>
+        )
+    }
+
+    /**
      * @return {jsx} return jsx modal-style object with header, content, and actions
      */
     const renderModalBody = () => { 
         return (
-            <div className={userDeleteClasses.paper}>
-                <div className={userDeleteClasses.header} id="simple-modal-title">{`Delete ${props.location.state.FirstName} ${props.location.state.LastName}`}</div>
-                <div className={userDeleteClasses.content} id="simple-modal-description">
-                    {`Are you sure you want to delete this user: ${props.location.state.FirstName} ${props.location.state.LastName}?`}
+            <Fade in>
+                <div className={userDeleteClasses.paper}>
+                    <div className={userDeleteClasses.header} id="simple-modal-title">Delete User</div>
+                    <div className={userDeleteClasses.content} id="simple-modal-description">
+                        Are you sure you want to delete this user: {displayUserName()}?
+                    </div>
+                    <div className={userDeleteClasses.actions}>
+                        <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={deleteUser} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />
+                        <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/users" startIcon={<CancelIcon />} variant="contained" color="default" text="Cancel" />
+                    </div>
                 </div>
-                <div className={userDeleteClasses.actions}>
-                    <HelixButton size="medium" className={userDeleteClasses.uiButton} onClick={() => (props.history.push({ pathname: "/user", state: { type: "DELETE", payload: props.location.state.ID} }))} startIcon={<DeleteIcon />} variant="contained" color="secondary" text="Delete" />
-                    <HelixButton size="medium" className={userDeleteClasses.uiButton} href="/user" startIcon={<CancelIcon />} variant="contained" color="default" text="Cancel" />
-                </div>
-            </div>
+            </Fade>
         )
     }
     
     return (
-        <div>
-            <Modal
-            disablePortal
-            disableEnforceFocus
-            disableAutoFocus
-            open
-            aria-labelledby="server-modal-title"
-            aria-describedby="server-modal-description"
-            className={userDeleteClasses.modal}
-            >
-                {renderModalBody()}
-            </Modal>
-        </div>
+        <Modal
+        disablePortal
+        disableEnforceFocus
+        disableAutoFocus
+        open
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+        aria-labelledby="server-modal-title"
+        aria-describedby="server-modal-description"
+        className={userDeleteClasses.modal}
+        >
+            {renderModalBody()}
+        </Modal>
         )
 }
 

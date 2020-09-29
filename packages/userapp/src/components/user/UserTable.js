@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
-import AddBoxIcon from '@material-ui/icons/AddBox';
+import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable } from 'helixmonorepo-lib'
+import users from '../apis/users'
+import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
     mediumContainer: {
         width: '80%',
         margin: 'auto',
-        marginTop: '5rem',
-        paddingBottom: '5rem',
+        marginTop: '3rem',
+        paddingBottom: '3rem',
         '& table': {
             width: '100%',
             display: 'table',
@@ -78,121 +80,59 @@ const UserTable = (props) => {
     // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
     const userTableClasses = userTableStyles();
 
-    // Table Header from API Results
-    const columns = React.useMemo(() => [
-        {
-            Label: "ID",
-            Accessor: "ID",
-            Sortable: false,
-        },
-        {
-            Label: "First Name",
-            Accessor: "FirstName",
-            Sortable: true,
-        },
-        {
-            Label: "Last Name",
-            Accessor: "LastName",
-            Sortable: true,
-        },
-        {
-            Label: "Date of Birth",
-            Accessor:"DateOfBirth",
-            Sortable: true,
-        },
-        {
-            Label: "Phone",
-            Accessor: "Phone",
-            Sortable: true,
-        },
-        {
-            Label: "Actions",
-            Accessor: "Actions",
-            Sortable: false,
-        },
-    ], [])
-
-    // Data Processed from API Results
-    const [rows, setRows] = useState([
-        {
-            ID: "1",
-            FirstName: "Joe",
-            LastName: "Doe",
-            DateOfBirth: "1987-01-01",
-            Phone: "8861551515",
-            Actions: "",
-        },
-        {
-            ID: "2",
-            FirstName: "John",
-            LastName: "Smith",
-            DateOfBirth: "1989-12-12",
-            Phone: "8002552525",
-            Actions: "",
-        },
-        {
-            ID: "3",
-            FirstName: "Ray",
-            LastName: "Smith",
-            DateOfBirth: "1988-11-11",
-            Phone: "8003553535",
-            Actions: "",
-        },
-        {
-            ID: "4",
-            FirstName: "Joy",
-            LastName: "Doe",
-            DateOfBirth: "1991-09-03",
-            Phone: "2136746045",
-            Actions: "",
-        },
-        {
-            ID: "5",
-            FirstName: "Irene",
-            LastName: "Smith",
-            DateOfBirth: "1991-03-29",
-            Phone: "9496458858",
-            Actions: "",
-        },
-        {
-            ID: "6",
-            FirstName: "Wendy",
-            LastName: "Hernandez",
-            DateOfBirth: "1990-09-09",
-            Phone: "4156749201",
-            Actions: "",
-        },   
-    ])
+    // rows will stores users from GET Method fetchUsers via Rest API 
+    const [rows, setRows] = useState([])
     
+    // columns will store column header that we want to show in the front end
+    const columns = useMemo(() => [], [])
+
+    if (rows.length !== 0) {
+        const headerColumns = Object.keys(rows[0])
+        headerColumns.forEach((key, index) => {
+            if (!columnExcludes.includes(key)) {
+                columns.push({
+                Label: columnLabels[index],
+                Accessor: key,
+                Sortable: sortableExcludes.includes(key) ? false : true,
+                })
+            }
+        })
+    }
+
+    /**
+     * @param {object} user represent object of user with particular props
+     * @param {string} accessor represents the accessor which user with acessor can access the property value
+     */
+    const isoToDate = (user, accessor) => {
+        const strDate = user[accessor];
+        user[accessor] = strDate.substring(0, 10)
+    }
+
     /**
      * Renders only when it is mounted at first
-     * It will receive a type & payload from the props.location.state
-     * Depending on the type of the state, it will perform the follow CRUD operations
+     * It will fetchUsers whenever UserTable loads
      */
     useEffect(() => {
-        const currentState = props.location.state
-        if(currentState) {
-            const { type, payload } = currentState
-            switch(type) {
-                case "CREATE":
-                    setRows(rows => [ ...rows, payload ])
-                    break
-                case "UPDATE":
-                    const copyRowsU = [ ...rows ]
-                    const updatedRows = copyRowsU.filter((row) => (row.ID !== payload.ID))
-                    setRows(rows => [ ...updatedRows, payload ])
-                    break
-                case "DELETE":
-                    const copyRowsD = [ ...rows ]
-                    const remainingRows = copyRowsD.filter((row) => (row.ID !== payload.ID))
-                    setRows(rows => [ ...remainingRows ])
-                    break
-                default:
-                    break
-            }
+        
+        /**
+         * fetchUsers calls backend api through get protocol to get all the users
+         */
+        const fetchUsers = async () => {
+            const response = await users.get("/users")
+
+            response.data.forEach((user) => {
+                if (user["createdAt"] !== undefined) {
+                    isoToDate(user, "createdAt")
+                }
+                if (user["updatedAt"] !== undefined) {
+                    isoToDate(user, "updatedAt")
+                }
+            })
+            setRows(response.data)
         }
 
-    }, [props.location.state])
+        fetchUsers()
+    }, [columns])
 
     /**
      * @param {int} rowIndex represents row index
@@ -205,20 +145,33 @@ const UserTable = (props) => {
         if (columnAccessor === "Actions") {
             return (
                 <TableCell className={userTableClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
-                    <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/user/edit/${row.ID}`, state: row }))} color="default">
+                    <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/edit/${row._id}`, state: row }))} color="default">
                         <EditIcon />
                     </IconButton>
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/user/delete/${row.ID}`, state: row }))} color="secondary">
+                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/delete/${row._id}`, state: row }))} color="secondary">
                         <DeleteIcon />
                     </IconButton>
                 </TableCell>
             )
         }
-        return (
-            <TableCell key={`${rowIndex} ${columnAccessor}`}>
-                {row[columnAccessor]}
-            </TableCell>
-        )
+        else if (columnAccessor === "Roles") {
+            const assignedRoles = row[columnAccessor].reduce((result, roles, index) => {
+                return index ? `${result}, ${roles}`.trim() : `${result} ${roles}`.trim()
+            }, "")
+
+            return (
+                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                    {assignedRoles}
+                </TableCell>
+            )
+        }
+        else {
+            return (
+                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                    {row[columnAccessor]}
+                </TableCell>
+            )
+        }
     }
 
     /**
@@ -234,11 +187,11 @@ const UserTable = (props) => {
      * @return {string} provide table row with unique key props (required)
      */
     const customBodyRowKeyProp = (row) => {
-        return row.ID
+        return row._id
     }
 
-    // Initially, we can start the table to order by First Name, ascending order
-    const initialOrderBy = "FirstName"
+    // Initially, we can start the table to order by Username or First Name or etc in ascending order
+    const initialOrderBy = "Username"
 
     /**
      * @return jsx object of create icon in child component's toolbar
@@ -248,7 +201,7 @@ const UserTable = (props) => {
             <IconButton
             className={userTableClasses.createIconStyle} 
             color="primary"
-            onClick={() => (props.history.push("/user/new"))}>
+            onClick={() => (props.history.push("/users/new"))}>
                 <AddBoxIcon fontSize="large" />
             </IconButton>
         )
