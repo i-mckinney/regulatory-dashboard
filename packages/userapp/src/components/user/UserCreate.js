@@ -7,8 +7,12 @@ import { columnFields } from '../../config';
 // InitialUser with preset data
 const initialUser = {};
 columnFields.forEach((columnField) => {
-  initialUser[[columnField]] = '';
-});
+    if ("Roles" === columnField) {
+        initialUser[[columnField]] = []
+    } else {
+        initialUser[[columnField]] = ""
+    }
+})
 
 /**
  * @param {Object} props Using the history property to route next component with data state

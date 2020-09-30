@@ -4,6 +4,7 @@ import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { columnFields, columnLabels, dateTypeFields } from '../../config'
+import RolePicker from '../controls/RolePicker'
 
 // Styling used for MaterialUI
 const userFormStyles = makeStyles(() => ({
@@ -64,6 +65,10 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         validation(name, value)
     }
 
+    const handleRolesChange = (roles) => {
+        setUser({ ...user, Roles: roles})
+    }
+
     /**
      * 
      * @param {string} name  the name property on the target text field element
@@ -110,6 +115,19 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         event.preventDefault()
         onSubmit(user);
     }
+    
+    /**
+     * 
+     * @param {string} name the column text field name
+     * @return the data type in a form of string
+     */
+    const dataType = (name) => {
+        if (dateTypeFields.includes(name)) {
+            return "date"
+        } else {
+            return ""
+        }
+    }
 
     /**
      * @param {string} name the form control name 
@@ -124,7 +142,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
             error={error[[name]].length > 0}
             description={label}
             name={name}
-            type={dateTypeFields.includes(name) ? "date" : ""}
+            type={dataType(name)}
             label={label}
             value={user[[name]]}
             placeholder={placeholder}
@@ -173,6 +191,13 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 spacing={4}>
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
+                    if (fields === "Roles") {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                <RolePicker currentRoles={user["Roles"]} handleRolesChange={handleRolesChange}/>
+                            </Grid>
+                        )
+                    }
                     return (
                         <Grid item xs={12} key={`${index} ${fields}`}>
                             {setHelixTextField(fields, columnLabels[index+1], "", false)}
