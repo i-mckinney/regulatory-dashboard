@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core'
 import { Grid, List, Card, CardHeader, ListItem, ListItemText, Typography, ListItemIcon, Checkbox, Divider } from '@material-ui/core'
 import { HelixButton } from 'helixmonorepo-lib'
 
