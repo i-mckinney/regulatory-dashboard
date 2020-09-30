@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useMemo, useState, useEffect } from "react"
 import { withRouter } from "react-router-dom"
 import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
@@ -96,6 +96,10 @@ const EditEntity = (props) => {
     },
   ])
 
+  const columns2 = useMemo(() => [], [])
+  const rows2 = useMemo(() => [], [])
+  const [data2, setData2] = useState([])
+
   detailedInfo.TableHeaders.forEach((header) => {
     columns.push({
       Header: header.DataWarehouseName,
@@ -120,6 +124,7 @@ const EditEntity = (props) => {
    * Stores array of entity data objects
    */
   const entityData = []
+  const entityData2 = []
 
   detailedInfo.Fields.forEach((entityField, fieldIndex) =>
     entityField.Records.forEach((record, recordIndex) => {
@@ -154,7 +159,8 @@ const EditEntity = (props) => {
   }
 
   // editEntityData is modified data needed to send to next component/pipeline
-  const [editEntityData, setEditEntityData] = useState(entityData)
+  // const [editEntityData, setEditEntityData] = useState(entityData)
+  const [editEntityData, setEditEntityData] = useState(entityData2)
 
   /**
    * @param {int} index table cell index in 1-dimension array
@@ -172,17 +178,43 @@ const EditEntity = (props) => {
     setEditEntityData([...copyEditEntityData])
   }
 
-  // /**
-  //  * Renders only when it is mounted at first
-  //  * It will fetch aggregated source system of the entity whenever EditEntity loads
-  //  */
-  // useEffect(() => {
+  if (data2.length !== 0) {
+    data2.TableHeaders.forEach((header) => columns2.push(header))
+    data2.TableData.forEach((entityField) => {
+      const rowObject = {}
+      entityField.values.forEach((value, valueIndex) => {
+        const accessor = columns2[valueIndex]["Accessor"]
+        rowObject[[accessor]] = value
+        if (valueIndex) {
+        entityData2.push({
+            FieldName: entityField.key_config["display"],
+            IsEdited: false,
+            SystemOfRecord: accessor,
+            PreviousValue: value,
+            NewValue: "",
+            SourceSystem: "",
+          })
+        }
+      })
+      rows2.push(rowObject)
+    })
+  }
 
-  //   const fetchUsers = async () => {
-  //     const response = await entities.get("/entities/")
-  //   }
-  // })
+  /**
+   * Renders only when it is mounted at first
+   * It will fetch aggregated source system of the entity whenever EditEntity loads
+   */
+  useEffect(() => {
 
+    const fetchAggregatedSourceSystemsData = async () => {
+      const response = await entities.get("/entities/d765dd56-203a-4206-98c7-ab2d374e842c/aggregated")
+      setData2(response.data)
+    }
+
+    fetchAggregatedSourceSystemsData()
+  }, [columns2])
+
+  console.log(entityData2)
   /**
    * @param {int} rowIndex the rowIndex represents index of the row
    * @param {object} row the row is an object of data
@@ -196,7 +228,7 @@ const EditEntity = (props) => {
     }
     else {
       return (
-        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnAccessor]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
+        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnAccessor]} columnAccessor={columnAccessor} columns={columns2} rowIndex={rowIndex} editData={editData} editable={true}/>
       )
     }
   }
@@ -224,8 +256,10 @@ const EditEntity = (props) => {
         RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
       />
       <HelixTable 
-      columns={columns} 
-      rows={data} 
+      columns={columns2}
+      rows={rows2}
+      // columns={columns} 
+      // rows={data} 
       customCellRender={customCellRender} 
       customBodyRowKeyProp={customBodyRowKeyProp} 
       customHeadColumnKeyProp={customHeadColumnKeyProp} 

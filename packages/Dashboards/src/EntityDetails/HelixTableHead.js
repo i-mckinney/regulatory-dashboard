@@ -14,7 +14,7 @@ const HelixTableHead = ({ columns, customHeadColumnKeyProp }) => {
         {columns.map((column) => (
             <TableCell 
             key={customHeadColumnKeyProp(column)}>
-              {column.Header}
+              {column.Label}
             </TableCell>
           ))}
       </TableRow>
