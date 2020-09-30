@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import Header from './Components/Header/Header';
-import MicroserviceLoader from './MicroserviceLoader';
-import SpogPage from './Components/Spog/SpogPage';
-=======
 import React, { useState } from "react"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 import PropTypes from "prop-types"
@@ -15,7 +7,6 @@ import MicroserviceLoader from "./MicroserviceLoader"
 import SpogPage from "./Components/Spog/SpogPage"
 import Header from "./Components/Header/Header"
 import containerAppUseStyles from "./ContainerStyles"
->>>>>>> 6d495af... 1) Updated Navigation Bar
 
 const {
   REACT_APP_DASHBOARD_HOST: dashboardHost,
