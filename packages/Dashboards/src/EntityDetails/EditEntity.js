@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react"
 import { withRouter } from "react-router-dom"
-import { makeStyles } from '@material-ui/core'
+import { StylesProvider, makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
@@ -13,8 +13,8 @@ import entities from '../api/entities'
 const editEntityStyles = makeStyles(() => ({
   medium: {
     margin: 'auto',
-    marginTop: '5rem',
-    marginBottom: '5rem',
+    marginTop: '1rem',
+    marginBottom: '1rem',
     '& table': {
       width: '100%',
       display: 'table',
@@ -210,33 +210,35 @@ const EditEntity = (props) => {
   }
 
   return (
-    <div className={`container ${editEntityClasses.medium}`}>
-      <EntityCard
-        RecordLabel={detailedInfo.RecordLabel}
-        SystemOfRecord={detailedInfo.SystemOfRecord}
-        ID={detailedInfo.HeaderInfo.ID}
-        BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
-        RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
-      />
-      <HelixTable 
-      columns={columns} 
-      rows={rows} 
-      customCellRender={customCellRender} 
-      customBodyRowKeyProp={customBodyRowKeyProp} 
-      customHeadColumnKeyProp={customHeadColumnKeyProp} 
-      />
-      <div className={editEntityClasses.pageProgression}>
-        <HelixButton
-          className={editEntityClasses.cancelButton}
-          onClick={handleBackButton}
-          text="Back"
+    <StylesProvider injectFirst>
+      <div className={`container ${editEntityClasses.medium}`}>
+        <EntityCard
+          RecordLabel={detailedInfo.RecordLabel}
+          SystemOfRecord={detailedInfo.SystemOfRecord}
+          ID={detailedInfo.HeaderInfo.ID}
+          BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
+          RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
         />
-        <HelixButton 
-        className={editEntityClasses.confirmButton} 
-        onClick={handleConfirmButton} 
-        text="Confirm" />
+        <HelixTable 
+        columns={columns} 
+        rows={rows} 
+        customCellRender={customCellRender} 
+        customBodyRowKeyProp={customBodyRowKeyProp} 
+        customHeadColumnKeyProp={customHeadColumnKeyProp} 
+        />
+        <div className={editEntityClasses.pageProgression}>
+          <HelixButton
+            className={editEntityClasses.cancelButton}
+            onClick={handleBackButton}
+            text="Back"
+          />
+          <HelixButton 
+          className={editEntityClasses.confirmButton} 
+          onClick={handleConfirmButton} 
+          text="Confirm" />
+        </div>
       </div>
-    </div>
+    </StylesProvider>
   )
 }
 
