@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { gql, useMutation, useApolloClient } from '@apollo/client'
 
 // Add to shared component library and import
 function Copyright() {
@@ -48,60 +49,182 @@ const useLoginPageStyles = makeStyles((theme) => ({
   },
 }));
 
+const LOGIN = gql`
+  mutation login(
+    $email: String!,
+    $password: String!
+  ) {
+    login(input: {
+      email:$email,
+      password:$password
+    }) {
+      user {
+        email
+      }
+    }
+  }
+`;
+
+const REGISTER = gql`
+  mutation register($input:AuthInput!) {
+    register(input: $input) {
+      user {
+        email
+      }
+      errors {
+        message
+      }
+    }
+  }
+`
+
+
 export default function Login() {
   const loginPageClasses = useLoginPageStyles();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [newEmail, registerEmail] = useState("");
+  const [newPassword, registerPassword] = useState("");
+
+  const client = useApolloClient();
+
+  const handleRegister = (evt) => {
+    evt.preventDefault();
+    register({ variables: { input: { email: newEmail, password: newPassword } } })
+    alert(`Submitting Name: ${newEmail}`)
+  }
+
+  const handleLogin = (evt) => {
+    evt.preventDefault();
+    login({ variables: { email: email, password: password } })
+    alert(`Logging in email: ${email}`)
+  }
+
+  const [login, { data }] = useMutation(LOGIN, {
+    onCompleted({ login }) {
+      localStorage.setItem("token", login);
+    }
+  });
+  const [register, { data2 }] = useMutation(REGISTER, {
+    onCompleted({ register }) {
+      console.log(register)
+    }
+  });
+
   return (
-    <Container component='main' maxWidth='xs'>
-      <CssBaseline />
-      <div className={loginPageClasses.paper}>
-        <Avatar className={loginPageClasses.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component='h1' variant='h5'>
-          Login
+    <>
+      <Container component='main' maxWidth='xs'>
+        <CssBaseline />
+        <div className={loginPageClasses.paper}>
+          <Avatar className={loginPageClasses.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component='h1' variant='h5'>
+            Register
         </Typography>
-        <form className={loginPageClasses.form} noValidate>
-          <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
-            autoComplete='email'
-            autoFocus
-          />
-          <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            fullWidth
-            name='password'
-            label='Password'
-            type='password'
-            id='password'
-            autoComplete='current-password'
-          />
-          <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
-          />
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={loginPageClasses.submit}
-          >
-            Login
+          <form className={loginPageClasses.form} noValidate onSubmit={handleRegister}>
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              id='email'
+              label='Email Address'
+              name='email'
+              autoComplete='email'
+              autoFocus
+              value={newEmail}
+              onChange={(e) => registerEmail(e.target.value)}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              name='password'
+              label='Password'
+              type='password'
+              id='password'
+              autoComplete='current-password'
+              value={newPassword}
+              onChange={(e) => registerPassword(e.target.value)}
+            />
+            <FormControlLabel
+              control={<Checkbox value='remember' color='primary' />}
+              label='Remember me'
+            />
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className={loginPageClasses.submit}
+            >
+              Register
           </Button>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+      <Container component='main' maxWidth='xs'>
+        <CssBaseline />
+        <div className={loginPageClasses.paper}>
+          <Avatar className={loginPageClasses.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component='h1' variant='h5'>
+            Login
+          </Typography>
+          <form className={loginPageClasses.form} noValidate onSubmit={handleLogin}>
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              id='email'
+              label='Email Address'
+              name='email'
+              autoComplete='email'
+              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              name='password'
+              label='Password'
+              type='password'
+              id='password'
+              autoComplete='current-password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <FormControlLabel
+              control={<Checkbox value='remember' color='primary' />}
+              label='Remember me'
+            />
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className={loginPageClasses.submit}
+            >
+              Login
+            </Button>
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    </>
   );
 }
