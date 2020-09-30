@@ -32,8 +32,8 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
     return null;
   }
   return (
-    <DialogModalTemplate title='Perform test' open={open} onClose={onClose}>
-      <p>{`Request Name: ${requestData.requestName}`}</p>
+    <DialogModalTemplate title='API Test Response:' open={open} onClose={onClose}>
+      <h3>{`Request Name: ${requestData.requestName}`}</h3>
       {loading ? (
         <CircularProgress />
       ) : (

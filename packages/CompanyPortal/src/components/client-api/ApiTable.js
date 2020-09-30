@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
   StylesProvider,
   makeStyles,
-  Typography,
   TableCell,
 } from '@material-ui/core';
 import PageHeader from '../../layout/PageHeader';
@@ -15,8 +14,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib';
 import {
   sortableExcludes,
-  columnExcludes,
-  columnLabels,
   columnMetadata,
 } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
@@ -151,15 +148,6 @@ const ApiTable = (props) => {
     Sortable: false,
   });
   //}
-
-  /**
-   * @param {object} api represent object of api with particular props
-   * @param {string} accessor represents the accessor which api with accessor can access the property value
-   */
-  const isoToDate = (api, accessor) => {
-    const strDate = api[accessor];
-    api[accessor] = strDate.substring(0, 10);
-  };
 
   console.log('companyData:', companyData);
 
