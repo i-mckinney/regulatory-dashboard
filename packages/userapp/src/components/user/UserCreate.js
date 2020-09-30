@@ -24,14 +24,13 @@ const UserCreate = (props) => {
      * @param {object} user represent user object with props values that it will create 
      */
     const createUser = async (user) => {
-        console.log(user)
         user["createdAt"] = ""
         user["updatedAt"] = ""
         user["Actions"] = ""
         await users.post("/users", user)
         props.history.push("/users")
     }
-    console.log(initialUser)
+
     return (
     <div>
         <UserForm header="Create User" initialUser={initialUser} onSubmit={createUser} />

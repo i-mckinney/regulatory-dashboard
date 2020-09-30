@@ -87,11 +87,15 @@ const HelixTable = ({
                 return row[columnAccessor]
                 .toLowerCase()
                 .includes(value.toLowerCase())
-              } else {
+              }
+              try {
                 const assignedRoles = row[columnAccessor].reduce((result, roles) => {
                   return `${result} ${roles}`.trim()
                 }, "")
                 return assignedRoles.toLowerCase().includes(value.toLowerCase())
+              } catch (error) {
+                console.log("Error Type", error)
+                return error
               }
             })
             .length > 0 
