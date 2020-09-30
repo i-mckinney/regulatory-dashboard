@@ -37,6 +37,7 @@ const App = () => (
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/company/:id" component={CompanyView} />
         <Route exact path="/entity" component={Dashboard} />
+        <Route exact path="/editentity" component={Dashboard} />
         <Route exact path="/loan" component={Dashboard} />
         <Route exact path="/regulatory" component={Dashboard} />
         <Route exact path="/myrequest" component={Dashboard} />

@@ -171,6 +171,16 @@ const EditEntity = (props) => {
     setEditEntityData([...copyEditEntityData])
   }
 
+  // /**
+  //  * Renders only when it is mounted at first
+  //  * It will fetch aggregated source system of the entity whenever EditEntity loads
+  //  */
+  // useEffect(() => {
+
+  //   const fetchUsers = async () => {
+  //     const response = await entities.get("/entities/")
+  // })
+
   /**
    * @param {int} rowIndex the rowIndex represents index of the row
    * @param {object} row the row is an object of data
