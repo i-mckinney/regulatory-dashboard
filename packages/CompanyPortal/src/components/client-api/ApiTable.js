@@ -18,7 +18,6 @@ import {
   columnMetadata,
 } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
-import ApiCallForm from './ApiCallForm';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
 import EditDialog from './EditDialog';
 
@@ -348,7 +347,6 @@ const ApiTable = (props) => {
         onClose={() => setOpenTestRequestModal(false)}
         requestData={requestData}
       >
-        <ApiCallForm />
       </PerformTestDialog>
     </StylesProvider>
   );
