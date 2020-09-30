@@ -1,12 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { withRouter } from "react-router-dom"
-import { makeStyles, TableCell } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
 import EntityTableCell from "./EntityTableCell"
 import { HelixButton } from 'helixmonorepo-lib'
 import HelixTable from './HelixTable'
+import entities from '../api/entities'
 
 // Styling used for MaterialUI
 const editEntityStyles = makeStyles(() => ({
@@ -179,6 +180,7 @@ const EditEntity = (props) => {
 
   //   const fetchUsers = async () => {
   //     const response = await entities.get("/entities/")
+  //   }
   // })
 
   /**
