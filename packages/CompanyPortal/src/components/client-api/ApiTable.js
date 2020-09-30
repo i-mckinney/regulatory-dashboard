@@ -5,27 +5,25 @@ import {
   makeStyles,
   Typography,
   TableCell,
-  Dialog,
-  TextField,
-  Button,
-  DialogTitle,
-  CircularProgress,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib';
-import { sortableExcludes, columnExcludes, columnLabels } from '../../config';
-import PerformTestModalDialog from '../../components/PerformTestModalDialog';
+import {
+  sortableExcludes,
+  columnExcludes,
+  columnLabels,
+  columnMetadata,
+} from '../../config';
+import PerformTestDialog from './PerformTestDialog';
 import ApiCallForm from './ApiCallForm';
-
+import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
+import EditDialog from './EditDialog';
 
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
-
-const MODAL_ACTION_CREATE = 'MODAL_ACTION_CREATE';
-const MODAL_ACTION_UPDATE = 'MODAL_ACTION_UPDATE';
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -92,69 +90,6 @@ const userTableStyles = makeStyles(() => ({
   },
 }));
 
-const EditDialog = ({
-  open,
-  onClose,
-  data,
-  loading,
-  onUpdate,
-  onCreate,
-  modalAction,
-}) => {
-  const [requestName, setRequestName] = useState(data.requestName);
-  const [requestMethod, setRequestMethod] = useState(data.requestMethod);
-  const [requestURL, setrequestURL] = useState(data.requestURL);
-  let handleClick, title, buttonText;
-
-  if (modalAction === MODAL_ACTION_CREATE) {
-    handleClick = onCreate;
-    title = 'Create row';
-    buttonText = 'ADD';
-  } else if (modalAction === MODAL_ACTION_UPDATE) {
-    handleClick = onUpdate;
-    title = 'Update row';
-    buttonText = 'Save';
-  }
-
-  useEffect(() => {
-    setRequestName(data.requestName);
-    setRequestMethod(data.requestMethod);
-    setrequestURL(data.requestURL);
-  }, [data]);
-
-  return (
-    <Dialog onClose={onClose} aria-labelledby='simple-dialog-title' open={open}>
-      <DialogTitle id='simple-dialog-title'>{title}</DialogTitle>
-      <TextField
-        label='Request Name'
-        value={requestName}
-        onChange={(e) => setRequestName(e.target.value)}
-      />
-      <TextField
-        label='Request Method'
-        value={requestMethod}
-        onChange={(e) => setRequestMethod(e.target.value)}
-      />
-      <TextField
-        label='Request URL'
-        value={requestURL}
-        onChange={(e) => setrequestURL(e.target.value)}
-      />
-      <Button
-        variant='contained'
-        disabled={loading}
-        onClick={() =>
-          handleClick({ ...data, requestName, requestMethod, requestURL })
-        }
-      >
-        {buttonText}
-        {` `}
-        {loading ? <CircularProgress /> : null}
-      </Button>
-    </Dialog>
-  );
-};
-
 /**
  * @param {Object} props Using the history location to route next component with data state
  * @return {JSX} ApiTable of the client's custom APIs
@@ -164,27 +99,27 @@ const ApiTable = (props) => {
   // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
   const userTableClasses = userTableStyles();
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openTestRequestModal, setOpenTestRequestModal] = useState(false);
 
   const [companyData, setCompanyData] = useState({});
 
   const [openEditModal, setOpenEditModal] = React.useState(false);
 
-  const [editModalData, setEditModalData] = useState({});
+  const [requestData, setRequestData] = useState({});
 
   const [modalAction, setModalAction] = useState(MODAL_ACTION_CREATE);
 
   const [loading, setLoading] = useState(false);
 
-  const handleOpenEditModal = (_id) => {
-    if (!!_id) {
+  const handleOpenEditModal = (requestData) => {
+    if (!!requestData) {
       setModalAction(MODAL_ACTION_UPDATE);
-      setEditModalData({
-        ...companyData.CustomApiRequests.find((item) => item._id === _id),
+      setRequestData({
+        ...requestData,
       });
     } else {
       setModalAction(MODAL_ACTION_CREATE);
-      setEditModalData({
+      setRequestData({
         _id: new Date().getTime(),
         requestName: '',
         requestMethod: '',
@@ -196,32 +131,25 @@ const ApiTable = (props) => {
 
   const handleCloseEditModal = () => {
     setOpenEditModal(false);
-    setEditModalData({});
+    setRequestData({});
   };
 
   // columns will store column header that we want to show in the front end
-  const columns = [];
+  let columns = [];
 
   const rows = companyData.CustomApiRequests || [];
 
-  if (rows.length !== 0) {
-    const headerColumns = Object.keys(rows[0]);
-    headerColumns.forEach((key, index) => {
-      if (!columnExcludes.includes(key)) {
-        console.log('keys', key);
-        columns.push({
-          Label: columnLabels[index],
-          Accessor: key,
-          Sortable: sortableExcludes.includes(key) ? false : true,
-        });
-      }
-    });
-    columns.push({
-      Label: 'Actions',
-      Accessor: 'Actions',
-      Sortable: false,
-    });
-  }
+  columns = columnMetadata.map(({ key, label }) => ({
+    Label: label,
+    Accessor: key,
+    Sortable: sortableExcludes.includes(key) ? false : true,
+  }));
+  columns.push({
+    Label: 'Actions',
+    Accessor: 'Actions',
+    Sortable: false,
+  });
+  //}
 
   /**
    * @param {object} api represent object of api with particular props
@@ -320,7 +248,8 @@ const ApiTable = (props) => {
             variant='outlined'
             color='default'
             onClick={() => {
-              setOpenModal(true);
+              setOpenTestRequestModal(true);
+              setRequestData(row);
             }}
           >
             Perform Test
@@ -329,7 +258,7 @@ const ApiTable = (props) => {
             aria-label='edit'
             size='small'
             edge='start'
-            onClick={() => handleOpenEditModal(row._id)}
+            onClick={() => handleOpenEditModal(row)}
             color='default'
           >
             <EditIcon />
@@ -398,7 +327,7 @@ const ApiTable = (props) => {
         <HelixTable
           displayCreateIcon={displayCreateUserIcon}
           initialOrderBy={initialOrderBy}
-          columns={columns.slice(1)}
+          columns={columns}
           rows={rows}
           customCellRender={customCellRender}
           customHeadColumnKeyProp={customHeadColumnKeyProp}
@@ -408,19 +337,19 @@ const ApiTable = (props) => {
       <EditDialog
         open={openEditModal}
         onClose={handleCloseEditModal}
-        data={editModalData}
+        data={requestData}
         loading={loading}
         onUpdate={handleEditRow}
         onCreate={handleCreateRow}
         modalAction={modalAction}
       />
-      <PerformTestModalDialog
-        title='Perform an API request test'
-        openModal={openModal}
-        setOpenModal={setOpenModal}
+      <PerformTestDialog
+        open={openTestRequestModal}
+        onClose={() => setOpenTestRequestModal(false)}
+        requestData={requestData}
       >
         <ApiCallForm />
-      </PerformTestModalDialog>
+      </PerformTestDialog>
     </StylesProvider>
   );
 };

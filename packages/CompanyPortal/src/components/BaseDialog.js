@@ -23,33 +23,29 @@ const useModalDialogStyles = makeStyles((theme) => ({
 /**
  * @return {JSX} returns a reusable Modal Dialog component
  */
-export default function PerformTestModalDialog(props) {
+export default function BaseDialog(props) {
   /** 
    title: the title displayed at the top of the modal
    children: stores any children components rendered inside the material ui Popup component
    openModal: state variable 
    setOpenModal: set function
   */
-  const { title, children, openModal, setOpenModal } = props;
+  const { title, children, open, onClose } = props;
   const modalDialogClasses = useModalDialogStyles();
 
   return (
     <Dialog
-      open={openModal}
+      open={open}
       maxWidth='md'
-      modalDialogClasses={{ paper: modalDialogClasses.dialogWrapper }}
+      className={modalDialogClasses.dialogWrapper}
+      onClose={onClose}
     >
       <DialogTitle className={modalDialogClasses.dialogTitle}>
         <div style={{ display: 'flex' }}>
           <Typography variant='h6' component='div' style={{ flexGrow: 1 }}>
             {title}
           </Typography>
-          <Controls.ActionButton
-            color='secondary'
-            onClick={() => {
-              setOpenModal(false);
-            }}
-          >
+          <Controls.ActionButton color='secondary' onClick={onClose}>
             <CloseIcon />
           </Controls.ActionButton>
         </div>

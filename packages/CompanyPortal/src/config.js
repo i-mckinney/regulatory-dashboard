@@ -22,5 +22,20 @@ export const columnLabels = [
   'Actions',
 ];
 
+export const columnMetadata = [
+  {
+    key: 'requestName',
+    label: 'Request Name',
+  },
+  {
+    key: 'requestMethod',
+    label: 'Request Method',
+  },
+  {
+    key: 'requestUrl',
+    label: 'Request URL',
+  },
+];
+
 // dateTypeFields is array of fieldname that are date type
 export const dateTypeFields = ['DateOfBirth'];
