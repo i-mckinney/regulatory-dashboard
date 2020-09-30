@@ -51,17 +51,17 @@ const entityTableCellStyles = makeStyles(() => ({
 /**
  * @param {string} value string represents table data cell value from Cell object property
  * @param {object} cell object represents current row and current column properties
- * @param {array} allColumns array of columns
+ * @param {array} columns array of columns
  * @param {func} editData func comes from parent component, once it is invoke, it will pass the data back to parent component to edit data
  * @returns {JSX} renders a custom table data cell
  */
 const EntityTableCell = ({
   value: initialStateValue,
-  // cell,
   columnAccessor,
   rowIndex,
-  allColumns,
+  columns,
   editData,
+  editable,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -87,13 +87,13 @@ const EntityTableCell = ({
    * */ 
   const cellIndex = () => {
     let colIndex = -1
-    allColumns.forEach((column, index) => {
+    columns.forEach((column, index) => {
       if (column.Header === columnAccessor) {
         colIndex = index
       }
     })
     const currentRowIndex = rowIndex
-    const index = (allColumns.length-1) * currentRowIndex + colIndex-1
+    const index = (columns.length-1) * currentRowIndex + colIndex-1
     return index
   }
 
@@ -184,26 +184,45 @@ const EntityTableCell = ({
     return null
   }
 
+  // displayTableCell return jsx object of editable table cell or non-editable table cell
+  const displayTableCell = () => {
+    if (editable) {
+      return (
+        <TableCell 
+          className={entityTableCellClasses.editedField}
+          onClick={handleDivChange}
+          onKeyDown={handleDivChange}
+          role="row"
+          tabIndex="0"
+        >
+          {displayInitialStateValue()}
+          {displayCurrentStateChanges()}
+          {displayCustomizedForm()}
+        </TableCell>
+      )
+    } else {
+      return (
+        <TableCell>
+          {displayInitialStateValue()}
+        </TableCell>
+      )
+    }
+  }
+
   return (
-    <TableCell 
-      className={entityTableCellClasses.editedField}
-      onClick={handleDivChange}
-      onKeyDown={handleDivChange}
-      role="row"
-      tabIndex="0"
-    >
-      {displayInitialStateValue()}
-      {displayCurrentStateChanges()}
-      {displayCustomizedForm()}
-    </TableCell>
+    <>
+    {displayTableCell()}
+    </>
   )
 }
 
-// EntityTableCell.propTypes = {
-//   value: PropTypes.string.isRequired,
-//   cell: PropTypes.oneOfType([PropTypes.object]).isRequired,
-//   allColumns: PropTypes.instanceOf(Array).isRequired,
-//   editData: PropTypes.func.isRequired,
-// }
+EntityTableCell.propTypes = {
+  value: PropTypes.string.isRequired,
+  columnAccessor: PropTypes.string,
+  rowIndex: PropTypes.number,
+  columns: PropTypes.instanceOf(Array),
+  editData: PropTypes.func,
+  editable: PropTypes.bool.isRequired
+}
 
 export default EntityTableCell

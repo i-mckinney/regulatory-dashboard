@@ -74,7 +74,7 @@ const editEntityStyles = makeStyles(() => ({
   pageProgression: {
     display: "flex",
     justifyContent: "center",
-    marginBottom: "30px",
+    marginTop: "48px",
   },
 }))
 
@@ -170,23 +170,21 @@ const EditEntity = (props) => {
     copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
   }
-  
+
   /**
-   * 
    * @param {int} rowIndex the rowIndex represents index of the row
    * @param {object} row the row is an object of data
    * @param {object} column the column is an object of the header with accessor and label props
    * @param {int} columnIndex the columnIndex represents index of the column
    */
   const customCellRender = (rowIndex, row, column, columnIndex) => {
-    console.log(rowIndex, row, column, columnIndex)
     const columnAccessor = column.Accessor
     if (columnIndex === 0) {
-      return <TableCell key={`${rowIndex} ${columnAccessor}`}>{row[columnAccessor]}</TableCell>
+      return <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnAccessor]} editable={false}/>
     }
     else {
       return (
-        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} columnAccessor={columnAccessor} value={row[columnAccessor]} allColumns={columns} rowIndex={rowIndex} editData={editData} />
+        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnAccessor]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
       )
     }
   }
