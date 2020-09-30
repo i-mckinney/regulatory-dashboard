@@ -89,28 +89,28 @@ const EditEntity = (props) => {
   const editEntityClasses = editEntityStyles();
 
   // columns will store column header that we want to show in the front end
-  const columns = React.useMemo(() => [
-    {
-      Header: "Field Name",
-      Accessor: "FieldName",
-    },
-  ])
+  // const columns = React.useMemo(() => [
+  //   {
+  //     Header: "Field Name",
+  //     Accessor: "FieldName",
+  //   },
+  // ])
 
-  const columns2 = useMemo(() => [], [])
-  const rows2 = useMemo(() => [], [])
-  const [data2, setData2] = useState([])
+  const columns = useMemo(() => [], [])
+  const rows = useMemo(() => [], [])
+  const [data, setData] = useState([])
 
-  detailedInfo.TableHeaders.forEach((header) => {
-    columns.push({
-      Header: header.DataWarehouseName,
-      Accessor: header.DataWarehouseName,
-    })
-  })
+  // detailedInfo.TableHeaders.forEach((header) => {
+  //   columns.push({
+  //     Header: header.DataWarehouseName,
+  //     Accessor: header.DataWarehouseName,
+  //   })
+  // })
 
   // data[row][column] = data[FieldNames][DataWareHouse]
-  const data = detailedInfo.Fields.map((entityField) => {
-    return { FieldName: entityField.Label }
-  })
+  // const data = detailedInfo.Fields.map((entityField) => {
+  //   return { FieldName: entityField.Label }
+  // })
 
   /**
    * {
@@ -123,24 +123,24 @@ const EditEntity = (props) => {
    * }
    * Stores array of entity data objects
    */
+  // const entityData = []
   const entityData = []
-  const entityData2 = []
 
-  detailedInfo.Fields.forEach((entityField, fieldIndex) =>
-    entityField.Records.forEach((record, recordIndex) => {
-      const headers = detailedInfo.TableHeaders
-      const dataWarehouseName = headers[recordIndex].DataWarehouseName
-      data[fieldIndex][dataWarehouseName] = record.Value
-      entityData.push({
-        FieldName: entityField.Label,
-        IsEdited: false,
-        SystemOfRecord: dataWarehouseName,
-        PreviousValue: record.Value,
-        NewValue: "",
-        SourceSystem: "",
-      })
-    })
-  )
+  // detailedInfo.Fields.forEach((entityField, fieldIndex) =>
+  //   entityField.Records.forEach((record, recordIndex) => {
+  //     const headers = detailedInfo.TableHeaders
+  //     const dataWarehouseName = headers[recordIndex].DataWarehouseName
+  //     data[fieldIndex][dataWarehouseName] = record.Value
+  //     entityData.push({
+  //       FieldName: entityField.Label,
+  //       IsEdited: false,
+  //       SystemOfRecord: dataWarehouseName,
+  //       PreviousValue: record.Value,
+  //       NewValue: "",
+  //       SourceSystem: "",
+  //     })
+  //   })
+  // )
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -158,9 +158,42 @@ const EditEntity = (props) => {
     return row.FieldName
   }
 
+  const fetchAggregatedSourceSystemsData = async () => {
+    const response = await entities.get("/entities/d765dd56-203a-4206-98c7-ab2d374e842c/aggregated")
+    setData(response.data)
+  }
+
+  if (data.length === 0) {
+    fetchAggregatedSourceSystemsData()
+  } else {
+    if (columns.length === 0) {
+      data.TableHeaders.forEach((header) => columns.push(header))
+      data.TableData.forEach((entityField) => {
+        const rowObject = {}
+        entityField.values.forEach((value, valueIndex) => {
+          const accessor = columns[valueIndex]["Accessor"]
+          rowObject[[accessor]] = value.toString()
+          if (valueIndex) {
+            entityData.push({
+                FieldName: entityField.key_config["display"],
+                IsEdited: false,
+                SystemOfRecord: accessor,
+                PreviousValue: value,
+                NewValue: "",
+                SourceSystem: "",
+              })
+          }
+        })
+        rows.push(rowObject)
+      })
+    }
+  }
+
   // editEntityData is modified data needed to send to next component/pipeline
   // const [editEntityData, setEditEntityData] = useState(entityData)
-  const [editEntityData, setEditEntityData] = useState(entityData2)
+  const [editEntityData, setEditEntityData] = useState(entityData)
+  console.log(entityData)
+  console.log(editEntityData)
 
   /**
    * @param {int} index table cell index in 1-dimension array
@@ -178,43 +211,20 @@ const EditEntity = (props) => {
     setEditEntityData([...copyEditEntityData])
   }
 
-  if (data2.length !== 0) {
-    data2.TableHeaders.forEach((header) => columns2.push(header))
-    data2.TableData.forEach((entityField) => {
-      const rowObject = {}
-      entityField.values.forEach((value, valueIndex) => {
-        const accessor = columns2[valueIndex]["Accessor"]
-        rowObject[[accessor]] = value
-        if (valueIndex) {
-        entityData2.push({
-            FieldName: entityField.key_config["display"],
-            IsEdited: false,
-            SystemOfRecord: accessor,
-            PreviousValue: value,
-            NewValue: "",
-            SourceSystem: "",
-          })
-        }
-      })
-      rows2.push(rowObject)
-    })
-  }
+  // /**
+  //  * Renders only when it is mounted at first
+  //  * It will fetch aggregated source system of the entity whenever EditEntity loads
+  //  */
+  // useEffect(() => {
 
-  /**
-   * Renders only when it is mounted at first
-   * It will fetch aggregated source system of the entity whenever EditEntity loads
-   */
-  useEffect(() => {
+  //   const fetchAggregatedSourceSystemsData = async () => {
+  //     const response = await entities.get("/entities/d765dd56-203a-4206-98c7-ab2d374e842c/aggregated")
+  //     setData(response.data)
+  //   }
 
-    const fetchAggregatedSourceSystemsData = async () => {
-      const response = await entities.get("/entities/d765dd56-203a-4206-98c7-ab2d374e842c/aggregated")
-      setData2(response.data)
-    }
+  //   fetchAggregatedSourceSystemsData()
+  // }, [columns])
 
-    fetchAggregatedSourceSystemsData()
-  }, [columns2])
-
-  console.log(entityData2)
   /**
    * @param {int} rowIndex the rowIndex represents index of the row
    * @param {object} row the row is an object of data
@@ -228,7 +238,7 @@ const EditEntity = (props) => {
     }
     else {
       return (
-        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnAccessor]} columnAccessor={columnAccessor} columns={columns2} rowIndex={rowIndex} editData={editData} editable={true}/>
+        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnAccessor]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
       )
     }
   }
@@ -256,10 +266,8 @@ const EditEntity = (props) => {
         RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
       />
       <HelixTable 
-      columns={columns2}
-      rows={rows2}
-      // columns={columns} 
-      // rows={data} 
+      columns={columns} 
+      rows={rows} 
       customCellRender={customCellRender} 
       customBodyRowKeyProp={customBodyRowKeyProp} 
       customHeadColumnKeyProp={customHeadColumnKeyProp} 

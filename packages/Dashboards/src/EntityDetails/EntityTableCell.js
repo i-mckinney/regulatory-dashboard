@@ -45,6 +45,9 @@ const entityTableCellStyles = makeStyles(() => ({
   },
   matIcon: {
     fill: 'black',
+  },
+  matIconSpan: {
+    display: 'block',
   }
 }))
 
@@ -170,7 +173,7 @@ const EntityTableCell = ({
       return (
         <div>
           <input type="text" value={value} onChange={handleInputChange} />
-          <span>
+          <span className={entityTableCellClasses.matIconSpan}>
             <IconButton className={entityTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
               <SaveIcon className={entityTableCellClasses.matIcon} />
             </IconButton>
