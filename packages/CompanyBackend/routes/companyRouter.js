@@ -1,8 +1,10 @@
 // import modules
 const express = require("express");
 const router = express.Router();
+const { v4: uuidv4 } = require("uuid");
 const { ObjectId } = require("mongodb");
 const dateTimeHelper = require("../utils/dateTimeHelper");
+const customAPIrequest = require("../helpers/customAPIrequest");
 
 // db setup
 const DbConnection = require("../db");
@@ -53,8 +55,7 @@ router.post("/companies", async (req, res) => {
 
     // return updated list
     companies = await dbCollection.find().toArray();
-		res.json(companies);
-		
+    res.json(companies);
   } catch (error) {
     res.json({ Error: error.message });
   }
@@ -122,4 +123,26 @@ router.delete("/companies/:id", async (req, res) => {
   }
 });
 
+//Retrieves specific custom api and dispatches custom api.
+router.get("/customapi/:apiCustomId", async (req, res) => {
+  try {
+    const customId = req.params.apiCustomId;
+    const dbCollection = await DbConnection.getCollection("helixcompany");
+    const company = await dbCollection.findOne({},{
+      CustomApiRequests: { $elemMatch: { _id: customId } },
+    })
+    if (company){
+    const customAPI = company.CustomApiRequests.find(request => request._id === customId)
+    const result = await customAPIrequest(customAPI);
+    res.json(result);
+    }
+  } catch (e) {
+    res.json({
+      ErrorStatus: e.status,
+      ErrorMessage: e.message,
+    });
+  }
+});
+
 module.exports = router;
+
