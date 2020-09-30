@@ -91,11 +91,12 @@ const EntityTableCell = ({
   const cellIndex = () => {
     let colIndex = -1
     columns.forEach((column, index) => {
-      if (column.Header === columnAccessor) {
+      if (column.Accessor === columnAccessor) {
         colIndex = index
       }
     })
     const currentRowIndex = rowIndex
+    console.log(rowIndex, colIndex)
     const index = (columns.length-1) * currentRowIndex + colIndex-1
     return index
   }

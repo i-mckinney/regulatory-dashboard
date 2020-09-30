@@ -89,28 +89,13 @@ const EditEntity = (props) => {
   const editEntityClasses = editEntityStyles();
 
   // columns will store column header that we want to show in the front end
-  // const columns = React.useMemo(() => [
-  //   {
-  //     Header: "Field Name",
-  //     Accessor: "FieldName",
-  //   },
-  // ])
-
   const columns = useMemo(() => [], [])
+
+  // rows will store all the row data
   const rows = useMemo(() => [], [])
+
+  // data store fetchAggregatedSourceSystemsData GET Method API results
   const [data, setData] = useState([])
-
-  // detailedInfo.TableHeaders.forEach((header) => {
-  //   columns.push({
-  //     Header: header.DataWarehouseName,
-  //     Accessor: header.DataWarehouseName,
-  //   })
-  // })
-
-  // data[row][column] = data[FieldNames][DataWareHouse]
-  // const data = detailedInfo.Fields.map((entityField) => {
-  //   return { FieldName: entityField.Label }
-  // })
 
   /**
    * {
@@ -124,23 +109,7 @@ const EditEntity = (props) => {
    * Stores array of entity data objects
    */
   // const entityData = []
-  const entityData = []
-
-  // detailedInfo.Fields.forEach((entityField, fieldIndex) =>
-  //   entityField.Records.forEach((record, recordIndex) => {
-  //     const headers = detailedInfo.TableHeaders
-  //     const dataWarehouseName = headers[recordIndex].DataWarehouseName
-  //     data[fieldIndex][dataWarehouseName] = record.Value
-  //     entityData.push({
-  //       FieldName: entityField.Label,
-  //       IsEdited: false,
-  //       SystemOfRecord: dataWarehouseName,
-  //       PreviousValue: record.Value,
-  //       NewValue: "",
-  //       SourceSystem: "",
-  //     })
-  //   })
-  // )
+  const entityData = useMemo(() => [], [])
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -158,6 +127,7 @@ const EditEntity = (props) => {
     return row.FieldName
   }
 
+  // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
     const response = await entities.get("/entities/d765dd56-203a-4206-98c7-ab2d374e842c/aggregated")
     setData(response.data)
@@ -190,10 +160,7 @@ const EditEntity = (props) => {
   }
 
   // editEntityData is modified data needed to send to next component/pipeline
-  // const [editEntityData, setEditEntityData] = useState(entityData)
   const [editEntityData, setEditEntityData] = useState(entityData)
-  console.log(entityData)
-  console.log(editEntityData)
 
   /**
    * @param {int} index table cell index in 1-dimension array
@@ -210,20 +177,6 @@ const EditEntity = (props) => {
     copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
   }
-
-  // /**
-  //  * Renders only when it is mounted at first
-  //  * It will fetch aggregated source system of the entity whenever EditEntity loads
-  //  */
-  // useEffect(() => {
-
-  //   const fetchAggregatedSourceSystemsData = async () => {
-  //     const response = await entities.get("/entities/d765dd56-203a-4206-98c7-ab2d374e842c/aggregated")
-  //     setData(response.data)
-  //   }
-
-  //   fetchAggregatedSourceSystemsData()
-  // }, [columns])
 
   /**
    * @param {int} rowIndex the rowIndex represents index of the row
