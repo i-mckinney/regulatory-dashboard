@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
-import BaseDialog from '../BaseDialog';
+import DialogModalTemplate from '../DialogModalTemplate';
 
 //const BASE_URL = 'http://localhost:4005/customapi';
 
@@ -32,14 +32,16 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
     return null;
   }
   return (
-    <BaseDialog title='Perform test' open={open} onClose={onClose}>
+    <DialogModalTemplate title='Perform test' open={open} onClose={onClose}>
       <p>{`Request Name: ${requestData.requestName}`}</p>
       {loading ? (
         <CircularProgress />
       ) : (
-        <div><pre>{JSON.stringify(testResponse, null, 2)}</pre></div>
+        <div>
+          <pre>{JSON.stringify(testResponse, null, 2)}</pre>
+        </div>
       )}
-    </BaseDialog>
+    </DialogModalTemplate>
   );
 };
 

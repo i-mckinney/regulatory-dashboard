@@ -23,7 +23,7 @@ const useModalDialogStyles = makeStyles((theme) => ({
 /**
  * @return {JSX} returns a reusable Modal Dialog component
  */
-export default function BaseDialog(props) {
+export default function DialogModalTemplate(props) {
   /** 
    title: the title displayed at the top of the modal
    children: stores any children components rendered inside the material ui Popup component
