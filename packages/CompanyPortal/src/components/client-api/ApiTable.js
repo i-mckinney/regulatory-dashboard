@@ -16,8 +16,11 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib';
-// import HelixTable from '../table/HelixTable';
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config';
+import PerformTestModalDialog from '../../components/PerformTestModalDialog';
+import ApiCallForm from './ApiCallForm';
+
+
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
 
@@ -161,8 +164,7 @@ const ApiTable = (props) => {
   // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
   const userTableClasses = userTableStyles();
 
-  // rows will stores users from GET Method fetchUsers via Rest API
-  // const [rows, setRows] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const [companyData, setCompanyData] = useState({});
 
@@ -317,7 +319,9 @@ const ApiTable = (props) => {
             className={userTableClasses.testButtonStyle}
             variant='outlined'
             color='default'
-            onClick={() => handleOpenEditModal()}
+            onClick={() => {
+              setOpenModal(true);
+            }}
           >
             Perform Test
           </MuiButton>
@@ -410,6 +414,13 @@ const ApiTable = (props) => {
         onCreate={handleCreateRow}
         modalAction={modalAction}
       />
+      <PerformTestModalDialog
+        title='Perform an API request test'
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      >
+        <ApiCallForm />
+      </PerformTestModalDialog>
     </StylesProvider>
   );
 };
