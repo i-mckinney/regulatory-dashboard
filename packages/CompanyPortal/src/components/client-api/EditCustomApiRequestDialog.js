@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     '& div': {
       marginBottom: '5px',
+      marginTop: '5px',
+      marginLeft: '25px',
+      marginRight: '25px',
     },
   },
 }));
@@ -28,23 +31,23 @@ const EditCustomApiRequestDialog = ({
   const classes = useStyles();
   const [requestName, setRequestName] = useState(data.requestName);
   const [requestMethod, setRequestMethod] = useState(data.requestMethod);
-  const [requestURL, setrequestURL] = useState(data.requestUrl);
+  const [requestUrl, setRequestURL] = useState(data.requestUrl);
   let handleClick, title, buttonText;
 
   if (modalAction === MODAL_ACTION_CREATE) {
     handleClick = onCreate;
-    title = 'Create row';
+    title = 'Create a new API Request';
     buttonText = 'ADD';
   } else if (modalAction === MODAL_ACTION_UPDATE) {
     handleClick = onUpdate;
-    title = 'Update row';
+    title = 'Update Existing API Request';
     buttonText = 'Save';
   }
 
   useEffect(() => {
     setRequestName(data.requestName);
     setRequestMethod(data.requestMethod);
-    setrequestURL(data.requestUrl);
+    setRequestURL(data.requestUrl);
   }, [data]);
 
   if (!open) {
@@ -55,25 +58,28 @@ const EditCustomApiRequestDialog = ({
     <DialogModalTemplate onClose={onClose} title={title} open={open}>
       <div className={classes.fieldContainer}>
         <TextField
+          variant='outlined'
           label='Request Name'
           value={requestName}
           onChange={(e) => setRequestName(e.target.value)}
         />
         <TextField
+          variant='outlined'
           label='Request Method'
           value={requestMethod}
           onChange={(e) => setRequestMethod(e.target.value)}
         />
         <TextField
+          variant='outlined'
           label='Request URL'
-          value={requestURL}
-          onChange={(e) => setrequestURL(e.target.value)}
+          value={requestUrl}
+          onChange={(e) => setRequestURL(e.target.value)}
         />
         <Button
           variant='contained'
           disabled={loading}
           onClick={() =>
-            handleClick({ ...data, requestName, requestMethod, requestURL })
+            handleClick({ ...data, requestName, requestMethod, requestUrl })
           }
         >
           {buttonText}
