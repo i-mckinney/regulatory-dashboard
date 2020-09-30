@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditDialog = ({
+const EditCustomApiRequestDialog = ({
   open,
   onClose,
   data,
@@ -85,4 +85,4 @@ const EditDialog = ({
   );
 };
 
-export default EditDialog;
+export default EditCustomApiRequestDialog;

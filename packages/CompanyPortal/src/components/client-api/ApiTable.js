@@ -6,6 +6,8 @@ import {
   Typography,
   TableCell,
 } from '@material-ui/core';
+import PageHeader from '../../layout/PageHeader';
+import TelegramIcon from '@material-ui/icons/Telegram';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
@@ -19,7 +21,7 @@ import {
 } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
-import EditDialog from './EditDialog';
+import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
 
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
@@ -321,8 +323,13 @@ const ApiTable = (props) => {
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
         <div className={userTableClasses.header}>
-          <Typography variant='h5'>Client API Interface</Typography>
+          <PageHeader
+            title='Client API Interface'
+            subTitle='Add new API requests or edit and test existing calls'
+            icon={<TelegramIcon fontSize='large' />}
+          />
         </div>
+
         <HelixTable
           displayCreateIcon={displayCreateUserIcon}
           initialOrderBy={initialOrderBy}
@@ -333,7 +340,7 @@ const ApiTable = (props) => {
           customBodyRowKeyProp={customBodyRowKeyProp}
         />
       </div>
-      <EditDialog
+      <EditCustomApiRequestDialog
         open={openEditModal}
         onClose={handleCloseEditModal}
         data={requestData}
@@ -346,8 +353,7 @@ const ApiTable = (props) => {
         open={openTestRequestModal}
         onClose={() => setOpenTestRequestModal(false)}
         requestData={requestData}
-      >
-      </PerformTestDialog>
+      ></PerformTestDialog>
     </StylesProvider>
   );
 };
