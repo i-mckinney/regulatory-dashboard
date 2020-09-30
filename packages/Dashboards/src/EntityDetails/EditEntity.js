@@ -178,7 +178,6 @@ const EditEntity = (props) => {
     copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
   }
-  console.log(editEntityData)
 
   /**
    * @param {int} rowIndex the rowIndex represents index of the row

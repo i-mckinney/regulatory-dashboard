@@ -1,6 +1,7 @@
 import React from "react"
 import { Styles } from "./ReactTable/AdminDashboardStyle"
 import AdminDashboard from "./ReactTable/AdminDashboard"
+import { HelixButton } from 'helixmonorepo-lib'
 
 /** @return {JSX} Entity site
  * routed at /Entity
@@ -42,6 +43,9 @@ function Entity() {
       Header: "Relationship Manager",
       accessor: "RelationshipManager",
     },
+    {
+      Header: "Actions",
+    },
   ])
   const mockData = [
     {
@@ -56,6 +60,18 @@ function Entity() {
 
   /** setting custom cells for each specific columns while creating rows for the dashboard */
   const customRow = (cell) => {
+    if (cell.column.Header === "Actions") {
+      return (
+        <td {...cell.getCellProps()}>
+          <HelixButton
+            variant="contained"
+            href="/editentity"
+            color="default"
+            text={"Edit"}
+          />
+        </td>
+      ) 
+    }
     return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
   }
 
