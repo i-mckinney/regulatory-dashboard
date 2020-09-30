@@ -124,7 +124,7 @@ const EditEntity = (props) => {
    * @return {string} provide table row with unique key props (required)
    */
   const customBodyRowKeyProp = (row) => {
-    return row.FieldName
+    return row[0]
   }
 
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
@@ -139,22 +139,23 @@ const EditEntity = (props) => {
     if (columns.length === 0) {
       data.TableHeaders.forEach((header) => columns.push(header))
       data.TableData.forEach((entityField) => {
-        const rowObject = {}
-        entityField.values.forEach((value, valueIndex) => {
+        const label = entityField.key_config["display"]
+        const row = entityField.values.map((value, valueIndex) => {
           const accessor = columns[valueIndex]["Accessor"]
-          rowObject[[accessor]] = value.toString()
           if (valueIndex) {
             entityData.push({
-                FieldName: entityField.key_config["display"],
+                FieldName: label,
                 IsEdited: false,
                 SystemOfRecord: accessor,
                 PreviousValue: value,
                 NewValue: "",
                 SourceSystem: "",
-              })
+              }
+            )
           }
+          return value.toString()
         })
-        rows.push(rowObject)
+        rows.push(row)
       })
     }
   }
@@ -177,6 +178,7 @@ const EditEntity = (props) => {
     copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
   }
+  console.log(editEntityData)
 
   /**
    * @param {int} rowIndex the rowIndex represents index of the row
@@ -187,11 +189,11 @@ const EditEntity = (props) => {
   const customCellRender = (rowIndex, row, column, columnIndex) => {
     const columnAccessor = column.Accessor
     if (columnIndex === 0) {
-      return <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnAccessor]} editable={false}/>
+      return <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnIndex]} editable={false}/>
     }
     else {
       return (
-        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnAccessor]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
+        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnIndex]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
       )
     }
   }

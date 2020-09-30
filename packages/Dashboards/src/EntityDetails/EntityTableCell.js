@@ -96,7 +96,6 @@ const EntityTableCell = ({
       }
     })
     const currentRowIndex = rowIndex
-    console.log(rowIndex, colIndex)
     const index = (columns.length-1) * currentRowIndex + colIndex-1
     return index
   }
