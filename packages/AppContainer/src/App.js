@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { BrowserRouter, Switch, Route } from "react-router-dom"
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom"
 import PropTypes from "prop-types"
 import clsx from "clsx"
 import { useTheme, CssBaseline } from "@material-ui/core"
@@ -44,13 +44,15 @@ query whoAmI {
 }
 `;
 
-// const fetchUser = () => {
-//   const { data, loading, error } = useQuery(WHO_AM_I);
-//   if (data.whoAmI !== null && loggedIn === false) setLogIn(true)
-// }
-
 const App = () => {
   const [loggedIn, setLogIn] = useState(false)
+  // Styles for Container application
+  const topContainerClasses = containerAppUseStyles()
+  // Theme for container application
+  const topContainerTheme = useTheme()
+
+  // State to determine whether side navigation is open or not
+  const [sideNavOpen, setSideNavOpen] = useState(false)
 
   const { data, loading, error } = useQuery(WHO_AM_I);
   if (loading) return <p>loading</p>;
@@ -60,14 +62,6 @@ const App = () => {
 
 
   if (loggedIn) {
-    // Styles for Container application
-    const topContainerClasses = containerAppUseStyles()
-    // Theme for container application
-    const topContainerTheme = useTheme()
-
-    // State to determine whether side navigation is open or not
-    const [sideNavOpen, setSideNavOpen] = useState(false)
-
     return (
       <BrowserRouter>
         <div className={topContainerClasses.topContainerClassesRoot}>
@@ -85,7 +79,7 @@ const App = () => {
           >
             <div className={topContainerClasses.sideNavDrawerHeader} />
             <Switch>
-              <Route exact path='/' component={LoginView} />
+              <Route exact path='/' component={Dashboard} />
               <Route exact path='/spogpage' component={SpogPage} />
               <Route exact path='/home' component={Dashboard} />
               <Route exact path='/dashboard' component={Dashboard} />
@@ -109,6 +103,7 @@ const App = () => {
       <BrowserRouter>
         <>
           <Route exact path='/' component={LoginView} />
+          <Redirect to='/' />
         </>
       </BrowserRouter>
     )
