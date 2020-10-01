@@ -45,8 +45,12 @@ export default function DialogModalTemplate(props) {
           <Typography variant='h6' component='div' style={{ flexGrow: 1 }}>
             {title}
           </Typography>
-          <Controls.ActionButton color='secondary' onClick={onClose}>
-            <CloseIcon />
+          <Controls.ActionButton
+            variant='contained'
+            color='default '
+            onClick={onClose}
+          >
+            <CloseIcon color='secondary' />
           </Controls.ActionButton>
         </div>
       </DialogTitle>

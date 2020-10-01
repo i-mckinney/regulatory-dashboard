@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Controls from '../../components/controls/Controls';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core';
 import DialogModalTemplate from '../DialogModalTemplate';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
+import * as apiCallService from '../../services/apiCallService';
 
-const useStyles = makeStyles((theme) => ({
+const useModalStyles = makeStyles((theme) => ({
   fieldContainer: {
+    height: '100%',
+    width: '350px',
     display: 'flex',
     flexDirection: 'column',
     '& div': {
-      marginBottom: '5px',
-      marginTop: '5px',
-      marginLeft: '25px',
-      marginRight: '25px',
+      marginTop: '10px',
     },
   },
+  actionButton: {
+    marginTop: '10px',
+  }
 }));
 
 const EditCustomApiRequestDialog = ({
@@ -28,7 +32,7 @@ const EditCustomApiRequestDialog = ({
   onCreate,
   modalAction,
 }) => {
-  const classes = useStyles();
+  const classes = useModalStyles();
   const [requestName, setRequestName] = useState(data.requestName);
   const [requestMethod, setRequestMethod] = useState(data.requestMethod);
   const [requestUrl, setRequestURL] = useState(data.requestUrl);
@@ -63,9 +67,9 @@ const EditCustomApiRequestDialog = ({
           value={requestName}
           onChange={(e) => setRequestName(e.target.value)}
         />
-        <TextField
-          variant='outlined'
-          label='Request Method'
+        <Controls.Select
+          label='METHOD'
+          options={apiCallService.getMethodCollection()}
           value={requestMethod}
           onChange={(e) => setRequestMethod(e.target.value)}
         />
@@ -75,6 +79,7 @@ const EditCustomApiRequestDialog = ({
           value={requestUrl}
           onChange={(e) => setRequestURL(e.target.value)}
         />
+        <div className={classes.actionButton}></div>
         <Button
           variant='contained'
           disabled={loading}
