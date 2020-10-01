@@ -7,7 +7,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 
 const link = createHttpLink({
   uri: 'http://localhost:4000/graphql',
-  credentials: 'includes'
+  credentials: "include"
 });
 
 const gqlClient = new ApolloClient({

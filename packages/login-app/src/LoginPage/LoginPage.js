@@ -90,26 +90,28 @@ export default function Login() {
 
   const client = useApolloClient();
 
-  const handleRegister = (evt) => {
+  const handleRegister = async (evt) => {
+    //prevents page from reloading on form submission
     evt.preventDefault();
-    register({ variables: { input: { email: newEmail, password: newPassword } } })
+    await register({ variables: { input: { email: newEmail, password: newPassword } }, notifyOnNetworkStatusChange: true })
     alert(`Submitting Name: ${newEmail}`)
   }
 
-  const handleLogin = (evt) => {
+  const handleLogin = async (evt) => {
     evt.preventDefault();
-    login({ variables: { email: email, password: password } })
+    await login({ variables: { email: email, password: password }, notifyOnNetworkStatusChange: true })
     alert(`Logging in email: ${email}`)
   }
 
   const [login, { data }] = useMutation(LOGIN, {
-    onCompleted({ login }) {
-      localStorage.setItem("token", login);
+    onCompleted({ data }) {
+      console.log(data)
+      localStorage.setItem("token", data);
     }
   });
   const [register, { data2 }] = useMutation(REGISTER, {
-    onCompleted({ register }) {
-      console.log(register)
+    onCompleted({ data2 }) {
+      console.log(data2)
     }
   });
 

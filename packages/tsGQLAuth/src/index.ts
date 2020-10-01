@@ -14,7 +14,11 @@ const SQLiteStore = connectSqlite3(session);
   const app = express();
 
   const cors = require('cors');
-  app.use(cors())
+  var corsOptions = {
+    origin: 'http://localhost:9001',
+    credentials: true // <-- REQUIRED backend setting
+  };
+  app.use(cors(corsOptions))
 
   app.use(
     session({
