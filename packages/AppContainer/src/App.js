@@ -60,26 +60,47 @@ const App = () => {
 
 
   if (loggedIn) {
+    // Styles for Container application
+    const topContainerClasses = containerAppUseStyles()
+    // Theme for container application
+    const topContainerTheme = useTheme()
+
+    // State to determine whether side navigation is open or not
+    const [sideNavOpen, setSideNavOpen] = useState(false)
+
     return (
       <BrowserRouter>
-        <>
-          <Header />
-          <Switch>
-            <Route exact path='/' component={LoginView} />
-            <Route exact path='/spogpage' component={SpogPage} />
-            <Route exact path='/home' component={Dashboard} />
-            <Route exact path='/dashboard' component={Dashboard} />
-            <Route exact path='/company/:id' component={CompanyView} />
-            <Route exact path='/entity' component={Dashboard} />
-            <Route exact path='/loan' component={Dashboard} />
-            <Route exact path='/regulatory' component={Dashboard} />
-            <Route exact path='/myrequest' component={Dashboard} />
-            <Route exact path='/user' component={User} />
-            <Route exact path='/user/new' component={User} />
-            <Route exact path='/user/edit/:id' component={User} />
-            <Route exact path='/user/delete/:id' component={User} />
-          </Switch>
-        </>
+        <div className={topContainerClasses.topContainerClassesRoot}>
+          <CssBaseline />
+          <Header
+            topContainerClasses={topContainerClasses}
+            topContainerTheme={topContainerTheme}
+            sideNavOpen={sideNavOpen}
+            setSideNavOpen={setSideNavOpen}
+          />
+          <main
+            className={clsx(topContainerClasses.microServiceContent, {
+              [topContainerClasses.microServiceContentShift]: sideNavOpen,
+            })}
+          >
+            <div className={topContainerClasses.sideNavDrawerHeader} />
+            <Switch>
+              <Route exact path='/' component={LoginView} />
+              <Route exact path='/spogpage' component={SpogPage} />
+              <Route exact path='/home' component={Dashboard} />
+              <Route exact path='/dashboard' component={Dashboard} />
+              <Route exact path='/company/:id' component={CompanyView} />
+              <Route exact path='/entity' component={Dashboard} />
+              <Route exact path='/loan' component={Dashboard} />
+              <Route exact path='/regulatory' component={Dashboard} />
+              <Route exact path='/myrequest' component={Dashboard} />
+              <Route exact path='/user' component={User} />
+              <Route exact path='/user/new' component={User} />
+              <Route exact path='/user/edit/:id' component={User} />
+              <Route exact path='/user/delete/:id' component={User} />
+            </Switch>
+          </main>
+        </div>
       </BrowserRouter>
     )
 
@@ -92,7 +113,6 @@ const App = () => {
       </BrowserRouter>
     )
   }
-
 }
 
 Dashboard.propTypes = {
