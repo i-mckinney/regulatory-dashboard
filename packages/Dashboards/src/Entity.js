@@ -56,6 +56,14 @@ function Entity() {
       AccountNumber: "3234-1235125325-324",
       RelationshipManager: "David Geisinger",
     },
+    {
+      RelationshipName: "Loan",
+      BorrowerName: "John Jill",
+      BorrowerID: "9873262354",
+      TIN: "L2143253",
+      AccountNumber: "1234-1235125325-321",
+      RelationshipManager: "Michael Mike",
+    },
   ]
 
   /** setting custom cells for each specific columns while creating rows for the dashboard */

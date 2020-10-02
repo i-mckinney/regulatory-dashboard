@@ -77,6 +77,11 @@ const editEntityStyles = makeStyles(() => ({
     justifyContent: "center",
     marginTop: "48px",
   },
+  loading: {
+    position: 'absolute', 
+    left: '50%', 
+    top: '50%',
+  },
 }))
 
 /**
