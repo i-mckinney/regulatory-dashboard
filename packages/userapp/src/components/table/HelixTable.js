@@ -1,12 +1,11 @@
-import React, { useState } from "react"
-import { Paper, TableContainer, Table } from "@material-ui/core"
-import PropTypes from "prop-types"
-import HelixTableHead from "./HelixTableHead"
-import HelixTableBody from "./HelixTableBody"
-import HelixTableFooter from "./HelixTableFooter"
-import HelixToolBarSearch from "./HelixToolBarSearch"
-import { getComparator, stableSort } from './HelixTableSortFunc'
-
+import React, { useState } from 'react';
+import { Paper, TableContainer, Table } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import HelixTableHead from './HelixTableHead';
+import HelixTableBody from './HelixTableBody';
+import HelixTableFooter from './HelixTableFooter';
+import HelixToolBarSearch from './HelixToolBarSearch';
+import { getComparator, stableSort } from './HelixTableSortFunc';
 
 /**
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object
@@ -18,7 +17,7 @@ import { getComparator, stableSort } from './HelixTableSortFunc'
  * @param {func} displayCreateIcon func displays jsx object of create icon into toolbar
  * @returns {JSX} renders a custom table
  */
-https: const HelixTable = ({
+const HelixTable = ({
   columns,
   rows,
   customCellRender,
@@ -77,37 +76,41 @@ https: const HelixTable = ({
    * Pass the user query input to searchFilter and it store which object matches the query
    */
   const onSearch = (event) => {
-    const { value } = event.target
-    setSearchFilter({ search: (rows, columns) => {
-        if (value === '') return rows
-        else 
-          return rows.filter((row) => 
-            (columns.filter((column) => {
-              const columnAccessor = column.Accessor
-              if (typeof(row[columnAccessor]) === 'string') {
+    const { value } = event.target;
+    setSearchFilter({
+      search: (rows, columns) => {
+        if (value === '') return rows;
+        else
+          return rows.filter((row) =>
+            columns.filter((column) => {
+              const columnAccessor = column.Accessor;
+              if (typeof row[columnAccessor] === 'string') {
                 return row[columnAccessor]
-                .toLowerCase()
-                .includes(value.toLowerCase())
+                  .toLowerCase()
+                  .includes(value.toLowerCase());
               }
               try {
-                const assignedRoles = row[columnAccessor].reduce((result, roles) => {
-                  return `${result} ${roles}`.trim()
-                }, "")
-                return assignedRoles.toLowerCase().includes(value.toLowerCase())
+                const assignedRoles = row[columnAccessor].reduce(
+                  (result, roles) => {
+                    return `${result} ${roles}`.trim();
+                  },
+                  ''
+                );
+                return assignedRoles
+                  .toLowerCase()
+                  .includes(value.toLowerCase());
               } catch (error) {
-                console.log("Error Type", error)
-                return error
+                console.log('Error Type', error);
+                return error;
               }
-            })
-            .length > 0 
-            ? true
-            : false
-            )
-          )
-      }
-    })
-  }
-  
+            }).length > 0
+              ? true
+              : false
+          );
+      },
+    });
+  };
+
   return (
     <div>
       <HelixToolBarSearch
@@ -158,6 +161,6 @@ HelixTable.propTypes = {
   customBodyRowKeyProp: PropTypes.func.isRequired,
   initialOrderBy: PropTypes.string.isRequired,
   displayCreateIcon: PropTypes.func.isRequired,
-}
+};
 
-export default HelixTable
+export default HelixTable;
