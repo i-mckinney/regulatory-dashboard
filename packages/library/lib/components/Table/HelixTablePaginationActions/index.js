@@ -17,14 +17,14 @@ var _KeyboardArrowRight = _interopRequireDefault(require("@material-ui/icons/Key
 
 var _LastPage = _interopRequireDefault(require("@material-ui/icons/LastPage"));
 
-var _styles = require("@material-ui/core/styles");
+var _core = require("@material-ui/core");
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // Styling used for MaterialUI
-var tablePaginationActionsStyles = (0, _styles.makeStyles)(function () {
+var tablePaginationActionsStyles = (0, _core.makeStyles)(function () {
   return {
     paginationButton: {
       flexShrink: 0,

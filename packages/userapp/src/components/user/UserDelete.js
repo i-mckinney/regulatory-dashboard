@@ -1,9 +1,9 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, Modal, Backdrop, Fade } from '@material-ui/core';
+import { makeStyles, Modal, Backdrop, Fade } from '@material-ui/core'
 import { HelixButton } from 'helixmonorepo-lib'
-import DeleteIcon from '@material-ui/icons/Delete';
-import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteIcon from '@material-ui/icons/Delete'
+import CancelIcon from '@material-ui/icons/Cancel'
 import users from '../apis/users'
 
 // Styling used for MaterialUI
