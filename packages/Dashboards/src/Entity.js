@@ -1,18 +1,82 @@
 import React from "react"
 import { withRouter } from 'react-router-dom'
-import { StylesProvider, TableCell } from '@material-ui/core'
+import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable } from 'helixmonorepo-lib'
-// import HelixTable from  './table/HelixTable'
+
+// Styling used for MaterialUI
+const entityStyles = makeStyles(() => ({
+  mediumContainer: {
+      width: '80%',
+      margin: 'auto',
+      marginTop: '3rem',
+      paddingBottom: '3rem',
+      '& table': {
+          width: '100%',
+          display: 'table',
+          borderTopRightRadius: '4px',
+          borderTopLeftRadius: '4px',
+          boxSizing: 'border-box',
+          borderSpacing: '2px',
+          borderColor: 'grey',
+          '& tr': {
+            border: 'none',
+            backgroundColor: 'white',
+            '&:nth-child(even)': {
+              backgroundColor: '#f2f2f2',
+            },
+            '&:hover': {
+              backgroundColor: '#add8e6',
+            },
+            '&:last-child': {
+              borderBottomRightRadius: '4px',
+              borderBottomLeftRadius: '4px',
+            }
+          },
+          '& th': {
+            backgroundColor: '#2e353d',
+            color: 'white',
+            margin: '0',
+            borderBottom: 'solid 1px #e0e4e8',
+            padding: '8px',
+          },
+          '& td': {
+            margin: '0',
+            borderBottom: 'solid 1px #e0e4e8',
+            padding: '8px',
+          },
+          '&:last-children': {
+            borderBottom: 'none',
+          },
+      },
+  },
+  createIconStyle: {
+      float: 'right',
+      cursor: 'pointer',
+      marginLeft: "auto",
+  },
+  header: {
+      paddingBottom: '2rem',
+  },
+  actionsIconStyle: {
+      '& button': {
+          marginRight: '1rem',
+          cursor: 'pointer',
+      },
+  },
+}))
 
 /** @return {JSX} Entity site
  * routed at /Entity
  */
 
 function Entity(props) {
+  // Creates an object for styling. Any className that matches key in the entityStyles object will have a corresponding styling
+  const entityClasses = entityStyles()
+
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
    * If we didn't use React.useMemo, the table would think it was receiving new data on every render
@@ -90,7 +154,7 @@ function Entity(props) {
         const columnAccessor = column.Accessor
         if (columnAccessor === "Actions") {
             return (
-                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                <TableCell className={entityClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
                     <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/edit/`, state: row }))} color="default">
                         <EditIcon />
                     </IconButton>
@@ -125,7 +189,7 @@ function Entity(props) {
         return row.RelationshipName
     }
 
-    // Initially, we can start the table to order by Username or First Name or etc in ascending order
+    // Initially, we can start the table to order by Relationship Name or Borrower Name or etc in ascending order
     const initialOrderBy = "RelationshipName"
 
     /**
@@ -134,6 +198,7 @@ function Entity(props) {
     const displayCreateUserIcon = () => {
         return (
             <IconButton
+            className={entityClasses.createIconStyle}
             color="primary"
             onClick={() => (props.history.push("/entity/new"))}>
                 <AddBoxIcon fontSize="large" />
@@ -143,8 +208,12 @@ function Entity(props) {
 
     return (
         <StylesProvider injectFirst>
-          <h4 className="mt-1 ml-4">Entity</h4>
-          <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            <div className={entityClasses.mediumContainer}>
+              <div className={entityClasses.header}>
+                  <Typography variant="h5">Entity</Typography>
+              </div>
+              <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            </div>
         </StylesProvider>
     )
 }
