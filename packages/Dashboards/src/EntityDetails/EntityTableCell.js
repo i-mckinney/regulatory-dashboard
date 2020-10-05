@@ -209,7 +209,6 @@ const EntityTableCell = ({
       return entityTableCellClasses.editedCell
     }
     else if (currentStateValue !== originalValue) {
-      console.log('asdf')
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell
