@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react"
+import React, { useMemo, useState } from "react"
 import { withRouter } from "react-router-dom"
 import { StylesProvider, makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
