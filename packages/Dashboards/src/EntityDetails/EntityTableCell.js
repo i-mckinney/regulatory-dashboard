@@ -16,6 +16,9 @@ const entityTableCellStyles = makeStyles(() => ({
     fontSize: '0.75rem',
     display: 'inline-block',
   },
+  editedCell: {
+    backgroundColor: 'orange',
+  },
   editedField: {
     outline: 'none',
     '& input:focus': {
@@ -187,12 +190,21 @@ const EntityTableCell = ({
     return null
   }
 
+  // If changes are made, display background color for that cell 'orange'
+  // otherwise, display regular state of the cell
+  const editedState = () => {
+    if (saveChanges) {
+      return entityTableCellClasses.editedCell
+    }
+    return entityTableCellClasses.editedField
+  }
+
   // displayTableCell return jsx object of editable table cell or non-editable table cell
   const displayTableCell = () => {
     if (editable) {
       return (
         <TableCell 
-          className={entityTableCellClasses.editedField}
+          className={editedState()}
           onClick={handleDivChange}
           onKeyDown={handleDivChange}
           role="row"
