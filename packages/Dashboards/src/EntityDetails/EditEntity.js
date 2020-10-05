@@ -4,7 +4,7 @@ import { StylesProvider, makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../MockData/ReconcileDWMockData"
-import EntityTableCell from "./EntityTableCell"
+import HelixTableCell from "./HelixTableCell"
 import { HelixButton } from 'helixmonorepo-lib'
 import HelixTable from './HelixTable'
 import entities from '../api/entities'
@@ -200,11 +200,11 @@ const EditEntity = (props) => {
   const customCellRender = (rowIndex, row, column, columnIndex) => {
     const columnAccessor = column.Accessor
     if (columnIndex === 0) {
-      return <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnIndex]} editable={false}/>
+      return <HelixTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnIndex]} editable={false}/>
     }
     else {
       return (
-        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
+        <HelixTableCell key={`${rowIndex} ${columnAccessor}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
       )
     }
   }
