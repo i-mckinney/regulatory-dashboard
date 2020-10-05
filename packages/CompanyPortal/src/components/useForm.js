@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 
-
 /**
  * @param {Object} initialFieldValues the initial set form control values
+ * @param {Boolean} validateOnChange determines if form should be validated as the user types
+ * @param {Function} validate function for validation logic set at the form component level
  * @returns {Object} containing the values state object, setValues function, handleInputChange function and resetForm function
  */
-export function useForm(initialFieldValues) {
-  const [values, setValues] = useState(initialFieldValues);
+export function useForm(initialFValues, validateOnChange = false, validate) {
+  const [values, setValues] = useState(initialFValues);
+  const [errors, setErrors] = useState({});
 
   /**
    * @param {Object} e the event object
@@ -16,20 +18,27 @@ export function useForm(initialFieldValues) {
    */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    // Update the value of the form control from which the onChange function is triggered
     setValues({
       ...values,
       [name]: value,
     });
+    if (validateOnChange) validate({ [name]: value });
   };
 
   const resetForm = () => {
-    setValues(initialFieldValues);
+    setValues(initialFValues);
+    setErrors({});
   };
 
-  return { values, setValues, handleInputChange, resetForm };
+  return {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    resetForm,
+  };
 }
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +51,9 @@ const useStyles = makeStyles((theme) => ({
 
 export function Form(props) {
   const classes = useStyles();
+  const { children, ...other } = props;
   return (
-    <form className={classes.root} autoComplete='off'>
+    <form className={classes.root} autoComplete='off' {...other}>
       {props.children}
     </form>
   );

@@ -1,11 +1,11 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import UserForm from './UserForm'
-import users from '../apis/users'
-import { columnFields } from '../../config'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import UserForm from './UserForm';
+import users from '../apis/users';
+import { columnFields } from '../../config';
 
 // InitialUser with preset data
-const initialUser = {}
+const initialUser = {};
 columnFields.forEach((columnField) => {
     if ("Roles" === columnField) {
         initialUser[[columnField]] = []
@@ -20,22 +20,30 @@ columnFields.forEach((columnField) => {
  * routed at /user/new
  */
 const UserCreate = (props) => {
-    /**
-     * @param {object} user represent user object with props values that it will create 
-     */
-    const createUser = async (user) => {
-        user["createdAt"] = ""
-        user["updatedAt"] = ""
-        user["Actions"] = ""
-        await users.post("/users", user)
-        props.history.push("/users")
+  /**
+   * @param {object} user represent user object with props values that it will create
+   */
+  const createUser = async (user) => {
+    try {
+      user['createdAt'] = '';
+      user['updatedAt'] = '';
+      user['Actions'] = '';
+      await users.post('/users', user);
+      props.history.push('/users');
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    return (
+  return (
     <div>
-        <UserForm header="Create User" initialUser={initialUser} onSubmit={createUser} />
+      <UserForm
+        header='Create User'
+        initialUser={initialUser}
+        onSubmit={createUser}
+      />
     </div>
-    )
-}
+  );
+};
 
-export default withRouter(UserCreate)
+export default withRouter(UserCreate);
