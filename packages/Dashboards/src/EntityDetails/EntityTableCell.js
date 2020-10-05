@@ -208,7 +208,7 @@ const EntityTableCell = ({
     if (saveChanges) {
       return entityTableCellClasses.editedCell
     }
-    else if (currentStateValue !== originalValue) {
+    else if (value !== originalValue) {
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell

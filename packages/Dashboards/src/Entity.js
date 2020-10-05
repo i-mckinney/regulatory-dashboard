@@ -75,7 +75,7 @@ function Entity() {
             variant="contained"
             href="/editentity"
             color="default"
-            text={"Edit"}
+            text={"View Discrepancy"}
           />
         </td>
       ) 
