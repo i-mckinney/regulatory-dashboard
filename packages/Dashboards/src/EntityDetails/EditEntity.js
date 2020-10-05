@@ -115,6 +115,8 @@ const EditEntity = (props) => {
    */
   // const entityData = []
   const entityData = useMemo(() => [], [])
+
+  const originalSourceData = useMemo(() => [], [])
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -148,6 +150,9 @@ const EditEntity = (props) => {
         const row = entityField.values.map((value, valueIndex) => {
           const accessor = columns[valueIndex]["Accessor"]
           if (valueIndex) {
+            if (valueIndex === 1) {
+              originalSourceData.push(value.toString())
+            }
             entityData.push({
                 FieldName: label,
                 IsEdited: false,
@@ -164,6 +169,8 @@ const EditEntity = (props) => {
       })
     }
   }
+
+  console.log(originalSourceData)
 
   // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
@@ -197,7 +204,7 @@ const EditEntity = (props) => {
     }
     else {
       return (
-        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnIndex]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
+        <EntityTableCell key={`${rowIndex} ${columnAccessor}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
       )
     }
   }
