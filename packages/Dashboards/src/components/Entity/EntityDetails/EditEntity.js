@@ -3,11 +3,11 @@ import { withRouter } from "react-router-dom"
 import { StylesProvider, makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
-import { detailedInfo } from "../MockData/ReconcileDWMockData"
+import { detailedInfo } from "../../../MockData/ReconcileDWMockData"
 import HelixTableCell from "./HelixTableCell"
 import { HelixButton } from 'helixmonorepo-lib'
 import HelixTable from './HelixTable'
-import entities from '../api/entities'
+import entities from '../../../api/entities'
 
 // Styling used for MaterialUI
 const editEntityStyles = makeStyles(() => ({

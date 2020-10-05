@@ -1,6 +1,6 @@
 import React from "react"
-import { Styles } from "./ReactTable/AdminDashboardStyle"
-import AdminDashboard from "./ReactTable/AdminDashboard"
+import { Styles } from "../../ReactTable/AdminDashboardStyle"
+import AdminDashboard from "../../ReactTable/AdminDashboard"
 
 /** @return {JSX} Loan site
  * routed at /Loan

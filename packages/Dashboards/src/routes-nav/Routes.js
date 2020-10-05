@@ -1,12 +1,12 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
-import Homepage from "../homepage/Homepage"
-import Dashboard from "../Dashboard"
-import Entity from "../Entity"
-import EditEntity from "../EntityDetails/EditEntity"
-import Loan from "../Loan"
-import Regulatory from "../Regulatory"
-import MyRequest from "../MyRequest"
+import Homepage from "../components/Homepage/Homepage"
+import Dashboard from "../components/Dashboard/Dashboard"
+import Entity from "../components/Entity/Entity"
+import EditEntity from "../components/Entity/EntityDetails/EditEntity"
+import Loan from "../components/Loan/Loan"
+import Regulatory from "../components/Regulatory/Regulatory"
+import MyRequest from "../components/MyRequest/MyRequest"
 
 /** Site-wide routes.
  * Visiting a non-existant route redirects to the homepage.
