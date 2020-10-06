@@ -69,7 +69,7 @@ const HelixTable = ({
   
   /**
    * @param {object} event the event object contains user input
-   * Pass the user query input to searchFilter and it store which object matches the query
+   * Pass the user query input to searchFilter and it store which object matches the query 
    */
   const onSearch = (event) => {
     const { value } = event.target
@@ -93,12 +93,14 @@ const HelixTable = ({
                 console.log("Error Type", error)
                 return error
               }
-            }))
+            })
             .length > 0 
             ? true
             : false
+            )
           )
-    }})
+      }
+    })
   }
   
   return (
