@@ -28,14 +28,16 @@ export default function PerformTestCard() {
             <Controls.Select
               label='Request Method'
               options={apiCallService.getMethodCollection()}
+              width={true}
             />
           </Grid>
-          <Grid item md={9}>
+          <Grid item md={8} style={{ marginLeft: 'auto' }}>
             <Controls.Input
               // className={cardClasses.endpointInput}
               fullWidth
               label='API Endpoint'
               defaultValue='Default Value'
+              width={true}
             ></Controls.Input>
           </Grid>
         </Grid>

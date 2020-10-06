@@ -7,7 +7,6 @@ import RequestResponse from './RequestResponse';
 
 const ApiTestUiStyles = makeStyles({
   root: {
-    width: '75%',
     padding: 20,
   },
 });
