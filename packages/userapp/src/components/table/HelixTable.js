@@ -48,7 +48,7 @@ const helixTableStyles = makeStyles(() => ({
           borderBottom: 'none',
         },
     },
-  }
+  },
 }))
 
 /**
