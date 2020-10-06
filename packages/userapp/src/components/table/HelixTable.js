@@ -69,7 +69,7 @@ const HelixTable = ({
   
   /**
    * @param {object} event the event object contains user input
-   * Pass the user query input to searchFilter and it store which object matches the query 
+   * Pass the user query input to searchFilter and it store which object matches the query
    */
   const onSearch = (event) => {
     const { value } = event.target
@@ -77,17 +77,28 @@ const HelixTable = ({
         if (value === '') return rows
         else 
           return rows.filter((row) => 
-            (columns.filter((column) => 
-              row[column.Accessor]
-              .toLowerCase()
-              .includes(value.toLowerCase()))
-              .length > 0 
-              ? true
-              : false
-            )
+            (columns.filter((column) => {
+              const columnAccessor = column.Accessor
+              if (typeof(row[columnAccessor]) === 'string') {
+                return row[columnAccessor]
+                .toLowerCase()
+                .includes(value.toLowerCase())
+              }
+              try {
+                const assignedRoles = row[columnAccessor].reduce((result, roles) => {
+                  return `${result} ${roles}`.trim()
+                }, "")
+                return assignedRoles.toLowerCase().includes(value.toLowerCase())
+              } catch (error) {
+                console.log("Error Type", error)
+                return error
+              }
+            }))
+            .length > 0 
+            ? true
+            : false
           )
-      }
-    })
+    }})
   }
   
   return (
