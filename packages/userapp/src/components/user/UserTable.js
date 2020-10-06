@@ -185,7 +185,7 @@ const UserTable = (props) => {
     }
 
     // Initially, we can start the table to order by First Name, ascending order
-    const initialOrderBy = "FirstName"
+    const initialOrderBy = "Username"
 
     /**
      * @return jsx object of create icon in child component's toolbar
