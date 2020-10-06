@@ -5,19 +5,26 @@ import { Card, CardActions, CardContent, Grid } from '@material-ui/core';
 import Controls from '../controls/Controls';
 import * as apiCallService from '../../services/apiCallService';
 
-const useStyles = makeStyles({
+const CardStyles = makeStyles((theme) => ({
   root: {
+    padding: 20,
   },
-});
+  methodSelect: {
+    width: 400,
+  },
+  endpointInput: {
+    width: 400,
+  },
+}));
 
 export default function PerformTestCard() {
-  const classes = useStyles();
+  const cardClasses = CardStyles();
 
   return (
     <div>
-      <Card>
-        <h1>test interface</h1>
-        <Grid container spacing={1}>
+      <Card className={cardClasses.root}>
+        <h1>Perform Test</h1>
+        <Grid container spacing={2}>
           <Grid item md={3}>
             <Controls.Select
               label='Request Method'
@@ -26,6 +33,8 @@ export default function PerformTestCard() {
           </Grid>
           <Grid item md={9}>
             <Controls.Input
+              // className={cardClasses.endpointInput}
+              fullWidth
               label='API Endpoint'
               defaultValue='Default Value'
             ></Controls.Input>

@@ -3,18 +3,21 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Paper } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const ResponseStyles = makeStyles({
   root: {
-    width: '80%',
+    height: 500,
+    width: '75%',
+    margin: '0 auto',
+    paddingTop: 50,
   },
 });
 
 export default function RequestResponse() {
-  const classes = useStyles();
+  const responseClasses = ResponseStyles();
 
   return (
-    <div width='100%'>
-      <Paper variant='outlined' square width={1/2}>
+    <div className={responseClasses.root}>
+      <Paper variant='outlined' square width={1 / 2}>
         <div>
           <p>Request response goes here</p>
         </div>
