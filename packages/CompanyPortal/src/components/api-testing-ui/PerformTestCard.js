@@ -23,7 +23,6 @@ export default function PerformTestCard() {
   return (
     <div>
       <Card className={cardClasses.root}>
-        <h1>Perform Test</h1>
         <Grid container spacing={2}>
           <Grid item md={3}>
             <Controls.Select
