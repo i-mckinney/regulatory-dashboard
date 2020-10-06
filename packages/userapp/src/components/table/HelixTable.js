@@ -174,4 +174,8 @@ HelixTable.propTypes = {
   displayCreateIcon: PropTypes.func.isRequired,
 }
 
+HelixTable.defaultProps = {
+  initialOrderBy: '',
+}
+
 export default HelixTable
