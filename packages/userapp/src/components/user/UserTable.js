@@ -5,8 +5,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import HelixTable from '../table/HelixTable'
-// import { HelixTable } from 'helixmonorepo-lib'
+import { HelixTable } from 'helixmonorepo-lib'
 import users from '../apis/users'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
@@ -82,8 +81,6 @@ const UserTable = (props) => {
     const userTableClasses = userTableStyles()
 
     // rows will stores users from GET Method fetchUsers via Rest API 
-  // rows will stores users from GET Method fetchUsers via Rest API
-    // rows will stores users from GET Method fetchUsers via Rest API 
     const [rows, setRows] = useState([])
     
     // columns will store column header that we want to show in the front end
@@ -157,16 +154,27 @@ const UserTable = (props) => {
                 </TableCell>
             )
         }
-        return (
-            <TableCell key={`${rowIndex} ${columnAccessor}`}>
-                {row[columnAccessor]}
-            </TableCell>
-        )
+        else if (columnAccessor === "Roles") {
+            const assignedRoles = row[columnAccessor].reduce((result, roles, index) => {
+                return index ? `${result}, ${roles}`.trim() : `${result} ${roles}`.trim()
+            }, "")
+
+            return (
+                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                    {assignedRoles}
+                </TableCell>
+            )
+        }
+        else {
+            return (
+                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                    {row[columnAccessor]}
+                </TableCell>
+            )
+        }
     }
 
     /**
-     * @param {object} column represent object data regarding the api result  
-   * @param {object} column represent object data regarding the api result
      * @param {object} column represent object data regarding the api result  
      * @return {string} provide table row with unique key props (required)
      */
@@ -176,15 +184,13 @@ const UserTable = (props) => {
 
     /**
      * @param {object} row represent object data regarding the api result 
-   * @param {object} row represent object data regarding the api result
-     * @param {object} row represent object data regarding the api result 
      * @return {string} provide table row with unique key props (required)
      */
     const customBodyRowKeyProp = (row) => {
         return row._id
     }
 
-    // Initially, we can start the table to order by First Name, ascending order
+    // Initially, we can start the table to order by Username or First Name or etc in ascending order
     const initialOrderBy = "Username"
 
     /**
@@ -193,8 +199,6 @@ const UserTable = (props) => {
     const displayCreateUserIcon = () => {
         return (
             <IconButton
-            className={userTableClasses.createIconStyle} 
-        className={userTableClasses.createIconStyle}
             className={userTableClasses.createIconStyle} 
             color="primary"
             onClick={() => (props.history.push("/users/new"))}>
