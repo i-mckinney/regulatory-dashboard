@@ -17,7 +17,7 @@ const MicroserviceLoader = ({ name, host, history }) => {
       return
     }
 
-    fetch(`${host}/asset-manifest.json`)
+    fetch(`https://cors-anywhere.herokuapp.com/${host}/asset-manifest.json`)
       .then((res) => res.json())
       .then((manifest) => {
         const promises = Object.keys(manifest.files)
