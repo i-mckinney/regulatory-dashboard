@@ -24,6 +24,18 @@ export class User extends BaseEntity {
   @Column("integer", { nullable: true })
   age?: number;
 
+  @Field()
+  @Column("boolean", { nullable: true })
+  admin?: boolean;
+
+  @Field()
+  @Column("boolean", { nullable: true })
+  analyst?: boolean;
+
+  @Field()
+  @Column("boolean", { nullable: true })
+  supervisor?: boolean;
+
   @Column()
   password: string;
 }
