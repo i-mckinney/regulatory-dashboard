@@ -17,7 +17,9 @@ const MicroserviceLoader = ({ name, host, history }) => {
       return
     }
 
-    fetch(`${host}/asset-manifest.json`)
+    fetch(`${host}/asset-manifest.json` {
+      mode: 'no-cors' // 'cors' by default
+    })
       .then((res) => res.json())
       .then((manifest) => {
         const promises = Object.keys(manifest.files)
