@@ -7,7 +7,7 @@ import { detailedInfo } from "../../../MockData/ReconcileDWMockData"
 import HelixTableCell from "./HelixTableCell"
 import { HelixButton } from 'helixmonorepo-lib'
 import HelixTable from './HelixTable'
-import entities from '../../../api/entities'
+import entities from '../../apis/entities'
 
 // Styling used for MaterialUI
 const editEntityStyles = makeStyles(() => ({
