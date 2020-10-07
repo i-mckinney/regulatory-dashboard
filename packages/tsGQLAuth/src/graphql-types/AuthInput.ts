@@ -7,4 +7,12 @@ export class AuthInput {
 
   @Field()
   password: string;
+
+  @Field(() => Boolean, { defaultValue: false })
+  admin?: boolean | undefined;
+
+  @Field()
+  supervisor: boolean;
+
+  @Field()
 }
