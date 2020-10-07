@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ApiTable from './api-table/ApiTable';
-import ApiTestUi from './api-testing-ui/ApiTestUi'
+import ApiTestUi from './api-testing-ui/ApiTestUi';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
             <Route path='/client-api-table' exact component={ApiTable} />
           </Switch>
           <Switch>
-            <Route path='/api-test' exact component={ApiTestUi} />
+            <Route path='/client-api-test' exact component={ApiTestUi} />
           </Switch>
         </div>
       </BrowserRouter>
