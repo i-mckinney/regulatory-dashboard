@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
+import AssessmentIcon from '@material-ui/icons/Assessment'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable } from 'helixmonorepo-lib'
@@ -155,12 +156,15 @@ function Entity(props) {
         if (columnAccessor === "Actions") {
             return (
                 <TableCell className={entityClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
-                    <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/edit/`, state: row }))} color="default">
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/delete/`, state: row }))} color="secondary">
-                        <DeleteIcon />
-                    </IconButton>
+                  <IconButton aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/editentity`, state: row }))} color="default">
+                    <AssessmentIcon />
+                  </IconButton>
+                  <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/edit/`, state: row }))} color="default">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/delete/`, state: row }))} color="secondary">
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
             )
         }
