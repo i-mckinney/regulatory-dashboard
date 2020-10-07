@@ -90,6 +90,11 @@ function Entity(props) {
    * */
   const columns = React.useMemo(() => [
     {
+      Label: "_id",
+      Accessor: "_id",
+      Sortable: true,
+    },
+    {
       Label: "Relationship Name",
       Accessor: "RelationshipName",
       Sortable: true,
@@ -128,6 +133,7 @@ function Entity(props) {
 
   const rows = [
     {
+      _id: "1",
       RelationshipName: "Eric Jho",
       BorrowerName: "Eric Jho",
       BorrowerID: "3243262354",
@@ -136,6 +142,7 @@ function Entity(props) {
       RelationshipManager: "David Geisinger",
     },
     {
+      _id: "2",
       RelationshipName: "John Jill",
       BorrowerName: "John Jill",
       BorrowerID: "9873262354",
