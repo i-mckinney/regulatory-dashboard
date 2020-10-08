@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -54,7 +54,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs() {
+export default function SimpleTabs({
+  params,
+  setParams,
+  mapping,
+  setMapping,
+  headers,
+  setHeaders,
+  onSubmitRequest,
+}) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -64,7 +72,7 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static' style={{backgroundColor: 'black'}}>
+      <AppBar position='static' style={{ backgroundColor: 'black' }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -77,18 +85,21 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <CustomParams />
+        <CustomParams fields={params} onChange={setParams} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <CustomHeaders />
+        <CustomHeaders fields={headers} onChange={setHeaders} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <CustomBody />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <CustomMapping />
+        <CustomMapping fields={mapping} onChange={setMapping} />
       </TabPanel>
-      <Controls.Button text='SEND REQUEST'></Controls.Button>
+      <Controls.Button
+        text='SEND REQUEST'
+        onClick={onSubmitRequest}
+      ></Controls.Button>
     </div>
   );
 }

@@ -25,7 +25,7 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
       setLoading(false);
     };
     if (open) {
-      testRequest();
+      //testRequest();
     }
   }, [requestData, open]);
 
@@ -43,7 +43,7 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
         <CircularProgress />
       ) : (
         <div>
-          <ApiTestUi/>
+          <ApiTestUi data={requestData}/>
           {/* <pre>{JSON.stringify(testResponse, null, 2)}</pre> */}
         </div>
       )}

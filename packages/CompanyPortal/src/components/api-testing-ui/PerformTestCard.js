@@ -17,7 +17,7 @@ const CardStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PerformTestCard() {
+export default function PerformTestCard({ method, url, setMethod, setUrl }) {
   const cardClasses = CardStyles();
 
   return (
@@ -29,6 +29,8 @@ export default function PerformTestCard() {
               label='Request Method'
               options={apiCallService.getMethodCollection()}
               width={true}
+              value={method}
+              onChange={(e) => setMethod(e.target.value)}
             />
           </Grid>
           <Grid item md={8} style={{ marginLeft: 'auto' }}>
@@ -38,6 +40,8 @@ export default function PerformTestCard() {
               label='API Endpoint'
               defaultValue='Default Value'
               width={true}
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
             ></Controls.Input>
           </Grid>
         </Grid>

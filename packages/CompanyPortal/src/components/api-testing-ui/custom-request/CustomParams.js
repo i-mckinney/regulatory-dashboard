@@ -3,25 +3,24 @@ import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 import CancelIcon from '@material-ui/icons/Cancel';
+
 import { v4 as uuidv4 } from 'uuid';
 
 import Controls from '../../controls/Controls';
 
-export default function CustomParams() {
-  const [fields, setFields] = useState([uuidv4()]);
+const createNewField = () => ({ id: uuidv4(), key: '', value: '' });
 
+export default function CustomParams({ fields, onChange }) {
   useEffect(() => {
-    console.log('fields', fields.length);
-  }, [fields]);
+    onChange(fields);
+  }, [fields, onChange]);
 
   const handleFieldIncrement = () => {
-    setFields((prevValue) => [...prevValue, uuidv4()]);
+    onChange([...fields, createNewField()]);
   };
 
   const removeField = (id) => {
-    let getFields = [...fields];
-    getFields = getFields.filter((f) => f !== id);
-    setFields(getFields);
+    onChange(fields.filter((f) => f.id !== id));
   };
 
   return (
@@ -38,13 +37,23 @@ export default function CustomParams() {
         </Grid>
 
         {fields.map((f, i) => {
+          const onFieldChange = (fieldName) => (e) =>
+            onChange(
+              fields.map((otherField) =>
+                otherField.id === f.id
+                  ? { ...otherField, [fieldName]: e.target.value }
+                  : otherField
+              )
+            );
           return (
-            <Grid container spacing={2} key={f}>
+            <Grid container spacing={2} key={f.id}>
               <Grid item md={5}>
                 <Controls.Input
                   label='Key'
                   defaultValue='Default Value'
                   width={true}
+                  value={f.key}
+                  onChange={onFieldChange('key')}
                 ></Controls.Input>
               </Grid>
               <Grid item md={5}>
@@ -52,10 +61,12 @@ export default function CustomParams() {
                   label='Value'
                   defaultValue='Default Value'
                   width={true}
+                  value={f.value}
+                  onChange={onFieldChange('value')}
                 ></Controls.Input>
               </Grid>
               <Grid style={{ display: 'flex', alignItems: 'center' }}>
-                <CancelIcon onClick={() => removeField(f)} />
+                <CancelIcon onClick={() => removeField(f.id)} />
               </Grid>
             </Grid>
           );
