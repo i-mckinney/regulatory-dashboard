@@ -5,7 +5,7 @@ export const sortableExcludes = ["_id", "Actions"]
 export const columnExcludes = []
 
 // columnFields is array of fields that UserForm will have 
-export const columnFields = ["AccountNumber", "BorrowerID", "BorrowerName", "RelationshipManager", "LoanType"]
+export const columnFields = ["relationshipName", "borrowerName", "borrowerID", "tin", "relationshipManager", "company_Id"]
 
 // columnLabels is array of label name that correspondings to columnFields EXCEPT _id (primary key)
 // PRIMARY KEY must be FIRST in the array (required)
@@ -13,5 +13,5 @@ export const columnFields = ["AccountNumber", "BorrowerID", "BorrowerName", "Rel
 // (1) User Created ( refers to "createdAt" (mongodb semantics) )
 // (2) User Updated ( refers to replaces "updatedAt" (mongodb semantics) )
 // (3) Actions
-export const columnLabels = ["_id","Account Number", "Borrower ID", "Borrower Name", "Relationship Manager", "Loan Type", "Actions"]
+export const columnLabels = ["_id","Relationship Name", "Borrower Name", "Borrower ID", "TIN", "Relationship Manager", "Company ID", "Entity Created", "Entity Updated", "Actions"]
 

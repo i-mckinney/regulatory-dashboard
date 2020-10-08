@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
@@ -7,6 +7,8 @@ import AssessmentIcon from '@material-ui/icons/Assessment'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable } from 'helixmonorepo-lib'
+import entities from '../apis/entities'
+import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
 // Styling used for MaterialUI
 const entityStyles = makeStyles(() => ({
@@ -88,69 +90,60 @@ function Entity(props) {
    * filter -> includes (tells react table to show values that matches the value in the select field)
    * Filter not given -> will use global filter
    * */
-  const columns = React.useMemo(() => [
-    {
-      Label: "_id",
-      Accessor: "_id",
-      Sortable: true,
-    },
-    {
-      Label: "Relationship Name",
-      Accessor: "RelationshipName",
-      Sortable: true,
-    },
-    {
-      Label: "Borrower Name",
-      Accessor: "BorrowerName",
-      Sortable: true,
-    },
-    {
-      Label: "Borrower ID",
-      Accessor: "BorrowerID",
-      Sortable: true,
-    },
-    {
-      Label: "TIN",
-      Accessor: "TIN",
-      Sortable: true,
-    },
-    {
-      Label: "Account #",
-      Accessor: "AccountNumber",
-      Sortable: true,
-    },
-    {
-      Label: "Relationship Manager",
-      Accessor: "RelationshipManager",
-      Sortable: true,
-    },
-    {
-      Label: "Actions",
-      Accessor: "Actions",
-      Sortable: false,
-    },
-  ], [])
+  // rows will stores users from GET Method fetchUsers via Rest API 
+  const [rows, setRows] = useState([])
+    
+  // columns will store column header that we want to show in the front end
+  const columns = useMemo(() => [], [])
 
-  const rows = [
-    {
-      _id: "1",
-      RelationshipName: "Eric Jho",
-      BorrowerName: "Eric Jho",
-      BorrowerID: "3243262354",
-      TIN: "L2343243",
-      AccountNumber: "3234-1235125325-324",
-      RelationshipManager: "David Geisinger",
-    },
-    {
-      _id: "2",
-      RelationshipName: "John Jill",
-      BorrowerName: "John Jill",
-      BorrowerID: "9873262354",
-      TIN: "L2143253",
-      AccountNumber: "1234-1235125325-321",
-      RelationshipManager: "Michael Mike",
-    },
-  ]
+  if (rows.length !== 0) {
+      const headerColumns = Object.keys(rows[0])
+      headerColumns.forEach((key, index) => {
+        console.log(key, index)
+          if (!columnExcludes.includes(key)) {
+              columns.push({
+              Label: columnLabels[index],
+              Accessor: key,
+              Sortable: sortableExcludes.includes(key) ? false : true,
+              })
+          }
+      })
+  }
+
+  /**
+   * @param {object} entity represent object of entity with particular props
+   * @param {string} accessor represents the accessor which user with acessor can access the property value
+   */
+  const isoToDate = (entity, accessor) => {
+      const strDate = entity[accessor];
+      entity[accessor] = strDate.substring(0, 10)
+  }
+
+  /**
+   * Renders only when it is mounted at first
+   * It will fetchUsers whenever UserTable loads
+   */
+  useEffect(() => {
+      
+      /**
+       * fetchEntities calls backend api through get protocol to get all the entities
+       */
+      const fetchEntities = async () => {
+          const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entities")
+
+          response.data.forEach((entity) => {
+              if (entity["createdAt"] !== undefined) {
+                  isoToDate(entity, "createdAt")
+              }
+              if (entity["updatedAt"] !== undefined) {
+                  isoToDate(entity, "updatedAt")
+              }
+          })
+          setRows(response.data)
+      }
+
+      fetchEntities()
+  }, [columns])
 
     /**
      * @param {int} rowIndex represents row index
@@ -223,7 +216,7 @@ function Entity(props) {
               <div className={entityClasses.header}>
                   <Typography variant="h5">Entity</Typography>
               </div>
-              <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+              <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             </div>
         </StylesProvider>
     )
