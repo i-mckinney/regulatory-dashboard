@@ -47,7 +47,7 @@ const entityDeleteStyles = makeStyles(() => ({
         background: "#fff",
         fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
     },
-    username: {
+    fontSpan: {
         fontWeight: "700",
     },
     actions: {
@@ -75,7 +75,7 @@ const EntityDelete = (props) => {
      */
     const deleteEntity = async () => {
         const id = props.location.state._id
-        await entities.delete(`/entity/${id}`)
+        await entities.delete(`/5f7e1bb2ab26a664b6e950c8/entities/${id}`)
         props.history.push("/entity")
     }
 
@@ -84,8 +84,8 @@ const EntityDelete = (props) => {
      */
     const displayEntity = () => {
         return (
-            <span className={entityDeleteClasses.BorrowerName}>
-                {` ${props.location.state.BorrowerName}`}
+            <span className={entityDeleteClasses.fontSpan}>
+                {` ${props.location.state.borrowerName}-${props.location.state.borrowerID}`}
             </span>
         )
     }
