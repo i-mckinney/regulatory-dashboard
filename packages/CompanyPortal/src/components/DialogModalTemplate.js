@@ -39,6 +39,7 @@ export default function DialogModalTemplate(props) {
       maxWidth='md'
       className={modalDialogClasses.dialogWrapper}
       onClose={onClose}
+      fullWidth
     >
       <DialogTitle className={modalDialogClasses.dialogTitle}>
         <div style={{ display: 'flex' }}>
