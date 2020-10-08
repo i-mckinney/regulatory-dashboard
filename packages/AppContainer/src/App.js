@@ -7,12 +7,12 @@ import MicroserviceLoader from "./MicroserviceLoader"
 import Header from "./Components/Header/Header"
 import containerAppUseStyles from "./ContainerStyles"
 
-//rebuild
 const {
   REACT_APP_DASHBOARD_HOST: dashboardHost,
   REACT_APP_COMPANY_VIEW_HOST: companyViewHost,
   REACT_APP_USER_HOST: userHost,
   REACT_APP_LOGIN_HOST: loginViewHost,
+  REACT_APP_NONEXISTENT_HOST: REACT_APP_NONEXISTENT_HOST
 } = process.env;
 
 const Dashboard = ({ history }) => (
