@@ -7,6 +7,7 @@ import MicroserviceLoader from "./MicroserviceLoader"
 import Header from "./Components/Header/Header"
 import containerAppUseStyles from "./ContainerStyles"
 
+//rebuild
 const {
   REACT_APP_DASHBOARD_HOST: dashboardHost,
   REACT_APP_COMPANY_VIEW_HOST: companyViewHost,
