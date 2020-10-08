@@ -212,7 +212,7 @@ function Entity(props) {
                 <AddBoxIcon fontSize="large" />
             </IconButton>
             <IconButton
-            onClick={() => (props.history.push("/entity/entityConfiguration"))}>
+            onClick={() => (props.history.push("/entity/configuration"))}>
                 <SettingsIcon fontSize="large" />
             </IconButton>
             

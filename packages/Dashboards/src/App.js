@@ -7,6 +7,7 @@ import Discrepancy from "./components/entity/EntityDiscrepancy"
 import Loan from "./components/loan/Loan"
 import Regulatory from "./components/regulatory/Regulatory"
 import MyRequest from "./components/myrequest/MyRequest"
+import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
@@ -27,6 +28,10 @@ function App(history) {
 
             <Route exact path="/entity">
               <Entity />
+            </Route>
+
+            <Route exact path="/entity/configuration">
+              <EntityConfiguration />
             </Route>
 
             <Route exact path="/entity/new">
