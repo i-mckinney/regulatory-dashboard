@@ -15,6 +15,7 @@ server.use(body_parser.json());
 
 const port = config.port || 4005;
 
+server.use(cors())
 server.use("/", companyRouter);
 
 server.listen(port, () => {
