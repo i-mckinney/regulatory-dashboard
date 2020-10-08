@@ -61,7 +61,7 @@ const App = () => {
         >
           <div className={topContainerClasses.sideNavDrawerHeader} />
           <Switch>
-            <Route exact path='/' component={Dashboard} />
+            <Route exact path='/' component={LoginView} />
             <Route exact path="/home" component={Dashboard} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/company" component={CompanyView} />
