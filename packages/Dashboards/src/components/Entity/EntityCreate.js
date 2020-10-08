@@ -20,7 +20,11 @@ const EntityCreate = (props) => {
      * @param {object} user represent entity object with props values that it will create 
      */
     const createEntity = async (entity) => {
-        await entities.post("/entity", entity)
+        entity["company_id"] = ""
+        entity["createdAt"] = ""
+        entity["updatedAt"] = ""
+        entity["Actions"] = ""
+        await entities.post("/5f7e1bb2ab26a664b6e950c8/entities", entity)
         props.history.push("/entity")
     }
 

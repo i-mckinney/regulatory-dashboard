@@ -114,7 +114,7 @@ const EntityForm = ({ initialEntity, header, onSubmit}) => {
                 variant="contained"
                 type="cancel"
                 size="small"
-                href="/users"
+                href="/entity"
                 startIcon={<CancelIcon />}
                 text="Cancel" />
             </>

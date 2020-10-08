@@ -99,14 +99,14 @@ function Entity(props) {
   if (rows.length !== 0) {
       const headerColumns = Object.keys(rows[0])
       headerColumns.forEach((key, index) => {
-        console.log(key, index)
-          if (!columnExcludes.includes(key)) {
-              columns.push({
-              Label: columnLabels[index],
-              Accessor: key,
-              Sortable: sortableExcludes.includes(key) ? false : true,
-              })
-          }
+        console.log(!columnExcludes.includes(key), key, index)
+        if (!columnExcludes.includes(key)) {
+            columns.push({
+            Label: columnLabels[index],
+            Accessor: key,
+            Sortable: sortableExcludes.includes(key) ? false : true,
+            })
+        }
       })
   }
 
@@ -190,7 +190,7 @@ function Entity(props) {
      * @return {string} provide table row with unique key props (required)
      */
     const customBodyRowKeyProp = (row) => {
-        return row.RelationshipName
+        return row._id
     }
 
     // Initially, we can start the table to order by Relationship Name or Borrower Name or etc in ascending order
