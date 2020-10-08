@@ -4,7 +4,6 @@ import PropTypes from "prop-types"
 import clsx from "clsx"
 import { useTheme, CssBaseline } from "@material-ui/core"
 import MicroserviceLoader from "./MicroserviceLoader"
-import SpogPage from "./Components/Spog/SpogPage"
 import Header from "./Components/Header/Header"
 import containerAppUseStyles from "./ContainerStyles"
 
@@ -61,8 +60,7 @@ const App = () => {
         >
           <div className={topContainerClasses.sideNavDrawerHeader} />
           <Switch>
-            <Route exact path='/' component={LoginView} />
-            <Route exact path='/spogpage' component={SpogPage} />
+            <Route exact path='/' component={Dashboard} />
             <Route exact path="/home" component={Dashboard} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/company" component={CompanyView} />
