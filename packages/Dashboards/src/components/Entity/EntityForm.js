@@ -7,7 +7,7 @@ import { columnFields, columnLabels } from '../../config'
 
 // Styling used for MaterialUI
 const entityFormStyles = makeStyles(() => ({
-    userFormStyle: {
+    entityFormStyle: {
         marginTop: '8rem',
         width: '50%',
         margin: 'auto',
@@ -48,7 +48,7 @@ const EntityForm = ({ initialEntity, header, onSubmit}) => {
     const [entity, setEntity] = useState(initialEntity)
     
     // Perform error check for form validatation upon user data
-    const [error, setError] = useState(entityError)
+    const [error] = useState(entityError)
 
     // Creates an object for styling. Any className that matches key in the userFormStyles object will have a corresponding styling
     const entityFormClasses = entityFormStyles()
@@ -61,46 +61,6 @@ const EntityForm = ({ initialEntity, header, onSubmit}) => {
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setEntity({ ...entity, [name]: value })
-        validation(name, value)
-    }
-
-
-    /**
-     * 
-     * @param {string} name  the name property on the target text field element
-     * @param {string} value the value property on the target text field element as user input text
-     * @param {string} label the label is used for logging errors
-     */
-    const validate = (name, value, label) => {
-        if(name === "Phone" && 0 < value.length && value.length < 10) {
-            setError({ ...error, [name]: `${label} must be length of 10` })
-        }
-        else if((name === "FirstName" || name === "LastName") && value.length === 0) {
-            setError({ ...error, [name]: `${label} cannot be empty` })
-        }
-        else {
-            setError({ ...error, [name]: "" })
-        }
-    }
-
-    /**
-     * @param {string} name represent accessor of the object
-     * @param {string} value represent the keyboard input value from the event object
-     */
-    const validation = (name, value) => {
-        switch(name) {
-            case "FirstName":
-                validate(name, value, "First Name")
-                break
-            case "LastName":
-                validate(name, value, "Last Name")
-                break
-            case "Phone":
-                validate(name, value, "Phone")
-                break
-            default:
-                break
-        }
     }
 
     /**
@@ -126,7 +86,7 @@ const EntityForm = ({ initialEntity, header, onSubmit}) => {
             description={label}
             name={name}
             label={label}
-            value={user[[name]]}
+            value={entity[[name]]}
             placeholder={placeholder}
             helperText={error[[name]]}
             required={required}
@@ -163,7 +123,7 @@ const EntityForm = ({ initialEntity, header, onSubmit}) => {
 
     return (
     <div>
-        <form className={entityFormClasses.userFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
+        <form className={entityFormClasses.entityFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
             <Grid container
                 direction="row"
                 justify="flex-start"
