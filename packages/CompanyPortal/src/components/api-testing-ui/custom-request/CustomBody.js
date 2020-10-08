@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardActions, CardContent, Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+
 import Controls from '../../controls/Controls';
 import * as apiCallService from '../../../services/apiCallService';
 
@@ -16,6 +17,7 @@ export default function CustomBody() {
 
   return (
     <div>
+      <Typography>Use this tab to set a custom request body</Typography>
       <Grid container spacing={2}>
         <Grid item md={6}>
           <Controls.RadioGroup

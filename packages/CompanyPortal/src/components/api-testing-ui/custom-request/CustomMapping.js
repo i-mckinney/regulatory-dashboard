@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Grid } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-
+import { Grid, Typography } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { v4 as uuidv4 } from 'uuid';
 
 import Controls from '../../controls/Controls';
 
-export default function CustomParams() {
+export default function CustomMapping() {
   const [fields, setFields] = useState([uuidv4()]);
 
   useEffect(() => {
@@ -26,8 +24,10 @@ export default function CustomParams() {
 
   return (
     <div>
+      <Typography>
+        Use this tab to map data values from external sources
+      </Typography>
       <div style={{ marginBottom: '12px' }}>
-        <Typography>Use this tab to set custom request params</Typography>
         <Grid container spacing={0}>
           <Grid item md={5}>
             <h4>Key</h4>
