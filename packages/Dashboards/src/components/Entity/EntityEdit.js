@@ -12,12 +12,14 @@ const EntityEdit = (props) => {
     const entity = { ...props.location.state }
     const id = entity._id
     delete entity._id
+    delete entity.company_id
+
 
     /**
      * @param {object} editedUser represent object with edited entity props values
      */
     const editEntity = async (editedEntity) => {
-        await entities.put(`/entity/${id}`, editedEntity)
+        await entities.put(`/5f7e1bb2ab26a664b6e950c8/entities/${id}`, editedEntity)
         props.history.push("/entity")
     }
 
