@@ -5,16 +5,16 @@ import UserCreate from './user/UserCreate'
 import UserEdit from './user/UserEdit'
 import UserDelete from './user/UserDelete'
 import { createGenerateClassName } from '@material-ui/core/styles'
-import { JssProvider } from 'react-jss'
+import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
 
 const generateClassName = createGenerateClassName({
-  productionPrefix: "userapp-"
+  productionPrefix: 'userapp-',
 });
 
 function App() {
   return (
     <div className="ui container">
-      <JssProvider generateClassName={generateClassName}>
+      <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
           <div>
             <Switch>
@@ -25,7 +25,7 @@ function App() {
             </Switch>
           </div>
         </BrowserRouter>
-      </JssProvider>
+      </StylesProvider>
     </div>
   );
 }
