@@ -1,48 +1,60 @@
 {
-  "name": "regulatoryreactapp",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "bootstrap": "^4.5.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "react-table": "^7.5.0",
-    "reactstrap": "^8.5.1",
-    "styled-components": "^5.1.1"
+  "name": "helixmonorepo",
+  "version": "0.2.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i-mckinney/helixmonorepo.git"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "author": "Helix Consulting Partners",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/i-mckinney/helixmonorepo/issues"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "homepage": "https://github.com/i-mckinney/helixmonorepo#readme",
+  "description": "",
   "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "auto": "^9.52.0",
+    "babel-loader": "^8.1.0",
+    "bootstrap": "^4.5.2",
+    "clsx": "^1.1.1",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
+    "express": "^4.17.1",
+    "formik": "^2.1.5",
+    "history": "^5.0.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
-    "prettier": "^2.0.5"
+    "mongodb": "^3.6.2",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-app-rewired": "^2.1.6",
+    "react-dom": "^16.13.1",
+    "react-is": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.3",
+    "react-table": "^7.5.0",
+    "reactstrap": "^8.6.0",
+    "styled-components": "^5.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "lerna bootstrap && lerna run build --parallel && lerna run start-dev"
   }
 }

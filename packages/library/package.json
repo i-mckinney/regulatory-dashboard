@@ -1,0 +1,55 @@
+{
+  "name": "helixmonorepo-lib",
+  "version": "1.0.10",
+  "description": "> library of shared components",
+  "author": "ian.mckinney <baseballrocks@gmail.com>",
+  "homepage": "https://github.com/i-mckinney/helixmonorepo/tree/master/packages/library#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i-mckinney/helixmonorepo.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "start-storybook": "npm install && start-storybook -p 6006",
+    "build": "npm install && npx babel src --out-dir lib --ignore \"src/**/*.stories.js\",\"src/**/*.stories.mdx\"",
+    "prepare": "npx babel src --out-dir lib --ignore \"src/**/*.stories.js\",\"src/**/*.stories.mdx\""
+  },
+  "bugs": {
+    "url": "https://github.com/i-mckinney/helixmonorepo/issues"
+  },
+  "peerDependencies": {
+    "@material-ui/core": "^4.11.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@storybook/addon-actions": "^6.0.21",
+    "@storybook/addon-docs": "^6.0.21",
+    "@storybook/addon-essentials": "^6.0.21",
+    "@storybook/addon-knobs": "^6.0.21",
+    "@storybook/addon-links": "^6.0.21",
+    "@storybook/react": "^6.0.21",
+    "@storybook/theming": "^6.0.21",
+    "auto": "^9.52.0",
+    "babel-loader": "^8.1.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-is": "^16.13.1"
+  },
+  "gitHead": "a687eb72fe9779573e29019177d0dabf549b7992"
+}

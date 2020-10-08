@@ -1,0 +1,19 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "version": "1.0.10",
+  "command": {
+    "bootstrap": {
+      "ignore": "helixmonorepo-lib",
+      "nohoist": [
+        "@storybook/addon-actions",
+        "@storybook/addon-docs",
+        "@storybook/addon-essentials",
+        "@storybook/addon-knobs",
+        "@storybook/addon-links",
+        "@storybook/react"
+      ]
+    }
+  }
+}
