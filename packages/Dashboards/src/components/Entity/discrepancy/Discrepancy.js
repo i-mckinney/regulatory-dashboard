@@ -10,7 +10,7 @@ import HelixTable from './HelixTable'
 import entities from '../../apis/entities'
 
 // Styling used for MaterialUI
-const editEntityStyles = makeStyles(() => ({
+const discrepancyStyles = makeStyles(() => ({
   medium: {
     margin: 'auto',
     marginTop: '1rem',
@@ -86,12 +86,12 @@ const editEntityStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history property to route back Entity site
- * @return {JSX} EditEntity site
- * routed at /EditEntity
+ * @return {JSX} Discrepancy site
+ * routed at /Discrepancy
  */
-const EditEntity = (props) => {
-  // Creates an object for styling. Any className that matches key in the editEntityClasses object will have a corresponding styling
-  const editEntityClasses = editEntityStyles();
+const Discrepancy = (props) => {
+  // Creates an object for styling. Any className that matches key in the discrepancyStyles object will have a corresponding styling
+  const discrepancyClasses = discrepancyStyles();
 
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], [])
@@ -144,6 +144,7 @@ const EditEntity = (props) => {
     fetchAggregatedSourceSystemsData()
   } else {
     if (columns.length === 0) {
+      console.log(data)
       data.TableHeaders.forEach((header) => columns.push(header))
       data.TableData.forEach((entityField) => {
         const label = entityField.key_config["display"]
@@ -224,7 +225,7 @@ const EditEntity = (props) => {
 
   return (
     <StylesProvider injectFirst>
-      <div className={`container ${editEntityClasses.medium}`}>
+      <div className={`container ${discrepancyClasses.medium}`}>
         <EntityCard
           RecordLabel={detailedInfo.RecordLabel}
           SystemOfRecord={detailedInfo.SystemOfRecord}
@@ -239,14 +240,14 @@ const EditEntity = (props) => {
         customBodyRowKeyProp={customBodyRowKeyProp} 
         customHeadColumnKeyProp={customHeadColumnKeyProp} 
         />
-        <div className={editEntityClasses.pageProgression}>
+        <div className={discrepancyClasses.pageProgression}>
           <HelixButton
-            className={editEntityClasses.cancelButton}
+            className={discrepancyClasses.cancelButton}
             onClick={handleBackButton}
             text="Back"
           />
           <HelixButton 
-          className={editEntityClasses.confirmButton} 
+          className={discrepancyClasses.confirmButton} 
           onClick={handleConfirmButton} 
           text="Confirm" />
         </div>
@@ -255,8 +256,8 @@ const EditEntity = (props) => {
   )
 }
 
-EditEntity.propTypes = {
+Discrepancy.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 }
 
-export default withRouter(EditEntity)
+export default withRouter(Discrepancy)

@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect  } from "react-router-dom"
 import Homepage from "./components/Homepage/Homepage"
 import Dashboard from "./components/Dashboard/Dashboard"
 import Entity from "./components/Entity/Entity"
-import EditEntity from "./components/Entity/EntityDetails/EditEntity"
+import Discrepancy from "./components/Entity/discrepancy/Discrepancy"
 import Loan from "./components/Loan/Loan"
 import Regulatory from "./components/Regulatory/Regulatory"
 import MyRequest from "./components/MyRequest/MyRequest"
@@ -42,7 +42,7 @@ function App(history) {
             </Route>
 
             <Route exact path="/editentity">
-              <EditEntity />
+              <Discrepancy />
             </Route>
 
             <Route exact path="/loan">
