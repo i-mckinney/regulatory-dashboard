@@ -1,36 +1,17 @@
-const path = require('path');
-
 module.exports = {
-  webpack: {
-    alias: {},
-    plugins: [],
-    configure: {
-      entry: {
-        main: ['@babel/polyfill', path.resolve('.', 'src', 'index.js')]
-      },
-      resolve: {
-        alias: {
-          src: path.resolve('.', 'src')
+  babel: {
+    plugins: [[
+      "transform-imports",
+      {
+        "@material-ui/core": {
+          "transform": "@material-ui/core/${member}",
+          "preventFullImport": true
         },
-        extensions: ['*', '.js', '.jsx']
-      },
-      output: {
-        path: path.resolve('.', 'build'),
-        filename: 'userapp.js',
-        publicPath: '/public/',
-        library: 'userapp',
-        libraryTarget: 'window'
-      },
-      module: {
-        rules: [
-          {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader'
-          }
-        ]
+        "@material-ui/icons": {
+          "transform": "@material-ui/icons/${member}",
+          "preventFullImport": true
+        }
       }
-    },
-    configure: (webpackConfig, { env, paths }) => { return webpackConfig; }
+    ]]
   },
 };
