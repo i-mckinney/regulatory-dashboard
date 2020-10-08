@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
+import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import EditIcon from '@material-ui/icons/Edit'
@@ -204,12 +205,18 @@ function Entity(props) {
      */
     const displayCreateUserIcon = () => {
         return (
+          <span className={entityClasses.createIconStyle}>
             <IconButton
-            className={entityClasses.createIconStyle}
             color="primary"
             onClick={() => (props.history.push("/entity/new"))}>
                 <AddBoxIcon fontSize="large" />
             </IconButton>
+            <IconButton
+            onClick={() => (props.history.push("/entity/entityConfiguration"))}>
+                <SettingsIcon fontSize="large" />
+            </IconButton>
+            
+          </span>
         )
     }
 
