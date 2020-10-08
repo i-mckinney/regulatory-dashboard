@@ -70,6 +70,9 @@ const entityStyles = makeStyles(() => ({
           cursor: 'pointer',
       },
   },
+  discrepancyButton: {
+    color: 'green'
+  },
 }))
 
 /** @return {JSX} Entity site
@@ -156,7 +159,7 @@ function Entity(props) {
         if (columnAccessor === "Actions") {
             return (
                 <TableCell className={entityClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
-                  <IconButton aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/editentity`, state: row }))} color="default">
+                  <IconButton className={entityClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/editentity`, state: row }))}>
                     <AssessmentIcon />
                   </IconButton>
                   <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/edit/`, state: row }))} color="default">
