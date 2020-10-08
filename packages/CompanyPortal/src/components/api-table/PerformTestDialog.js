@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import DialogModalTemplate from '../DialogModalTemplate';
+import ApiTestUi from '../api-testing-ui/ApiTestUi';
 
 //const BASE_URL = 'http://localhost:4005/customapi';
 
@@ -32,13 +33,18 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
     return null;
   }
   return (
-    <DialogModalTemplate title='API Test Response:' open={open} onClose={onClose}>
-      <h3>{`Request Name: ${requestData.requestName}`}</h3>
+    <DialogModalTemplate
+      title='Perform an API Test:'
+      open={open}
+      onClose={onClose}
+    >
+      <h3>{`${requestData.requestName}`}</h3>
       {loading ? (
         <CircularProgress />
       ) : (
         <div>
-          <pre>{JSON.stringify(testResponse, null, 2)}</pre>
+          <ApiTestUi/>
+          {/* <pre>{JSON.stringify(testResponse, null, 2)}</pre> */}
         </div>
       )}
     </DialogModalTemplate>
