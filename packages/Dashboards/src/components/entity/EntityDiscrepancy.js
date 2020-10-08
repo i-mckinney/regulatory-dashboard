@@ -3,11 +3,11 @@ import { withRouter } from "react-router-dom"
 import { StylesProvider, makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
-import { detailedInfo } from "../../../MockData/ReconcileDWMockData"
-import HelixTableCell from "./HelixTableCell"
+import { detailedInfo } from "../../MockData/ReconcileDWMockData"
+import HelixTable from './tablediscrepancy/HelixTable'
+import HelixTableCell from './tablediscrepancy/HelixTableCell'
 import { HelixButton } from 'helixmonorepo-lib'
-import HelixTable from './HelixTable'
-import entities from '../../apis/entities'
+import entities from '../apis/entities'
 
 // Styling used for MaterialUI
 const discrepancyStyles = makeStyles(() => ({
@@ -136,7 +136,7 @@ const Discrepancy = (props) => {
 
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
-    const response = await entities.get("/entities/d765dd56-203a-4206-98c7-ab2d374e842c/aggregated")
+    const response = await entities.get("/entities/08a471f9-6daf-4a85-bab4-be44f415421c/aggregated")
     setData(response.data)
   }
 
