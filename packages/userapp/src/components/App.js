@@ -4,27 +4,17 @@ import UserTable from './user/UserTable'
 import UserCreate from './user/UserCreate'
 import UserEdit from './user/UserEdit'
 import UserDelete from './user/UserDelete'
-import jss from 'jss'
-import { StylesProvider } from '@material-ui/core/styles'
+import { createGenerateClassName } from '@material-ui/core/styles'
+import { JssProvider } from 'react-jss'
 
-const styleNode = document.createComment('jss-insertion-point');
-document.head.insertBefore(styleNode, document.head.firstChild);
-
-const createGenerateId = () => {
-  let counter = 0
-
-  return (rule, sheet) => `userApp--${rule.key}-${counter++}`
-}
-
-jss.setup({
-  createGenerateId,
-  insertionPoint: document.getElementById('insertion-point')
-})
+const generateClassName = createGenerateClassName({
+  productionPrefix: "userapp-"
+});
 
 function App() {
   return (
     <div className="ui container">
-      <StylesProvider jss={jss}>
+      <JssProvider generateClassName={generateClassName}>
         <BrowserRouter>
           <div>
             <Switch>
@@ -35,7 +25,7 @@ function App() {
             </Switch>
           </div>
         </BrowserRouter>
-      </StylesProvider>
+      </JssProvider>
     </div>
   );
 }
