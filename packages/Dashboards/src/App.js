@@ -38,15 +38,15 @@ function App(history) {
               <EntityCreate />
             </Route>
 
-            <Route exact path="/entity/edit">
+            <Route exact path="/entity/edit/:id">
               <EntityEdit />
             </Route>
 
-            <Route exact path="/entity/delete">
+            <Route exact path="/entity/delete/:id">
               <EntityDelete />
             </Route>
 
-            <Route exact path="/entity/discrepancy">
+            <Route exact path="/entity/:id/discrepancy">
               <Discrepancy />
             </Route>
 
