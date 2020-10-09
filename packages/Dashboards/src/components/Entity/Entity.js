@@ -103,7 +103,6 @@ function Entity(props) {
   if (rows.length !== 0) {
       const headerColumns = Object.keys(rows[0])
       headerColumns.forEach((key, index) => {
-        console.log(!columnExcludes.includes(key), key, index)
         if (!columnExcludes.includes(key)) {
             columns.push({
             Label: columnLabels[index],
@@ -215,7 +214,6 @@ function Entity(props) {
             onClick={() => (props.history.push("/entity/configuration"))}>
                 <SettingsIcon fontSize="large" />
             </IconButton>
-            
           </span>
         )
     }
