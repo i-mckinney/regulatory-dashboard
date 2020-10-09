@@ -46,7 +46,7 @@ function App(history) {
               <EntityDelete />
             </Route>
 
-            <Route exact path="/entity/:id/discrepancy">
+            <Route exact path="/entity/:id/discrepancy-report">
               <Discrepancy />
             </Route>
 

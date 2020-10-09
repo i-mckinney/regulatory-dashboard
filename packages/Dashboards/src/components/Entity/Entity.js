@@ -160,7 +160,7 @@ function Entity(props) {
         if (columnAccessor === "Actions") {
             return (
                 <TableCell className={entityClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
-                  <IconButton className={entityClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/${row._id}/discrepancy`, state: row }))}>
+                  <IconButton className={entityClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/${row._id}/discrepancy-report`, state: row }))}>
                     <AssessmentIcon />
                   </IconButton>
                   <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/edit/${row._id}`, state: row }))} color="default">
