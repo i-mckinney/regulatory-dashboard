@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom'
 
 /**
  * @param {Object} props Using the history property to route next component with data state
- * @return {JSX} EntityCreate site with UserForm provided for entity creation
- * routed at /entity/new
+ * @return {JSX} EntityConfiguration site with provided configs for entity
+ * routed at /entity/configuration
  */
 const EntityConfiguration = (props) => {
     return (
