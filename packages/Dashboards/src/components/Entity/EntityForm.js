@@ -37,26 +37,26 @@ columnFields.forEach((columnField) => {
 })
 
 /**
- * @param {object} initialEntity represent preset empty user data object
+ * @param {object} initialEntity represent preset empty entity data object
  * @param {string} header represent the header title of this form
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
- * @return {JSX} UserForm site with input form to fill in
- * routed at /user/new
+ * @return {JSX} EntityForm site with input form to fill in
+ * routed at /entity/new
  */
 const EntityForm = ({ initialEntity, header, onSubmit}) => {
-    // Set user with preset empty data for user creation e.g. { FirstName: "", LastName: "", ...}
+    // Set entity with preset empty data for entity creation e.g. { FirstName: "", LastName: "", ...}
     const [entity, setEntity] = useState(initialEntity)
     
-    // Perform error check for form validatation upon user data
+    // Perform error check for form validatation upon entity data
     const [error] = useState(entityError)
 
-    // Creates an object for styling. Any className that matches key in the userFormStyles object will have a corresponding styling
+    // Creates an object for styling. Any className that matches key in the entityFormStyles object will have a corresponding styling
     const entityFormClasses = entityFormStyles()
     
     /**
      * @param {Object} event the event object
      * name: the name property on the target text field element
-     * value: the value property on the target text field element as user input text
+     * value: the value property on the target text field element as entity input text
      */
     const handleInputChange = (event) => {
         const { name, value } = event.target
@@ -65,7 +65,7 @@ const EntityForm = ({ initialEntity, header, onSubmit}) => {
 
     /**
      * @param {Object} event the event object 
-     * Send the created user back to parent component
+     * Send the created entity back to parent component
      */
     const onSubmitForm = (event) => {
         event.preventDefault()

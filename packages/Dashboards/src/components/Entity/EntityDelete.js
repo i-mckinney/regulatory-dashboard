@@ -71,7 +71,7 @@ const EntityDelete = (props) => {
     const entityDeleteClasses = entityDeleteStyles();
     
     /**
-     * deleteEntity calls backend api through delete protocol to remove a user with the specific id and nagivate to next component
+     * deleteEntity calls backend api through delete protocol to remove a entity with the specific id and nagivate to next component
      */
     const deleteEntity = async () => {
         const id = props.location.state._id
@@ -80,7 +80,7 @@ const EntityDelete = (props) => {
     }
 
     /**
-     * displayUserName return a jsx object with bold font for clarity when delete a entity
+     * displayEntity return a jsx object with bold font for clarity when delete a entity
      */
     const displayEntity = () => {
         return (
