@@ -12,9 +12,10 @@ import entities from '../apis/entities'
 // Styling used for MaterialUI
 const discrepancyStyles = makeStyles(() => ({
   medium: {
+    width: '80%',
     margin: 'auto',
-    marginTop: '1rem',
-    marginBottom: '1rem',
+    marginTop: '3rem',
+    paddingBottom: '3rem',
     '& table': {
       width: '100%',
       display: 'table',
