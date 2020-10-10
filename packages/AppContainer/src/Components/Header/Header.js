@@ -1,91 +1,46 @@
-import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
-import { makeStyles } from "@material-ui/core/styles"
-import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core"
-import helixLogo from "./helixLogo.jpg"
-import Navigation from "./Navigation"
+import React from "react"
+import PropTypes from "prop-types"
+import NavigationBar from "./NavigationBar"
+import SideNavigationBar from "./SideNavigationBar"
 
-const useStyles = makeStyles(() => ({
-  companySelectContainer: {
-    marginBottom: "20px",
-  },
-  helixLogoImg: {
-    backgroundColor: "white",
-    border: "none",
-    "&:hover": {
-      cursor: "pointer",
-      outline: "none",
-    },
-    "&:active": {
-      marginTop: "15px",
-      marginBottom: 0,
-      marginRight: 5,
-    },
-    marginTop: "15px",
-    marginBottom: 0,
-    marginRight: 5,
-  },
-
-  companySelectField: {
-    minWidth: "300px",
-  },
-  companyFormControl: {
-    marginTop: "15px",
-    minWidth: 120,
-  },
-}))
-
-/** @return {jsx} returns Header component that is shared across micro services
- * Contains company selection that will set company view
- * Contains navbar to handle navigation in dashboard component
+/**
+ * @param {object} topContainerClasses contains styling of useStyles for Container App
+ * @param {object} topContainerTheme contains theme for Container App
+ * @param {boolean} sideNavOpen boolean to decide whether side nav will be visible or hidden
+ * @param {func} setSideNavOpen toggle sideNavOpen between false and true
+ * @return {jsx} returns Header component that is shared across micro services
+ * Contains top navigation bar to handle navigation in dashboard component
+ * Contains side navigation bar that can be toggled
  */
-function Header() {
-  // History is used to handle page routes
-  const history = useHistory()
-  // useStyles define styling for material ui. Any className that matches key of useStyles object above,
-  // corresponding styles will be applied
-  const classes = useStyles()
-
-  // when home button is clicked (helix logo) redirects to home page
-  const handleHome = () => {
-    history.push(`/home`)
-    window.location.reload(false)
-  }
-
-  // This will keep track of what the user selects in company view select field
-  const [companyView, setCompanyView] = useState("")
-  // will be used in the future to send display different nav pages
-  const handleCompanyViewChange = (event) => {
-    setCompanyView(event.target.value)
-  }
+function Header(props) {
+  const {
+    topContainerClasses,
+    topContainerTheme,
+    sideNavOpen,
+    setSideNavOpen,
+  } = props
   return (
-    <header>
-      <div className={classes.companySelectContainer}>
-        <input
-          type="image"
-          className={classes.helixLogoImg}
-          src={helixLogo}
-          onClick={handleHome}
-          alt="helixLogo"
-        />
-        <FormControl className={classes.companyFormControl}>
-          <InputLabel id="company-select-label">Company View</InputLabel>
-          <Select
-            labelId="company-select"
-            id="company-select"
-            className={classes.companySelectField}
-            value={companyView}
-            onChange={handleCompanyViewChange}
-          >
-            <MenuItem value="" />
-            <MenuItem value="Microsoft">Microsoft</MenuItem>
-            <MenuItem value="SalesForce">Sales Force</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <Navigation handleHome={handleHome} />
-    </header>
+    <>
+      <NavigationBar
+        topContainerClasses={topContainerClasses}
+        sideNavOpen={sideNavOpen}
+        setSideNavOpen={setSideNavOpen}
+      />
+      <SideNavigationBar
+        topContainerClasses={topContainerClasses}
+        topContainerTheme={topContainerTheme}
+        sideNavOpen={sideNavOpen}
+        setSideNavOpen={setSideNavOpen}
+      />
+    </>
   )
+}
+
+Header.propTypes = {
+  topContainerClasses: PropTypes.instanceOf(Object).isRequired,
+  topContainerTheme: PropTypes.instanceOf(Object).isRequired,
+  sideNavOpen: PropTypes.bool.isRequired,
+  setSideNavOpen: PropTypes.func.isRequired,
 }
 
 export default Header

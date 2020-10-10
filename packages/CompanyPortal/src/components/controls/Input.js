@@ -1,5 +1,5 @@
-import React from 'react'
-import {TextField} from '@material-ui/core'
+import React from 'react';
+import { TextField } from '@material-ui/core';
 
 /**
  * @return {JSX} returns a reusable form input form control component
@@ -11,7 +11,7 @@ export default function Input(props) {
   value: the form control value
   onChange: the function called on form change detection
   */
-  const {name,label,value,onChange} = props
+  const { name, label, value, onChange, width } = props;
 
   return (
     <TextField
@@ -20,6 +20,7 @@ export default function Input(props) {
       name={name}
       value={value}
       onChange={onChange}
+      style={{ width: width && '100%' }}
     />
   );
 }
