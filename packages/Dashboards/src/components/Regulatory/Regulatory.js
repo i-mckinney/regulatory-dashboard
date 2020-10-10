@@ -1,12 +1,12 @@
 import React from "react"
-import { Styles } from "./ReactTable/AdminDashboardStyle"
-import AdminDashboard from "./ReactTable/AdminDashboard"
+import { Styles } from "../../ReactTable/AdminDashboardStyle"
+import AdminDashboard from "../../ReactTable/AdminDashboard"
 
-/** @return {JSX} Dashboard site
- * routed at /dashboard
+/** @return {JSX} Regulatory site
+ * routed at /Regulatory
  */
 
-function Dashboard() {
+function Regulatory() {
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
    * If we didn't use React.useMemo, the table would think it was receiving new data on every render
@@ -19,38 +19,43 @@ function Dashboard() {
    * */
   const columns = React.useMemo(() => [
     {
-      Header: "Relationship Name",
-      accessor: "RelationshipName",
+      Header: "Loan ID",
+      accessor: "LoanID",
     },
     {
-      Header: "Borrower Name",
-      accessor: "BorrowerName",
+      Header: "Primary Borrower",
+      accessor: "PrimaryBorrower",
     },
     {
-      Header: "Borrower ID",
-      accessor: "BorrowerID",
+      Header: "Guarantor",
+      accessor: "Guarantor",
     },
     {
-      Header: "TIN",
-      accessor: "TIN",
+      Header: "PrimaryTIN",
+      accessor: "PrimaryTIN",
     },
     {
-      Header: "Account #",
-      accessor: "AccountNumber",
+      Header: "Commitment Type",
+      accessor: "CommitmentType",
     },
     {
-      Header: "Relationship Manager",
-      accessor: "RelationshipManager",
+      Header: "Commitment Amount",
+      accessor: "CommitmentAmount",
+    },
+    {
+      Header: "Outstanding Amount",
+      accessor: "OutstandingAmount",
     },
   ])
   const mockData = [
     {
-      RelationshipName: "Loan",
-      BorrowerName: "Eric Jho",
-      BorrowerID: "3243262354",
-      TIN: "L2343243",
-      AccountNumber: "3234-1235125325-324",
-      RelationshipManager: "David Geisinger",
+      LoanID: "Loan",
+      PrimaryBorrower: "Eric Jho",
+      Guarantor: "David Geisinger",
+      PrimaryTIN: "L2343243",
+      CommitmentType: "Message",
+      CommitmentAmount: "$30,200",
+      OutstandingAmount: "$32,333",
     },
   ]
 
@@ -61,7 +66,7 @@ function Dashboard() {
 
   return (
     <div>
-      <h4 className="mt-1 ml-4">Dashboard</h4>
+      <h4 className="mt-1 ml-4">Regulatory</h4>
       <Styles>
         <AdminDashboard
           columns={columns}
@@ -74,4 +79,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default Regulatory

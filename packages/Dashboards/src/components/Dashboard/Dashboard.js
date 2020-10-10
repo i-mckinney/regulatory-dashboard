@@ -1,12 +1,12 @@
 import React from "react"
-import { Styles } from "./ReactTable/AdminDashboardStyle"
-import AdminDashboard from "./ReactTable/AdminDashboard"
+import { Styles } from "../../ReactTable/AdminDashboardStyle"
+import AdminDashboard from "../../ReactTable/AdminDashboard"
 
-/** @return {JSX} Entity site
- * routed at /Entity
+/** @return {JSX} Dashboard site
+ * routed at /dashboard
  */
 
-function Entity() {
+function Dashboard() {
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
    * If we didn't use React.useMemo, the table would think it was receiving new data on every render
@@ -61,7 +61,7 @@ function Entity() {
 
   return (
     <div>
-      <h4 className="mt-1 ml-4">Entity</h4>
+      <h4 className="mt-1 ml-4">Dashboard</h4>
       <Styles>
         <AdminDashboard
           columns={columns}
@@ -74,4 +74,4 @@ function Entity() {
   )
 }
 
-export default Entity
+export default Dashboard

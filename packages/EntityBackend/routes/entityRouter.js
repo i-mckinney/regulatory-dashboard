@@ -107,6 +107,7 @@ router.put("/:companyId/entities/:entityId", async (req, res) => {
       });
     }
 
+    updatedEntity.updatedAt = dateTimeHelper.getTimeStamp();
     await dbCollection.updateOne(
       {
         $and: [
@@ -216,10 +217,10 @@ router.post("/:companyId/entitiesconfig", async (req, res) => {
     });
 
     // return added entity configuration
-    let entityConfiguration = await dbCollection
+    let returnEntityConfiguration = await dbCollection
       .find({ company_id: ObjectId(companyId) })
       .toArray();
-    const entityJustAdded = entityConfiguration[entityConfiguration.length - 1];
+    const entityJustAdded = returnEntityConfiguration[returnEntityConfiguration.length - 1];
     res.json(entityJustAdded);
   } catch (error) {
     res.json({ Error: error.message });
