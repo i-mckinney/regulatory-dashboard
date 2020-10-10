@@ -202,15 +202,15 @@ const Discrepancy = (props) => {
   const customCellRender = (rowIndex, row, column, columnIndex) => {
     const columnAccessor = column.Accessor
     if (columnIndex === 0) {
-      return <HelixTableCell key={`${rowIndex} ${columnAccessor}`} value={row[columnIndex]} editable={false}/>
+      return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]} editable={false}/>
     }
     else {
       return (
-        <HelixTableCell key={`${rowIndex} ${columnAccessor}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
       )
     }
   }
-
+  
   // Go back to parent component
   const handleBackButton = () => {
     props.history.push("/entity")

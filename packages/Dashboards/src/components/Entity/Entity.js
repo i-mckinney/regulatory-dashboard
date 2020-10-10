@@ -7,7 +7,9 @@ import IconButton from '@material-ui/core/IconButton'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { HelixTable } from 'helixmonorepo-lib'
+// import { HelixTable } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
+import HelixTableCell from '../table/HelixTableCell'
 import entities from '../apis/entities'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
@@ -154,11 +156,11 @@ function Entity(props) {
      * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
      * @return {JSX} Table cell of object properties in that Table row
      */
-    const customCellRender = (rowIndex, row, column) => {
+    const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
         if (columnAccessor === "Actions") {
             return (
-                <TableCell className={entityClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
+                <TableCell className={entityClasses.actionsIconStyle} key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
                   <IconButton className={entityClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/${row._id}/discrepancy-report`, state: row }))}>
                     <AssessmentIcon />
                   </IconButton>
@@ -172,11 +174,7 @@ function Entity(props) {
             )
         }
         else {
-            return (
-                <TableCell key={`${rowIndex} ${columnAccessor}`}>
-                    {row[columnAccessor]}
-                </TableCell>
-            )
+          return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} editable={false}/>
         }
     }
 
@@ -224,7 +222,7 @@ function Entity(props) {
               <div className={entityClasses.header}>
                   <Typography variant="h5">Entity</Typography>
               </div>
-              <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+              <HelixTable toggleSearch={true} displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             </div>
         </StylesProvider>
     )
