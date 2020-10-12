@@ -23,7 +23,7 @@ const HelixToolBarSearch = ({ onSearch, displayCreateIcon }) => {
       <Toolbar disableGutters>
         <HelixTextField
         className={helixToolBarSearchClasses.searchStyles}
-        label="Search User"
+        label="Search"
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>
