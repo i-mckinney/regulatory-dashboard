@@ -29,12 +29,6 @@ const entityStyles = makeStyles(() => ({
   header: {
       paddingBottom: '2rem',
   },
-  actionsIconStyle: {
-      '& button': {
-          marginRight: '1rem',
-          cursor: 'pointer',
-      },
-  },
   discrepancyButton: {
     color: 'green'
   },
@@ -135,7 +129,7 @@ function Entity(props) {
 
         if (columnAccessor === "Actions") {
             return (
-                <HelixTableCell className={entityClasses.actionsIconStyle} key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} containActions={true} displayActions={displayActions} />
+                <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} containActions={true} displayActions={displayActions} />
             )
         }
         else {
