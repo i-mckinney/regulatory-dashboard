@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
 import HelixTable from '../table/HelixTable'
-import HelixTableCell from './tablediscrepancy/HelixTableCell'
+import HelixTableCell from '../table/HelixTableCell'
 import { HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 
