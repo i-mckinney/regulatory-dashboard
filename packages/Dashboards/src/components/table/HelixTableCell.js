@@ -67,9 +67,14 @@ const entityTableCellStyles = makeStyles(() => ({
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {object} cell object represents current row and current column properties
+ * @param {string} originalValue string represents the original source of truth to compare with
+ * @param {int} rowIndex index of the current row
+ * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
  * @param {func} editData func comes from parent component, once it is invoke, it will pass the data back to parent component to edit data
+ * @param {bool} editable represents whether this cell is editable or not
+ * @param {bool} containActions represents whether this cell contains actions or not
+ * @param {func} displayActions displays jsx object of actions
  * @returns {JSX} renders a custom table data cell
  */
 const EntityTableCell = ({
