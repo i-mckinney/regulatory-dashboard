@@ -4,7 +4,7 @@ import { StylesProvider, makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import HelixTable from './tablediscrepancy/HelixTable'
+import HelixTable from '../table/HelixTable'
 import HelixTableCell from './tablediscrepancy/HelixTableCell'
 import { HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
@@ -17,43 +17,7 @@ const discrepancyStyles = makeStyles(() => ({
     marginTop: '3rem',
     paddingBottom: '3rem',
     '& table': {
-      width: '100%',
-      display: 'table',
-      borderTopRightRadius: '4px',
-      borderTopLeftRadius: '4px',
       borderCollapse: 'separate',
-      boxSizing: 'border-box',
-      borderSpacing: '2px',
-      borderColor: 'grey',
-      '& tr': {
-        border: 'none',
-        backgroundColor: 'white',
-        '&:nth-child(even)': {
-          backgroundColor: '#f2f2f2',
-        },
-        '&:hover': {
-          backgroundColor: '#add8e6',
-        },
-        '&:last-child': {
-          borderBottomRightRadius: '4px',
-          borderBottomLeftRadius: '4px',
-        }
-      },
-      '& th': {
-        backgroundColor: '#2e353d',
-        color: 'white',
-        margin: '0',
-        borderBottom: 'solid 1px #e0e4e8',
-        padding: '8px',
-      },
-      '& td': {
-        margin: '0',
-        borderBottom: 'solid 1px #e0e4e8',
-        padding: '8px',
-      },
-      '&:last-children': {
-        borderBottom: 'none',
-      },
     },
   },
   cancelButton: {
@@ -145,7 +109,6 @@ const Discrepancy = (props) => {
     fetchAggregatedSourceSystemsData()
   } else {
     if (columns.length === 0) {
-      console.log(data)
       data.TableHeaders.forEach((header) => columns.push(header))
       data.TableData.forEach((entityField) => {
         const label = entityField.key_config["display"]
@@ -172,8 +135,6 @@ const Discrepancy = (props) => {
     }
   }
 
-  console.log(originalSourceData)
-
   // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
 
@@ -199,7 +160,7 @@ const Discrepancy = (props) => {
    * @param {object} column the column is an object of the header with accessor and label props
    * @param {int} columnIndex the columnIndex represents index of the column
    */
-  const customCellRender = (rowIndex, row, column, columnIndex) => {
+  const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
     if (columnIndex === 0) {
       return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]} editable={false}/>
