@@ -55,6 +55,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "lerna bootstrap && lerna run start-storybook"
+    "start-dev": "lerna bootstrap && lerna run build --parallel && lerna run start-dev"
   }
 }
