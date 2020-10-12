@@ -75,11 +75,13 @@ const entityTableCellStyles = makeStyles(() => ({
 const EntityTableCell = ({
   value: initialStateValue,
   originalValue,
-  columnAccessor,
   rowIndex,
+  columnIndex,
   columns,
   editData,
   editable,
+  containActions,
+  displayActions,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -104,12 +106,7 @@ const EntityTableCell = ({
    * @returns {int} return current cell index in 1-dimension array
    * */ 
   const cellIndex = () => {
-    let colIndex = -1
-    columns.forEach((column, index) => {
-      if (column.Accessor === columnAccessor) {
-        colIndex = index
-      }
-    })
+    let colIndex = columnIndex
     const currentRowIndex = rowIndex
     const index = (columns.length-1) * currentRowIndex + colIndex-1
     return index
@@ -230,6 +227,12 @@ const EntityTableCell = ({
           {displayCustomizedForm()}
         </TableCell>
       )
+    } else if (containActions) {
+      return (
+        <TableCell>
+          {displayActions()}
+        </TableCell>
+      )
     } else {
       return (
         <TableCell>
@@ -248,11 +251,24 @@ const EntityTableCell = ({
 
 EntityTableCell.propTypes = {
   value: PropTypes.string.isRequired,
-  columnAccessor: PropTypes.string,
-  rowIndex: PropTypes.number,
-  columns: PropTypes.instanceOf(Array),
-  editData: PropTypes.func,
-  editable: PropTypes.bool.isRequired
+  rowIndex: PropTypes.number.isRequired,
+  columnIndex: PropTypes.number.isRequired,
+  columns: PropTypes.instanceOf(Array).isRequired,
+  editData: PropTypes.func.isRequired,
+  editable: PropTypes.bool.isRequired,
+  containActions: PropTypes.bool.isRequired,
+  displayActions: PropTypes.func.isRequired,
+}
+
+EntityTableCell.defaultProps = {
+  value: "",
+  rowIndex: 0,
+  columnIndex: 0,
+  columns: [],
+  editData: () => null,
+  editable: false,
+  containActions: false,
+  displayActions: () => null,
 }
 
 export default EntityTableCell

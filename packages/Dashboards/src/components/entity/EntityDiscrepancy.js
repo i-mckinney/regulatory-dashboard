@@ -10,7 +10,7 @@ import { HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 
 // Styling used for MaterialUI
-const discrepancyStyles = makeStyles(() => ({
+const entityDiscrepancyStyles = makeStyles(() => ({
   medium: {
     width: '80%',
     margin: 'auto',
@@ -54,9 +54,9 @@ const discrepancyStyles = makeStyles(() => ({
  * @return {JSX} Discrepancy site
  * routed at /Discrepancy
  */
-const Discrepancy = (props) => {
-  // Creates an object for styling. Any className that matches key in the discrepancyStyles object will have a corresponding styling
-  const discrepancyClasses = discrepancyStyles();
+const EntityDiscrepancy = (props) => {
+  // Creates an object for styling. Any className that matches key in the entityDiscrepancyStyles object will have a corresponding styling
+  const entitydiscrepancyClasses = entityDiscrepancyStyles();
 
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], [])
@@ -163,11 +163,11 @@ const Discrepancy = (props) => {
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
     if (columnIndex === 0) {
-      return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]} editable={false}/>
+      return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]}/>
     }
     else {
       return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} columnAccessor={columnAccessor} columns={columns} rowIndex={rowIndex} editData={editData} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
       )
     }
   }
@@ -187,7 +187,7 @@ const Discrepancy = (props) => {
 
   return (
     <StylesProvider injectFirst>
-      <div className={`container ${discrepancyClasses.medium}`}>
+      <div className={`container ${entitydiscrepancyClasses.medium}`}>
         <EntityCard
           RecordLabel={detailedInfo.RecordLabel}
           SystemOfRecord={detailedInfo.SystemOfRecord}
@@ -202,14 +202,14 @@ const Discrepancy = (props) => {
         customBodyRowKeyProp={customBodyRowKeyProp} 
         customHeadColumnKeyProp={customHeadColumnKeyProp} 
         />
-        <div className={discrepancyClasses.pageProgression}>
+        <div className={entitydiscrepancyClasses.pageProgression}>
           <HelixButton
-            className={discrepancyClasses.cancelButton}
+            className={entitydiscrepancyClasses.cancelButton}
             onClick={handleBackButton}
             text="Back"
           />
           <HelixButton 
-          className={discrepancyClasses.confirmButton} 
+          className={entitydiscrepancyClasses.confirmButton} 
           onClick={handleConfirmButton} 
           text="Confirm" />
         </div>
@@ -218,8 +218,8 @@ const Discrepancy = (props) => {
   )
 }
 
-Discrepancy.propTypes = {
+EntityDiscrepancy.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 }
 
-export default withRouter(Discrepancy)
+export default withRouter(EntityDiscrepancy)
