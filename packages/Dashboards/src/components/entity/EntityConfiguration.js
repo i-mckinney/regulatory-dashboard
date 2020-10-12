@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
-import { HelixTextField } from 'helixmonorepo-lib'
+import DeleteIcon from '@material-ui/icons/Delete'
+import { HelixTextField, HelixTable } from 'helixmonorepo-lib'
 
 // Styling used for MaterialUI
 const entityConfigurationStyles = makeStyles(() => ({
@@ -13,8 +14,16 @@ const entityConfigurationStyles = makeStyles(() => ({
         marginTop: '3rem',
         paddingBottom: '3rem',
     },
-    selectForm: {
+    selectFormControl: {
         width: '90%',
+    },
+    cellSpan: {
+        display: 'block',
+        '& button': {
+            float: 'right',
+            cursor: 'pointer',
+            marginLeft: "auto",
+        }
     }
   }))
 
@@ -26,6 +35,58 @@ const entityConfigurationStyles = makeStyles(() => ({
 const EntityConfiguration = (props) => {
     // Creates an object for styling. Any className that matches key in the entityConfigurationStyles object will have a corresponding styling
     const entityConfigurationClasses = entityConfigurationStyles()
+
+    const columns = useMemo(() => [
+        {
+            Label: "Selected Custom Api Request",
+            Accessor: "SelectedCustomApiRequest",
+            Sortable: false,
+        },
+    ], [])
+
+    const rows = useMemo(() => [
+        {
+            "SelectedCustomApiRequest": "localhost:5555/123/entities"
+        }
+    ], [])
+
+    /**
+     * @param {object} column represent object data regarding the api result  
+     * @return {string} provide table row with unique key props (required)
+     */
+    const customHeadColumnKeyProp = (column) => {
+        return column.Accessor
+    }
+
+    const displayCreateIcon = () => null
+
+    /**
+     * @param {object} row represent object data regarding the api result 
+     * @return {string} provide table row with unique key props (required)
+     */
+    const customBodyRowKeyProp = (row) => {
+        return row.SelectedCustomApiRequest
+    }
+
+    /**
+     * @param {int} rowIndex represents row index
+     * @param {object} row represent object data from the api result
+     * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
+     * @return {JSX} Table cell of object properties in that Table row
+     */
+    const customCellRender = (rowIndex, row, column) => {
+        const columnAccessor = column.Accessor
+        return (
+            <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                <span className={entityConfigurationClasses.cellSpan}>
+                    {row[columnAccessor]}
+                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/delete/${row._id}`, state: row }))} color="secondary">
+                        <DeleteIcon />
+                  </IconButton>
+                </span>
+            </TableCell>
+        )
+    }
 
     const apis = [
         {
@@ -52,7 +113,7 @@ const EntityConfiguration = (props) => {
         <div className={entityConfigurationClasses.configContainer}>
             <div>
                 <HelixTextField
-                className={entityConfigurationClasses.selectForm}
+                className={entityConfigurationClasses.selectFormControl}
                 id="outlined-select-api-native"
                 select
                 label="API"
@@ -75,6 +136,9 @@ const EntityConfiguration = (props) => {
                 onClick={() => (props.history.push("/entity/new"))}>
                     <AddBoxIcon fontSize="large" />
                 </IconButton>
+            </div>
+            <div>
+                <HelixTable displayCreateIcon={displayCreateIcon} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
             </div>
         </div>
     )
