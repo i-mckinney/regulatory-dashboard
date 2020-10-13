@@ -43,6 +43,10 @@ const helixTableStyles = makeStyles(() => ({
           margin: '0',
           borderBottom: 'solid 1px #e0e4e8',
           padding: '8px',
+          '& button': {
+            marginRight: '1rem',
+            cursor: 'pointer',
+          },
         },
         '&:last-children': {
           borderBottom: 'none',

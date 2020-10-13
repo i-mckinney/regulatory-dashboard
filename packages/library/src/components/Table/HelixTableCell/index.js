@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { makeStyles, TableCell } from "@material-ui/core"
-import IconButton from '@material-ui/core/IconButton';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ReplayIcon from '@material-ui/icons/Replay';
-import SaveIcon from '@material-ui/icons/Save';
-import ClearIcon from '@material-ui/icons/Clear';
+import IconButton from "@material-ui/core/IconButton"
+import CheckCircleIcon from "@material-ui/icons/CheckCircle"
+import ReplayIcon from "@material-ui/icons/Replay"
+import SaveIcon from "@material-ui/icons/Save"
+import ClearIcon from "@material-ui/icons/Clear"
 import PropTypes from "prop-types"
 
 // Styling used for MaterialUI

@@ -1,7 +1,7 @@
-import React from 'react'
-import { TableFooter, TableRow } from '@material-ui/core'
-import HelixTablePagination from '../HelixTablePagination/index'
-import PropTypes from 'prop-types'
+import React from "react"
+import { TableFooter, TableRow } from "@material-ui/core"
+import HelixTablePagination from "../HelixTablePagination/index"
+import PropTypes from "prop-types"
 
 /**
  * @param {array} rows API result from getting a list of items such as report templates, clients and etc.(depending on where it is used)

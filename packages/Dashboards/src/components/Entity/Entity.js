@@ -20,44 +20,6 @@ const entityStyles = makeStyles(() => ({
       margin: 'auto',
       marginTop: '3rem',
       paddingBottom: '3rem',
-      '& table': {
-          width: '100%',
-          display: 'table',
-          borderTopRightRadius: '4px',
-          borderTopLeftRadius: '4px',
-          boxSizing: 'border-box',
-          borderSpacing: '2px',
-          borderColor: 'grey',
-          '& tr': {
-            border: 'none',
-            backgroundColor: 'white',
-            '&:nth-child(even)': {
-              backgroundColor: '#f2f2f2',
-            },
-            '&:hover': {
-              backgroundColor: '#add8e6',
-            },
-            '&:last-child': {
-              borderBottomRightRadius: '4px',
-              borderBottomLeftRadius: '4px',
-            }
-          },
-          '& th': {
-            backgroundColor: '#2e353d',
-            color: 'white',
-            margin: '0',
-            borderBottom: 'solid 1px #e0e4e8',
-            padding: '8px',
-          },
-          '& td': {
-            margin: '0',
-            borderBottom: 'solid 1px #e0e4e8',
-            padding: '8px',
-          },
-          '&:last-children': {
-            borderBottom: 'none',
-          },
-      },
   },
   createIconStyle: {
       float: 'right',
@@ -66,12 +28,6 @@ const entityStyles = makeStyles(() => ({
   },
   header: {
       paddingBottom: '2rem',
-  },
-  actionsIconStyle: {
-      '& button': {
-          marginRight: '1rem',
-          cursor: 'pointer',
-      },
   },
   discrepancyButton: {
     color: 'green'
@@ -133,22 +89,22 @@ function Entity(props) {
       /**
        * fetchEntities calls backend api through get protocol to get all the entities
        */
-      const fetchEntities = async () => {
-          const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entities")
+        const fetchEntities = async () => {
+            const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entities")
 
-          response.data.forEach((entity) => {
-              if (entity["createdAt"] !== undefined) {
-                  isoToDate(entity, "createdAt")
-              }
-              if (entity["updatedAt"] !== undefined) {
-                  isoToDate(entity, "updatedAt")
-              }
-          })
-          setRows(response.data)
-      }
+            response.data.forEach((entity) => {
+                if (entity["createdAt"] !== undefined) {
+                    isoToDate(entity, "createdAt")
+                }
+                if (entity["updatedAt"] !== undefined) {
+                    isoToDate(entity, "updatedAt")
+                }
+            })
+            setRows(response.data)
+        }
 
       fetchEntities()
-  }, [columns])
+    }, [columns])
 
     /**
      * @param {int} rowIndex represents row index
@@ -158,23 +114,26 @@ function Entity(props) {
      */
     const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
+        const displayActions = () => (
+            <>
+                <IconButton className={entityClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/${row._id}/discrepancy-report`, state: row }))}>
+                    <AssessmentIcon />
+                </IconButton>
+                <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/edit/${row._id}`, state: row }))} color="default">
+                <EditIcon />
+                </IconButton>
+                <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/delete/${row._id}`, state: row }))} color="secondary">
+                <DeleteIcon />
+                </IconButton>
+            </>)
+
         if (columnAccessor === "Actions") {
             return (
-                <TableCell className={entityClasses.actionsIconStyle} key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
-                  <IconButton className={entityClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/${row._id}/discrepancy-report`, state: row }))}>
-                    <AssessmentIcon />
-                  </IconButton>
-                  <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/edit/${row._id}`, state: row }))} color="default">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/delete/${row._id}`, state: row }))} color="secondary">
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+                <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} containActions={true} displayActions={displayActions} />
             )
         }
         else {
-          return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} editable={false}/>
+          return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} />
         }
     }
 
