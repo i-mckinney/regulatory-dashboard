@@ -71,6 +71,7 @@ const EntityConfiguration = (props) => {
   // fetchEntitiesConfiguration calls backend api through get protocol to get all the aggregated source system data
   const fetchEntitiesConfiguration = async () => {
     const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
+    console.log("this is: ", response)
     setTableData(response.data)
   }
 
@@ -79,6 +80,18 @@ const EntityConfiguration = (props) => {
     setCustomApis(response.data) 
   }
 
+  const addCustomApiToConfiguration = async () => {
+    if (api !== '0') {
+      const entityConfiguration = { config: tableData.config }
+      const customApi = apis[api]
+      entityConfiguration.config.push(customApi)
+      console.log(entityConfiguration)
+      const response = await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesconfig", entityConfiguration)
+      console.log(response)
+    }
+  }
+
+  // Might be slow in capturing data after Api call
   if (customApis.length === 0 && tableData.length === 0) {
     fetchCustomApis()
     fetchEntitiesConfiguration()
@@ -91,12 +104,15 @@ const EntityConfiguration = (props) => {
       })
     }
     if (rows.length === 0) {
-      tableData.entityConfiguration.forEach((entity) => {
-          rows.push(entity)
-      })
+      console.log("#Check the key in the object due to mis-spelled#", tableData)
+      // console.log("Company Id:", tableData.company_id)
+      if (tableData.config !== undefined) {
+        tableData.config.forEach((entity) => {
+            rows.push(entity)
+        })
+      }
     }
   }
-  console.log(apis[api], apis)
 
     /**
      * @param {object} column represent object data regarding the api result  
@@ -128,7 +144,7 @@ const EntityConfiguration = (props) => {
             <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
                 <span className={entityConfigurationClasses.cellSpan}>
                     {row[columnAccessor]}
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/delete/${row._id}`, state: row }))} color="secondary">
+                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push("/entity/configuration"))} color="secondary">
                         <DeleteIcon />
                   </IconButton>
                 </span>
@@ -160,7 +176,7 @@ const EntityConfiguration = (props) => {
                 </HelixTextField>
                 <IconButton
                 color="primary"
-                onClick={() => (props.history.push("/entity/new"))}>
+                onClick={addCustomApiToConfiguration}>
                     <AddBoxIcon fontSize="large" />
                 </IconButton>
             </div>
