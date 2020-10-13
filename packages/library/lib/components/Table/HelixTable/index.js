@@ -41,7 +41,10 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-// Styling used for MaterialUI
+var generateClassName = (0, _core.createGenerateClassName)({
+  productionPrefix: 'helixtable-'
+}); // Styling used for MaterialUI
+
 var helixTableStyles = (0, _core.makeStyles)(function () {
   return {
     helixTable: {
@@ -211,7 +214,9 @@ var HelixTable = function HelixTable(_ref) {
     });
   };
 
-  return /*#__PURE__*/_react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement(_core.StylesProvider, {
+    generateClassName: generateClassName
+  }, /*#__PURE__*/_react["default"].createElement("div", {
     className: helixTableClasses.helixTable
   }, toggleSearch ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_index4["default"], {
     onSearch: onSearch,
@@ -263,7 +268,7 @@ var HelixTable = function HelixTable(_ref) {
     rows: rows,
     customCellRender: customCellRender,
     customBodyRowKeyProp: customBodyRowKeyProp
-  }))));
+  })))));
 };
 
 HelixTable.propTypes = {
