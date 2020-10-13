@@ -112,6 +112,13 @@ const EntityConfiguration = (props) => {
     }
   }
 
+  const handleAddCustomApi = () => {
+    console.log("adding")
+  }
+
+  const handleDeleteCustomApi = (rowIndex) => () => {
+    rows.splice(rowIndex, 1)
+  }
 
   /**
    * @param {object} column represent object data regarding the api result  
@@ -143,7 +150,7 @@ const EntityConfiguration = (props) => {
           <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
               <span className={entityConfigurationClasses.cellSpan}>
                   {row[columnAccessor]}
-                  <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push("/entity/configuration"))} color="secondary">
+                  <IconButton aria-label="delete" size="small" edge="start" onClick={handleDeleteCustomApi(rowIndex)} color="secondary">
                       <DeleteIcon />
                 </IconButton>
               </span>
