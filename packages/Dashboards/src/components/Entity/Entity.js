@@ -181,7 +181,7 @@ function Entity(props) {
               <div className={entityClasses.header}>
                   <Typography variant="h5">Entity</Typography>
               </div>
-              <HelixTable toggleSearch={true} displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+              <HelixTable toggleSearch={true} displayCreateIcon={displayCreateEntityIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             </div>
         </StylesProvider>
     )
