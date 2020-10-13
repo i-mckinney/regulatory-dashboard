@@ -39,7 +39,7 @@ var HelixToolBarSearch = function HelixToolBarSearch(_ref) {
     disableGutters: true
   }, /*#__PURE__*/_react["default"].createElement(_index["default"], {
     className: helixToolBarSearchClasses.searchStyles,
-    label: "Search User",
+    label: "Search",
     InputProps: {
       startAdornment: /*#__PURE__*/_react["default"].createElement(_core.InputAdornment, {
         position: "start"
