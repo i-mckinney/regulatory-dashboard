@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTextField } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
 import entities from '../apis/entities'
+import companies from '../apis/companies'
 
 // Styling used for MaterialUI
 const entityConfigurationStyles = makeStyles(() => ({
@@ -73,13 +74,13 @@ const EntityConfiguration = (props) => {
     setTableData(response.data)
   }
 
-  // const fetchCustomApis = async () => {
-  //   const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
-  //   setCustomApis(response.data) 
-  // }
+  const fetchCustomApis = async () => {
+    const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
+    setCustomApis(response.data) 
+  }
 
   if (customApis.length === 0 && tableData.length === 0) {
-    // fetchCustomApis()
+    fetchCustomApis()
     fetchEntitiesConfiguration()
   } else {
     if (apis.length === 1) {
