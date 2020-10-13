@@ -138,6 +138,7 @@ const EntityConfiguration = (props) => {
       return row._id  
   }
 
+<<<<<<< HEAD
   /**
    * @param {int} rowIndex represents row index
    * @param {object} row represent object data from the api result
@@ -152,6 +153,34 @@ const EntityConfiguration = (props) => {
                   {row[columnAccessor]}
                   <IconButton aria-label="delete" size="small" edge="start" onClick={handleDeleteCustomApi(rowIndex)} color="secondary">
                       <DeleteIcon />
+=======
+    return (
+        <div className={entityConfigurationClasses.configContainer}>
+            <div>
+                <HelixTextField
+                className={entityConfigurationClasses.selectFormControl}
+                id="outlined-select-api-native"
+                select
+                label="API"
+                value={api}
+                onChange={handleChange}
+                SelectProps={{
+                    native: true,
+                }}
+                helperText="Please select your API"
+                variant="outlined"
+                >
+                {apis.map((option) => (
+                    <option key={option.value} value={option.value}>
+                    {option.label}
+                    </option>
+                ))}
+                </HelixTextField>
+                <IconButton
+                color="primary"
+                onClick={handleAddCustomApi}>
+                    <AddBoxIcon fontSize="large" />
+>>>>>>> f84d266df17c597ee712d297ba7e729cc85d2a29
                 </IconButton>
               </span>
           </TableCell>
