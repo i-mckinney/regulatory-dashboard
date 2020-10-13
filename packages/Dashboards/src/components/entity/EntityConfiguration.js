@@ -53,6 +53,7 @@ const EntityConfiguration = (props) => {
     ], [])
 
     const [rows, setRows] = useState([])
+    const tempRows = useMemo(() => [],[])
 
     const apis = useMemo(() => [{
       "label": "Select an API",
@@ -63,11 +64,6 @@ const EntityConfiguration = (props) => {
   
     const handleChange = (event) => {
       setApi(event.target.value)
-    }
-    
-    const fetchCustomApis = async () => {
-      const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
-      setCustomApis(response.data) 
     }
 
     // const addCustomApiToConfiguration = async () => {
@@ -86,24 +82,33 @@ const EntityConfiguration = (props) => {
       const fetchEntitiesConfiguration = async () => {
         const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
         console.log("this is: ", response)
+        response.data.config.forEach((row) => {
+          tempRows.push(row)
+        })
         setRows(response.data.config)
       }
-
       fetchEntitiesConfiguration()
-    }, [columns])
 
-    // Might be slow in capturing data after Api call
-    if (customApis.length === 0) {
-      fetchCustomApis()
-    } else {
-      if (apis.length === 1) {
-        customApis.forEach((customApi, customApiIndex) => {
-          customApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
-          customApi["value"] = customApiIndex + 1
-          apis.push(customApi)
-        })
+      const fetchCustomApis = async () => {
+        const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
+        if (apis.length === 1) {    
+          const copyCustomApis = [ ...response.data ]
+          const remainingCustomApis = copyCustomApis.filter((customApi) => 
+            !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
+          )
+
+          remainingCustomApis.forEach((customApi, customApiIndex) => {
+            customApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+            customApi["value"] = customApiIndex + 1
+            apis.push(customApi)
+          })
+          console.log(remainingCustomApis, tempRows)
+          setCustomApis(remainingCustomApis)
+        }
       }
-    }
+
+      fetchCustomApis()
+    }, [columns, tempRows, apis])
 
     const handleAddCustomApi = () => {
       const copyRows = [ ...rows ]
