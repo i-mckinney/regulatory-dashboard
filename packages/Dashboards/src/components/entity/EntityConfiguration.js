@@ -4,15 +4,19 @@ import { makeStyles, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { HelixTextField, HelixTable } from 'helixmonorepo-lib'
+import { HelixTextField } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
 
 // Styling used for MaterialUI
 const entityConfigurationStyles = makeStyles(() => ({
     configContainer: {
-        width: '80%',
+        width: '60%',
         margin: 'auto',
         marginTop: '3rem',
         paddingBottom: '3rem',
+    },
+    configTable: {
+        marginTop: '3rem',
     },
     selectFormControl: {
         width: '90%',
@@ -137,7 +141,7 @@ const EntityConfiguration = (props) => {
                     <AddBoxIcon fontSize="large" />
                 </IconButton>
             </div>
-            <div>
+            <div className={entityConfigurationClasses.configTable}>
                 <HelixTable displayCreateIcon={displayCreateIcon} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
             </div>
         </div>
