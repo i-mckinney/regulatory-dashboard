@@ -42,9 +42,6 @@ const EntityConfiguration = (props) => {
     // Creates an object for styling. Any className that matches key in the entityConfigurationStyles object will have a corresponding styling
     const entityConfigurationClasses = entityConfigurationStyles()
 
-    // data store fetchEntitiesConfiguration GET Method API results
-    const [tableData, setTableData] = useState([])
-
     const [customApis, setCustomApis] = useState([])
 
     const columns = useMemo(() => [
@@ -89,7 +86,6 @@ const EntityConfiguration = (props) => {
     const fetchEntitiesConfiguration = async () => {
       const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
       console.log("this is: ", response)
-      // setTableData(response.data)
       setRows(response.data.config)
     }
 
@@ -99,7 +95,6 @@ const EntityConfiguration = (props) => {
   // Might be slow in capturing data after Api call
   if (customApis.length === 0) {
     fetchCustomApis()
-    // fetchEntitiesConfiguration()
   } else {
     if (apis.length === 1) {
       customApis.forEach((customApi, customApiIndex) => {
@@ -108,17 +103,12 @@ const EntityConfiguration = (props) => {
         apis.push(customApi)
       })
     }
-    // if (rows.length === 0) {
-    //   if (tableData.config !== undefined) {
-    //     tableData.config.forEach((entity) => {
-    //         rows.push(entity)
-    //     })
-    //   }
-    // }
   }
 
   const handleAddCustomApi = () => {
-    console.log("adding")
+    const copyRows = [ ...rows ]
+    copyRows.push(apis[api])
+    setRows(copyRows)
   }
 
   const handleDeleteCustomApi = (rowIndex) => () => {
@@ -145,7 +135,6 @@ const EntityConfiguration = (props) => {
       return row._id  
   }
 
-<<<<<<< HEAD
   /**
    * @param {int} rowIndex represents row index
    * @param {object} row represent object data from the api result
@@ -160,34 +149,6 @@ const EntityConfiguration = (props) => {
                   {row[columnAccessor]}
                   <IconButton aria-label="delete" size="small" edge="start" onClick={handleDeleteCustomApi(rowIndex)} color="secondary">
                       <DeleteIcon />
-=======
-    return (
-        <div className={entityConfigurationClasses.configContainer}>
-            <div>
-                <HelixTextField
-                className={entityConfigurationClasses.selectFormControl}
-                id="outlined-select-api-native"
-                select
-                label="API"
-                value={api}
-                onChange={handleChange}
-                SelectProps={{
-                    native: true,
-                }}
-                helperText="Please select your API"
-                variant="outlined"
-                >
-                {apis.map((option) => (
-                    <option key={option.value} value={option.value}>
-                    {option.label}
-                    </option>
-                ))}
-                </HelixTextField>
-                <IconButton
-                color="primary"
-                onClick={handleAddCustomApi}>
-                    <AddBoxIcon fontSize="large" />
->>>>>>> f84d266df17c597ee712d297ba7e729cc85d2a29
                 </IconButton>
               </span>
           </TableCell>
