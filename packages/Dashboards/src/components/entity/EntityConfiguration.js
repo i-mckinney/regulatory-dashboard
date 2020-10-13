@@ -80,16 +80,16 @@ const EntityConfiguration = (props) => {
     setCustomApis(response.data) 
   }
 
-  const addCustomApiToConfiguration = async () => {
-    if (api !== '0') {
-      const entityConfiguration = { config: tableData.config }
-      const customApi = apis[api]
-      entityConfiguration.config.push(customApi)
-      console.log(entityConfiguration)
-      const response = await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesconfig", entityConfiguration)
-      console.log(response)
-    }
-  }
+  // const addCustomApiToConfiguration = async () => {
+  //   if (api !== '0') {
+  //     const entityConfiguration = { config: tableData.config }
+  //     const customApi = apis[api]
+  //     entityConfiguration.config.push(customApi)
+  //     console.log(entityConfiguration)
+  //     const response = await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesconfig", entityConfiguration)
+  //     console.log(response)
+  //   }
+  // }
 
   // Might be slow in capturing data after Api call
   if (customApis.length === 0 && tableData.length === 0) {
@@ -104,8 +104,6 @@ const EntityConfiguration = (props) => {
       })
     }
     if (rows.length === 0) {
-      console.log("#Check the key in the object due to mis-spelled#", tableData)
-      // console.log("Company Id:", tableData.company_id)
       if (tableData.config !== undefined) {
         tableData.config.forEach((entity) => {
             rows.push(entity)
@@ -114,77 +112,78 @@ const EntityConfiguration = (props) => {
     }
   }
 
-    /**
-     * @param {object} column represent object data regarding the api result  
-     * @return {string} provide table row with unique key props (required)
-     */
-    const customHeadColumnKeyProp = (column) => {
-        return column.Accessor
-    }
 
-    const displayCreateIcon = () => null
+  /**
+   * @param {object} column represent object data regarding the api result  
+   * @return {string} provide table row with unique key props (required)
+   */
+  const customHeadColumnKeyProp = (column) => {
+      return column.Accessor
+  }
 
-    /**
-     * @param {object} row represent object data regarding the api result 
-     * @return {string} provide table row with unique key props (required)
-     */
-    const customBodyRowKeyProp = (row) => {
-        return row._id  
-    }
+  const displayCreateIcon = () => null
 
-    /**
-     * @param {int} rowIndex represents row index
-     * @param {object} row represent object data from the api result
-     * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
-     * @return {JSX} Table cell of object properties in that Table row
-     */
-    const customCellRender = (row, column, rowIndex, columnIndex) => {
-        const columnAccessor = column.Accessor
-        return (
-            <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
-                <span className={entityConfigurationClasses.cellSpan}>
-                    {row[columnAccessor]}
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push("/entity/configuration"))} color="secondary">
-                        <DeleteIcon />
-                  </IconButton>
-                </span>
-            </TableCell>
-        )
-    }
+  /**
+   * @param {object} row represent object data regarding the api result 
+   * @return {string} provide table row with unique key props (required)
+   */
+  const customBodyRowKeyProp = (row) => {
+      return row._id  
+  }
 
-    return (
-        <div className={entityConfigurationClasses.configContainer}>
-            <div>
-                <HelixTextField
-                className={entityConfigurationClasses.selectFormControl}
-                id="outlined-select-api-native"
-                select
-                label="API"
-                value={api}
-                onChange={handleChange}
-                SelectProps={{
-                    native: true,
-                }}
-                helperText="Please select your API"
-                variant="outlined"
-                >
-                {apis.map((option) => (
-                    <option key={option.value} value={option.value}>
-                    {option.label}
-                    </option>
-                ))}
-                </HelixTextField>
-                <IconButton
-                color="primary"
-                onClick={addCustomApiToConfiguration}>
-                    <AddBoxIcon fontSize="large" />
+  /**
+   * @param {int} rowIndex represents row index
+   * @param {object} row represent object data from the api result
+   * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
+   * @return {JSX} Table cell of object properties in that Table row
+   */
+  const customCellRender = (row, column, rowIndex, columnIndex) => {
+      const columnAccessor = column.Accessor
+      return (
+          <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
+              <span className={entityConfigurationClasses.cellSpan}>
+                  {row[columnAccessor]}
+                  <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push("/entity/configuration"))} color="secondary">
+                      <DeleteIcon />
                 </IconButton>
-            </div>
-            <div className={entityConfigurationClasses.configTable}>
-                <HelixTable displayCreateIcon={displayCreateIcon} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
-            </div>
-        </div>
-    )
+              </span>
+          </TableCell>
+      )
+  }
+
+  return (
+      <div className={entityConfigurationClasses.configContainer}>
+          <div>
+              <HelixTextField
+              className={entityConfigurationClasses.selectFormControl}
+              id="outlined-select-api-native"
+              select
+              label="API"
+              value={api}
+              onChange={handleChange}
+              SelectProps={{
+                  native: true,
+              }}
+              helperText="Please select your API"
+              variant="outlined"
+              >
+              {apis.map((option) => (
+                  <option key={option.value} value={option.value}>
+                  {option.label}
+                  </option>
+              ))}
+              </HelixTextField>
+              <IconButton
+              color="primary"
+              onClick={handleAddCustomApi}>
+                  <AddBoxIcon fontSize="large" />
+              </IconButton>
+          </div>
+          <div className={entityConfigurationClasses.configTable}>
+              <HelixTable displayCreateIcon={displayCreateIcon} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
+          </div>
+      </div>
+  )
 }
 
 export default withRouter(EntityConfiguration)
