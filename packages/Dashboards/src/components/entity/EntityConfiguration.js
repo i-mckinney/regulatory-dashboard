@@ -48,11 +48,11 @@ const EntityConfiguration = (props) => {
     const [customApis, setCustomApis] = useState([])
 
     const columns = useMemo(() => [
-        {
-            Label: "Selected Custom Api Request",
-            Accessor: "requestName",
-            Sortable: false,
-        },
+      {
+        Label: "Selected Custom Api Request",
+        Accessor: "requestName",
+        Sortable: false,
+      },
     ], [])
 
     const rows = useMemo(() => [], [])
