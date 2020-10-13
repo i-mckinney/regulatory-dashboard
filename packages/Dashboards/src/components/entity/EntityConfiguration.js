@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { makeStyles, TableCell } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
@@ -55,7 +55,7 @@ const EntityConfiguration = (props) => {
       },
     ], [])
 
-    const rows = useMemo(() => [], [])
+    const [rows, setRows] = useState([])
 
     const apis = useMemo(() => [{
       "label": "Select an API",
@@ -67,13 +67,6 @@ const EntityConfiguration = (props) => {
     const handleChange = (event) => {
       setApi(event.target.value)
     }
-
-  // fetchEntitiesConfiguration calls backend api through get protocol to get all the aggregated source system data
-  const fetchEntitiesConfiguration = async () => {
-    const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
-    console.log("this is: ", response)
-    setTableData(response.data)
-  }
 
   const fetchCustomApis = async () => {
     const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
@@ -91,10 +84,22 @@ const EntityConfiguration = (props) => {
   //   }
   // }
 
-  // Might be slow in capturing data after Api call
-  if (customApis.length === 0 && tableData.length === 0) {
-    fetchCustomApis()
+  useEffect(() => {
+
+    const fetchEntitiesConfiguration = async () => {
+      const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
+      console.log("this is: ", response)
+      // setTableData(response.data)
+      setRows(response.data.config)
+    }
+
     fetchEntitiesConfiguration()
+  }, [columns])
+
+  // Might be slow in capturing data after Api call
+  if (customApis.length === 0) {
+    fetchCustomApis()
+    // fetchEntitiesConfiguration()
   } else {
     if (apis.length === 1) {
       customApis.forEach((customApi, customApiIndex) => {
@@ -103,13 +108,13 @@ const EntityConfiguration = (props) => {
         apis.push(customApi)
       })
     }
-    if (rows.length === 0) {
-      if (tableData.config !== undefined) {
-        tableData.config.forEach((entity) => {
-            rows.push(entity)
-        })
-      }
-    }
+    // if (rows.length === 0) {
+    //   if (tableData.config !== undefined) {
+    //     tableData.config.forEach((entity) => {
+    //         rows.push(entity)
+    //     })
+    //   }
+    // }
   }
 
   const handleAddCustomApi = () => {
@@ -117,7 +122,9 @@ const EntityConfiguration = (props) => {
   }
 
   const handleDeleteCustomApi = (rowIndex) => () => {
-    rows.splice(rowIndex, 1)
+    const copyRows = [ ...rows ]
+    const remainingCopyRows = copyRows.filter((copyRow, idx) => idx !== rowIndex)
+    setRows(remainingCopyRows)
   }
 
   /**
