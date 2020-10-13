@@ -1,8 +1,8 @@
-import React from "react"
-import { makeStyles, Toolbar, InputAdornment } from "@material-ui/core"
+import React from 'react'
+import { makeStyles, Toolbar, InputAdornment } from '@material-ui/core'
 import PropTypes from "prop-types"
-import SearchIcon from "@material-ui/icons/Search"
-import HelixTextField from "../../HelixTextField/index"
+import SearchIcon from '@material-ui/icons/Search'
+import { HelixTextField } from 'helixmonorepo-lib'
 
 // Styling used for MaterialUI
 const helixToolBarSearchStyles = makeStyles(() => ({
