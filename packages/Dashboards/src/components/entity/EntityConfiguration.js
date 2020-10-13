@@ -80,16 +80,16 @@ const EntityConfiguration = (props) => {
     setCustomApis(response.data) 
   }
 
-  const addCustomApiToConfiguration = async () => {
-    if (api !== '0') {
-      const entityConfiguration = { config: tableData.config }
-      const customApi = apis[api]
-      entityConfiguration.config.push(customApi)
-      console.log(entityConfiguration)
-      const response = await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesconfig", entityConfiguration)
-      console.log(response)
-    }
-  }
+  // const addCustomApiToConfiguration = async () => {
+  //   if (api !== '0') {
+  //     const entityConfiguration = { config: tableData.config }
+  //     const customApi = apis[api]
+  //     entityConfiguration.config.push(customApi)
+  //     console.log(entityConfiguration)
+  //     const response = await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesconfig", entityConfiguration)
+  //     console.log(response)
+  //   }
+  // }
 
   // Might be slow in capturing data after Api call
   if (customApis.length === 0 && tableData.length === 0) {
@@ -104,8 +104,6 @@ const EntityConfiguration = (props) => {
       })
     }
     if (rows.length === 0) {
-      console.log("#Check the key in the object due to mis-spelled#", tableData)
-      // console.log("Company Id:", tableData.company_id)
       if (tableData.config !== undefined) {
         tableData.config.forEach((entity) => {
             rows.push(entity)
@@ -176,7 +174,7 @@ const EntityConfiguration = (props) => {
                 </HelixTextField>
                 <IconButton
                 color="primary"
-                onClick={addCustomApiToConfiguration}>
+                onClick={handleAddCustomApi}>
                     <AddBoxIcon fontSize="large" />
                 </IconButton>
             </div>
