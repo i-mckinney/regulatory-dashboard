@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
+import { StylesProvider, makeStyles, Typography } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton'

@@ -42,7 +42,9 @@ const EntityConfiguration = (props) => {
     const entityConfigurationClasses = entityConfigurationStyles()
 
     // data store fetchEntitiesConfiguration GET Method API results
-    const [data, setData] = useState([])
+    const [tableData, setTableData] = useState([])
+
+    const [customApis, setCustomApis] = useState([])
 
     const columns = useMemo(() => [
         {
@@ -54,20 +56,46 @@ const EntityConfiguration = (props) => {
 
     const rows = useMemo(() => [], [])
 
-  // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
+    const apis = useMemo(() => [{
+      "label": "Select an API",
+      "value": "0",
+  }], [])
+  
+    const [api, setApi] = useState("0")
+  
+    const handleChange = (event) => {
+      setApi(event.target.value)
+    }
+
+  // fetchEntitiesConfiguration calls backend api through get protocol to get all the aggregated source system data
   const fetchEntitiesConfiguration = async () => {
     const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
-    setData(response.data)
+    setTableData(response.data)
   }
 
-  if (data.length === 0) {
+  // const fetchCustomApis = async () => {
+  //   const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
+  //   setCustomApis(response.data) 
+  // }
+
+  if (customApis.length === 0 && tableData.length === 0) {
+    // fetchCustomApis()
     fetchEntitiesConfiguration()
   } else {
-      data.entityConfiguration.map((entity) => {
+    if (apis.length === 1) {
+      customApis.forEach((customApi, customApiIndex) => {
+        customApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+        customApi["value"] = customApiIndex + 1
+        apis.push(customApi)
+      })
+    }
+    if (rows.length === 0) {
+      tableData.entityConfiguration.forEach((entity) => {
           rows.push(entity)
       })
-      console.log(rows)
+    }
   }
+  console.log(apis[api], apis)
 
     /**
      * @param {object} column represent object data regarding the api result  
@@ -84,7 +112,7 @@ const EntityConfiguration = (props) => {
      * @return {string} provide table row with unique key props (required)
      */
     const customBodyRowKeyProp = (row) => {
-        return row.requestName  
+        return row._id  
     }
 
     /**
@@ -96,7 +124,7 @@ const EntityConfiguration = (props) => {
     const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
         return (
-            <TableCell key={`${rowIndex} ${columnAccessor}`}>
+            <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
                 <span className={entityConfigurationClasses.cellSpan}>
                     {row[columnAccessor]}
                     <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/delete/${row._id}`, state: row }))} color="secondary">
@@ -106,27 +134,6 @@ const EntityConfiguration = (props) => {
             </TableCell>
         )
     }
-
-    const apis = [
-        {
-          value: "Get-Salesforce-Transaction-Data",
-          label: "Get Salesforce Transaction Data",
-        },
-        {
-          value: "Post-Salesforce-Transaction-Data",
-          label: "Post Salesforce Transaction Data",
-        },
-        {
-          value: "Put-Salesforce-Transaction-Data",
-          label: "Put Salesforce Transaction Data",
-        },
-      ]
-    
-      const [api, setApi] = useState("Get-Salesforce-Transaction-Data")
-    
-      const handleChange = (event) => {
-        setApi(event.target.value)
-      }
 
     return (
         <div className={entityConfigurationClasses.configContainer}>
