@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTextField } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
+import entities from '../apis/entities'
 
 // Styling used for MaterialUI
 const entityConfigurationStyles = makeStyles(() => ({
@@ -40,19 +41,33 @@ const EntityConfiguration = (props) => {
     // Creates an object for styling. Any className that matches key in the entityConfigurationStyles object will have a corresponding styling
     const entityConfigurationClasses = entityConfigurationStyles()
 
+    // data store fetchEntitiesConfiguration GET Method API results
+    const [data, setData] = useState([])
+
     const columns = useMemo(() => [
         {
             Label: "Selected Custom Api Request",
-            Accessor: "SelectedCustomApiRequest",
+            Accessor: "requestName",
             Sortable: false,
         },
     ], [])
 
-    const rows = useMemo(() => [
-        {
-            "SelectedCustomApiRequest": "localhost:5555/123/entities"
-        }
-    ], [])
+    const rows = useMemo(() => [], [])
+
+  // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
+  const fetchEntitiesConfiguration = async () => {
+    const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
+    setData(response.data)
+  }
+
+  if (data.length === 0) {
+    fetchEntitiesConfiguration()
+  } else {
+      data.entityConfiguration.map((entity) => {
+          rows.push(entity)
+      })
+      console.log(rows)
+  }
 
     /**
      * @param {object} column represent object data regarding the api result  
@@ -69,7 +84,7 @@ const EntityConfiguration = (props) => {
      * @return {string} provide table row with unique key props (required)
      */
     const customBodyRowKeyProp = (row) => {
-        return row.SelectedCustomApiRequest
+        return row.requestName  
     }
 
     /**
@@ -78,7 +93,7 @@ const EntityConfiguration = (props) => {
      * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
      * @return {JSX} Table cell of object properties in that Table row
      */
-    const customCellRender = (rowIndex, row, column) => {
+    const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
         return (
             <TableCell key={`${rowIndex} ${columnAccessor}`}>
