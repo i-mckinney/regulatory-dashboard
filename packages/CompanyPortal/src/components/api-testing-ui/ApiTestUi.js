@@ -30,12 +30,16 @@ export default function ApiTestUi({ data }) {
       {}
     );
 
+  const expandToArray = (obj) =>
+    obj &&
+    Object.entries(obj).map(([key, val]) => ({ id: uuidv4(), key, val }));
+
   useEffect(() => {
-    setMethod(data.requestMethod);
+    setMethod(data.requestType);
     setUrl(data.requestUrl);
-    setParams(data.requestParams || [createNewField()]);
-    setMapping(data.requestMapping || [createNewField()]);
-    setHeaders(data.requestHeaders || [createNewField()]);
+    setParams(expandToArray(data.requestParams) || [createNewField()]);
+    setMapping(expandToArray(data.requestMapping) || [createNewField()]);
+    setHeaders(expandToArray(data.requestHeaders) || [createNewField()]);
   }, [data]);
 
   const onSubmitRequest = async () => {
@@ -50,7 +54,7 @@ export default function ApiTestUi({ data }) {
     console.log(requestData);
     // make the api call and then setResponse
     const res = await axios.post(
-      'http://localhost:4005/companies',
+      'http://localhost:5000/companies',
       requestData
     );
     setResponse(res.data);

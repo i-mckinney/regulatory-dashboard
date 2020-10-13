@@ -12,14 +12,14 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
 
   useEffect(() => {
     const testRequest = async () => {
-      const { _id, requestMethod, requestBody } = requestData;
+      const { _id, requestType, requestBody } = requestData;
       setLoading(true);
       const response = await axios({
-        //method: requestMethod,
+        //method: requestType,
         //url: `${BASE_URL}/${_id}`,
         //body: requestBody,
         method: 'GET',
-        url: 'http://localhost:4005/companies',
+        url: 'http://localhost:5000/companies',
       });
       setTestResponse(response.data);
       setLoading(false);
@@ -43,8 +43,8 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
         <CircularProgress />
       ) : (
         <div>
-          <ApiTestUi data={requestData}/>
-          {/* <pre>{JSON.stringify(testResponse, null, 2)}</pre> */}
+          <ApiTestUi data={requestData} />
+          <pre>{JSON.stringify(testResponse, null, 2)}</pre>
         </div>
       )}
     </DialogModalTemplate>

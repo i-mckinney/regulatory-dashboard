@@ -20,7 +20,7 @@ const useModalStyles = makeStyles((theme) => ({
   },
   actionButton: {
     marginTop: '10px',
-  }
+  },
 }));
 
 const EditCustomApiRequestDialog = ({
@@ -34,7 +34,7 @@ const EditCustomApiRequestDialog = ({
 }) => {
   const classes = useModalStyles();
   const [requestName, setRequestName] = useState(data.requestName);
-  const [requestMethod, setRequestMethod] = useState(data.requestMethod);
+  const [requestType, setRequestType] = useState(data.requestType);
   const [requestUrl, setRequestURL] = useState(data.requestUrl);
   let handleClick, title, buttonText;
 
@@ -50,7 +50,7 @@ const EditCustomApiRequestDialog = ({
 
   useEffect(() => {
     setRequestName(data.requestName);
-    setRequestMethod(data.requestMethod);
+    setRequestType(data.requestType);
     setRequestURL(data.requestUrl);
   }, [data]);
 
@@ -70,8 +70,8 @@ const EditCustomApiRequestDialog = ({
         <Controls.Select
           label='METHOD'
           options={apiCallService.getMethodCollection()}
-          value={requestMethod}
-          onChange={(e) => setRequestMethod(e.target.value)}
+          value={requestType}
+          onChange={(e) => setRequestType(e.target.value)}
         />
         <TextField
           variant='outlined'
@@ -84,7 +84,7 @@ const EditCustomApiRequestDialog = ({
           variant='contained'
           disabled={loading}
           onClick={() =>
-            handleClick({ ...data, requestName, requestMethod, requestUrl })
+            handleClick({ ...data, requestName, requestType, requestUrl })
           }
         >
           {buttonText}
