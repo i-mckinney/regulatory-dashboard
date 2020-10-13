@@ -46,7 +46,7 @@ function MyRequest() {
       Header: "Outstanding Amount",
       accessor: "OutstandingAmount",
     },
-  ])
+  ],[])
   const mockData = [
     {
       LoanID: "Loan",
