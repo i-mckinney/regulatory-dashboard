@@ -57,137 +57,137 @@ const EntityConfiguration = (props) => {
     const apis = useMemo(() => [{
       "label": "Select an API",
       "value": "0",
-  }], [])
+    }], [])
   
     const [api, setApi] = useState("0")
   
     const handleChange = (event) => {
       setApi(event.target.value)
     }
-
-  const fetchCustomApis = async () => {
-    const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
-    setCustomApis(response.data) 
-  }
-
-  // const addCustomApiToConfiguration = async () => {
-  //   if (api !== '0') {
-  //     const entityConfiguration = { config: tableData.config }
-  //     const customApi = apis[api]
-  //     entityConfiguration.config.push(customApi)
-  //     console.log(entityConfiguration)
-  //     const response = await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesconfig", entityConfiguration)
-  //     console.log(response)
-  //   }
-  // }
-
-  useEffect(() => {
-
-    const fetchEntitiesConfiguration = async () => {
-      const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
-      console.log("this is: ", response)
-      setRows(response.data.config)
+    
+    const fetchCustomApis = async () => {
+      const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
+      setCustomApis(response.data) 
     }
 
-    fetchEntitiesConfiguration()
-  }, [columns])
+    // const addCustomApiToConfiguration = async () => {
+    //   if (api !== '0') {
+    //     const entityConfiguration = { config: tableData.config }
+    //     const customApi = apis[api]
+    //     entityConfiguration.config.push(customApi)
+    //     console.log(entityConfiguration)
+    //     const response = await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesconfig", entityConfiguration)
+    //     console.log(response)
+    //   }
+    // }
 
-  // Might be slow in capturing data after Api call
-  if (customApis.length === 0) {
-    fetchCustomApis()
-  } else {
-    if (apis.length === 1) {
-      customApis.forEach((customApi, customApiIndex) => {
-        customApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
-        customApi["value"] = customApiIndex + 1
-        apis.push(customApi)
-      })
+    useEffect(() => {
+
+      const fetchEntitiesConfiguration = async () => {
+        const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
+        console.log("this is: ", response)
+        setRows(response.data.config)
+      }
+
+      fetchEntitiesConfiguration()
+    }, [columns])
+
+    // Might be slow in capturing data after Api call
+    if (customApis.length === 0) {
+      fetchCustomApis()
+    } else {
+      if (apis.length === 1) {
+        customApis.forEach((customApi, customApiIndex) => {
+          customApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+          customApi["value"] = customApiIndex + 1
+          apis.push(customApi)
+        })
+      }
     }
-  }
 
-  const handleAddCustomApi = () => {
-    const copyRows = [ ...rows ]
-    copyRows.push(apis[api])
-    setRows(copyRows)
-  }
+    const handleAddCustomApi = () => {
+      const copyRows = [ ...rows ]
+      copyRows.push(apis[api])
+      setRows(copyRows)
+    }
 
-  const handleDeleteCustomApi = (rowIndex) => () => {
-    const copyRows = [ ...rows ]
-    const remainingCopyRows = copyRows.filter((copyRow, idx) => idx !== rowIndex)
-    setRows(remainingCopyRows)
-  }
+    const handleDeleteCustomApi = (rowIndex) => () => {
+      const copyRows = [ ...rows ]
+      const remainingCopyRows = copyRows.filter((copyRow, idx) => idx !== rowIndex)
+      setRows(remainingCopyRows)
+    }
 
-  /**
-   * @param {object} column represent object data regarding the api result  
-   * @return {string} provide table row with unique key props (required)
-   */
-  const customHeadColumnKeyProp = (column) => {
-      return column.Accessor
-  }
+    /**
+     * @param {object} column represent object data regarding the api result  
+     * @return {string} provide table row with unique key props (required)
+     */
+    const customHeadColumnKeyProp = (column) => {
+        return column.Accessor
+    }
 
-  const displayCreateIcon = () => null
+    const displayCreateIcon = () => null
 
-  /**
-   * @param {object} row represent object data regarding the api result 
-   * @return {string} provide table row with unique key props (required)
-   */
-  const customBodyRowKeyProp = (row) => {
-      return row._id  
-  }
+    /**
+     * @param {object} row represent object data regarding the api result 
+     * @return {string} provide table row with unique key props (required)
+     */
+    const customBodyRowKeyProp = (row) => {
+        return row._id  
+    }
 
-  /**
-   * @param {int} rowIndex represents row index
-   * @param {object} row represent object data from the api result
-   * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
-   * @return {JSX} Table cell of object properties in that Table row
-   */
-  const customCellRender = (row, column, rowIndex, columnIndex) => {
-      const columnAccessor = column.Accessor
-      return (
-          <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
-              <span className={entityConfigurationClasses.cellSpan}>
-                  {row[columnAccessor]}
-                  <IconButton aria-label="delete" size="small" edge="start" onClick={handleDeleteCustomApi(rowIndex)} color="secondary">
-                      <DeleteIcon />
+    /**
+     * @param {int} rowIndex represents row index
+     * @param {object} row represent object data from the api result
+     * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
+     * @return {JSX} Table cell of object properties in that Table row
+     */
+    const customCellRender = (row, column, rowIndex, columnIndex) => {
+        const columnAccessor = column.Accessor
+        return (
+            <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
+                <span className={entityConfigurationClasses.cellSpan}>
+                    {row[columnAccessor]}
+                    <IconButton aria-label="delete" size="small" edge="start" onClick={handleDeleteCustomApi(rowIndex)} color="secondary">
+                        <DeleteIcon />
+                  </IconButton>
+                </span>
+            </TableCell>
+        )
+    }
+
+    return (
+        <div className={entityConfigurationClasses.configContainer}>
+            <div>
+                <HelixTextField
+                className={entityConfigurationClasses.selectFormControl}
+                id="outlined-select-api-native"
+                select
+                label="API"
+                value={api}
+                onChange={handleChange}
+                SelectProps={{
+                    native: true,
+                }}
+                helperText="Please select your API"
+                variant="outlined"
+                >
+                {apis.map((option) => (
+                    <option key={option.value} value={option.value}>
+                    {option.label}
+                    </option>
+                ))}
+                </HelixTextField>
+                <IconButton
+                color="primary"
+                onClick={handleAddCustomApi}>
+                    <AddBoxIcon fontSize="large" />
                 </IconButton>
-              </span>
-          </TableCell>
-      )
-  }
-
-  return (
-      <div className={entityConfigurationClasses.configContainer}>
-          <div>
-              <HelixTextField
-              className={entityConfigurationClasses.selectFormControl}
-              id="outlined-select-api-native"
-              select
-              label="API"
-              value={api}
-              onChange={handleChange}
-              SelectProps={{
-                  native: true,
-              }}
-              helperText="Please select your API"
-              variant="outlined"
-              >
-              {apis.map((option) => (
-                  <option key={option.value} value={option.value}>
-                  {option.label}
-                  </option>
-              ))}
-              </HelixTextField>
-              <IconButton
-              color="primary"
-              onClick={handleAddCustomApi}>
-                  <AddBoxIcon fontSize="large" />
-              </IconButton>
-          </div>
-          <div className={entityConfigurationClasses.configTable}>
-              <HelixTable displayCreateIcon={displayCreateIcon} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
-          </div>
-      </div>
-  )
+            </div>
+            <div className={entityConfigurationClasses.configTable}>
+                <HelixTable displayCreateIcon={displayCreateIcon} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
+            </div>
+        </div>
+    )
 }
 
 export default withRouter(EntityConfiguration)
