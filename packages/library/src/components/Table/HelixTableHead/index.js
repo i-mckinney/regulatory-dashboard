@@ -26,9 +26,10 @@ const helixTableHeadStyles = makeStyles(() => ({
  * @param {string} order string represents ascending or descending order
  * @param {string} orderBy string represents which column should it order by
  * @param {func} onSort func that sort the table by column either ascending or descending order
+ * @param {bool} toggleSearch bool represents true or false if table should have a search function
  * @returns {JSX} renders a custom table head for table
  */
-const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSort }) => {
+const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSort, toggleSearch }) => {
   // Creates an object for styling. Any className that matches key in the helixTableHeadStyles object will have a corresponding styling
   const helixTableHeadClasses = helixTableHeadStyles()
 
@@ -85,7 +86,7 @@ const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSo
             <TableCell 
             key={customHeadColumnKeyProp(column)}
             sortDirection={orderBy === customHeadColumnKeyProp(column) ? order : false}>
-              {renderTableSortLabel(column)}
+              {toggleSearch ? renderTableSortLabel(column) : column.Label}
             </TableCell>
           ))}
       </TableRow>
@@ -96,9 +97,16 @@ const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSo
 HelixTableHead.propTypes = {
   columns: PropTypes.instanceOf(Array).isRequired,
   customHeadColumnKeyProp: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  order: PropTypes.oneOf(['asc', 'desc', '']).isRequired,
   orderBy: PropTypes.string.isRequired,
   onSort: PropTypes.func.isRequired,
+  toggleSearch: PropTypes.bool.isRequired,
+}
+
+HelixTableHead.defaultProps = {
+  order: '',
+  orderBy: '',
+  toggleSearch: false,
 }
 
 export default HelixTableHead
