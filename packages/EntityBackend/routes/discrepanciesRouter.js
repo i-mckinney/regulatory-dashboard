@@ -29,11 +29,7 @@ router.get("/:companyId/:borrowerId/report", async (req, res) => {
     /** list of headers to populate headers of a discrepancy table  */
     let TableHeaders = [{ Label: "Field Name", Accessor: "FieldName" }];
 
-    for (
-      let configuredApiIdx = 0;
-      configuredApiIdx < configuredApiCalls.length;
-      configuredApiIdx++
-    ) {
+    for (let configuredApiIdx = 0; configuredApiIdx < configuredApiCalls.length; configuredApiIdx++) {
       /** customAPI will be an object that contains all the necessary information to make an axios request 
        * ex) 
        *  {
