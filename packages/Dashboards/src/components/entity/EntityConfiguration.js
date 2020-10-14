@@ -96,7 +96,6 @@ const EntityConfiguration = (props) => {
 
       const fetchEntitiesConfiguration = async () => {
         const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
-        console.log("this is: ", response)
         response.data.entityConfiguration.forEach((row) => {
           tempRows.push(row)
         })
