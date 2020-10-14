@@ -1,6 +1,6 @@
 const DbConnection = require("../db");
 
-//Function to reset entity DB
+//Helper Function to reset fake data coming from external sources in db
 const ResetData = async () => {
   try {
     const companyProfileList = [
@@ -19,3 +19,5 @@ const ResetData = async () => {
     throw new Error(e);
   }
 };
+
+module.exports = ResetData;
