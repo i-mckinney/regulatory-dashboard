@@ -1,10 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, TableCell } from '@material-ui/core'
+import { makeStyles, TableCell, Grid } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { HelixTextField } from 'helixmonorepo-lib'
+import SaveIcon from '@material-ui/icons/Save'
+import CancelIcon from '@material-ui/icons/Cancel'
+import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
 import entities from '../apis/entities'
 import companies from '../apis/companies'
@@ -29,8 +31,18 @@ const entityConfigurationStyles = makeStyles(() => ({
             float: 'right',
             cursor: 'pointer',
             marginLeft: "auto",
-        }
-    }
+        },
+    },
+    buttonStyle: {
+      '& button': {
+          marginTop: '16px',
+          marginRight: '16px',
+      },
+      '& a': {
+          marginTop: '16px',
+          marginRight: '16px',
+      }
+  },
   }))
 
 /**
@@ -66,26 +78,15 @@ const EntityConfiguration = (props) => {
       setApi(event.target.value)
     }
 
-    // const addCustomApiToConfiguration = async () => {
-    //   if (api !== '0') {
-    //     const entityConfiguration = { config: tableData.config }
-    //     const customApi = apis[api]
-    //     entityConfiguration.config.push(customApi)
-    //     console.log(entityConfiguration)
-    //     const response = await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesconfig", entityConfiguration)
-    //     console.log(response)
-    //   }
-    // }
-
     useEffect(() => {
 
       const fetchEntitiesConfiguration = async () => {
         const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
         console.log("this is: ", response)
-        response.data.config.forEach((row) => {
+        response.data.entityConfiguration.forEach((row) => {
           tempRows.push(row)
         })
-        setRows(response.data.config)
+        setRows(response.data.entityConfiguration)
       }
       fetchEntitiesConfiguration()
 
@@ -102,7 +103,7 @@ const EntityConfiguration = (props) => {
             customApi["value"] = customApiIndex + 1
             apis.push(customApi)
           })
-          console.log(remainingCustomApis, tempRows)
+
           setCustomApis(remainingCustomApis)
         }
       }
@@ -116,10 +117,16 @@ const EntityConfiguration = (props) => {
       setRows(copyRows)
     }
 
-    const handleDeleteCustomApi = (rowIndex) => () => {
+    const handleDeleteCustomApi = (rowIndex) => {
       const copyRows = [ ...rows ]
       const remainingCopyRows = copyRows.filter((copyRow, idx) => idx !== rowIndex)
       setRows(remainingCopyRows)
+    }
+
+    const handleSaveEntityConfiguration = async () => {
+      const config = { entityConfiguration: rows}
+      await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesConfig", config)
+      props.history.push("/entity")
     }
 
     /**
@@ -152,13 +159,39 @@ const EntityConfiguration = (props) => {
             <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
                 <span className={entityConfigurationClasses.cellSpan}>
                     {row[columnAccessor]}
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={handleDeleteCustomApi(rowIndex)} color="secondary">
+                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => handleDeleteCustomApi(rowIndex)} color="secondary">
                         <DeleteIcon />
                   </IconButton>
                 </span>
             </TableCell>
         )
     }
+
+        /**
+     * @return {jsx} return a jsx object of HelixButtons 
+     */
+    const renderButtonActions = () => {
+      return (
+          <>
+              <HelixButton 
+              color="primary" 
+              variant="contained" 
+              type="submit" 
+              size="small"
+              onClick={handleSaveEntityConfiguration}
+              startIcon={<SaveIcon />}
+              text="Save" />
+              <HelixButton
+              color="default"
+              variant="contained"
+              type="cancel"
+              size="small"
+              href="/entity"
+              startIcon={<CancelIcon />}
+              text="Cancel" />
+          </>
+      )
+  }
 
     return (
         <div className={entityConfigurationClasses.configContainer}>
@@ -191,6 +224,12 @@ const EntityConfiguration = (props) => {
             <div className={entityConfigurationClasses.configTable}>
                 <HelixTable displayCreateIcon={displayCreateIcon} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
             </div>
+            <Grid container>
+                <Grid item xs></Grid>
+                <Grid item xs={3} className={entityConfigurationClasses.buttonStyle}>
+                    {renderButtonActions()}
+                </Grid>
+            </Grid>
         </div>
     )
 }
