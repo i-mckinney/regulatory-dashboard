@@ -1,7 +1,8 @@
 const axios = require("axios");
+const { entity_config_url } = require("../config");
 
 /**
- * 
+ *
  * @param {string} companyId a unique identifier to represent company
  * @return list of selected custom apis in entity configuration page for a company
  * example)
@@ -26,22 +27,21 @@ const axios = require("axios");
  *           }
  *       },
  * ]
- * 
+ *
  */
-async function getEntityConfigurations(companyId){
-    /** Using this information, we would know which custom api calls to dispatch for a discrepancy report. */
-    let entityConfigurations = axios({
-      method: "GET",
-      url: `http://localhost:4005/config/${companyId}`,
-    });
+async function getEntityConfigurations(companyId) {
+  /** Using this information, we would know which custom api calls to dispatch for a discrepancy report. */
+  let entityConfigurations = axios({
+    method: "GET",
+    url: `${entity_config_url}/${companyId}`,
+  });
 
-    let configuredApiCalls = await entityConfigurations.then((response) => {
-      let entityConfigs = response.data.entityConfiguration;
-      return entityConfigs;
-    });
+  let configuredApiCalls = await entityConfigurations.then((response) => {
+    let entityConfigs = response.data.entityConfiguration;
+    return entityConfigs;
+  });
 
-    return  configuredApiCalls
-
+  return configuredApiCalls;
 }
 
-module.exports = getEntityConfigurations
+module.exports = getEntityConfigurations;
