@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Controls from '../controls/Controls';
+
 import CustomParams from './custom-request/CustomParams';
 import CustomHeaders from './custom-request/CustomHeaders';
 import CustomBody from './custom-request/CustomBody';
@@ -62,6 +62,7 @@ export default function SimpleTabs({
   headers,
   setHeaders,
   onSubmitRequest,
+  onSave,
 }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -96,10 +97,6 @@ export default function SimpleTabs({
       <TabPanel value={value} index={3}>
         <CustomMapping fields={mapping} onChange={setMapping} />
       </TabPanel>
-      <Controls.Button
-        text='SEND REQUEST'
-        onClick={onSubmitRequest}
-      ></Controls.Button>
     </div>
   );
 }

@@ -17,13 +17,23 @@ const CardStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PerformTestCard({ method, url, setMethod, setUrl }) {
+export default function PerformTestCard({ name, method, url, setName, setMethod, setUrl }) {
   const cardClasses = CardStyles();
 
   return (
     <div>
       <Card className={cardClasses.root}>
         <Grid container spacing={2}>
+          <Grid item md={12} style={{ marginLeft: 'auto' }}>
+            <Controls.Input
+              fullWidth
+              label='Request Name'
+              defaultValue='Default Value'
+              width={true}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            ></Controls.Input>
+          </Grid>
           <Grid item md={3}>
             <Controls.Select
               label='Request Method'

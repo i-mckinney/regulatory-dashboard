@@ -1,27 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Controls from '../../components/controls/Controls';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core';
+import React from 'react';
 import DialogModalTemplate from '../DialogModalTemplate';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
-import * as apiCallService from '../../services/apiCallService';
-
-const useModalStyles = makeStyles((theme) => ({
-  fieldContainer: {
-    height: '100%',
-    width: '350px',
-    display: 'flex',
-    flexDirection: 'column',
-    '& div': {
-      marginTop: '10px',
-    },
-  },
-  actionButton: {
-    marginTop: '10px',
-  },
-}));
+import ApiTestUi from '../api-testing-ui/ApiTestUi';
 
 const EditCustomApiRequestDialog = ({
   open,
@@ -32,27 +12,15 @@ const EditCustomApiRequestDialog = ({
   onCreate,
   modalAction,
 }) => {
-  const classes = useModalStyles();
-  const [requestName, setRequestName] = useState(data.requestName);
-  const [requestType, setRequestType] = useState(data.requestType);
-  const [requestUrl, setRequestURL] = useState(data.requestUrl);
-  let handleClick, title, buttonText;
+  let handleClick, title;
 
   if (modalAction === MODAL_ACTION_CREATE) {
     handleClick = onCreate;
     title = 'Create a new API Request';
-    buttonText = 'ADD';
   } else if (modalAction === MODAL_ACTION_UPDATE) {
     handleClick = onUpdate;
     title = 'Update Existing API Request';
-    buttonText = 'Save';
   }
-
-  useEffect(() => {
-    setRequestName(data.requestName);
-    setRequestType(data.requestType);
-    setRequestURL(data.requestUrl);
-  }, [data]);
 
   if (!open) {
     return null;
@@ -60,38 +28,7 @@ const EditCustomApiRequestDialog = ({
 
   return (
     <DialogModalTemplate onClose={onClose} title={title} open={open}>
-      <div className={classes.fieldContainer}>
-        <TextField
-          variant='outlined'
-          label='Request Name'
-          value={requestName}
-          onChange={(e) => setRequestName(e.target.value)}
-        />
-        <Controls.Select
-          label='METHOD'
-          options={apiCallService.getMethodCollection()}
-          value={requestType}
-          onChange={(e) => setRequestType(e.target.value)}
-        />
-        <TextField
-          variant='outlined'
-          label='Request URL'
-          value={requestUrl}
-          onChange={(e) => setRequestURL(e.target.value)}
-        />
-        <div className={classes.actionButton}></div>
-        <Button
-          variant='contained'
-          disabled={loading}
-          onClick={() =>
-            handleClick({ ...data, requestName, requestType, requestUrl })
-          }
-        >
-          {buttonText}
-          {` `}
-          {loading ? <CircularProgress /> : null}
-        </Button>
-      </div>
+      <ApiTestUi data={data} onSave={handleClick} />
     </DialogModalTemplate>
   );
 };
