@@ -125,7 +125,6 @@ const EntityConfiguration = (props) => {
         setApi("0")
       } 
     }
-    console.log(rows)
 
     const handleDeleteCustomApi = (rowId, rowIndex) => {
       const copyRows = [ ...rows ]
@@ -135,7 +134,7 @@ const EntityConfiguration = (props) => {
       copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
       copyCustomApi["value"] = customApi["_id"]
       apis.push(copyCustomApi)
-      
+
       const remainingCopyRows = copyRows.filter((copyRow) => copyRow._id !== rowId)
       setRows(remainingCopyRows)
     }
