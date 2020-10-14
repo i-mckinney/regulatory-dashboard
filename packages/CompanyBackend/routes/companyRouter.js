@@ -1,7 +1,6 @@
 // import modules
 const express = require("express");
 const router = express.Router();
-const { v4: uuidv4 } = require("uuid");
 const { ObjectId } = require("mongodb");
 const dateTimeHelper = require("../utils/dateTimeHelper");
 const customApiRequestTest = require("../helpers/customApiRequestTest");
@@ -37,10 +36,6 @@ router.post("/companies", async (req, res) => {
   try {
     const newCompany = req.body;
 
-    if (!newCompany.CustomApiRequests) {
-      newCompany.CustomApiRequests = [];
-    }
-
     console.log("Adding new company: ", newCompany);
     if (newCompany["_id"])
       throw Error("Not allowed to manually give _id to new Company");
@@ -50,7 +45,6 @@ router.post("/companies", async (req, res) => {
 
     await dbCollection.insertOne({
       ...newCompany,
-      createdAt: dateTimeHelper.getTimeStamp(),
     });
 
     // return updated list
