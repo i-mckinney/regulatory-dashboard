@@ -84,10 +84,11 @@ const EntityConfiguration = (props) => {
         !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
       )
 
-      remainingCustomApis.forEach((customApi, customApiIndex) => {
-        customApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
-        customApi["value"] = customApi["_id"]
-        apis.push(customApi)
+      remainingCustomApis.forEach((customApi) => {
+        const copyCustomApi = { ...customApi }
+        copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+        copyCustomApi["value"] = customApi["_id"]
+        apis.push(copyCustomApi)
       })
     }
 
@@ -114,18 +115,26 @@ const EntityConfiguration = (props) => {
 
     const handleAddCustomApi = () => {
       const copyRows = [ ...rows ]
-      const index = apis.findIndex((elem) => elem._id === api)
-      if (index !== -1) {
-        copyRows.push(apis[index])
-        tempRows.push(apis[index])
-        apis.splice(index, 1)
+      const removedSelectionIndex = apis.findIndex((elem) => elem._id === api)
+      if (removedSelectionIndex !== -1) {
+        const index = customApis.findIndex((elem) => elem._id === apis[removedSelectionIndex]._id)
+        copyRows.push(customApis[index])
+        tempRows.push(customApis[index])
+        apis.splice(removedSelectionIndex, 1)
         setRows(copyRows)
         setApi("0")
       } 
     }
+    console.log(rows)
 
     const handleDeleteCustomApi = (rowId, rowIndex) => {
       const copyRows = [ ...rows ]
+      const customApi = copyRows[rowIndex]
+
+      const copyCustomApi = { ...customApi }
+      copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+      copyCustomApi["value"] = customApi["_id"]
+      apis.push(copyCustomApi)
       
       const remainingCopyRows = copyRows.filter((copyRow) => copyRow._id !== rowId)
       setRows(remainingCopyRows)
