@@ -78,6 +78,19 @@ const EntityConfiguration = (props) => {
       setApi(event.target.value)
     }
 
+    const showSelection = (response) => {
+      const copyCustomApis = [ ...response ]
+      const remainingCustomApis = copyCustomApis.filter((customApi) => 
+        !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
+      )
+
+      remainingCustomApis.forEach((customApi, customApiIndex) => {
+        customApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+        customApi["value"] = customApi["_id"]
+        apis.push(customApi)
+      })
+    }
+
     useEffect(() => {
 
       const fetchEntitiesConfiguration = async () => {
@@ -92,20 +105,8 @@ const EntityConfiguration = (props) => {
 
       const fetchCustomApis = async () => {
         const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
-        if (apis.length === 1) {    
-          const copyCustomApis = [ ...response.data ]
-          const remainingCustomApis = copyCustomApis.filter((customApi) => 
-            !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
-          )
-
-          remainingCustomApis.forEach((customApi, customApiIndex) => {
-            customApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
-            customApi["value"] = customApiIndex + 1
-            apis.push(customApi)
-          })
-
-          setCustomApis(remainingCustomApis)
-        }
+        showSelection(response.data)
+        setCustomApis(response.data)
       }
 
       fetchCustomApis()
@@ -113,13 +114,20 @@ const EntityConfiguration = (props) => {
 
     const handleAddCustomApi = () => {
       const copyRows = [ ...rows ]
-      copyRows.push(apis[api])
-      setRows(copyRows)
+      const index = apis.findIndex((elem) => elem._id === api)
+      if (index !== -1) {
+        copyRows.push(apis[index])
+        tempRows.push(apis[index])
+        apis.splice(index, 1)
+        setRows(copyRows)
+        setApi("0")
+      } 
     }
 
-    const handleDeleteCustomApi = (rowIndex) => {
+    const handleDeleteCustomApi = (rowId, rowIndex) => {
       const copyRows = [ ...rows ]
-      const remainingCopyRows = copyRows.filter((copyRow, idx) => idx !== rowIndex)
+      
+      const remainingCopyRows = copyRows.filter((copyRow) => copyRow._id !== rowId)
       setRows(remainingCopyRows)
     }
 
@@ -158,8 +166,8 @@ const EntityConfiguration = (props) => {
         return (
             <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
                 <span className={entityConfigurationClasses.cellSpan}>
-                    {row[columnAccessor]}
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => handleDeleteCustomApi(rowIndex)} color="secondary">
+                    {`${row[columnAccessor]} - ${row["requestUrl"]}`}
+                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => handleDeleteCustomApi(row._id, rowIndex)} color="secondary">
                         <DeleteIcon />
                   </IconButton>
                 </span>
