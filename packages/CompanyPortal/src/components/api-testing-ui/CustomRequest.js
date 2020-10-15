@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
-
 import CustomParams from './custom-request/CustomParams';
 import CustomHeaders from './custom-request/CustomHeaders';
 import CustomBody from './custom-request/CustomBody';
@@ -13,6 +12,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+
+/* CUSTOMIZE REQUEST Component
+* A Material UI Tab component that holds child components for setting custom request features
+* Child components are CustomBody, CustomHeaders, CustomParams, and CustomMapping 
+*/
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

@@ -11,6 +11,16 @@ const ApiTestUiStyles = makeStyles({
   },
 });
 
+/**
+* API TEST UI Component
+* Container component that displays the API Add/Edit UI and all of its child components
+*/
+
+
+/** 
+* Generates an object used to store custom params, headers, and mappings set by the user when interacting with the custom request interface
+* @returns {Object} Returns a new field object with a generated unique ID, key and value pair. This object can be used to store custom params, headers, and mappings created in the Custom API interface
+*/
 const createNewField = () => ({ id: uuidv4(), key: '', value: '' });
 
 export default function ApiTestUi({ data, onSave }) {
@@ -22,6 +32,10 @@ export default function ApiTestUi({ data, onSave }) {
   const [mapping, setMapping] = useState([]);
   const [headers, setHeaders] = useState([]);
 
+
+ /**
+ * @returns {Object} reduces array to a plain object 
+ */
   const reduceToPlainObj = (arr) =>
     arr.reduce(
       (acc, val) => ({ ...acc, ...(val.key && { [val.key]: val.value }) }),
@@ -41,7 +55,12 @@ export default function ApiTestUi({ data, onSave }) {
     setHeaders(expandToArray(data.requestHeaders) || [createNewField()]);
   }, [data]);
 
+  
+  /**
+  * @returns {Object} spreads over the existing data state object and overwrites its properties with updated values on save 
+  */ 
   const handleSave = () => {
+    console.log('DATA:', data)
     const requestData = {
       ...data,
       requestType: method,

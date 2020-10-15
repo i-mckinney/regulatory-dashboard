@@ -7,6 +7,16 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Controls from '../../controls/Controls';
 
+/**
+* CUSTOM HEADERS Component
+* UI that allows the user to set custom request headers
+* Intended to be displayed as a tab panel and is a child of the Custom Request tab group component
+*/
+
+/**
+* Method generates an object used to store custom params, headers, and mappings set by the user when interacting with the custom request interface
+* @returns {Object} Returns a new field object with a generated unique ID, key and value pair. 
+*/
 const createNewField = () => ({ id: uuidv4(), key: '', value: '' });
 
 export default function CustomParams({ fields, onChange }) {
@@ -14,10 +24,17 @@ export default function CustomParams({ fields, onChange }) {
     onChange(fields);
   }, [fields, onChange]);
 
+  /**
+  * Spreads over the existing header fields object, and adds a newly created field property to the object 
+  */
   const handleFieldIncrement = () => {
     onChange([...fields, createNewField()]);
   };
 
+  /**
+  * Removes field by targeting unique ID on click event
+  * @param {String} id unique field object id generated on object creation
+  */
   const removeField = (id) => {
     onChange(fields.filter((f) => f.id !== id));
   };

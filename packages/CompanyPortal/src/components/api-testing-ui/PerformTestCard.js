@@ -17,6 +17,18 @@ const CardStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+* ADD/EDIT REQUEST HEADER CARD Component
+* Displays and captures core custom request data such as Request Name, Request Method, and Request Endpoint
+* Child of the ApiTestUi modal component
+*/
+
+
+/**
+ * @param {String} name the request name
+ * @param {String} method the request method type
+ * @param {String} url the request URL
+ */
 export default function PerformTestCard({ name, method, url, setName, setMethod, setUrl }) {
   const cardClasses = CardStyles();
 
