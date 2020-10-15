@@ -57,8 +57,10 @@ const EntityConfiguration = (props) => {
     // Creates an object for styling. Any className that matches key in the entityConfigurationStyles object will have a corresponding styling
     const entityConfigurationClasses = entityConfigurationStyles()
 
+    // customApis store the default list of custom apis
     const [customApis, setCustomApis] = useState([])
 
+    // columns contains selected custom api request
     const columns = useMemo(() => [
       {
         Label: "Selected Custom Api Request",
@@ -67,36 +69,54 @@ const EntityConfiguration = (props) => {
       },
     ], [])
 
+    // rows will store all the row data
     const [rows, setRows] = useState([])
+
+    // tempRows will act as a temporary storage to identify intersection between selected and unselected custom apis
     const tempRows = useMemo(() => [],[])
 
+    // apis acts as an options which show a list of custom apis
     const apis = useMemo(() => [{
       "label": "Select an API",
       "value": "0",
     }], [])
   
+    // api play a role as selecting particular option from apis variable
     const [api, setApi] = useState("0")
   
+    /**
+     * @param {object} event the event object
+     */
     const handleChange = (event) => {
       setApi(event.target.value)
     }
 
-    const showSelection = (response) => {
-      const copyCustomApis = [ ...response ]
-      const remainingCustomApis = copyCustomApis.filter((customApi) => 
-        !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
-      )
-
-      remainingCustomApis.forEach((customApi) => {
-        const copyCustomApi = { ...customApi }
-        copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
-        copyCustomApi["value"] = customApi["_id"]
-        apis.push(copyCustomApi)
-      })
-    }
-
+    /**
+     * Renders only when it is mounted at first
+     * It will fetchEntitiesConfiguration and fetchCustomApis whenever EntityConfiguration loads
+     */
     useEffect(() => {
 
+      /**
+      * @param {object} response the response is an api results/response via api call
+      */
+      const showSelection = (response) => {
+        const copyCustomApis = [ ...response ]
+        const remainingCustomApis = copyCustomApis.filter((customApi) => 
+          !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
+        )
+
+        remainingCustomApis.forEach((customApi) => {
+          const copyCustomApi = { ...customApi }
+          copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+          copyCustomApi["value"] = customApi["_id"]
+          apis.push(copyCustomApi)
+        })
+      }
+
+      /**
+       * fetchEntitiesConfiguration calls backend api through get protocol to get all the selected custom apis
+       */
       const fetchEntitiesConfiguration = async () => {
         const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8/")
         response.data.entityConfiguration.forEach((row) => {
@@ -106,6 +126,9 @@ const EntityConfiguration = (props) => {
       }
       fetchEntitiesConfiguration()
 
+      /**
+       * fetchCustomApis calls backend api through get protocol to get all custom apis
+       */
       const fetchCustomApis = async () => {
         const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
         showSelection(response.data)
@@ -115,6 +138,9 @@ const EntityConfiguration = (props) => {
       fetchCustomApis()
     }, [columns, tempRows, apis])
 
+    /**
+     * handleAddCustomApi adds custom api to table
+     */
     const handleAddCustomApi = () => {
       const copyRows = [ ...rows ]
       const removedSelectionIndex = apis.findIndex((elem) => elem._id === api)
@@ -128,6 +154,10 @@ const EntityConfiguration = (props) => {
       } 
     }
 
+    /**
+     * @param {string} rowId rowId is unique identifier
+     * @param {int} rowIndex represents row index
+     */
     const handleDeleteCustomApi = (rowId, rowIndex) => {
       const copyRows = [ ...rows ]
       const customApi = copyRows[rowIndex]
@@ -141,6 +171,9 @@ const EntityConfiguration = (props) => {
       setRows(remainingCopyRows)
     }
 
+    /**
+     * handleSaveEntityConfiguration saves list of selected custom api in the configuration table
+     */
     const handleSaveEntityConfiguration = async () => {
       const config = { entityConfiguration: rows}
       await entities.post("/config/5f7e1bb2ab26a664b6e950c8/", config)
@@ -154,8 +187,6 @@ const EntityConfiguration = (props) => {
     const customHeadColumnKeyProp = (column) => {
         return column.Accessor
     }
-
-    const displayCreateIcon = () => null
 
     /**
      * @param {object} row represent object data regarding the api result 
@@ -185,7 +216,7 @@ const EntityConfiguration = (props) => {
         )
     }
 
-        /**
+    /**
      * @return {jsx} return a jsx object of HelixButtons 
      */
     const renderButtonActions = () => {
@@ -241,7 +272,7 @@ const EntityConfiguration = (props) => {
                 </IconButton>
             </div>
             <div className={entityConfigurationClasses.configTable}>
-                <HelixTable displayCreateIcon={displayCreateIcon} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
+                <HelixTable toggleSearch={false} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
             </div>
             <Grid container>
                 <Grid item xs></Grid>
