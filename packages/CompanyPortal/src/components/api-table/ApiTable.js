@@ -81,6 +81,8 @@ const userTableStyles = makeStyles(() => ({
   },
 }));
 
+const BASE_URL = "http://localhost:5000"
+
 /**
  * @param {Object} props Using the history location to route next component with data state
  * @return {JSX} ApiTable of the client's custom APIs
@@ -104,7 +106,9 @@ const ApiTable = (props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const customApiUrl = `http://localhost:5000/companies/${companyId}/customapi`;
+  const customApiUrl = `${BASE_URL}/companies/${companyId}/customapi`;
+
+  const getTestUrl = (requestId) => `${customApiUrl}/${requestId}/test` 
 
   /**
    * Renders only when it is mounted at first
@@ -124,7 +128,7 @@ const ApiTable = (props) => {
     };
 
     fetchCompanies();
-  }, []);
+  }, [customApiUrl]);
 
   const handleOpenEditModal = (requestData) => {
     if (!!requestData) {
@@ -166,16 +170,21 @@ const ApiTable = (props) => {
 
   const handleCreateRow = async (newRow) => {
     setLoading(true);
-    const response = await axios.put(
-      `http://localhost:5000/companies/${companyId}`,
-      {
-        CustomApiRequests: [...companyData, newRow],
-      },
-      {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      }
-    );
-    setCompanyData(response.data.CustomApiRequests);
+    try {
+      const response = await axios.post(
+        customApiUrl,
+        newRow,
+        {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        }
+      );
+      setCompanyData([ ...companyData, { ...newRow, _id: response.data._id }]);
+    } catch(e) {
+      console.error(e)
+    }
+    
+
+    
     setLoading(false);
     handleCloseEditModal();
   };
@@ -199,16 +208,18 @@ const ApiTable = (props) => {
   };
 
   const handleDeleteRow = async (_id) => {
-    const response = await axios.put(
-      `http://localhost:5000/companies/${companyId}`,
-      {
-        CustomApiRequests: companyData.filter((row) => row._id !== _id),
-      },
-      {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      }
-    );
-    setCompanyData(response.data.CustomApiRequests);
+    try {
+      await axios.delete(
+        `${customApiUrl}/_id`,
+        {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        }
+      );
+      setCompanyData(companyData.filter(d => d._id !== _id));
+    } catch(e) {
+      console.error(e)
+    }
+    
   };
 
   /**
@@ -334,6 +345,7 @@ const ApiTable = (props) => {
         open={openTestRequestModal}
         onClose={() => setOpenTestRequestModal(false)}
         requestData={requestData}
+        getTestUrl={getTestUrl}
       ></PerformTestDialog>
     </StylesProvider>
   );

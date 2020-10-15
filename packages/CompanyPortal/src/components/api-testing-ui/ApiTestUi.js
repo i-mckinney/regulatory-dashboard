@@ -60,7 +60,6 @@ export default function ApiTestUi({ data, onSave }) {
   * @returns {Object} spreads over the existing data state object and overwrites its properties with updated values on save 
   */ 
   const handleSave = () => {
-    console.log('DATA:', data)
     const requestData = {
       ...data,
       requestType: method,
@@ -71,6 +70,7 @@ export default function ApiTestUi({ data, onSave }) {
       requestHeaders: reduceToPlainObj(headers),
     };
     onSave(requestData)
+    console.log('SAVE data format:', requestData)
   };
 
   return (
