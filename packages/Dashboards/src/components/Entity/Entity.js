@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
+import { StylesProvider, makeStyles, Typography } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton'
@@ -52,7 +52,7 @@ function Entity(props) {
    * filter -> includes (tells react table to show values that matches the value in the select field)
    * Filter not given -> will use global filter
    * */
-  // rows will stores users from GET Method fetchUsers via Rest API 
+  // rows will stores entities from GET Method fetchEntities via Rest API 
   const [rows, setRows] = useState([])
     
   // columns will store column header that we want to show in the front end
@@ -73,7 +73,7 @@ function Entity(props) {
 
   /**
    * @param {object} entity represent object of entity with particular props
-   * @param {string} accessor represents the accessor which user with acessor can access the property value
+   * @param {string} accessor represents the accessor which entity with acessor can access the property value
    */
   const isoToDate = (entity, accessor) => {
       const strDate = entity[accessor];
@@ -82,7 +82,7 @@ function Entity(props) {
 
   /**
    * Renders only when it is mounted at first
-   * It will fetchUsers whenever UserTable loads
+   * It will fetchEntitiess whenever Entity loads
    */
   useEffect(() => {
       
@@ -159,7 +159,7 @@ function Entity(props) {
     /**
      * @return jsx object of create icon in child component's toolbar
      */
-    const displayCreateUserIcon = () => {
+    const displayCreateEntityIcon = () => {
         return (
           <span className={entityClasses.createIconStyle}>
             <IconButton
@@ -181,7 +181,7 @@ function Entity(props) {
               <div className={entityClasses.header}>
                   <Typography variant="h5">Entity</Typography>
               </div>
-              <HelixTable toggleSearch={true} displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+              <HelixTable toggleSearch={true} displayCreateIcon={displayCreateEntityIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             </div>
         </StylesProvider>
     )

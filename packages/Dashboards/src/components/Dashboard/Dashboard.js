@@ -42,7 +42,7 @@ function Dashboard() {
       Header: "Relationship Manager",
       accessor: "RelationshipManager",
     },
-  ])
+  ],[])
   const mockData = [
     {
       RelationshipName: "Loan",

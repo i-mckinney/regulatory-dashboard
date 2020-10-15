@@ -46,7 +46,7 @@ function Regulatory() {
       Header: "Outstanding Amount",
       accessor: "OutstandingAmount",
     },
-  ])
+  ],[])
   const mockData = [
     {
       LoanID: "Loan",

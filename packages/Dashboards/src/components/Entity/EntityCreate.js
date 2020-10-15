@@ -12,12 +12,12 @@ columnFields.forEach((columnField) => {
 
 /**
  * @param {Object} props Using the history property to route next component with data state
- * @return {JSX} EntityCreate site with UserForm provided for entity creation
+ * @return {JSX} EntityCreate site with EntityForm provided for entity creation
  * routed at /entity/new
  */
 const EntityCreate = (props) => {
     /**
-     * @param {object} user represent entity object with props values that it will create 
+     * @param {object} entity represent entity object with props values that it will create 
      */
     const createEntity = async (entity) => {
         entity["company_id"] = ""
