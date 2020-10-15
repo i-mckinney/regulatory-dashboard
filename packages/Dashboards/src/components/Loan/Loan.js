@@ -1,12 +1,12 @@
 import React from "react"
-import { Styles } from "./ReactTable/AdminDashboardStyle"
-import AdminDashboard from "./ReactTable/AdminDashboard"
+import { Styles } from "../../ReactTable/AdminDashboardStyle"
+import AdminDashboard from "../../ReactTable/AdminDashboard"
 
-/** @return {JSX} MyRequest site
- * routed at /MyRequest
+/** @return {JSX} Loan site
+ * routed at /Loan
  */
 
-function MyRequest() {
+function Loan() {
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
    * If we didn't use React.useMemo, the table would think it was receiving new data on every render
@@ -46,7 +46,7 @@ function MyRequest() {
       Header: "Outstanding Amount",
       accessor: "OutstandingAmount",
     },
-  ])
+  ],[])
   const mockData = [
     {
       LoanID: "Loan",
@@ -66,7 +66,7 @@ function MyRequest() {
 
   return (
     <div>
-      <h4 className="mt-1 ml-4">My Request</h4>
+      <h4 className="mt-1 ml-4">Loan</h4>
       <Styles>
         <AdminDashboard
           columns={columns}
@@ -79,4 +79,4 @@ function MyRequest() {
   )
 }
 
-export default MyRequest
+export default Loan

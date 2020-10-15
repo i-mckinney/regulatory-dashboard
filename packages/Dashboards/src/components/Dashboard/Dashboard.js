@@ -1,12 +1,12 @@
 import React from "react"
-import { Styles } from "./ReactTable/AdminDashboardStyle"
-import AdminDashboard from "./ReactTable/AdminDashboard"
+import { Styles } from "../../ReactTable/AdminDashboardStyle"
+import AdminDashboard from "../../ReactTable/AdminDashboard"
 
-/** @return {JSX} Regulatory site
- * routed at /Regulatory
+/** @return {JSX} Dashboard site
+ * routed at /dashboard
  */
 
-function Regulatory() {
+function Dashboard() {
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
    * If we didn't use React.useMemo, the table would think it was receiving new data on every render
@@ -19,43 +19,38 @@ function Regulatory() {
    * */
   const columns = React.useMemo(() => [
     {
-      Header: "Loan ID",
-      accessor: "LoanID",
+      Header: "Relationship Name",
+      accessor: "RelationshipName",
     },
     {
-      Header: "Primary Borrower",
-      accessor: "PrimaryBorrower",
+      Header: "Borrower Name",
+      accessor: "BorrowerName",
     },
     {
-      Header: "Guarantor",
-      accessor: "Guarantor",
+      Header: "Borrower ID",
+      accessor: "BorrowerID",
     },
     {
-      Header: "PrimaryTIN",
-      accessor: "PrimaryTIN",
+      Header: "TIN",
+      accessor: "TIN",
     },
     {
-      Header: "Commitment Type",
-      accessor: "CommitmentType",
+      Header: "Account #",
+      accessor: "AccountNumber",
     },
     {
-      Header: "Commitment Amount",
-      accessor: "CommitmentAmount",
+      Header: "Relationship Manager",
+      accessor: "RelationshipManager",
     },
-    {
-      Header: "Outstanding Amount",
-      accessor: "OutstandingAmount",
-    },
-  ])
+  ],[])
   const mockData = [
     {
-      LoanID: "Loan",
-      PrimaryBorrower: "Eric Jho",
-      Guarantor: "David Geisinger",
-      PrimaryTIN: "L2343243",
-      CommitmentType: "Message",
-      CommitmentAmount: "$30,200",
-      OutstandingAmount: "$32,333",
+      RelationshipName: "Loan",
+      BorrowerName: "Eric Jho",
+      BorrowerID: "3243262354",
+      TIN: "L2343243",
+      AccountNumber: "3234-1235125325-324",
+      RelationshipManager: "David Geisinger",
     },
   ]
 
@@ -66,7 +61,7 @@ function Regulatory() {
 
   return (
     <div>
-      <h4 className="mt-1 ml-4">Regulatory</h4>
+      <h4 className="mt-1 ml-4">Dashboard</h4>
       <Styles>
         <AdminDashboard
           columns={columns}
@@ -79,4 +74,4 @@ function Regulatory() {
   )
 }
 
-export default Regulatory
+export default Dashboard
