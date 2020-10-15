@@ -15,8 +15,8 @@ const GenerateData = async () => {
     const FISEntities = [];
 
     // i limit would detertmine number of entities for fake data
-    for (let i = 0; i < 10; i++) {
-      var userId = uuidv4();
+    for (let i = 0; i < 5; i++) {
+      var BorrowerId = uuidv4();
 
       var RelationshipName = faker.company.companyName();
       var BorrowerName = RelationshipName;
@@ -52,7 +52,6 @@ const GenerateData = async () => {
       var EmailThree = faker.internet.email();
 
       var MasterID = faker.finance.account();
-      var BorrowerID = faker.finance.account();
       var DepositorID = faker.finance.account();
       var AccountOne = faker.finance.account();
       var AccountTwo = faker.finance.account();
@@ -77,7 +76,8 @@ const GenerateData = async () => {
       var GuarantorRiskRating = Math.floor(Math.random() * 10);
 
       const singleEntity = {
-        userId,
+        ExternalSource: "FIS",
+        BorrowerId,
         RelationshipName,
         BorrowerName,
         DepositorName,
@@ -101,7 +101,6 @@ const GenerateData = async () => {
         EmailTwo,
         EmailThree,
         MasterID,
-        BorrowerID,
         DepositorID,
         AccountOne,
         AccountTwo,
@@ -118,9 +117,9 @@ const GenerateData = async () => {
       FISEntities.push(singleEntity);
     }
 
-    var SalesForceEntities = ErrorFieldGenerator(FISEntities);
-    var DataWarehouseEntities = ErrorFieldGenerator(FISEntities);
-    var TemenosEntities = ErrorFieldGenerator(FISEntities);
+    var SalesForceEntities = ErrorFieldGenerator(FISEntities, "SalesForce");
+    var DataWarehouseEntities = ErrorFieldGenerator(FISEntities, "DataWarehouse");
+    var TemenosEntities = ErrorFieldGenerator(FISEntities, "Temenos");
 
     try {
       const dbCollectionFIS = await DbConnection.getCollection("FIS");

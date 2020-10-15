@@ -1,11 +1,63 @@
 import React, { useState } from "react"
-import { Paper, TableContainer, Table } from "@material-ui/core"
+import { StylesProvider, createGenerateClassName, makeStyles, Paper, TableContainer, Table } from "@material-ui/core"
 import PropTypes from "prop-types"
 import HelixTableHead from "../HelixTableHead/index"
 import HelixTableBody from "../HelixTableBody/index"
 import HelixTableFooter from "../HelixTableFooter/index"
 import HelixToolBarSearch from "../HelixToolBarSearch/index"
 import { getComparator, stableSort } from '../HelixTableSortFunc/index'
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'helixtable-',
+})
+
+// Styling used for MaterialUI
+const helixTableStyles = makeStyles(() => ({
+  helixTable: {
+    '& table': {
+        width: '100%',
+        display: 'table',
+        borderTopRightRadius: '4px',
+        borderTopLeftRadius: '4px',
+        boxSizing: 'border-box',
+        borderSpacing: '2px',
+        borderColor: 'grey',
+        '& tr': {
+          border: 'none',
+          backgroundColor: 'white',
+          '&:nth-child(even)': {
+            backgroundColor: '#f2f2f2',
+          },
+          '&:hover': {
+            backgroundColor: '#add8e6',
+          },
+          '&:last-child': {
+            borderBottomRightRadius: '4px',
+            borderBottomLeftRadius: '4px',
+          }
+        },
+        '& th': {
+          backgroundColor: '#2e353d',
+          color: 'white',
+          margin: '0',
+          borderBottom: 'solid 1px #e0e4e8',
+          padding: '8px',
+        },
+        '& td': {
+          margin: '0',
+          borderBottom: 'solid 1px #e0e4e8',
+          padding: '8px',
+          '& button': {
+            marginRight: '1rem',
+            cursor: 'pointer',
+          },
+        },
+        '&:last-children': {
+          borderBottom: 'none',
+        },
+    },
+  },
+}))
 
 /**
  * 
@@ -28,8 +80,12 @@ const HelixTable = ({
   customHeadColumnKeyProp,
   customBodyRowKeyProp,
   initialOrderBy,
+  toggleSearch,
   displayCreateIcon,
   }) => {
+  // Creates an object for styling. Any className that matches key in the helixTableStyles object will have a corresponding styling
+  const helixTableClasses = helixTableStyles()
+
   // Page is needed for pagination to determine the process of what page it is at
   const [page, setPage] = useState(0)
 
@@ -108,16 +164,29 @@ const HelixTable = ({
   }
   
   return (
-    <div>
-      <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateIcon} />
-      <TableContainer component={Paper}>
-        <Table aria-label="table">
-          <HelixTableHead order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
-          <HelixTableBody searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
-          <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
-        </Table>
-      </TableContainer>
-    </div>
+    <StylesProvider generateClassName={generateClassName}>
+      <div className={helixTableClasses.helixTable}>
+      {toggleSearch ?
+        <>
+        <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateIcon} />
+        <TableContainer component={Paper}>
+          <Table aria-label="table">
+            <HelixTableHead toggleSearch={toggleSearch} order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
+            <HelixTableBody toggleSearch={toggleSearch} searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
+            <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
+          </Table>
+        </TableContainer>
+        </>
+        :
+        <TableContainer component={Paper}>
+          <Table aria-label="table">
+            <HelixTableHead onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
+            <HelixTableBody searchFilter={searchFilter} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
+          </Table>
+        </TableContainer>
+      }
+      </div>
+    </StylesProvider>
   )
 }
 
@@ -128,7 +197,14 @@ HelixTable.propTypes = {
   customHeadColumnKeyProp: PropTypes.func.isRequired,
   customBodyRowKeyProp: PropTypes.func.isRequired,
   initialOrderBy: PropTypes.string.isRequired,
+  toggleSearch: PropTypes.bool.isRequired,
   displayCreateIcon: PropTypes.func.isRequired,
+}
+
+HelixTable.defaultProps = {
+  initialOrderBy: '',
+  toggleSearch: true,
+  displayCreateIcon: () => null
 }
 
 export default HelixTable

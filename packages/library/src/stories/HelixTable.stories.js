@@ -1,9 +1,10 @@
 import React from "react"
-import { TableCell } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core"
 import { withKnobs } from "@storybook/addon-knobs"
 import ThemeSelector from "../themes/ThemeSelector"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import HelixTable from "../components/Table/HelixTable/index"
+import HelixTableCell from "../components/Table/HelixTableCell/index"
 
 export default {
     title:"Helix Components/Helix Table",
@@ -117,12 +118,10 @@ const rows = [
 
 const initialOrderBy = "FirstName"
 
-const customCellRender = (rowIndex, row, column) => {
+const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
     return (
-        <TableCell key={`${rowIndex} ${columnAccessor}`}>
-            {row[columnAccessor]}
-        </TableCell>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} />
     )
 }
 
@@ -151,6 +150,7 @@ export const SampleHelixTable = (args) => {
  * SampleHelixTable.args are arguments will provide to SampleHelixTable to work functionality
  */
 SampleHelixTable.args = {
+    toggleSearch: true,
     displayCreateIcon: displayCreateEmptyIcon,
     initialOrderBy: initialOrderBy,
     columns: columns.slice(1),

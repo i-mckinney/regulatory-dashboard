@@ -28,7 +28,7 @@ export const columnMetadata = [
     label: 'Request Name',
   },
   {
-    key: 'requestMethod',
+    key: 'requestType',
     label: 'Request Method',
   },
   {

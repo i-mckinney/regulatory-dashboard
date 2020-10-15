@@ -8,8 +8,8 @@ import { v4 as uuidv4 } from 'uuid';
 import Controls from '../../controls/Controls';
 
 /**
-* CUSTOM HEADERS Component
-* UI that allows the user to set custom request headers
+* CUSTOM MAPPING Component
+* UI that allows the user to set a mapping
 * Intended to be displayed as a tab panel and is a child of the Custom Request tab group component
 */
 
@@ -19,10 +19,7 @@ import Controls from '../../controls/Controls';
 */
 const createNewField = () => ({ id: uuidv4(), key: '', value: '' });
 
-export default function CustomParams({ fields, onChange }) {
-  useEffect(() => {
-    onChange(fields);
-  }, [fields, onChange]);
+export default function CustomMapping({ fields, onChange }) {
 
   /**
   * Spreads over the existing header fields object, and adds a newly created field property to the object 
@@ -42,7 +39,9 @@ export default function CustomParams({ fields, onChange }) {
   return (
     <div>
       <div style={{ marginBottom: '12px' }}>
-        <Typography>Use this tab to set custom request headers</Typography>
+        <Typography>
+          Use this tab to map data values from external sources
+        </Typography>
         <Grid container spacing={0}>
           <Grid item md={5}>
             <h4>Key</h4>

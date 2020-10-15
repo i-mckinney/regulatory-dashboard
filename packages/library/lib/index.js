@@ -27,6 +27,12 @@ Object.defineProperty(exports, "HelixTable", {
     return _HelixTable["default"];
   }
 });
+Object.defineProperty(exports, "HelixTableCell", {
+  enumerable: true,
+  get: function get() {
+    return _HelixTableCell["default"];
+  }
+});
 Object.defineProperty(exports, "dark", {
   enumerable: true,
   get: function get() {
@@ -47,6 +53,8 @@ var _HelixButton = _interopRequireDefault(require("./components/HelixButton"));
 var _HelixTextField = _interopRequireDefault(require("./components/HelixTextField"));
 
 var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"));
+
+var _HelixTableCell = _interopRequireDefault(require("./components/Table/HelixTableCell"));
 
 var _dark = _interopRequireDefault(require("./themes/dark"));
 

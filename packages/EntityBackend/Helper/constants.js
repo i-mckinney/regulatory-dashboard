@@ -1,5 +1,6 @@
 exports.BASEFIELDS= [
-  'userId',
+  'externalSourceName',
+  'BorrowerId',
   'RelationshipName',
   'BorrowerName',
   'DepositorName',
@@ -23,7 +24,6 @@ exports.BASEFIELDS= [
   'EmailTwo',
   'EmailThree',
   'MasterID',
-  'BorrowerID',
   'DepositorID',
   'AccountOne',
   'AccountTwo',
@@ -39,7 +39,8 @@ exports.BASEFIELDS= [
 ]
 
 exports.BASEFIELDS_NAME= [
-  'userId',
+  'External Source Name',
+  'Borrower Id',
   'Relationship Name',
   'Borrower Name',
   'Depositor Name',
@@ -63,7 +64,6 @@ exports.BASEFIELDS_NAME= [
   'Email Two',
   'Email Three',
   'Master ID',
-  'Borrower ID',
   'Depositor ID',
   'Account One',
   'Account Two',
