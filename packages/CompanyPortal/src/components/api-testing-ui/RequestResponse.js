@@ -12,14 +12,18 @@ const ResponseStyles = makeStyles({
   },
 });
 
-export default function RequestResponse() {
+export default function RequestResponse({ response }) {
   const responseClasses = ResponseStyles();
 
   return (
     <div className={responseClasses.root}>
       <Paper variant='outlined' square width={1 / 2}>
         <div>
-          <p>Request response goes here</p>
+          <pre>
+            {response
+              ? JSON.stringify(response, null, 2)
+              : 'Request response goes here'}
+          </pre>
         </div>
       </Paper>
     </div>
