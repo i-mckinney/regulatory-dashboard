@@ -108,21 +108,26 @@ const ApiTable = (props) => {
 
   const customApiUrl = `${BASE_URL}/companies/${companyId}/customapi`;
 
-  const getTestUrl = (requestId) => `${customApiUrl}/${requestId}/test` 
+  const getTestUrl = (requestId) => `${customApiUrl}/${requestId}/test`
 
   /**
    * Renders only when it is mounted at first
    * It will fetchUsers whenever ApiTable loads
    */
   useEffect(() => {
+    console.log("USE EFFECT IS RUNNING")
     const fetchCompanies = () => {
+      console.log("customapi: " + customApiUrl)
       axios
         .get(customApiUrl, {
           headers: { 'Access-Control-Allow-Origin': '*' },
         })
         .then((res) => {
+          console.log("RES AXIOS")
+
           // console.log('res', res.data[0].CustomApiRequests);
           // setRows(res.data[0].CustomApiRequests);
+          console.log("COMPANY DATA: " + JSON.stringify(res.data))
           setCompanyData(res.data);
         });
     };
@@ -182,9 +187,9 @@ const ApiTable = (props) => {
     } catch(e) {
       console.error(e)
     }
-    
 
-    
+
+
     setLoading(false);
     handleCloseEditModal();
   };
@@ -219,7 +224,7 @@ const ApiTable = (props) => {
     } catch(e) {
       console.error(e)
     }
-    
+
   };
 
   /**
@@ -230,11 +235,13 @@ const ApiTable = (props) => {
    */
   const customCellRender = (rowIndex, row, column) => {
     const columnAccessor = column.Accessor;
+    console.log(column)
+    console.log(row)
     if (columnAccessor === 'Actions') {
       return (
         <TableCell
           className={userTableClasses.actionsIconStyle}
-          key={`${rowIndex} ${columnAccessor}`}
+          key={`${rowIndex} ${column} ${columnAccessor}`}
         >
           <MuiButton
             className={userTableClasses.testButtonStyle}
