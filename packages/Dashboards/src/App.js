@@ -62,7 +62,7 @@ function App(history) {
               <MyRequest />
             </Route>
 
-            <Redirect to="/" />
+            <Redirect to="/home" />
           </Switch>
         </div>
       </BrowserRouter>
