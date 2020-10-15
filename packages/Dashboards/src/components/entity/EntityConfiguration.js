@@ -278,7 +278,7 @@ const EntityConfiguration = (props) => {
             </div>
             <Grid container>
                 <Grid item xs></Grid>
-                <Grid item xs={3} className={entityConfigurationClasses.buttonStyle}>
+                <Grid item xs={4} className={entityConfigurationClasses.buttonStyle}>
                     {renderButtonActions()}
                 </Grid>
             </Grid>

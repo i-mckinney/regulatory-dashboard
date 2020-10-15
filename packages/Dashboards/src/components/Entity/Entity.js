@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { StylesProvider, makeStyles, Typography } from '@material-ui/core'
+import { StylesProvider, createGenerateClassName, makeStyles, Typography } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import SettingsIcon from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton'
@@ -10,6 +10,11 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
+
+const generateClassName = createGenerateClassName({
+    productionPrefix: 'entity-',
+})
+  
 
 // Styling used for MaterialUI
 const entityStyles = makeStyles(() => ({
@@ -174,7 +179,7 @@ function Entity(props) {
     }
 
     return (
-        <StylesProvider injectFirst>
+        <StylesProvider generateClassName={generateClassName} injectFirst>
             <div className={entityClasses.mediumContainer}>
               <div className={entityClasses.header}>
                   <Typography variant="h5">Entity</Typography>

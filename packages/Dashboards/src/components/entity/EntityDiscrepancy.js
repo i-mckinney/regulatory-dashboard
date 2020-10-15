@@ -102,7 +102,7 @@ const EntityDiscrepancy = (props) => {
 
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
-    const response = await entities.get("/entities/08a471f9-6daf-4a85-bab4-be44f415421c/aggregated")
+    const response = await entities.get("discrepancies/5f7e1bb2ab26a664b6e950c8/5a7017cc-91a6-45e0-b054-1c3d042353f9/report")
     setData(response.data)
   }
 
@@ -111,28 +111,28 @@ const EntityDiscrepancy = (props) => {
   } else {
     if (columns.length === 0) {
       data.TableHeaders.forEach((header) => columns.push(header))
-      data.TableData.forEach((entityField) => {
-        const label = entityField.key_config["display"]
-        const row = entityField.values.map((value, valueIndex) => {
-          const accessor = columns[valueIndex]["Accessor"]
-          if (valueIndex) {
-            if (valueIndex === 1) {
-              originalSourceData.push(value.toString())
-            }
-            entityData.push({
-                FieldName: label,
-                IsEdited: false,
-                SystemOfRecord: accessor,
-                PreviousValue: value,
-                NewValue: "",
-                SourceSystem: "",
-              }
-            )
-          }
-          return value.toString()
-        })
-        rows.push(row)
-      })
+      // data.TableData.forEach((entityField) => {
+      //   const label = entityField.key_config["display"]
+      //   const row = entityField.values.map((value, valueIndex) => {
+      //     const accessor = columns[valueIndex]["Accessor"]
+      //     if (valueIndex) {
+      //       if (valueIndex === 1) {
+      //         originalSourceData.push(value.toString())
+      //       }
+      //       entityData.push({
+      //           FieldName: label,
+      //           IsEdited: false,
+      //           SystemOfRecord: accessor,
+      //           PreviousValue: value,
+      //           NewValue: "",
+      //           SourceSystem: "",
+      //         }
+      //       )
+      //     }
+      //     return value.toString()
+      //   })
+      //   rows.push(row)
+      // })
     }
   }
 

@@ -140,7 +140,7 @@ const EntityForm = ({ initialEntity, header, onSubmit}) => {
             </Grid>
             <Grid container spacing={3}>
                 <Grid item xs></Grid>
-                <Grid item xs={4} className={entityFormClasses.buttonStyle}>
+                <Grid item xs={5} className={entityFormClasses.buttonStyle}>
                     {renderButtonActions()}
                 </Grid>
             </Grid>
