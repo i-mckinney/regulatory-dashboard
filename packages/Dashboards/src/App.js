@@ -20,7 +20,7 @@ function App(history) {
           <Switch>
             <Route path="/home">
               <Homepage />
-            </Route>  
+            </Route>
 
             <Route exact path="/dashboard">
               <Dashboard />
