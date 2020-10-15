@@ -1,13 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, TableCell, Grid, Typography } from '@material-ui/core'
+import { makeStyles, Grid, Typography } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
-import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
-import HelixTable from '../table/HelixTable'
+import { HelixTable, HelixTableCell, HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 import companies from '../apis/companies'
 
@@ -204,15 +203,18 @@ const EntityConfiguration = (props) => {
      */
     const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
+        const displayActions = () => (
+          <>
+            <span className={entityConfigurationClasses.cellSpan}>
+              {`${row[columnAccessor]} - ${row["requestUrl"]}`}
+              <IconButton aria-label="delete" size="small" edge="start" onClick={() => handleDeleteCustomApi(row._id, rowIndex)} color="secondary">
+                  <DeleteIcon />
+              </IconButton>
+            </span>
+          </>
+        )
         return (
-            <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
-                <span className={entityConfigurationClasses.cellSpan}>
-                    {`${row[columnAccessor]} - ${row["requestUrl"]}`}
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => handleDeleteCustomApi(row._id, rowIndex)} color="secondary">
-                        <DeleteIcon />
-                  </IconButton>
-                </span>
-            </TableCell>
+          <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} containActions={true} displayActions={displayActions} />
         )
     }
 
