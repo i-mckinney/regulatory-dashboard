@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Controls from '../controls/Controls';
 import CustomParams from './custom-request/CustomParams';
 import CustomHeaders from './custom-request/CustomHeaders';
 import CustomBody from './custom-request/CustomBody';
+import CustomMapping from './custom-request/CustomMapping';
 
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+
+/* CUSTOMIZE REQUEST Component
+* A Material UI Tab component that holds child components for setting custom request features
+* Child components are CustomBody, CustomHeaders, CustomParams, and CustomMapping 
+*/
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,7 +58,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs() {
+export default function SimpleTabs({
+  params,
+  setParams,
+  mapping,
+  setMapping,
+  headers,
+  setHeaders,
+  onSubmitRequest,
+  onSave,
+}) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -63,7 +77,7 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
+      <AppBar position='static' style={{ backgroundColor: 'black' }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -72,18 +86,21 @@ export default function SimpleTabs() {
           <Tab label='Params' {...a11yProps(0)} />
           <Tab label='Headers' {...a11yProps(1)} />
           <Tab label='Body' {...a11yProps(2)} />
+          <Tab label='Response Mapping Tool' {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <CustomParams />
+        <CustomParams fields={params} onChange={setParams} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <CustomHeaders />
+        <CustomHeaders fields={headers} onChange={setHeaders} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <CustomBody />
       </TabPanel>
-      <Controls.Button text='SEND REQUEST'></Controls.Button>
+      <TabPanel value={value} index={3}>
+        <CustomMapping fields={mapping} onChange={setMapping} />
+      </TabPanel>
     </div>
   );
 }

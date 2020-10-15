@@ -1,21 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardActions, CardContent, Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+
 import Controls from '../../controls/Controls';
 import * as apiCallService from '../../../services/apiCallService';
 
+/**
+* CUSTOM REQUEST BODY 
+* Interface that allows the user to set a custom request body
+* Intended to be displayed as a tab panel and is a child of the Custom Request tab group component
+*/
+
+
 export default function CustomBody() {
+  /**
+  * @param {String} type state variable to store request body type
+  */
   const [type, setType] = useState('none');
 
+  /**
+  *Handles change event when user selects request body type
+  */
   const handleChange = (e) => {
     setType(e.target.value);
   };
 
   useEffect(() => {
-    console.log('type', type);
   }, [type]);
 
   return (
     <div>
+      <Typography>Use this tab to set a custom request body</Typography>
       <Grid container spacing={2}>
         <Grid item md={6}>
           <Controls.RadioGroup

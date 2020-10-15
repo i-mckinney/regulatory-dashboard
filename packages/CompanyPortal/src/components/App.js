@@ -12,7 +12,8 @@ function App() {
             <Route path='/client-api-table' exact component={ApiTable} />
           </Switch>
           <Switch>
-            <Route path='/client-api-test' exact component={ApiTestUi} />
+            {/* This route is just a placeholder for easier development */}
+            {/* <Route path='/client-api-test' exact component={ApiTestUi} /> */}
           </Switch>
         </div>
       </BrowserRouter>

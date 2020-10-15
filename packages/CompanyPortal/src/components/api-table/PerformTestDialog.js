@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import DialogModalTemplate from '../DialogModalTemplate';
-import ApiTestUi from '../api-testing-ui/ApiTestUi';
-
-//const BASE_URL = 'http://localhost:4005/customapi';
 
 const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
   const [testResponse, setTestResponse] = useState(null);
@@ -12,14 +9,14 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
 
   useEffect(() => {
     const testRequest = async () => {
-      const { _id, requestMethod, requestBody } = requestData;
+      const { _id, requestType, requestBody } = requestData;
+      const payload = { ...requestData };
+      delete payload._id;
       setLoading(true);
       const response = await axios({
-        //method: requestMethod,
-        //url: `${BASE_URL}/${_id}`,
-        //body: requestBody,
         method: 'GET',
-        url: 'http://localhost:4005/companies',
+        url: 'http://localhost:5000/companies',
+        body: payload,
       });
       setTestResponse(response.data);
       setLoading(false);
@@ -34,17 +31,16 @@ const PerformTestDialog = ({ open, onClose, requestData, companyData }) => {
   }
   return (
     <DialogModalTemplate
-      title='Perform an API Test:'
+      title='API Response:'
       open={open}
       onClose={onClose}
     >
-      <h3>{`${requestData.requestName}`}</h3>
+      <h3>Testing API Call "{`${requestData.requestName}`}"</h3>
       {loading ? (
         <CircularProgress />
       ) : (
         <div>
-          <ApiTestUi/>
-          {/* <pre>{JSON.stringify(testResponse, null, 2)}</pre> */}
+          <pre>{JSON.stringify(testResponse, null, 2)}</pre>
         </div>
       )}
     </DialogModalTemplate>
