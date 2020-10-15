@@ -16,8 +16,8 @@ if (!document.getElementById(ID)) {
 // render micro frontend function
 window.renderUser = (containerId, history) => {
   ReactDOM.render(
-    <App history={history}/>,
-  document.getElementById(containerId)
+    <App history={history} />,
+    document.getElementById(containerId)
   )
 }
 

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import {
-  StylesProvider,
-  makeStyles,
-  TableCell,
-} from '@material-ui/core';
+import { StylesProvider, makeStyles, TableCell } from '@material-ui/core';
 import PageHeader from '../../layout/PageHeader';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import AddIcon from '@material-ui/icons/Add';
@@ -12,10 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib';
-import {
-  sortableExcludes,
-  columnMetadata,
-} from '../../config';
+import { sortableExcludes, columnMetadata } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
 import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
@@ -94,12 +87,14 @@ const userTableStyles = makeStyles(() => ({
  * routed at /
  */
 const ApiTable = (props) => {
+  // TODO: replace this static id with a dynamic prop
+  const companyId = '5f7e1bb2ab26a664b6e950c8';
   // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
   const userTableClasses = userTableStyles();
 
   const [openTestRequestModal, setOpenTestRequestModal] = useState(false);
 
-  const [companyData, setCompanyData] = useState({});
+  const [companyData, setCompanyData] = useState([]);
 
   const [openEditModal, setOpenEditModal] = React.useState(false);
 
@@ -108,6 +103,28 @@ const ApiTable = (props) => {
   const [modalAction, setModalAction] = useState(MODAL_ACTION_CREATE);
 
   const [loading, setLoading] = useState(false);
+
+  const customApiUrl = `http://localhost:5000/companies/${companyId}/customapi`;
+
+  /**
+   * Renders only when it is mounted at first
+   * It will fetchUsers whenever ApiTable loads
+   */
+  useEffect(() => {
+    const fetchCompanies = () => {
+      axios
+        .get(customApiUrl, {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        })
+        .then((res) => {
+          // console.log('res', res.data[0].CustomApiRequests);
+          // setRows(res.data[0].CustomApiRequests);
+          setCompanyData(res.data);
+        });
+    };
+
+    fetchCompanies();
+  }, []);
 
   const handleOpenEditModal = (requestData) => {
     if (!!requestData) {
@@ -120,7 +137,7 @@ const ApiTable = (props) => {
       setRequestData({
         _id: new Date().getTime(),
         requestName: '',
-        requestMethod: '',
+        requestType: '',
         requestURL: '',
       });
     }
@@ -135,8 +152,6 @@ const ApiTable = (props) => {
   // columns will store column header that we want to show in the front end
   let columns = [];
 
-  const rows = companyData.CustomApiRequests || [];
-
   columns = columnMetadata.map(({ key, label }) => ({
     Label: label,
     Accessor: key,
@@ -149,20 +164,18 @@ const ApiTable = (props) => {
   });
   //}
 
-  console.log('companyData:', companyData);
-
   const handleCreateRow = async (newRow) => {
     setLoading(true);
     const response = await axios.put(
-      `http://localhost:4005/companies/${companyData._id}`,
+      `http://localhost:5000/companies/${companyId}`,
       {
-        CustomApiRequests: [...rows, newRow],
+        CustomApiRequests: [...companyData, newRow],
       },
       {
         headers: { 'Access-Control-Allow-Origin': '*' },
       }
     );
-    setCompanyData(response.data);
+    setCompanyData(response.data.CustomApiRequests);
     setLoading(false);
     handleCloseEditModal();
   };
@@ -170,9 +183,9 @@ const ApiTable = (props) => {
   const handleEditRow = async (updatedRow) => {
     setLoading(true);
     const response = await axios.put(
-      `http://localhost:4005/companies/${companyData._id}`,
+      `http://localhost:5000/companies/${companyId}`,
       {
-        CustomApiRequests: rows.map((row) =>
+        CustomApiRequests: companyData.map((row) =>
           row._id === updatedRow._id ? updatedRow : row
         ),
       },
@@ -180,43 +193,23 @@ const ApiTable = (props) => {
         headers: { 'Access-Control-Allow-Origin': '*' },
       }
     );
-    setCompanyData(response.data);
+    setCompanyData(response.data.CustomApiRequests);
     setLoading(false);
     handleCloseEditModal();
   };
 
   const handleDeleteRow = async (_id) => {
     const response = await axios.put(
-      `http://localhost:4005/companies/${companyData._id}`,
+      `http://localhost:5000/companies/${companyId}`,
       {
-        CustomApiRequests: rows.filter((row) => row._id !== _id),
+        CustomApiRequests: companyData.filter((row) => row._id !== _id),
       },
       {
         headers: { 'Access-Control-Allow-Origin': '*' },
       }
     );
-    setCompanyData(response.data);
+    setCompanyData(response.data.CustomApiRequests);
   };
-
-  /**
-   * Renders only when it is mounted at first
-   * It will fetchUsers whenever ApiTable loads
-   */
-  useEffect(() => {
-    const fetchCompanies = () => {
-      axios
-        .get('http://localhost:4005/companies', {
-          headers: { 'Access-Control-Allow-Origin': '*' },
-        })
-        .then((res) => {
-          // console.log('res', res.data[0].CustomApiRequests);
-          // setRows(res.data[0].CustomApiRequests);
-          setCompanyData(res.data[0]);
-        });
-    };
-
-    fetchCompanies();
-  }, []);
 
   /**
    * @param {int} rowIndex represents row index
@@ -322,7 +315,7 @@ const ApiTable = (props) => {
           displayCreateIcon={displayCreateUserIcon}
           initialOrderBy={initialOrderBy}
           columns={columns}
-          rows={rows}
+          rows={companyData}
           customCellRender={customCellRender}
           customHeadColumnKeyProp={customHeadColumnKeyProp}
           customBodyRowKeyProp={customBodyRowKeyProp}
