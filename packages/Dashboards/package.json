@@ -1,6 +1,6 @@
 {
   "name": "dashboards",
-  "version": "1.0.4",
+  "version": "1.0.11",
   "private": true,
   "description": "dashboards microservice",
   "author": "ian.mckinney <baseballrocks@gmail.com>",
