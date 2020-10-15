@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, TableCell, Grid } from '@material-ui/core'
+import { makeStyles, TableCell, Grid, Typography } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -42,7 +42,10 @@ const entityConfigurationStyles = makeStyles(() => ({
           marginTop: '16px',
           marginRight: '16px',
       }
-  },
+    },
+    header: {
+      marginBottom: '1rem',
+    }
   }))
 
 /**
@@ -95,7 +98,7 @@ const EntityConfiguration = (props) => {
     useEffect(() => {
 
       const fetchEntitiesConfiguration = async () => {
-        const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entitiesConfig")
+        const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8/")
         response.data.entityConfiguration.forEach((row) => {
           tempRows.push(row)
         })
@@ -140,7 +143,7 @@ const EntityConfiguration = (props) => {
 
     const handleSaveEntityConfiguration = async () => {
       const config = { entityConfiguration: rows}
-      await entities.post("/5f7e1bb2ab26a664b6e950c8/entitiesConfig", config)
+      await entities.post("/config/5f7e1bb2ab26a664b6e950c8/", config)
       props.history.push("/entity")
     }
 
@@ -210,6 +213,7 @@ const EntityConfiguration = (props) => {
 
     return (
         <div className={entityConfigurationClasses.configContainer}>
+          <Grid item xs={12} className={entityConfigurationClasses.header}><Typography variant="h5" component="h2">Configure Entity</Typography></Grid>
             <div>
                 <HelixTextField
                 className={entityConfigurationClasses.selectFormControl}
