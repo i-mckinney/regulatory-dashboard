@@ -105,6 +105,7 @@ router.put("/:companyId/entities/:entityId", async (req, res) => {
       });
     }
 
+    updatedEntity.updatedAt = dateTimeHelper.getTimeStamp();
     await dbCollection.updateOne(
       {
         $and: [

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { makeStyles } from "@material-ui/core"
+import { makeStyles, TableCell } from "@material-ui/core"
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -16,11 +16,25 @@ const entityTableCellStyles = makeStyles(() => ({
     fontSize: '0.75rem',
     display: 'inline-block',
   },
-  editedField: {
+  initialCell: {
     outline: 'none',
     '& input:focus': {
       outline: 'none',
-    }
+    },
+  },
+  editedCell: {
+    outline: 'none',
+    '& input:focus': {
+      outline: 'none',
+    },
+    backgroundColor: 'orange',
+  },
+  errorCell: {
+    outline: 'none',
+    '& input:focus': {
+      outline: 'none',
+    },
+    backgroundColor: 'red',
   },
   editedIcon: {
     fontSize: '1rem',
@@ -45,21 +59,34 @@ const entityTableCellStyles = makeStyles(() => ({
   },
   matIcon: {
     fill: 'black',
+  },
+  matIconSpan: {
+    display: 'block',
   }
 }))
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {object} cell object represents current row and current column properties
- * @param {array} allColumns array of columns
+ * @param {string} originalValue string represents the original source of truth to compare with
+ * @param {int} rowIndex index of the current row
+ * @param {int} columnIndex index of the current column
+ * @param {array} columns array of columns
  * @param {func} editData func comes from parent component, once it is invoke, it will pass the data back to parent component to edit data
+ * @param {bool} editable represents whether this cell is editable or not
+ * @param {bool} containActions represents whether this cell contains actions or not
+ * @param {func} displayActions displays jsx object of actions
  * @returns {JSX} renders a custom table data cell
  */
 const EntityTableCell = ({
   value: initialStateValue,
-  cell,
-  allColumns,
+  originalValue,
+  rowIndex,
+  columnIndex,
+  columns,
   editData,
+  editable,
+  containActions,
+  displayActions,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -84,14 +111,9 @@ const EntityTableCell = ({
    * @returns {int} return current cell index in 1-dimension array
    * */ 
   const cellIndex = () => {
-    let colIndex = -1
-    allColumns.forEach((column, index) => {
-      if (column.Header === cell.column.Header) {
-        colIndex = index
-      }
-    })
-    const currentRowIndex = cell.row.index
-    const index = (allColumns.length-1) * currentRowIndex + colIndex-1
+    let colIndex = columnIndex
+    const currentRowIndex = rowIndex
+    const index = (columns.length-1) * currentRowIndex + colIndex-1
     return index
   }
 
@@ -168,7 +190,7 @@ const EntityTableCell = ({
       return (
         <div>
           <input type="text" value={value} onChange={handleInputChange} />
-          <span>
+          <span className={entityTableCellClasses.matIconSpan}>
             <IconButton className={entityTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
               <SaveIcon className={entityTableCellClasses.matIcon} />
             </IconButton>
@@ -182,26 +204,76 @@ const EntityTableCell = ({
     return null
   }
 
+  // If changes are made, display background color for that cell 'orange'
+  // otherwise, display regular state of the cell
+  const cellState = () => {
+    if (saveChanges) {
+      return entityTableCellClasses.editedCell
+    }
+    else if (initialStateValue !== originalValue) {
+      return entityTableCellClasses.errorCell
+    }
+    return entityTableCellClasses.initialCell
+  }
+
+  // displayTableCell return jsx object of editable table cell or non-editable table cell
+  const displayTableCell = () => {
+    if (editable) {
+      return (
+        <TableCell 
+          className={cellState()}
+          onClick={handleDivChange}
+          onKeyDown={handleDivChange}
+          role="row"
+          tabIndex="0"
+        >
+          {displayInitialStateValue()}
+          {displayCurrentStateChanges()}
+          {displayCustomizedForm()}
+        </TableCell>
+      )
+    } else if (containActions) {
+      return (
+        <TableCell>
+          {displayActions()}
+        </TableCell>
+      )
+    } else {
+      return (
+        <TableCell>
+          {displayInitialStateValue()}
+        </TableCell>
+      )
+    }
+  }
+
   return (
-    <div
-      className={entityTableCellClasses.editedField}
-      onClick={handleDivChange}
-      onKeyDown={handleDivChange}
-      role="row"
-      tabIndex="0"
-    >
-      {displayInitialStateValue()}
-      {displayCurrentStateChanges()}
-      {displayCustomizedForm()}
-    </div>
+    <>
+    {displayTableCell()}
+    </>
   )
 }
 
 EntityTableCell.propTypes = {
   value: PropTypes.string.isRequired,
-  cell: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  allColumns: PropTypes.instanceOf(Array).isRequired,
+  rowIndex: PropTypes.number.isRequired,
+  columnIndex: PropTypes.number.isRequired,
+  columns: PropTypes.instanceOf(Array).isRequired,
   editData: PropTypes.func.isRequired,
+  editable: PropTypes.bool.isRequired,
+  containActions: PropTypes.bool.isRequired,
+  displayActions: PropTypes.func.isRequired,
+}
+
+EntityTableCell.defaultProps = {
+  value: "",
+  rowIndex: 0,
+  columnIndex: 0,
+  columns: [],
+  editData: () => null,
+  editable: false,
+  containActions: false,
+  displayActions: () => null,
 }
 
 export default EntityTableCell

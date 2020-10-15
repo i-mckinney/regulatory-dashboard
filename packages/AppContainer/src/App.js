@@ -65,6 +65,11 @@ const App = () => {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/company" component={CompanyView} />
             <Route exact path="/entity" component={Dashboard} />
+            <Route exact path="/entity/new" component={Dashboard} />
+            <Route exact path="/entity/configuration" component={Dashboard} />
+            <Route exact path="/entity/:id/discrepancy-report" component={Dashboard} />
+            <Route exact path="/entity/edit/:id" component={Dashboard} />
+            <Route exact path="/entity/delete/:id" component={Dashboard} />
             <Route exact path="/loan" component={Dashboard} />
             <Route exact path="/regulatory" component={Dashboard} />
             <Route exact path="/myrequest" component={Dashboard} />
