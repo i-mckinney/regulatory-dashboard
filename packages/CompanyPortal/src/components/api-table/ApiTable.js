@@ -176,6 +176,7 @@ const ApiTable = (props) => {
   const handleCreateRow = async (newRow) => {
     setLoading(true);
     try {
+      console.log(newRow)
       const response = await axios.post(
         customApiUrl,
         newRow,
@@ -183,6 +184,7 @@ const ApiTable = (props) => {
           headers: { 'Access-Control-Allow-Origin': '*' },
         }
       );
+      console.log(response)
       setCompanyData([ ...companyData, { ...newRow, _id: response.data._id }]);
     } catch(e) {
       console.error(e)
