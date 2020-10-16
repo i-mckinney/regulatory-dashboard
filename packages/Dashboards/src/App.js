@@ -18,7 +18,7 @@ function App(history) {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route path="/home">
+            <Route exact path="/homepage">
               <Homepage />
             </Route>
 
@@ -62,7 +62,7 @@ function App(history) {
               <MyRequest />
             </Route>
 
-            <Redirect to="/home" />
+            <Redirect to="/" />
           </Switch>
         </div>
       </BrowserRouter>

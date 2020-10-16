@@ -42,7 +42,7 @@ function NavigationBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            {`< Insert Company Name >`}
+            Regulatory Dashboard
           </Typography>
           <ProfileModal topContainerClasses={topContainerClasses} />
         </Toolbar>
