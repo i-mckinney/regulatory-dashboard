@@ -1,16 +1,16 @@
 import React from "react"
 import { BrowserRouter, Switch, Route, Redirect  } from "react-router-dom"
-import Homepage from "./components/homepage/Homepage"
-import Dashboard from "./components/dashboard/Dashboard"
-import Entity from "./components/entity/Entity"
-import Discrepancy from "./components/entity/EntityDiscrepancy"
-import Loan from "./components/loan/Loan"
-import Regulatory from "./components/regulatory/Regulatory"
-import MyRequest from "./components/myrequest/MyRequest"
-import EntityConfiguration from "./components/entity/EntityConfiguration"
-import EntityCreate from "./components/entity/EntityCreate"
-import EntityEdit from "./components/entity/EntityEdit"
-import EntityDelete from "./components/entity/EntityDelete"
+import Homepage from "./components/Homepage/Homepage"
+import Dashboard from "./components/Dashboard/Dashboard"
+import Entity from "./components/Entity/Entity"
+import EntityDiscrepancy from "./components/Entity/EntityDiscrepancy"
+import Loan from "./components/Loan/Loan"
+import Regulatory from "./components/Regulatory/Regulatory"
+import MyRequest from "./components/MyRequest/MyRequest"
+import EntityConfiguration from "./components/Entity/EntityConfiguration"
+import EntityCreate from "./components/Entity/EntityCreate"
+import EntityEdit from "./components/Entity/EntityEdit"
+import EntityDelete from "./components/Entity/EntityDelete"
 
 function App(history) {
   return (
@@ -20,7 +20,7 @@ function App(history) {
           <Switch>
             <Route path="/home">
               <Homepage />
-            </Route>  
+            </Route>
 
             <Route exact path="/dashboard">
               <Dashboard />
@@ -47,7 +47,7 @@ function App(history) {
             </Route>
 
             <Route exact path="/entity/:id/discrepancy-report">
-              <Discrepancy />
+              <EntityDiscrepancy />
             </Route>
 
             <Route exact path="/loan">
@@ -62,7 +62,7 @@ function App(history) {
               <MyRequest />
             </Route>
 
-            <Redirect to="/" />
+            <Redirect to="/home" />
           </Switch>
         </div>
       </BrowserRouter>
