@@ -71,8 +71,8 @@ const App = () => {
             <div className={topContainerClasses.sideNavDrawerHeader} />
             <Switch>
               <Route exact path="/" component={LoginView} />
-              <Route exact path="/home" component={Dashboard} />
-              <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/homepage" component={Dashboard} />
+              {/* <Route exact path="/dashboard" component={Dashboard} /> */}
               <Route exact path="/company" component={CompanyView} />
               <Route exact path="/entity" component={Dashboard} />
               <Route exact path="/entity/new" component={Dashboard} />
@@ -91,6 +91,8 @@ const App = () => {
               <Route exact path="/users/new" component={User} />
               <Route exact path="/users/edit/:id" component={User} />
               <Route exact path="/users/delete/:id" component={User} />
+              <Route exact path="/client-api-table" component={CompanyView} />
+              <Route exact path="/client-api-test" component={CompanyView} />
             </Switch>
           </main>
         </div>
@@ -106,6 +108,9 @@ CompanyView.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
 }
 User.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+}
+LoginView.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
 }
 
