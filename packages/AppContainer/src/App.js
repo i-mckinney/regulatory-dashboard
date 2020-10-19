@@ -7,11 +7,76 @@ import {
   CssBaseline,
   StylesProvider,
   createGenerateClassName,
+  makeStyles,
 } from "@material-ui/core"
 import MicroserviceLoader from "./MicroserviceLoader"
 import Header from "./Components/Header/Header"
-import containerAppUseStyles from "./ContainerStyles"
 
+const drawerWidth = 240
+
+// Styles used for Container Application
+const containerAppUseStyles = makeStyles((theme) => ({
+  containerUserPageButton: {
+    marginLeft: "auto",
+  },
+  topContainerClassesRoot: {
+    display: "flex",
+  },
+  containerAppBar: {
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  containerAppBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  containerAppMenuButton: {
+    marginRight: theme.spacing(2),
+  },
+  hideContainerComponents: {
+    display: "none",
+  },
+  hiddenContainerDrawer: {
+    width: 0,
+  },
+  containerDrawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  containerDrawerPaper: {
+    width: drawerWidth,
+  },
+  sideNavDrawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  },
+  microServiceContent: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    // marginLeft: "auto",
+  },
+  microServiceContentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    // marginLeft: 240,
+  },
+}))
 const {
   REACT_APP_DASHBOARD_HOST: dashboardHost,
   REACT_APP_COMPANY_VIEW_HOST: companyViewHost,
@@ -21,6 +86,7 @@ const {
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "appcontainer-",
+  seed: "app",
 })
 
 const Dashboard = ({ history }) => (
@@ -53,8 +119,10 @@ const App = () => {
   const [sideNavOpen, setSideNavOpen] = useState(false)
 
   return (
-    <StylesProvider generateClassName={generateClassName}>
-      <BrowserRouter>
+    <div>
+      <CssBaseline />
+      <StylesProvider generateClassName={generateClassName}>
+        <BrowserRouter>
         <div className={topContainerClasses.topContainerClassesRoot}>
           <Header
             topContainerClasses={topContainerClasses}
@@ -97,6 +165,7 @@ const App = () => {
         </div>
       </BrowserRouter>
     </StylesProvider>
+  </div>
   )
 }
 
