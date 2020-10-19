@@ -1,11 +1,15 @@
 import React, { useState } from "react"
-import { makeStyles, TableCell } from "@material-ui/core"
+import { StylesProvider, createGenerateClassName, makeStyles, TableCell } from "@material-ui/core"
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ReplayIcon from '@material-ui/icons/Replay';
 import SaveIcon from '@material-ui/icons/Save';
 import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from "prop-types"
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'helixtablecell-',
+})
 
 // Styling used for MaterialUI
 const entityTableCellStyles = makeStyles(() => ({
@@ -248,9 +252,9 @@ const EntityTableCell = ({
   }
 
   return (
-    <>
-    {displayTableCell()}
-    </>
+    <StylesProvider generateClassName={generateClassName} injectFirst>
+      {displayTableCell()}
+    </StylesProvider>
   )
 }
 
