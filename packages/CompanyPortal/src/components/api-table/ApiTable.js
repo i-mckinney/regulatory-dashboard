@@ -71,19 +71,13 @@ const ApiTable = (props) => {
    * It will fetchUsers whenever ApiTable loads
    */
   useEffect(() => {
-    // console.log("USE EFFECT IS RUNNING")
     const fetchCompanies = () => {
-      // console.log("customapi: " + customApiUrl)
       axios
         .get(customApiUrl, {
           headers: { 'Access-Control-Allow-Origin': '*' },
         })
         .then((res) => {
-          // console.log("RES AXIOS")
-
-          // console.log('res', res.data[0].CustomApiRequests);
           // setRows(res.data[0].CustomApiRequests);
-          // console.log("COMPANY DATA: " + JSON.stringify(res.data))
           setCompanyData(res.data);
         });
     };
@@ -191,8 +185,6 @@ const ApiTable = (props) => {
    */
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor;
-    // console.log(column)
-    // console.log(row)
     const displayActions = () => (
       <>
         <MuiButton
