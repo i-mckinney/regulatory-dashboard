@@ -121,56 +121,51 @@ const App = () => {
   return (
     <div>
       <CssBaseline />
-
       <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
-          <div className={topContainerClasses.topContainerClassesRoot}>
-            <Header
-              topContainerClasses={topContainerClasses}
-              topContainerTheme={topContainerTheme}
-              sideNavOpen={sideNavOpen}
-              setSideNavOpen={setSideNavOpen}
-            />
-            <main
-              className={clsx(topContainerClasses.microServiceContent, {
-                [topContainerClasses.microServiceContentShift]: sideNavOpen,
-              })}
-            >
-              <div className={topContainerClasses.sideNavDrawerHeader} />
-              <Switch>
-                <Route exact path="/" component={LoginView} />
-                <Route exact path="/homepage" component={Dashboard} />
-                {/* <Route exact path="/dashboard" component={Dashboard} /> */}
-                <Route exact path="/company" component={CompanyView} />
-                <Route exact path="/entity" component={Dashboard} />
-                <Route exact path="/entity/new" component={Dashboard} />
-                <Route
-                  exact
-                  path="/entity/configuration"
-                  component={Dashboard}
-                />
-                <Route
-                  exact
-                  path="/entity/:id/discrepancy-report"
-                  component={Dashboard}
-                />
-                <Route exact path="/entity/edit/:id" component={Dashboard} />
-                <Route exact path="/entity/delete/:id" component={Dashboard} />
-                <Route exact path="/loan" component={Dashboard} />
-                <Route exact path="/regulatory" component={Dashboard} />
-                <Route exact path="/myrequest" component={Dashboard} />
-                <Route exact path="/users" component={User} />
-                <Route exact path="/users/new" component={User} />
-                <Route exact path="/users/edit/:id" component={User} />
-                <Route exact path="/users/delete/:id" component={User} />
-                <Route exact path="/client-api-table" component={CompanyView} />
-                <Route exact path="/client-api-test" component={CompanyView} />
-              </Switch>
-            </main>
-          </div>
-        </BrowserRouter>
-      </StylesProvider>
-    </div>
+        <div className={topContainerClasses.topContainerClassesRoot}>
+          <Header
+            topContainerClasses={topContainerClasses}
+            topContainerTheme={topContainerTheme}
+            sideNavOpen={sideNavOpen}
+            setSideNavOpen={setSideNavOpen}
+          />
+          <main
+            className={clsx(topContainerClasses.microServiceContent, {
+              [topContainerClasses.microServiceContentShift]: sideNavOpen,
+            })}
+          >
+            <div className={topContainerClasses.sideNavDrawerHeader} />
+            <Switch>
+              <Route exact path="/" component={LoginView} />
+              <Route exact path="/homepage" component={Dashboard} />
+              {/* <Route exact path="/dashboard" component={Dashboard} /> */}
+              <Route exact path="/company" component={CompanyView} />
+              <Route exact path="/entity" component={Dashboard} />
+              <Route exact path="/entity/new" component={Dashboard} />
+              <Route exact path="/entity/configuration" component={Dashboard} />
+              <Route
+                exact
+                path="/entity/:id/discrepancy-report"
+                component={Dashboard}
+              />
+              <Route exact path="/entity/edit/:id" component={Dashboard} />
+              <Route exact path="/entity/delete/:id" component={Dashboard} />
+              <Route exact path="/loan" component={Dashboard} />
+              <Route exact path="/regulatory" component={Dashboard} />
+              <Route exact path="/myrequest" component={Dashboard} />
+              <Route exact path="/users" component={User} />
+              <Route exact path="/users/new" component={User} />
+              <Route exact path="/users/edit/:id" component={User} />
+              <Route exact path="/users/delete/:id" component={User} />
+              <Route exact path="/client-api-table" component={CompanyView} />
+              <Route exact path="/client-api-test" component={CompanyView} />
+            </Switch>
+          </main>
+        </div>
+      </BrowserRouter>
+    </StylesProvider>
+  </div>
   )
 }
 
