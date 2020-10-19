@@ -5,7 +5,8 @@ import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { HelixTable } from 'helixmonorepo-lib'
+// import { HelixTable } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
 import users from '../apis/users'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
@@ -144,11 +145,11 @@ const UserTable = (props) => {
      * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
      * @return {JSX} Table cell of object properties in that Table row
      */
-    const customCellRender = (rowIndex, row, column) => {
+    const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
         if (columnAccessor === "Actions") {
             return (
-                <TableCell className={userTableClasses.actionsIconStyle} key={`Row-${rowIndex} ${columnAccessor}-`}>
+                <TableCell className={userTableClasses.actionsIconStyle} key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
                     <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/edit/${row._id}`, state: row }))} color="default">
                         <EditIcon />
                     </IconButton>
@@ -164,14 +165,14 @@ const UserTable = (props) => {
             }, "")
 
             return (
-                <TableCell key={`Row-${rowIndex} ${columnAccessor}-`}>
+                <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
                     {assignedRoles}
                 </TableCell>
             )
         }
         else {
             return (
-                <TableCell key={`Row-${rowIndex} ${columnAccessor}-`}>
+                <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
                     {row[columnAccessor]}
                 </TableCell>
             )
