@@ -95,13 +95,12 @@ async function responseMapper(
 
     //In the case wehre response Mapper is given
     if (customAPI.responseMapper) {
-      const responseMapper = customAPI.responseMapper;
+      const responseMapperData = customAPI.responseMapper;
       const mappedKeyCheckOff = { ...allNewMappedKeys };
 
-      for (const externalSystemKey in responseMapper) {
+      for (const externalSystemKey in responseMapperData) {
         //newMappedKey will be a new key that would be used in discrepancyReport
-        const newMappedKey = responseMapper[externalSystemKey];
-
+        const newMappedKey = responseMapperData[externalSystemKey];
         if (!allNewMappedKeys.hasOwnProperty(newMappedKey)) {
           allNewMappedKeys[newMappedKey] = "";
         } else {
@@ -117,16 +116,15 @@ async function responseMapper(
         }
 
         /** Case 1) newMappedKey does already exist in resultWithMapping */
-        let doesFieldExist = 0;
 
-        addValueToExistingRow(
-          doesFieldExist,
+
+        let doesFieldExist = addValueToExistingRow(
           resultWithMapping,
           desiredValueFromExternal,
           newMappedKey
         );
 
-        if (doesFieldExist > 0) {
+        if (doesFieldExist) {
           continue;
         }
 
