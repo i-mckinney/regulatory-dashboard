@@ -56,7 +56,6 @@ const App = () => {
     <StylesProvider generateClassName={generateClassName}>
       <BrowserRouter>
         <div className={topContainerClasses.topContainerClassesRoot}>
-          <CssBaseline />
           <Header
             topContainerClasses={topContainerClasses}
             topContainerTheme={topContainerTheme}
