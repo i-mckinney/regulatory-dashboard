@@ -11,9 +11,19 @@ import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
+import {
+  StylesProvider,
+  createGenerateClassName,
+} from "@material-ui/core/styles";
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: "dashboards-",
+  seed:"dash"
+});
 
 function App(history) {
   return (
+    <StylesProvider createGenerateClassName={generateClassName}>
     <div className="pt-5">
       <BrowserRouter>
         <div>
@@ -67,6 +77,7 @@ function App(history) {
         </div>
       </BrowserRouter>
     </div>
+    </StylesProvider>
   )
 }
 
