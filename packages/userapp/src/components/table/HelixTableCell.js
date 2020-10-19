@@ -67,19 +67,26 @@ const entityTableCellStyles = makeStyles(() => ({
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {object} cell object represents current row and current column properties
+ * @param {string} originalValue string represents the original source of truth to compare with
+ * @param {int} rowIndex index of the current row
+ * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
  * @param {func} editData func comes from parent component, once it is invoke, it will pass the data back to parent component to edit data
+ * @param {bool} editable represents whether this cell is editable or not
+ * @param {bool} containActions represents whether this cell contains actions or not
+ * @param {func} displayActions displays jsx object of actions
  * @returns {JSX} renders a custom table data cell
  */
 const EntityTableCell = ({
   value: initialStateValue,
   originalValue,
-  columnAccessor,
   rowIndex,
+  columnIndex,
   columns,
   editData,
   editable,
+  containActions,
+  displayActions,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -104,12 +111,7 @@ const EntityTableCell = ({
    * @returns {int} return current cell index in 1-dimension array
    * */ 
   const cellIndex = () => {
-    let colIndex = -1
-    columns.forEach((column, index) => {
-      if (column.Accessor === columnAccessor) {
-        colIndex = index
-      }
-    })
+    let colIndex = columnIndex
     const currentRowIndex = rowIndex
     const index = (columns.length-1) * currentRowIndex + colIndex-1
     return index
@@ -230,6 +232,12 @@ const EntityTableCell = ({
           {displayCustomizedForm()}
         </TableCell>
       )
+    } else if (containActions) {
+      return (
+        <TableCell>
+          {displayActions()}
+        </TableCell>
+      )
     } else {
       return (
         <TableCell>
@@ -248,11 +256,24 @@ const EntityTableCell = ({
 
 EntityTableCell.propTypes = {
   value: PropTypes.string.isRequired,
-  columnAccessor: PropTypes.string,
-  rowIndex: PropTypes.number,
-  columns: PropTypes.instanceOf(Array),
-  editData: PropTypes.func,
-  editable: PropTypes.bool.isRequired
+  rowIndex: PropTypes.number.isRequired,
+  columnIndex: PropTypes.number.isRequired,
+  columns: PropTypes.instanceOf(Array).isRequired,
+  editData: PropTypes.func.isRequired,
+  editable: PropTypes.bool.isRequired,
+  containActions: PropTypes.bool.isRequired,
+  displayActions: PropTypes.func.isRequired,
+}
+
+EntityTableCell.defaultProps = {
+  value: "",
+  rowIndex: 0,
+  columnIndex: 0,
+  columns: [],
+  editData: () => null,
+  editable: false,
+  containActions: false,
+  displayActions: () => null,
 }
 
 export default EntityTableCell
