@@ -22,7 +22,7 @@ const axios = require("axios");
  *  }
  * @return data you get back from the api request
  */
-async function customApiRequestTest(customAPI) {
+async function customApiRequestTest(customAPI, borrowerId) {
   //checking request method types to make sure it is one of the valid request methods.
   let acceptedAPIcalls = [
     "GET",
@@ -48,7 +48,7 @@ async function customApiRequestTest(customAPI) {
   ) {
     const result = axios({
       method: customAPI.requestType,
-      url: customAPI.requestUrl,
+      url: customAPI.requestUrl + `/${borrowerId}`,
       data: customAPI.requestBody,
       headers: customAPI.requestHeaders,
       params: customAPI.requestParams,
