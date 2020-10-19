@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { StylesProvider, createGenerateClassName, makeStyles, Typography } from '@material-ui/core'
+import { StylesProvider, makeStyles, Typography } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
@@ -10,10 +10,6 @@ import HelixTable from '../table/HelixTable'
 import HelixTableCell from '../table/HelixTableCell'
 import users from '../apis/users'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
-
-const generateClassName = createGenerateClassName({
-    productionPrefix: 'user-',
-})
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -31,12 +27,6 @@ const userTableStyles = makeStyles(() => ({
     header: {
         paddingBottom: '2rem',
     },
-    // actionsIconStyle: {
-    //     '& button': {
-    //         marginRight: '1rem',
-    //         cursor: 'pointer',
-    //     },
-    // },
 }))
 
 /**
@@ -173,7 +163,7 @@ const UserTable = (props) => {
     }
 
     return (
-        <StylesProvider generateClassName={generateClassName} injectFirst>
+        <StylesProvider injectFirst>
             <div className={userTableClasses.mediumContainer}>
                 <div className={userTableClasses.header}>
                     <Typography variant="h5">Users</Typography>
