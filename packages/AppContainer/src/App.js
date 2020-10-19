@@ -86,6 +86,7 @@ const {
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "appcontainer-",
+  seed: "app",
 })
 
 const Dashboard = ({ history }) => (
