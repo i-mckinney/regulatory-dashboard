@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { HelixTable } from 'helixmonorepo-lib';
+import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
 import { sortableExcludes, columnMetadata } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
@@ -237,49 +237,54 @@ const ApiTable = (props) => {
     const columnAccessor = column.Accessor;
     // console.log(column)
     // console.log(row)
+    const displayActions = () => (
+      <>
+        <MuiButton
+        className={userTableClasses.testButtonStyle}
+        variant='outlined'
+        color='default'
+        onClick={() => {
+          setOpenTestRequestModal(true);
+          setRequestData(row);
+        }}
+        >
+          Perform Test
+        </MuiButton>
+        <IconButton
+          aria-label='edit'
+          size='small'
+          edge='start'
+          onClick={() => handleOpenEditModal(row)}
+          color='default'
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          aria-label='delete'
+          size='small'
+          edge='start'
+          onClick={() => handleDeleteRow(row._id)}
+          color='secondary'
+        >
+          <DeleteIcon />
+        </IconButton>
+      </>
+    )
     if (columnAccessor === 'Actions') {
       return (
-        <TableCell
-          className={userTableClasses.actionsIconStyle}
-          key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
-        >
-          <MuiButton
-            className={userTableClasses.testButtonStyle}
-            variant='outlined'
-            color='default'
-            onClick={() => {
-              setOpenTestRequestModal(true);
-              setRequestData(row);
-            }}
-          >
-            Perform Test
-          </MuiButton>
-          <IconButton
-            aria-label='edit'
-            size='small'
-            edge='start'
-            onClick={() => handleOpenEditModal(row)}
-            color='default'
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            aria-label='delete'
-            size='small'
-            edge='start'
-            onClick={() => handleDeleteRow(row._id)}
-            color='secondary'
-          >
-            <DeleteIcon />
-          </IconButton>
-        </TableCell>
+        <HelixTableCell 
+        key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
+        containActions={true} 
+        displayActions={displayActions} />
       );
     }
-    return (
-      <TableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}>
-        {row[columnAccessor]}
-      </TableCell>
-    );
+    else {
+      return (
+      <HelixTableCell 
+      key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
+      value={row[columnAccessor]} />
+      );
+    }
   };
 
   /**
@@ -317,7 +322,7 @@ const ApiTable = (props) => {
       </MuiButton>
     );
   };
-
+  console.log(columns,companyData)
   return (
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
@@ -330,6 +335,7 @@ const ApiTable = (props) => {
         </div>
 
         <HelixTable
+          toggleSearch={true}
           displayCreateIcon={displayCreateUserIcon}
           initialOrderBy={initialOrderBy}
           columns={columns}
