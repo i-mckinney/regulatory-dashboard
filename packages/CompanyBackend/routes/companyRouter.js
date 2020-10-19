@@ -284,10 +284,12 @@ router.delete("/companies/:id/customapi/:customApiId", async (req, res) => {
 });
 
 //Testing Custom API call (This route is specifically meant for Test Request button in custom apis table )
-router.get("/companies/:id/customapi/:customApiId/test", async (req, res) => {
+router.get("/companies/:id/customapi/:customApiId/test/:borrowerId", async (req, res) => {
   try {
     const companyId = req.params.id;
     const customApiId = req.params.customApiId;
+    const borrowerId = req.params.borrowerId;
+
     const dbCollection = await DbConnection.getCollection("CustomApiRequests");
     const customApi = await dbCollection.findOne({
       $and: [
@@ -303,7 +305,7 @@ router.get("/companies/:id/customapi/:customApiId/test", async (req, res) => {
     }
 
     if (customApi) {
-      const result = await customApiRequestTest(customApi);
+      const result = await customApiRequestTest(customApi, borrowerId);
       res.json(result);
     }
   }
