@@ -23,7 +23,7 @@ const generateClassName = createGenerateClassName({
 
 function App(history) {
   return (
-    <StylesProvider createGenerateClassName={createGenerateClassName}>
+    <StylesProvider createGenerateClassName={generateClassName}>
     <div className="pt-5">
       <BrowserRouter>
         <div>
