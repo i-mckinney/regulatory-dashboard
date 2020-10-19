@@ -78,7 +78,7 @@ const userTableStyles = makeStyles(() => ({
  */
 const UserTable = (props) => {
     // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
-    const userTableClasses = userTableStyles();
+    const userTableClasses = userTableStyles()
 
     // rows will stores users from GET Method fetchUsers via Rest API 
     const [rows, setRows] = useState([])
@@ -144,7 +144,7 @@ const UserTable = (props) => {
         const columnAccessor = column.Accessor
         if (columnAccessor === "Actions") {
             return (
-                <TableCell className={userTableClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
+                <TableCell className={userTableClasses.actionsIconStyle} key={`Row-${rowIndex} ${columnAccessor}-`}>
                     <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/edit/${row._id}`, state: row }))} color="default">
                         <EditIcon />
                     </IconButton>
@@ -160,14 +160,14 @@ const UserTable = (props) => {
             }, "")
 
             return (
-                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                <TableCell key={`Row-${rowIndex} ${columnAccessor}-`}>
                     {assignedRoles}
                 </TableCell>
             )
         }
         else {
             return (
-                <TableCell key={`${rowIndex} ${columnAccessor}`}>
+                <TableCell key={`Row-${rowIndex} ${columnAccessor}-`}>
                     {row[columnAccessor]}
                 </TableCell>
             )
@@ -213,7 +213,7 @@ const UserTable = (props) => {
                 <div className={userTableClasses.header}>
                     <Typography variant="h5">Users</Typography>
                 </div>
-                <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+                <HelixTable toggleSearch={true} displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             </div>
         </StylesProvider>
     )

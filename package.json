@@ -28,6 +28,7 @@
     "auto": "^9.52.0",
     "babel-loader": "^8.1.0",
     "bootstrap": "^4.5.2",
+    "clsx": "^1.1.1",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -54,6 +55,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "lerna bootstrap && lerna run build --parallel && lerna run start-dev & lerna run start-storybook"
+    "start-dev": "lerna bootstrap && lerna run build --parallel && lerna run start-dev"
   }
 }

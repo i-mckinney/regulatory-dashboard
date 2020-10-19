@@ -14,9 +14,10 @@ import PropTypes from "prop-types"
  * @param {func} getComparator func that set up a rule to compare the orderby column by acsending or descending order
  * @param {func} stableSort func that uses getComparator to sort it in order
  * @param {object} searchFilter object that contains a function for filtering search query
+ * @param {bool} toggleSearch bool represents true or false if table should have a search function
  * @returns {JSX} renders a custom table body for table
  */
-const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowKeyProp, order, orderBy, getComparator, stableSort, searchFilter }) => {
+const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowKeyProp, order, orderBy, getComparator, stableSort, searchFilter, toggleSearch }) => {
   
   //If rowsPerPage is always greater than 0, then we sort the rows by indicating column
   //and display rowsPerPage by each page
@@ -27,14 +28,16 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
     : stableSort(searchFilter.search(rows, columns), getComparator(order, orderBy))
   )
 
+  const dataRows = toggleSearch ? sortedRows : rows
+
   return (
       <TableBody>
-        {sortedRows.map((row, rowIndex) => {
+        {dataRows.map((row, rowIndex) => {
             return (
               <TableRow key={customBodyRowKeyProp(row)}>
-                {columns.map((column) => {
+                {columns.map((column, columnIndex) => {
                   return (
-                    customCellRender(rowIndex, row, column)
+                    customCellRender(row, column, rowIndex, columnIndex)
                   )
                 })}
               </TableRow>
@@ -57,6 +60,15 @@ HelixTableBody.propTypes = {
   getComparator: PropTypes.func.isRequired,
   stableSort: PropTypes.func.isRequired,
   searchFilter: PropTypes.shape({ search: PropTypes.func.isRequired }).isRequired,
+  toggleSearch: PropTypes.bool.isRequired,
+}
+
+HelixTableBody.defaultProps = {
+  rowsPerPage: 0,
+  page: 0,
+  order: '',
+  orderBy: '',
+  toggleSearch: false,
 }
 
 export default HelixTableBody
