@@ -20,6 +20,7 @@ const axios = require("axios");
  *    externalSourceData: result,
  *    responseMapped: resultWithMapping,
  *  }
+ * @param {string} borrowerId unique identifier to grab a specific data from external sources
  * @return data you get back from the api request
  */
 async function customApiRequestTest(customAPI, borrowerId) {
@@ -46,15 +47,20 @@ async function customApiRequestTest(customAPI, borrowerId) {
     customAPI.requestUrl.includes("http://") ||
     customAPI.requestUrl.includes("https://")
   ) {
+    let customUrl = borrowerId ? customAPI.requestUrl + `/${borrowerId}` : customAPI.requestUrl
+
     const result = axios({
       method: customAPI.requestType,
-      url: customAPI.requestUrl + `/${borrowerId}`,
+      url: customUrl,
       data: customAPI.requestBody,
       headers: customAPI.requestHeaders,
       params: customAPI.requestParams,
     })
       .then((response) => {
         const resultData = response.data;
+        if(!resultData) {
+          throw new Error("Please make sure that request URL and borrower id given is valid. External source has failed to return data")
+        }
         //In the case wehre response Mapper is given
         if (customAPI.responseMapper) {
           const responseMapper = customAPI.responseMapper;
