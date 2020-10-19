@@ -1,7 +1,4 @@
 /**
- * @param {number} doesFieldExist if the key that we are looking for exists in resultWithMapping,
- * we add one to doesFieldExist. Then in it's parents, when doesFieldExist is greater than 0,
- * the current for loop is skipped and doesFieldExist gets resetted to 0.
  * @param {obj} resultWithMapping would be the final output after
  * aggregating/mapping all the data from multiple external sources. This * will be used to populate rows of discrepancy table
  * ex) [
@@ -51,14 +48,14 @@
  * @param {string} newMappedKey this will be new mapped key that would be shown in the discrepancy report
  */
 function addValueToExistingRow(
-  doesFieldExist,
   resultWithMapping,
   desiredValueFromExternal,
   newMappedKey
 ) {
-
+  let doesFieldExist = false;
+  
   resultWithMapping.forEach((responseMapped) => {
-    if (responseMapped.key_config.key === newMappedKey) {
+    if (responseMapped["key_config"]["key"] === newMappedKey) {
       let sourceOfTruth =
         desiredValueFromExternal === responseMapped.sourceSystem.trueValue;
 
@@ -66,8 +63,10 @@ function addValueToExistingRow(
         value: desiredValueFromExternal,
         matchesSoT: sourceOfTruth,
       });
-      doesFieldExist++;
+      doesFieldExist = true
     }
   });
+
+  return doesFieldExist;
 }
 module.exports = addValueToExistingRow;
