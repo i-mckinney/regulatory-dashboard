@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { HelixTable } from 'helixmonorepo-lib';
+import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
 import { sortableExcludes, columnMetadata } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
@@ -23,44 +23,6 @@ const userTableStyles = makeStyles(() => ({
     margin: 'auto',
     marginTop: '5rem',
     paddingBottom: '5rem',
-    '& table': {
-      width: '100%',
-      display: 'table',
-      borderTopRightRadius: '4px',
-      borderTopLeftRadius: '4px',
-      boxSizing: 'border-box',
-      borderSpacing: '2px',
-      borderColor: 'grey',
-      '& tr': {
-        border: 'none',
-        backgroundColor: 'white',
-        '&:nth-child(even)': {
-          backgroundColor: '#f2f2f2',
-        },
-        '&:hover': {
-          backgroundColor: '#add8e6',
-        },
-        '&:last-child': {
-          borderBottomRightRadius: '4px',
-          borderBottomLeftRadius: '4px',
-        },
-      },
-      '& th': {
-        backgroundColor: '#2e353d',
-        color: 'white',
-        margin: '0',
-        borderBottom: 'solid 1px #e0e4e8',
-        padding: '8px',
-      },
-      '& td': {
-        margin: '0',
-        borderBottom: 'solid 1px #e0e4e8',
-        padding: '8px',
-      },
-      '&:last-children': {
-        borderBottom: 'none',
-      },
-    },
   },
   createIconStyle: {
     float: 'right',
@@ -69,12 +31,6 @@ const userTableStyles = makeStyles(() => ({
   },
   header: {
     paddingBottom: '2rem',
-  },
-  actionsIconStyle: {
-    '& button': {
-      marginRight: '1rem',
-      cursor: 'pointer',
-    },
   },
   testButtonStyle: {
     color: '#00c200',
@@ -115,19 +71,13 @@ const ApiTable = (props) => {
    * It will fetchUsers whenever ApiTable loads
    */
   useEffect(() => {
-    console.log("USE EFFECT IS RUNNING")
     const fetchCompanies = () => {
-      console.log("customapi: " + customApiUrl)
       axios
         .get(customApiUrl, {
           headers: { 'Access-Control-Allow-Origin': '*' },
         })
         .then((res) => {
-          console.log("RES AXIOS")
-
-          // console.log('res', res.data[0].CustomApiRequests);
           // setRows(res.data[0].CustomApiRequests);
-          console.log("COMPANY DATA: " + JSON.stringify(res.data))
           setCompanyData(res.data);
         });
     };
@@ -228,58 +178,62 @@ const ApiTable = (props) => {
   };
 
   /**
-   * @param {int} rowIndex represents row index
-   * @param {object} row represent object data from the api result
-   * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
-   * @return {JSX} Table cell of object properties in that Table row
+   * @param {object} row the row is an object of data
+   * @param {object} column the column is an object of the header with accessor and label props
+   * @param {int} rowIndex the rowIndex represents index of the row
+   * @param {int} columnIndex the columnIndex represents index of the column
+   * @return {JSX} HelixTableCell of object properties in that Table row
    */
-  const customCellRender = (rowIndex, row, column) => {
+  const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor;
-    console.log(column)
-    console.log(row)
+    const displayActions = () => (
+      <>
+        <MuiButton
+        className={userTableClasses.testButtonStyle}
+        variant='outlined'
+        color='default'
+        onClick={() => {
+          setOpenTestRequestModal(true);
+          setRequestData(row);
+        }}
+        >
+          Perform Test
+        </MuiButton>
+        <IconButton
+          aria-label='edit'
+          size='small'
+          edge='start'
+          onClick={() => handleOpenEditModal(row)}
+          color='default'
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          aria-label='delete'
+          size='small'
+          edge='start'
+          onClick={() => handleDeleteRow(row._id)}
+          color='secondary'
+        >
+          <DeleteIcon />
+        </IconButton>
+      </>
+    )
     if (columnAccessor === 'Actions') {
       return (
-        <TableCell
-          className={userTableClasses.actionsIconStyle}
-          key={`${rowIndex} ${column} ${columnAccessor}`}
-        >
-          <MuiButton
-            className={userTableClasses.testButtonStyle}
-            variant='outlined'
-            color='default'
-            onClick={() => {
-              setOpenTestRequestModal(true);
-              setRequestData(row);
-            }}
-          >
-            Perform Test
-          </MuiButton>
-          <IconButton
-            aria-label='edit'
-            size='small'
-            edge='start'
-            onClick={() => handleOpenEditModal(row)}
-            color='default'
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            aria-label='delete'
-            size='small'
-            edge='start'
-            onClick={() => handleDeleteRow(row._id)}
-            color='secondary'
-          >
-            <DeleteIcon />
-          </IconButton>
-        </TableCell>
+        <HelixTableCell 
+        key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
+        containActions={true} 
+        displayActions={displayActions} />
       );
     }
-    return (
-      <TableCell key={`${rowIndex} ${columnAccessor}`}>
-        {row[columnAccessor]}
-      </TableCell>
-    );
+    else {
+      return (
+      <HelixTableCell 
+      key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
+      value={row[columnAccessor]} />
+      );
+    }
   };
 
   /**
@@ -330,6 +284,7 @@ const ApiTable = (props) => {
         </div>
 
         <HelixTable
+          toggleSearch={true}
           displayCreateIcon={displayCreateUserIcon}
           initialOrderBy={initialOrderBy}
           columns={columns}
