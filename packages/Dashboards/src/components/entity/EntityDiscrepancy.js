@@ -162,10 +162,12 @@ const EntityDiscrepancy = (props) => {
       // })
     }
   }
-  console.log(sourceOfTruthData)
-  console.log(matchesToSoT)
+
   // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
+
+  // savedSourceOfTruthData is a storage of saved new source of truth data 
+  const [savedSourceOfTruthData, setSavedSourceOfTruthData] = useState(sourceOfTruthData)
 
   /**
    * @param {int} index table cell index in 1-dimension array
@@ -183,11 +185,24 @@ const EntityDiscrepancy = (props) => {
     setEditEntityData([...copyEditEntityData])
   }
 
+  
+  const handleSourceOfTruth = (rowIndex, newSourceValue, newTrueValue) => {
+    const copySavedSourceOfTruthData = [ ...savedSourceOfTruthData ]
+    const modifiedSavedSourceOfTruthData = { ...copySavedSourceOfTruthData[rowIndex] }
+
+    modifiedSavedSourceOfTruthData["source"] = newSourceValue
+    modifiedSavedSourceOfTruthData["trueValue"] = newTrueValue
+
+    copySavedSourceOfTruthData.splice(rowIndex, 1, modifiedSavedSourceOfTruthData)
+    setSavedSourceOfTruthData([ ...copySavedSourceOfTruthData ])
+  }
+
   /**
-   * @param {int} rowIndex the rowIndex represents index of the row
    * @param {object} row the row is an object of data
    * @param {object} column the column is an object of the header with accessor and label props
+   * @param {int} rowIndex the rowIndex represents index of the row
    * @param {int} columnIndex the columnIndex represents index of the column
+   * @return {JSX} HelixTableCell of object properties in that Table row
    */
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
@@ -196,7 +211,7 @@ const EntityDiscrepancy = (props) => {
     }
     else {
       return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} matchesToSoT={matchesToSoT} sourceOfTruthData={sourceOfTruthData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} handleSourceOfTruth={handleSourceOfTruth} matchesToSoT={matchesToSoT} sourceOfTruthData={savedSourceOfTruthData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
       )
     }
   }

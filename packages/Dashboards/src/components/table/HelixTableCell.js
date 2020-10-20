@@ -72,6 +72,7 @@ const entityTableCellStyles = makeStyles(() => ({
  * @param {string} value string represents table data cell value from Cell object property
  * @param {array} sourceOfTruthData array represents the array of original source of truth to compare with
  * @param {array} matchesToSoT matchesToSoT is an array of boolean that represents matches value to the source of truth
+ * @param {func} handleSourceOfTruth handleSourceOfTruth is a func comes from parent component, once it is invoke, it will save new source and true value
  * @param {int} rowIndex index of the current row
  * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
@@ -85,6 +86,7 @@ const EntityTableCell = ({
   value: initialStateValue,
   sourceOfTruthData,
   matchesToSoT,
+  handleSourceOfTruth,
   rowIndex,
   columnIndex,
   columns,
@@ -222,10 +224,7 @@ const EntityTableCell = ({
   }
 
   const isRadioSelected = () => {
-    if (sourceOfTruthData[rowIndex].source === columns[columnIndex].Accessor) {
-      return true
-    }
-    return false
+    handleSourceOfTruth(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
   }
 
   // displayTableCell return jsx object of editable table cell or non-editable table cell
@@ -241,7 +240,11 @@ const EntityTableCell = ({
         >
           <Radio 
           className={entityTableCellClasses.selectedRadio} 
-          checked={initialStateValue === sourceOfTruthData[rowIndex].trueValue && columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source}
+          checked={
+            initialStateValue === sourceOfTruthData[rowIndex].trueValue 
+            && 
+            columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source
+          }
           size="small" 
           color="default" 
           onClick={isRadioSelected} 
@@ -274,7 +277,7 @@ const EntityTableCell = ({
 }
 
 EntityTableCell.propTypes = {
-  sourceOfTruthData: PropTypes.instanceOf(Array).isRequired,
+  handleSourceOfTruth: PropTypes.func.isRequired,
   matchesToSoT: PropTypes.instanceOf(Array).isRequired,
   value: PropTypes.string.isRequired,
   rowIndex: PropTypes.number.isRequired,
@@ -287,9 +290,10 @@ EntityTableCell.propTypes = {
 }
 
 EntityTableCell.defaultProps = {
+  value: "",
   sourceOfTruthData: [],
   matchesToSoT: [],
-  value: "",
+  handleSourceOfTruth: () => null,
   rowIndex: 0,
   columnIndex: 0,
   columns: [],
