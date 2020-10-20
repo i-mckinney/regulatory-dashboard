@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { makeStyles, Radio, TableCell } from '@material-ui/core'
-import { green } from '@material-ui/core/colors'
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -71,7 +70,7 @@ const entityTableCellStyles = makeStyles(() => ({
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {string} sourceOfTruthData string represents the original source of truth to compare with
+ * @param {array} sourceOfTruthData array represents the array of original source of truth to compare with
  * @param {array} matchesToSoT matchesToSoT is an array of boolean that represents matches value to the source of truth
  * @param {int} rowIndex index of the current row
  * @param {int} columnIndex index of the current column
@@ -275,6 +274,8 @@ const EntityTableCell = ({
 }
 
 EntityTableCell.propTypes = {
+  sourceOfTruthData: PropTypes.instanceOf(Array).isRequired,
+  matchesToSoT: PropTypes.instanceOf(Array).isRequired,
   value: PropTypes.string.isRequired,
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
@@ -286,6 +287,8 @@ EntityTableCell.propTypes = {
 }
 
 EntityTableCell.defaultProps = {
+  sourceOfTruthData: [],
+  matchesToSoT: [],
   value: "",
   rowIndex: 0,
   columnIndex: 0,
