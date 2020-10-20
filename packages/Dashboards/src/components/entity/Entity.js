@@ -14,7 +14,7 @@ import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 const generateClassName = createGenerateClassName({
     productionPrefix: 'entity-',
 })
-  
+
 
 // Styling used for MaterialUI
 const entityStyles = makeStyles(() => ({
@@ -55,9 +55,9 @@ function Entity(props) {
    * filter -> includes (tells react table to show values that matches the value in the select field)
    * Filter not given -> will use global filter
    * */
-  // rows will stores entities from GET Method fetchEntities via Rest API 
+  // rows will stores entities from GET Method fetchEntities via Rest API
   const [rows, setRows] = useState([])
-    
+
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], [])
 
@@ -88,7 +88,7 @@ function Entity(props) {
    * It will fetchEntitiess whenever Entity loads
    */
   useEffect(() => {
-      
+
       /**
        * fetchEntities calls backend api through get protocol to get all the entities
        */
@@ -141,7 +141,7 @@ function Entity(props) {
     }
 
     /**
-     * @param {object} column represent object data regarding the api result  
+     * @param {object} column represent object data regarding the api result
      * @return {string} provide table row with unique key props (required)
      */
     const customHeadColumnKeyProp = (column) => {
@@ -149,7 +149,7 @@ function Entity(props) {
     }
 
     /**
-     * @param {object} row represent object data regarding the api result 
+     * @param {object} row represent object data regarding the api result
      * @return {string} provide table row with unique key props (required)
      */
     const customBodyRowKeyProp = (row) => {
@@ -179,7 +179,7 @@ function Entity(props) {
     }
 
     return (
-        <StylesProvider generateClassName={generateClassName} injectFirst>
+        <StylesProvider generateClassName={generateClassName}>
             <div className={entityClasses.mediumContainer}>
               <div className={entityClasses.header}>
                   <Typography variant="h5">Entity</Typography>

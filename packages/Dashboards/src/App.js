@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect  } from "react-router-dom"
 import Homepage from "./components/homepage/Homepage"
 import Dashboard from "./components/dashboard/Dashboard"
 import Entity from "./components/entity/Entity"
-import Discrepancy from "./components/entity/EntityDiscrepancy"
+import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
 import Loan from "./components/loan/Loan"
 import Regulatory from "./components/regulatory/Regulatory"
 import MyRequest from "./components/myrequest/MyRequest"
@@ -11,16 +11,26 @@ import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
+import {
+  StylesProvider,
+  createGenerateClassName,
+} from "@material-ui/core/styles";
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: "dashboards-",
+  seed:"dash"
+});
 
 function App(history) {
   return (
+    <StylesProvider generateClassName={generateClassName}>
     <div className="pt-5">
       <BrowserRouter>
         <div>
           <Switch>
-            <Route path="/home">
+            <Route exact path="/homepage">
               <Homepage />
-            </Route>  
+            </Route>
 
             <Route exact path="/dashboard">
               <Dashboard />
@@ -47,7 +57,7 @@ function App(history) {
             </Route>
 
             <Route exact path="/entity/:id/discrepancy-report">
-              <Discrepancy />
+              <EntityDiscrepancy />
             </Route>
 
             <Route exact path="/loan">
@@ -67,6 +77,7 @@ function App(history) {
         </div>
       </BrowserRouter>
     </div>
+    </StylesProvider>
   )
 }
 
