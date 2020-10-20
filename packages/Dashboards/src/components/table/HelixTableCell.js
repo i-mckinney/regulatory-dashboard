@@ -64,6 +64,9 @@ const entityTableCellStyles = makeStyles(() => ({
   matIconSpan: {
     display: 'block',
   },
+  selectedRadio: {
+    color: 'green',
+  },
 }))
 
 /**
@@ -237,7 +240,13 @@ const EntityTableCell = ({
           role="row"
           tabIndex="0"
         >
-          <Radio size="small" onClick={isRadioSelected} />
+          <Radio 
+          className={entityTableCellClasses.selectedRadio} 
+          checked={initialStateValue === sourceOfTruthData[rowIndex].trueValue && columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source}
+          size="small" 
+          color="default" 
+          onClick={isRadioSelected} 
+          />
           {displayInitialStateValue()}
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
