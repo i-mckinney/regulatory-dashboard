@@ -109,20 +109,20 @@ router.post("/report/:entityId", async (req, res) => {
         let sourceOfTruth = rowChange.sourceSystem.trueValue;
         let values = rowChange.values.map((cell) => {
           if (cell === null) return null;
-          if (cell["value"]) {
+          if ( cell["previousValue"]) {
+            let previousValue = cell["previousValue"];
             let value = cell["value"];
             let matchesSoT = value === sourceOfTruth;
             return {
+              previousValue,
               value,
               matchesSoT,
             };
           } else {
-            let previousValue = cell["previousValue"];
-            let newValue = cell["newValue"];
-            let matchesSoT = newValue === sourceOfTruth;
+            let value = cell["value"];
+            let matchesSoT = value === sourceOfTruth;
             return {
-              previousValue,
-              newValue,
+              value,
               matchesSoT,
             };
           }
