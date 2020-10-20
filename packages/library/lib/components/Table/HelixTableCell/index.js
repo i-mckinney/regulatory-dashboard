@@ -97,12 +97,17 @@ var entityTableCellStyles = (0, _core.makeStyles)(function () {
     },
     matIconSpan: {
       display: 'block'
+    },
+    selectedRadio: {
+      color: 'green'
     }
   };
 });
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {string} originalValue string represents the original source of truth to compare with
+ * @param {array} sourceOfTruthData array represents the array of original source of truth to compare with
+ * @param {array} matchesToSoT matchesToSoT is an array of boolean that represents matches value to the source of truth
+ * @param {func} handleSourceOfTruth handleSourceOfTruth is a func comes from parent component, once it is invoke, it will save new source and true value
  * @param {int} rowIndex index of the current row
  * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
@@ -115,7 +120,9 @@ var entityTableCellStyles = (0, _core.makeStyles)(function () {
 
 var EntityTableCell = function EntityTableCell(_ref) {
   var initialStateValue = _ref.value,
-      originalValue = _ref.originalValue,
+      sourceOfTruthData = _ref.sourceOfTruthData,
+      matchesToSoT = _ref.matchesToSoT,
+      handleSourceOfTruth = _ref.handleSourceOfTruth,
       rowIndex = _ref.rowIndex,
       columnIndex = _ref.columnIndex,
       columns = _ref.columns,
@@ -270,11 +277,15 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var cellState = function cellState() {
     if (saveChanges) {
       return entityTableCellClasses.editedCell;
-    } else if (initialStateValue !== originalValue) {
+    } else if (!matchesToSoT[rowIndex][columnIndex - 1]) {
       return entityTableCellClasses.errorCell;
     }
 
     return entityTableCellClasses.initialCell;
+  };
+
+  var isRadioSelected = function isRadioSelected() {
+    handleSourceOfTruth(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue);
   }; // displayTableCell return jsx object of editable table cell or non-editable table cell
 
 
@@ -286,7 +297,13 @@ var EntityTableCell = function EntityTableCell(_ref) {
         onKeyDown: handleDivChange,
         role: "row",
         tabIndex: "0"
-      }, displayInitialStateValue(), displayCurrentStateChanges(), displayCustomizedForm());
+      }, /*#__PURE__*/_react["default"].createElement(_core.Radio, {
+        className: entityTableCellClasses.selectedRadio,
+        checked: initialStateValue === sourceOfTruthData[rowIndex].trueValue && columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source,
+        size: "small",
+        color: "default",
+        onClick: isRadioSelected
+      }), displayInitialStateValue(), displayCurrentStateChanges(), displayCustomizedForm());
     } else if (containActions) {
       return /*#__PURE__*/_react["default"].createElement(_core.TableCell, null, displayActions());
     } else {
@@ -298,6 +315,8 @@ var EntityTableCell = function EntityTableCell(_ref) {
 };
 
 EntityTableCell.propTypes = {
+  handleSourceOfTruth: _propTypes["default"].func.isRequired,
+  matchesToSoT: _propTypes["default"].instanceOf(Array).isRequired,
   value: _propTypes["default"].string.isRequired,
   rowIndex: _propTypes["default"].number.isRequired,
   columnIndex: _propTypes["default"].number.isRequired,
@@ -309,6 +328,11 @@ EntityTableCell.propTypes = {
 };
 EntityTableCell.defaultProps = {
   value: "",
+  sourceOfTruthData: [],
+  matchesToSoT: [],
+  handleSourceOfTruth: function handleSourceOfTruth() {
+    return null;
+  },
   rowIndex: 0,
   columnIndex: 0,
   columns: [],
