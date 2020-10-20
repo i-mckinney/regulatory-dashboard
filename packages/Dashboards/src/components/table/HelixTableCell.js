@@ -1,11 +1,12 @@
-import React, { useState } from "react"
-import { makeStyles, Radio, TableCell } from "@material-ui/core"
+import React, { useState } from 'react'
+import { makeStyles, Radio, TableCell } from '@material-ui/core'
+import { green } from '@material-ui/core/colors'
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ReplayIcon from '@material-ui/icons/Replay';
 import SaveIcon from '@material-ui/icons/Save';
 import ClearIcon from '@material-ui/icons/Clear';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 
 // Styling used for MaterialUI
 const entityTableCellStyles = makeStyles(() => ({
@@ -62,7 +63,7 @@ const entityTableCellStyles = makeStyles(() => ({
   },
   matIconSpan: {
     display: 'block',
-  }
+  },
 }))
 
 /**
