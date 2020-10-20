@@ -7,7 +7,10 @@ import IconButton from '@material-ui/core/IconButton'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
+// import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
+import HelixTableCell from '../table/HelixTableCell'
+
 import entities from '../apis/entities'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 

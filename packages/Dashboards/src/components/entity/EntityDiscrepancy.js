@@ -1,12 +1,10 @@
 import React, { useMemo, useState } from "react"
 import { withRouter } from "react-router-dom"
-import { StylesProvider, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-// import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
-import HelixTable from '../table/HelixTable'
-import HelixTableCell from '../table/HelixTableCell'
+import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
 import { HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 
@@ -82,7 +80,11 @@ const EntityDiscrepancy = (props) => {
   // const entityData = []
   const entityData = useMemo(() => [], [])
 
-  const originalSourceData = useMemo(() => [], [])
+  // sourceOfTruthData stores object of sources of truth e.g. { source: 'FIS', truthValue: 'John Doe'}
+  const sourceOfTruthData = useMemo(() => [], [])
+
+  // matchesToSoT is 2D array with boolean values that determines whether it matches to source of truth
+  const matchesToSoT = useMemo(() => [], [])
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -102,7 +104,7 @@ const EntityDiscrepancy = (props) => {
 
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
-    const response = await entities.get("discrepancies/5f7e1bb2ab26a664b6e950c8/5a7017cc-91a6-45e0-b054-1c3d042353f9/report")
+    const response = await entities.get(`discrepancies/5f7e1bb2ab26a664b6e950c8/${props.location.state.borrowerID}/report`)
     setData(response.data)
   }
 
@@ -111,33 +113,36 @@ const EntityDiscrepancy = (props) => {
   } else {
     if (columns.length === 0) {
       data.TableHeaders.forEach((header) => columns.push(header))
-      // data.TableData.forEach((entityField) => {
-      //   const label = entityField.key_config["display"]
-      //   const row = entityField.values.map((value, valueIndex) => {
-      //     const accessor = columns[valueIndex]["Accessor"]
-      //     if (valueIndex) {
-      //       if (valueIndex === 1) {
-      //         originalSourceData.push(value.toString())
-      //       }
-      //       entityData.push({
-      //           FieldName: label,
-      //           IsEdited: false,
-      //           SystemOfRecord: accessor,
-      //           PreviousValue: value,
-      //           NewValue: "",
-      //           SourceSystem: "",
-      //         }
-      //       )
-      //     }
-      //     return value.toString()
-      //   })
-      //   rows.push(row)
-      // })
+      data.TableData.forEach((entityField) => {
+        const row = [entityField.key_config["display"]]
+        sourceOfTruthData.push(entityField.sourceSystem)
+        rows.push(row)
+      })
+      data.TableData.forEach((entityField, entityFieldIndex) => {
+        const row = rows[entityFieldIndex]
+        const rowSoT = []
+        const values = entityField.values.map((value) => {
+          if (value !== null) {
+            rowSoT.push(value.matchesSoT)
+            return value.value.toString()
+          } else {
+            rowSoT.push(false)
+            return ""
+          }
+        })
+        matchesToSoT.push(rowSoT)
+
+        const newRow = row.concat(values)
+        rows[entityFieldIndex] = newRow
+      })
     }
   }
 
   // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
+
+  // savedSourceOfTruthData is a storage of saved new source of truth data 
+  const [savedSourceOfTruthData, setSavedSourceOfTruthData] = useState(sourceOfTruthData)
 
   /**
    * @param {int} index table cell index in 1-dimension array
@@ -156,10 +161,27 @@ const EntityDiscrepancy = (props) => {
   }
 
   /**
-   * @param {int} rowIndex the rowIndex represents index of the row
+   * @param {int} rowIndex the rowIndex represents index of the row 
+   * @param {string} newSourceValue the newSourceValue is the new selected the source of truth 
+   * @param {string} newTrueValue 
+   */
+  const handleSourceOfTruth = (rowIndex, newSourceValue, newTrueValue) => {
+    const copySavedSourceOfTruthData = [ ...savedSourceOfTruthData ]
+    const modifiedSavedSourceOfTruthData = { ...copySavedSourceOfTruthData[rowIndex] }
+
+    modifiedSavedSourceOfTruthData["source"] = newSourceValue
+    modifiedSavedSourceOfTruthData["trueValue"] = newTrueValue
+
+    copySavedSourceOfTruthData.splice(rowIndex, 1, modifiedSavedSourceOfTruthData)
+    setSavedSourceOfTruthData([ ...copySavedSourceOfTruthData ])
+  }
+
+  /**
    * @param {object} row the row is an object of data
    * @param {object} column the column is an object of the header with accessor and label props
+   * @param {int} rowIndex the rowIndex represents index of the row
    * @param {int} columnIndex the columnIndex represents index of the column
+   * @return {JSX} HelixTableCell of object properties in that Table row
    */
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
@@ -168,7 +190,7 @@ const EntityDiscrepancy = (props) => {
     }
     else {
       return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} handleSourceOfTruth={handleSourceOfTruth} matchesToSoT={matchesToSoT} sourceOfTruthData={savedSourceOfTruthData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
       )
     }
   }
@@ -187,35 +209,34 @@ const EntityDiscrepancy = (props) => {
   }
 
   return (
-    <StylesProvider injectFirst>
-      <div className={`container ${entitydiscrepancyClasses.medium}`}>
-        <EntityCard
-          RecordLabel={detailedInfo.RecordLabel}
-          SystemOfRecord={detailedInfo.SystemOfRecord}
-          ID={detailedInfo.HeaderInfo.ID}
-          BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
-          RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
+    <div className={`container ${entitydiscrepancyClasses.medium}`}>
+      <EntityCard
+        RecordLabel={detailedInfo.RecordLabel}
+        SystemOfRecord={detailedInfo.SystemOfRecord}
+        ID={detailedInfo.HeaderInfo.ID}
+        BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
+        RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
+      />
+      <HelixTable
+      toggleSearch={false}
+      columns={columns} 
+      rows={rows} 
+      customCellRender={customCellRender} 
+      customBodyRowKeyProp={customBodyRowKeyProp} 
+      customHeadColumnKeyProp={customHeadColumnKeyProp} 
+      />
+      <div className={entitydiscrepancyClasses.pageProgression}>
+        <HelixButton
+          className={entitydiscrepancyClasses.cancelButton}
+          onClick={handleBackButton}
+          text="Back"
         />
-        <HelixTable 
-        columns={columns} 
-        rows={rows} 
-        customCellRender={customCellRender} 
-        customBodyRowKeyProp={customBodyRowKeyProp} 
-        customHeadColumnKeyProp={customHeadColumnKeyProp} 
-        />
-        <div className={entitydiscrepancyClasses.pageProgression}>
-          <HelixButton
-            className={entitydiscrepancyClasses.cancelButton}
-            onClick={handleBackButton}
-            text="Back"
-          />
-          <HelixButton 
-          className={entitydiscrepancyClasses.confirmButton} 
-          onClick={handleConfirmButton} 
-          text="Confirm" />
-        </div>
+        <HelixButton 
+        className={entitydiscrepancyClasses.confirmButton} 
+        onClick={handleConfirmButton} 
+        text="Confirm" />
       </div>
-    </StylesProvider>
+    </div>
   )
 }
 
