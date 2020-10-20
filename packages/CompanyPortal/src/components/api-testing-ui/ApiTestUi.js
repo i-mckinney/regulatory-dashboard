@@ -51,7 +51,7 @@ export default function ApiTestUi({ data, onSave }) {
     setMethod(data.requestType);
     setUrl(data.requestUrl);
     setParams(expandToArray(data.requestParams) || [createNewField()]);
-    setMapping(expandToArray(data.requestMapping) || [createNewField()]);
+    setMapping(expandToArray(data.responseMapper) || [createNewField()]);
     setHeaders(expandToArray(data.requestHeaders) || [createNewField()]);
   }, [data]);
 
@@ -66,7 +66,7 @@ export default function ApiTestUi({ data, onSave }) {
       requestUrl: url,
       requestName: name,
       requestParams: reduceToPlainObj(params),
-      requestMapping: reduceToPlainObj(mapping),
+      responseMapper: reduceToPlainObj(mapping),
       requestHeaders: reduceToPlainObj(headers),
     };
     onSave(requestData)
@@ -92,7 +92,7 @@ export default function ApiTestUi({ data, onSave }) {
         setHeaders={setHeaders}
       />
       <Controls.Button text='SAVE' onClick={handleSave}></Controls.Button>
-      <h3>Request Mapping:</h3>
+      <h3>Response Mapper:</h3>
       <pre>
         {JSON.stringify(reduceToPlainObj(mapping), null, 2)}
       </pre>

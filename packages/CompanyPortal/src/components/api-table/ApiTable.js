@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable } from 'helixmonorepo-lib';
-import { sortableExcludes, columnMetadata } from '../../config';
+import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
 import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
@@ -81,8 +81,6 @@ const userTableStyles = makeStyles(() => ({
   },
 }));
 
-const BASE_URL = "http://localhost:5000"
-
 /**
  * @param {Object} props Using the history location to route next component with data state
  * @return {JSX} ApiTable of the client's custom APIs
@@ -106,9 +104,7 @@ const ApiTable = (props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const customApiUrl = `${BASE_URL}/companies/${companyId}/customapi`;
-
-  const getTestUrl = (requestId) => `${customApiUrl}/${requestId}/test` 
+  const customApiUrl = `${API_HOST}/companies/${companyId}/customapi`;
 
   /**
    * Renders only when it is mounted at first
@@ -169,16 +165,18 @@ const ApiTable = (props) => {
   //}
 
   const handleCreateRow = async (newRow) => {
+    const payload = { ...newRow }
+    delete payload._id
     setLoading(true);
     try {
       const response = await axios.post(
         customApiUrl,
-        newRow,
+        payload,
         {
           headers: { 'Access-Control-Allow-Origin': '*' },
         }
       );
-      setCompanyData([ ...companyData, { ...newRow, _id: response.data._id }]);
+      setCompanyData([ ...companyData, response.data]);
     } catch(e) {
       console.error(e)
     }
@@ -190,19 +188,22 @@ const ApiTable = (props) => {
   };
 
   const handleEditRow = async (updatedRow) => {
+    const payload = { ...updatedRow }
+    delete payload._id
+    delete payload.company_id
     setLoading(true);
-    const response = await axios.put(
-      `http://localhost:5000/companies/${companyId}`,
-      {
-        CustomApiRequests: companyData.map((row) =>
-          row._id === updatedRow._id ? updatedRow : row
-        ),
-      },
-      {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      }
-    );
-    setCompanyData(response.data.CustomApiRequests);
+    try {
+      const response = await axios.put(
+        `${customApiUrl}/${updatedRow._id}`,
+        payload,
+        {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        }
+      );
+      setCompanyData(companyData.map(d => d._id === updatedRow._id ? response.data : d));
+    } catch(e) {
+      console.error(e)
+    }
     setLoading(false);
     handleCloseEditModal();
   };
@@ -210,7 +211,7 @@ const ApiTable = (props) => {
   const handleDeleteRow = async (_id) => {
     try {
       await axios.delete(
-        `${customApiUrl}/_id`,
+        `${customApiUrl}/${_id}`,
         {
           headers: { 'Access-Control-Allow-Origin': '*' },
         }
@@ -345,7 +346,7 @@ const ApiTable = (props) => {
         open={openTestRequestModal}
         onClose={() => setOpenTestRequestModal(false)}
         requestData={requestData}
-        getTestUrl={getTestUrl}
+        companyId={companyId}
       ></PerformTestDialog>
     </StylesProvider>
   );

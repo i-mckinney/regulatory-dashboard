@@ -4,27 +4,31 @@ import { TextField, Button, InputBase } from '@material-ui/core';
 import axios from 'axios';
 import DialogModalTemplate from '../DialogModalTemplate';
 import Grid from '@material-ui/core/Grid';
+import { API_HOST } from '../../config';
 
 const PerformTestDialog = ({
   open,
   onClose,
   requestData: { requestName, _id: requestId },
+  companyId
 }) => {
   console.log(requestId);
-  const [testResponse, setTestResponse] = useState(null);
   const [response, setResponse] = useState(null);
   const [mappedResponse, setMappedResponse] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setResponse(null)
+    setMappedResponse(null)
+  }, [open])
 
   const [inputState, setInputState] = useState('');
 
   const testRequest = async (borrowerId) => {
     // setLoading(true);
-    //const response = await axios.get(getTestUrl(requestId))
     const response = await axios.get(
-      `http://localhost:5000/companies/5f7e1bb2ab26a664b6e950c8/customapi/${requestId}/test/${borrowerId}`
+      `${API_HOST}/companies/${companyId}/customapi/${requestId}/test/${borrowerId}`
     );
-    setTestResponse(response.data);
     setResponse(response.data.externalSourceData);
     setMappedResponse(response.data.responseMapped);
     // setLoading(false);
