@@ -19,7 +19,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
-    "helixmonorepo-lib": "^1.0.11",
+    "helixmonorepo-lib": "^1.0.10",
     "history": "^5.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -48,6 +48,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "gitHead": "65f8131e2be31cb8e353ada2c9295cd1af2f9bb1"
+  }
 }

@@ -66,14 +66,14 @@ function SideNavigationBar(props) {
         </div>
         <Divider />
         <List>
-          <Link color="inherit" href="/dashboard">
+          {/* <Link color="inherit" href="/dashboard">
             <ListItem button>
               <ListItemIcon>
                 <Computer />
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
-          </Link>
+          </Link> */}
           <Link color="inherit" href="/entity">
             <ListItem button>
               <ListItemIcon>
@@ -109,20 +109,22 @@ function SideNavigationBar(props) {
         </List>
         <Divider />
         <List>
-          <Link color="inherit" href="/company">
+          <Link color="inherit" href="/client-api-table">
             <ListItem button>
               <ListItemIcon>
                 <BusinessIcon />
               </ListItemIcon>
-              <ListItemText primary="Company Policy" />
+              <ListItemText primary="Custom API" />
             </ListItem>
           </Link>
+          <Link color="inherit" href="/">
           <ListItem button>
             <ListItemIcon>
               <MeetingRoomIcon />
             </ListItemIcon>
             <ListItemText primary="Log Out" />
           </ListItem>
+          </Link>
         </List>
       </Drawer>
     </>
