@@ -16,6 +16,7 @@ const PerformTestDialog = ({
   const [response, setResponse] = useState(null);
   const [mappedResponse, setMappedResponse] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     setResponse(null)
