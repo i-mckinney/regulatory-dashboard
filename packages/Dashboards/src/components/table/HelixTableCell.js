@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { makeStyles, TableCell } from "@material-ui/core"
+import { makeStyles, Radio, TableCell } from "@material-ui/core"
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -67,7 +67,8 @@ const entityTableCellStyles = makeStyles(() => ({
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {string} originalValue string represents the original source of truth to compare with
+ * @param {string} sourceOfTruthData string represents the original source of truth to compare with
+ * @param {array} matchesToSoT matchesToSoT is an array of boolean that represents matches value to the source of truth
  * @param {int} rowIndex index of the current row
  * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
@@ -79,7 +80,8 @@ const entityTableCellStyles = makeStyles(() => ({
  */
 const EntityTableCell = ({
   value: initialStateValue,
-  originalValue,
+  sourceOfTruthData,
+  matchesToSoT,
   rowIndex,
   columnIndex,
   columns,
@@ -210,11 +212,18 @@ const EntityTableCell = ({
     if (saveChanges) {
       return entityTableCellClasses.editedCell
     }
-    else if (initialStateValue !== originalValue) {
+    else if (!matchesToSoT[rowIndex][columnIndex-1]) {
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell
   }
+
+  // const isRadioSelected = () => {
+  //   if (sourceOfTruthData[rowIndex].source === columns[columnIndex].Accessor) {
+  //     return true
+  //   }
+  //   return false
+  // }
 
   // displayTableCell return jsx object of editable table cell or non-editable table cell
   const displayTableCell = () => {
@@ -227,6 +236,7 @@ const EntityTableCell = ({
           role="row"
           tabIndex="0"
         >
+          {/* <Radio size="small" onClick={isRadioSelected} /> */}
           {displayInitialStateValue()}
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}

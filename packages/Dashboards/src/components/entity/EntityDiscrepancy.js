@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react"
 import { withRouter } from "react-router-dom"
-import { StylesProvider, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
@@ -82,7 +82,9 @@ const EntityDiscrepancy = (props) => {
   // const entityData = []
   const entityData = useMemo(() => [], [])
 
-  const originalSourceData = useMemo(() => [], [])
+  const sourceOfTruthData = useMemo(() => [], [])
+
+  const matchesToSoT = useMemo(() => [], [])
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -102,7 +104,7 @@ const EntityDiscrepancy = (props) => {
 
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
-    const response = await entities.get("discrepancies/5f7e1bb2ab26a664b6e950c8/5a7017cc-91a6-45e0-b054-1c3d042353f9/report")
+    const response = await entities.get(`discrepancies/5f7e1bb2ab26a664b6e950c8/${props.location.state.borrowerID}/report`)
     setData(response.data)
   }
 
@@ -111,6 +113,31 @@ const EntityDiscrepancy = (props) => {
   } else {
     if (columns.length === 0) {
       data.TableHeaders.forEach((header) => columns.push(header))
+      data.TableData.forEach((entityField) => {
+        const row = [entityField.key_config["display"]]
+        sourceOfTruthData.push(entityField.sourceSystem)
+        rows.push(row)
+      })
+      data.TableData.forEach((entityField, entityFieldIndex) => {
+        const row = rows[entityFieldIndex]
+        const rowSoT = []
+        const values = entityField.values.map((value) => {
+          if (value !== null) {
+            if (value.value !== undefined) {
+              rowSoT.push(value.matchesSoT)
+              return value.value.toString()
+            }
+          } else {
+            rowSoT.push(false)
+            return ""
+          }
+        })
+        matchesToSoT.push(rowSoT)
+
+        const newRow = row.concat(values)
+        rows[entityFieldIndex] = newRow
+      })
+
       // data.TableData.forEach((entityField) => {
       //   const label = entityField.key_config["display"]
       //   const row = entityField.values.map((value, valueIndex) => {
@@ -135,7 +162,8 @@ const EntityDiscrepancy = (props) => {
       // })
     }
   }
-
+  console.log(sourceOfTruthData)
+  console.log(matchesToSoT)
   // editEntityData is modified data needed to send to next component/pipeline
   const [editEntityData, setEditEntityData] = useState(entityData)
 
@@ -168,7 +196,7 @@ const EntityDiscrepancy = (props) => {
     }
     else {
       return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} originalValue={originalSourceData[rowIndex]} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} matchesToSoT={matchesToSoT} sourceOfTruthData={sourceOfTruthData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
       )
     }
   }
@@ -187,35 +215,34 @@ const EntityDiscrepancy = (props) => {
   }
 
   return (
-    <StylesProvider injectFirst>
-      <div className={`container ${entitydiscrepancyClasses.medium}`}>
-        <EntityCard
-          RecordLabel={detailedInfo.RecordLabel}
-          SystemOfRecord={detailedInfo.SystemOfRecord}
-          ID={detailedInfo.HeaderInfo.ID}
-          BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
-          RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
+    <div className={`container ${entitydiscrepancyClasses.medium}`}>
+      <EntityCard
+        RecordLabel={detailedInfo.RecordLabel}
+        SystemOfRecord={detailedInfo.SystemOfRecord}
+        ID={detailedInfo.HeaderInfo.ID}
+        BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
+        RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
+      />
+      <HelixTable
+      toggleSearch={false}
+      columns={columns} 
+      rows={rows} 
+      customCellRender={customCellRender} 
+      customBodyRowKeyProp={customBodyRowKeyProp} 
+      customHeadColumnKeyProp={customHeadColumnKeyProp} 
+      />
+      <div className={entitydiscrepancyClasses.pageProgression}>
+        <HelixButton
+          className={entitydiscrepancyClasses.cancelButton}
+          onClick={handleBackButton}
+          text="Back"
         />
-        <HelixTable 
-        columns={columns} 
-        rows={rows} 
-        customCellRender={customCellRender} 
-        customBodyRowKeyProp={customBodyRowKeyProp} 
-        customHeadColumnKeyProp={customHeadColumnKeyProp} 
-        />
-        <div className={entitydiscrepancyClasses.pageProgression}>
-          <HelixButton
-            className={entitydiscrepancyClasses.cancelButton}
-            onClick={handleBackButton}
-            text="Back"
-          />
-          <HelixButton 
-          className={entitydiscrepancyClasses.confirmButton} 
-          onClick={handleConfirmButton} 
-          text="Confirm" />
-        </div>
+        <HelixButton 
+        className={entitydiscrepancyClasses.confirmButton} 
+        onClick={handleConfirmButton} 
+        text="Confirm" />
       </div>
-    </StylesProvider>
+    </div>
   )
 }
 
