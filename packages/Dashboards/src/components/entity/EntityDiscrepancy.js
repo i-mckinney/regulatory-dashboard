@@ -80,8 +80,10 @@ const EntityDiscrepancy = (props) => {
   // const entityData = []
   const entityData = useMemo(() => [], [])
 
+  // sourceOfTruthData stores object of sources of truth e.g. { source: 'FIS', truthValue: 'John Doe'}
   const sourceOfTruthData = useMemo(() => [], [])
 
+  // matchesToSoT is 2D array with boolean values that determines whether it matches to source of truth
   const matchesToSoT = useMemo(() => [], [])
   
   /**
@@ -133,29 +135,6 @@ const EntityDiscrepancy = (props) => {
         const newRow = row.concat(values)
         rows[entityFieldIndex] = newRow
       })
-
-      // data.TableData.forEach((entityField) => {
-      //   const label = entityField.key_config["display"]
-      //   const row = entityField.values.map((value, valueIndex) => {
-      //     const accessor = columns[valueIndex]["Accessor"]
-      //     if (valueIndex) {
-      //       if (valueIndex === 1) {
-      //         originalSourceData.push(value.toString())
-      //       }
-      //       entityData.push({
-      //           FieldName: label,
-      //           IsEdited: false,
-      //           SystemOfRecord: accessor,
-      //           PreviousValue: value,
-      //           NewValue: "",
-      //           SourceSystem: "",
-      //         }
-      //       )
-      //     }
-      //     return value.toString()
-      //   })
-      //   rows.push(row)
-      // })
     }
   }
 
