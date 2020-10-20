@@ -185,7 +185,11 @@ const EntityDiscrepancy = (props) => {
     setEditEntityData([...copyEditEntityData])
   }
 
-  
+  /**
+   * @param {int} rowIndex the rowIndex represents index of the row 
+   * @param {string} newSourceValue the newSourceValue is the new selected the source of truth 
+   * @param {string} newTrueValue 
+   */
   const handleSourceOfTruth = (rowIndex, newSourceValue, newTrueValue) => {
     const copySavedSourceOfTruthData = [ ...savedSourceOfTruthData ]
     const modifiedSavedSourceOfTruthData = { ...copySavedSourceOfTruthData[rowIndex] }
