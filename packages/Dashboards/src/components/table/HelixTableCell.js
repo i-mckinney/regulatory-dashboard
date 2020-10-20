@@ -218,12 +218,12 @@ const EntityTableCell = ({
     return entityTableCellClasses.initialCell
   }
 
-  // const isRadioSelected = () => {
-  //   if (sourceOfTruthData[rowIndex].source === columns[columnIndex].Accessor) {
-  //     return true
-  //   }
-  //   return false
-  // }
+  const isRadioSelected = () => {
+    if (sourceOfTruthData[rowIndex].source === columns[columnIndex].Accessor) {
+      return true
+    }
+    return false
+  }
 
   // displayTableCell return jsx object of editable table cell or non-editable table cell
   const displayTableCell = () => {
@@ -236,7 +236,7 @@ const EntityTableCell = ({
           role="row"
           tabIndex="0"
         >
-          {/* <Radio size="small" onClick={isRadioSelected} /> */}
+          <Radio size="small" onClick={isRadioSelected} />
           {displayInitialStateValue()}
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
