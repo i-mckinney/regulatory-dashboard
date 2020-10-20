@@ -1,6 +1,6 @@
 {
   "name": "dashboards",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "private": true,
   "description": "dashboards microservice",
   "author": "ian.mckinney <baseballrocks@gmail.com>",
@@ -21,7 +21,7 @@
     "axios": "^0.20.0",
     "express": "^4.17.1",
     "formik": "^2.1.5",
-    "helixmonorepo-lib": "^1.0.12",
+    "helixmonorepo-lib": "^1.0.13",
     "history": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
