@@ -123,10 +123,8 @@ const EntityDiscrepancy = (props) => {
         const rowSoT = []
         const values = entityField.values.map((value) => {
           if (value !== null) {
-            if (value.value !== undefined) {
-              rowSoT.push(value.matchesSoT)
-              return value.value.toString()
-            }
+            rowSoT.push(value.matchesSoT)
+            return value.value.toString()
           } else {
             rowSoT.push(false)
             return ""
