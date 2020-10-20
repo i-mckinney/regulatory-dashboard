@@ -1,11 +1,11 @@
-import React, { useState } from "react"
-import { makeStyles, TableCell } from "@material-ui/core"
-import IconButton from "@material-ui/core/IconButton"
-import CheckCircleIcon from "@material-ui/icons/CheckCircle"
-import ReplayIcon from "@material-ui/icons/Replay"
-import SaveIcon from "@material-ui/icons/Save"
-import ClearIcon from "@material-ui/icons/Clear"
-import PropTypes from "prop-types"
+import React, { useState } from 'react'
+import { makeStyles, Radio, TableCell } from '@material-ui/core'
+import IconButton from '@material-ui/core/IconButton'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import ReplayIcon from '@material-ui/icons/Replay'
+import SaveIcon from '@material-ui/icons/Save'
+import ClearIcon from '@material-ui/icons/Clear'
+import PropTypes from 'prop-types'
 
 // Styling used for MaterialUI
 const entityTableCellStyles = makeStyles(() => ({
@@ -62,12 +62,17 @@ const entityTableCellStyles = makeStyles(() => ({
   },
   matIconSpan: {
     display: 'block',
-  }
+  },
+  selectedRadio: {
+    color: 'green',
+  },
 }))
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {string} originalValue string represents the original source of truth to compare with
+ * @param {array} sourceOfTruthData array represents the array of original source of truth to compare with
+ * @param {array} matchesToSoT matchesToSoT is an array of boolean that represents matches value to the source of truth
+ * @param {func} handleSourceOfTruth handleSourceOfTruth is a func comes from parent component, once it is invoke, it will save new source and true value
  * @param {int} rowIndex index of the current row
  * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
@@ -79,7 +84,9 @@ const entityTableCellStyles = makeStyles(() => ({
  */
 const EntityTableCell = ({
   value: initialStateValue,
-  originalValue,
+  sourceOfTruthData,
+  matchesToSoT,
+  handleSourceOfTruth,
   rowIndex,
   columnIndex,
   columns,
@@ -210,10 +217,14 @@ const EntityTableCell = ({
     if (saveChanges) {
       return entityTableCellClasses.editedCell
     }
-    else if (initialStateValue !== originalValue) {
+    else if (!matchesToSoT[rowIndex][columnIndex-1]) {
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell
+  }
+
+  const isRadioSelected = () => {
+    handleSourceOfTruth(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
   }
 
   // displayTableCell return jsx object of editable table cell or non-editable table cell
@@ -227,6 +238,17 @@ const EntityTableCell = ({
           role="row"
           tabIndex="0"
         >
+          <Radio 
+          className={entityTableCellClasses.selectedRadio} 
+          checked={
+            initialStateValue === sourceOfTruthData[rowIndex].trueValue 
+            && 
+            columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source
+          }
+          size="small" 
+          color="default" 
+          onClick={isRadioSelected} 
+          />
           {displayInitialStateValue()}
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
@@ -255,6 +277,8 @@ const EntityTableCell = ({
 }
 
 EntityTableCell.propTypes = {
+  handleSourceOfTruth: PropTypes.func.isRequired,
+  matchesToSoT: PropTypes.instanceOf(Array).isRequired,
   value: PropTypes.string.isRequired,
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
@@ -267,6 +291,9 @@ EntityTableCell.propTypes = {
 
 EntityTableCell.defaultProps = {
   value: "",
+  sourceOfTruthData: [],
+  matchesToSoT: [],
+  handleSourceOfTruth: () => null,
   rowIndex: 0,
   columnIndex: 0,
   columns: [],

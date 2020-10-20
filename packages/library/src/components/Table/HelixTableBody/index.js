@@ -1,6 +1,6 @@
-import React from "react"
-import { TableBody, TableRow } from "@material-ui/core"
-import PropTypes from "prop-types"
+import React from 'react'
+import { TableBody, TableRow } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 /**
  * @param {array} columns Array of object where each object contains which filter to use, header label and accessor for getting specific key from data object

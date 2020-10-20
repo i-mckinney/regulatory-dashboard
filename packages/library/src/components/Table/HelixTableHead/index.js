@@ -1,6 +1,6 @@
-import React from "react"
-import { TableHead, TableRow, TableCell, TableSortLabel, makeStyles } from "@material-ui/core"
-import PropTypes from "prop-types"
+import React from 'react'
+import { TableHead, TableRow, TableCell, TableSortLabel, makeStyles } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 // Styling used for MaterialUI
 const helixTableHeadStyles = makeStyles(() => ({
