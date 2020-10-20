@@ -257,7 +257,7 @@ const ApiTable = (props) => {
   /**
    * @return jsx object of create icon in child component's toolbar
    */
-  const displayCreateCompanyIcon = () => {
+  const displayCreateUserIcon = () => {
     return (
       <MuiButton
         className={userTableClasses.createIconStyle}
@@ -284,7 +284,7 @@ const ApiTable = (props) => {
 
         <HelixTable
           toggleSearch={true}
-          displayCreateIcon={displayCreateCompanyIcon}
+          displayCreateIcon={displayCreateUserIcon}
           initialOrderBy={initialOrderBy}
           columns={columns}
           rows={companyData}
