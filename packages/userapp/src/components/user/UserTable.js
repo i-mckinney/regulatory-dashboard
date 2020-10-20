@@ -91,10 +91,11 @@ const UserTable = (props) => {
     }, [columns])
 
     /**
-     * @param {int} rowIndex represents row index
-     * @param {object} row represent object data from the api result
-     * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
-     * @return {JSX} Table cell of object properties in that Table row
+     * @param {int} rowIndex the rowIndex represents index of the row
+     * @param {object} row the row is an object of data
+     * @param {object} column the column is an object of the header with accessor and label props
+     * @param {int} columnIndex the columnIndex represents index of the column
+     * @return {JSX} HelixTableCell of object properties in that Table row
      */
     const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
