@@ -34,7 +34,7 @@ const entityTableCellStyles = makeStyles(() => ({
     '& input:focus': {
       outline: 'none',
     },
-    backgroundColor: 'red',
+    backgroundColor: '#ffbcbb',
   },
   editedIcon: {
     fontSize: '1rem',
@@ -217,7 +217,7 @@ const EntityTableCell = ({
     if (saveChanges) {
       return entityTableCellClasses.editedCell
     }
-    else if (!matchesToSoT[rowIndex][columnIndex-1]) {
+    else if (sourceOfTruthData[rowIndex].trueValue !== initialStateValue && initialStateValue !== "") {
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell
@@ -240,6 +240,7 @@ const EntityTableCell = ({
         >
           <Radio 
           className={entityTableCellClasses.selectedRadio} 
+          disabled={initialStateValue === ""}
           checked={
             initialStateValue === sourceOfTruthData[rowIndex].trueValue 
             && 
