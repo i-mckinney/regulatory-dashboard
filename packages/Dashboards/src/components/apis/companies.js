@@ -6,5 +6,5 @@ const {
 
 // Set config defaults when creating the instance
 export default axios.create({
-  baseURL: `http://${companiesURL}`,
+  baseURL: `${companiesURL}`,
 });
