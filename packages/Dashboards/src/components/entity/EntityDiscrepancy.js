@@ -4,7 +4,9 @@ import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
+import { HelixButton } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
+import HelixTableCell from '../table/HelixTableCell'
 import entities from '../apis/entities'
 
 // Styling used for MaterialUI
@@ -122,10 +124,16 @@ const EntityDiscrepancy = (props) => {
         const rowSoT = []
         const values = entityField.values.map((value) => {
           if (value !== null) {
-            rowSoT.push(value.matchesSoT)
-            return value.value.toString()
+            try {
+              const cleanValue = value.value ? value.value.toString() : "Error"
+              rowSoT.push(cleanValue)
+              return value.value ? value.value.toString() : "Error"
+            }
+            catch (e) {
+              console.log(e)
+            }
           } else {
-            rowSoT.push(false)
+            rowSoT.push("")
             return ""
           }
         })
