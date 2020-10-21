@@ -35,6 +35,9 @@ const userTableStyles = makeStyles(() => ({
   testButtonStyle: {
     color: '#00c200',
   },
+  newStyle : {
+    color: '#00c200'
+  }
 }));
 
 /**
@@ -225,16 +228,16 @@ const ApiTable = (props) => {
     )
     if (columnAccessor === 'Actions') {
       return (
-        <HelixTableCell 
-        key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
-        containActions={true} 
+        <HelixTableCell
+        key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
+        containActions={true}
         displayActions={displayActions} />
       );
     }
     else {
       return (
-      <HelixTableCell 
-      key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
+      <HelixTableCell
+      key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
       value={row[columnAccessor]} />
       );
     }
