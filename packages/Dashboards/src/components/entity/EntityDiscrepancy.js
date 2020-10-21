@@ -4,8 +4,7 @@ import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
-import { HelixButton } from 'helixmonorepo-lib'
+import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 
 // Styling used for MaterialUI
