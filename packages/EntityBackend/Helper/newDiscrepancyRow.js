@@ -66,10 +66,11 @@ function newDiscrepancyRow(
      value: desiredValueFromExternal,
      matchesSoT: true,
    };
+   
    resultWithMapping.push({
      key_config: {
        key: newMappedKey,
-       display: newMappedKey.replace(/([A-Z])([A-Z])/g, "$1 $2"),
+       display: newMappedKey,
      },
      sourceSystem: {
        source: source,

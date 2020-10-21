@@ -37,6 +37,14 @@ router.post("/:companyId", async (req, res) => {
         "Not allowed to manually give _id to new entity or company_id"
       );
 
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
+
+   await reportCollection.remove({})
+
+
+
     const dbCollection = await DbConnection.getCollection(
       "Entities_Configuration"
     );
@@ -46,7 +54,7 @@ router.post("/:companyId", async (req, res) => {
 
     /** Each company should have one configuration setting for entity dashboard.
     So we are resetting and adding a new updated configuration setting.**/
-    
+
     if (entityConfiguration) {
       await dbCollection.deleteOne({ company_id: ObjectId(companyId) });
     }

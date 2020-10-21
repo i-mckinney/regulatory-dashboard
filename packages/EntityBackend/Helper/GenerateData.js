@@ -15,7 +15,7 @@ const GenerateData = async () => {
     const FISEntities = [];
 
     // i limit would detertmine number of entities for fake data
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 12; i++) {
       var BorrowerId = uuidv4();
 
       var RelationshipName = faker.company.companyName();

@@ -97,7 +97,6 @@ async function responseMapper(
     if (customAPI.responseMapper) {
       const responseMapperData = customAPI.responseMapper;
       const mappedKeyCheckOff = { ...allNewMappedKeys };
-
       for (const externalSystemKey in responseMapperData) {
         //newMappedKey will be a new key that would be used in discrepancyReport
         const newMappedKey = responseMapperData[externalSystemKey];
@@ -138,17 +137,23 @@ async function responseMapper(
         );
       }
 
+
       /**Case 3) After looping through a response mapper, we also need to check if value for previous
        * newMappedkeys exist in the data we got back from an external source
        */
       for (let remainingKey in mappedKeyCheckOff) {
         for (let row = 0; row < resultWithMapping.length; row++) {
+
           if (resultWithMapping[row].key_config.key === remainingKey) {
+
             resultWithMapping[row].values.push(null);
+
             break;
           }
         }
-        resultWithMapping[configuredApiIdx].values.push;
+console.log(configuredApiIdx)
+        // resultWithMapping[configuredApiIdx].values.push;
+        // console.log(resultWithMapping[configuredApiIdx])
       }
     }
   });
