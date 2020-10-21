@@ -1,5 +1,8 @@
 const axios = require("axios");
 const { entity_config_url } = require("../config");
+const { ObjectId } = require("mongodb");
+// db setup
+const DbConnection = require("../db");
 
 /**
  *
@@ -31,17 +34,18 @@ const { entity_config_url } = require("../config");
  */
 async function getEntityConfigurations(companyId) {
   /** Using this information, we would know which custom api calls to dispatch for a discrepancy report. */
-  let entityConfigurations = axios({
-    method: "GET",
-    url: `${entity_config_url}/${companyId}`,
-  });
 
-  let configuredApiCalls = await entityConfigurations.then((response) => {
-    let entityConfigs = response.data.entityConfiguration;
-    return entityConfigs;
-  });
-
-  return configuredApiCalls;
+  try {
+    const dbCollection = await DbConnection.getCollection(
+      "Entities_Configuration"
+    );
+    const response = await dbCollection.findOne({
+      company_id: ObjectId(companyId),
+    });
+    return response.entityConfiguration;
+  } catch (e) {
+    return { Error: e.message };
+  }
 }
 
 module.exports = getEntityConfigurations;
