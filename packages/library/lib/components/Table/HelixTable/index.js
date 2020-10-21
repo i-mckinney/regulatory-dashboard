@@ -283,7 +283,7 @@ HelixTable.propTypes = {
 };
 HelixTable.defaultProps = {
   initialOrderBy: '',
-  toggleSearch: true,
+  toggleSearch: false,
   displayCreateIcon: function displayCreateIcon() {
     return null;
   }
