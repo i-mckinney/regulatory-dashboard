@@ -44,10 +44,10 @@ export default function CustomMapping({ fields, onChange }) {
         </Typography>
         <Grid container spacing={0}>
           <Grid item md={5}>
-            <h4>Key</h4>
+            <h4>Key From Source System:</h4>
           </Grid>
           <Grid item md={5}>
-            <h4>Value</h4>
+            <h4>Key in Discrepancy Table:</h4>
           </Grid>
         </Grid>
 

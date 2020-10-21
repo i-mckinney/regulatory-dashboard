@@ -7,8 +7,8 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { HelixTable } from 'helixmonorepo-lib';
-import { sortableExcludes, columnMetadata } from '../../config';
+import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
+import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
 import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
@@ -23,44 +23,6 @@ const userTableStyles = makeStyles(() => ({
     margin: 'auto',
     marginTop: '5rem',
     paddingBottom: '5rem',
-    '& table': {
-      width: '100%',
-      display: 'table',
-      borderTopRightRadius: '4px',
-      borderTopLeftRadius: '4px',
-      boxSizing: 'border-box',
-      borderSpacing: '2px',
-      borderColor: 'grey',
-      '& tr': {
-        border: 'none',
-        backgroundColor: 'white',
-        '&:nth-child(even)': {
-          backgroundColor: '#f2f2f2',
-        },
-        '&:hover': {
-          backgroundColor: '#add8e6',
-        },
-        '&:last-child': {
-          borderBottomRightRadius: '4px',
-          borderBottomLeftRadius: '4px',
-        },
-      },
-      '& th': {
-        backgroundColor: '#2e353d',
-        color: 'white',
-        margin: '0',
-        borderBottom: 'solid 1px #e0e4e8',
-        padding: '8px',
-      },
-      '& td': {
-        margin: '0',
-        borderBottom: 'solid 1px #e0e4e8',
-        padding: '8px',
-      },
-      '&:last-children': {
-        borderBottom: 'none',
-      },
-    },
   },
   createIconStyle: {
     float: 'right',
@@ -69,12 +31,6 @@ const userTableStyles = makeStyles(() => ({
   },
   header: {
     paddingBottom: '2rem',
-  },
-  actionsIconStyle: {
-    '& button': {
-      marginRight: '1rem',
-      cursor: 'pointer',
-    },
   },
   testButtonStyle: {
     color: '#00c200',
@@ -104,7 +60,7 @@ const ApiTable = (props) => {
 
   const [loading, setLoading] = useState(false);
 
-  const customApiUrl = `http://localhost:5000/companies/${companyId}/customapi`;
+  const customApiUrl = `${API_HOST}/companies/${companyId}/customapi`;
 
   /**
    * Renders only when it is mounted at first
@@ -117,14 +73,14 @@ const ApiTable = (props) => {
           headers: { 'Access-Control-Allow-Origin': '*' },
         })
         .then((res) => {
-          // console.log('res', res.data[0].CustomApiRequests);
           // setRows(res.data[0].CustomApiRequests);
           setCompanyData(res.data);
+          console.log('RES DATA', res.data)
         });
     };
 
     fetchCompanies();
-  }, []);
+  }, [customApiUrl]);
 
   const handleOpenEditModal = (requestData) => {
     if (!!requestData) {
@@ -164,104 +120,124 @@ const ApiTable = (props) => {
   });
   //}
 
+  console.log('COL:', columns)
+
   const handleCreateRow = async (newRow) => {
+    const payload = { ...newRow }
+    delete payload._id
     setLoading(true);
-    const response = await axios.put(
-      `http://localhost:5000/companies/${companyId}`,
-      {
-        CustomApiRequests: [...companyData, newRow],
-      },
-      {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      }
-    );
-    setCompanyData(response.data.CustomApiRequests);
+    try {
+      const response = await axios.post(
+        customApiUrl,
+        payload,
+        {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        }
+      );
+      setCompanyData([ ...companyData, response.data]);
+    } catch(e) {
+      console.error(e)
+    }
+
+
+
     setLoading(false);
     handleCloseEditModal();
   };
 
   const handleEditRow = async (updatedRow) => {
+    const payload = { ...updatedRow }
+    delete payload._id
+    delete payload.company_id
     setLoading(true);
-    const response = await axios.put(
-      `http://localhost:5000/companies/${companyId}`,
-      {
-        CustomApiRequests: companyData.map((row) =>
-          row._id === updatedRow._id ? updatedRow : row
-        ),
-      },
-      {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      }
-    );
-    setCompanyData(response.data.CustomApiRequests);
+    try {
+      const response = await axios.put(
+        `${customApiUrl}/${updatedRow._id}`,
+        payload,
+        {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        }
+      );
+      setCompanyData(companyData.map(d => d._id === updatedRow._id ? response.data : d));
+    } catch(e) {
+      console.error(e)
+    }
     setLoading(false);
     handleCloseEditModal();
   };
 
   const handleDeleteRow = async (_id) => {
-    const response = await axios.put(
-      `http://localhost:5000/companies/${companyId}`,
-      {
-        CustomApiRequests: companyData.filter((row) => row._id !== _id),
-      },
-      {
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      }
-    );
-    setCompanyData(response.data.CustomApiRequests);
+    try {
+      await axios.delete(
+        `${customApiUrl}/${_id}`,
+        {
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        }
+      );
+      setCompanyData(companyData.filter(d => d._id !== _id));
+    } catch(e) {
+      console.error(e)
+    }
+
   };
 
   /**
-   * @param {int} rowIndex represents row index
-   * @param {object} row represent object data from the api result
-   * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
-   * @return {JSX} Table cell of object properties in that Table row
+   * @param {object} row the row is an object of data
+   * @param {object} column the column is an object of the header with accessor and label props
+   * @param {int} rowIndex the rowIndex represents index of the row
+   * @param {int} columnIndex the columnIndex represents index of the column
+   * @return {JSX} HelixTableCell of object properties in that Table row
    */
-  const customCellRender = (rowIndex, row, column) => {
+  const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor;
+    const displayActions = () => (
+      <>
+        <MuiButton
+        className={userTableClasses.testButtonStyle}
+        variant='outlined'
+        color='default'
+        onClick={() => {
+          setOpenTestRequestModal(true);
+          setRequestData(row);
+        }}
+        >
+          Perform Test
+        </MuiButton>
+        <IconButton
+          aria-label='edit'
+          size='small'
+          edge='start'
+          onClick={() => handleOpenEditModal(row)}
+          color='default'
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          aria-label='delete'
+          size='small'
+          edge='start'
+          onClick={() => handleDeleteRow(row._id)}
+          color='secondary'
+        >
+          <DeleteIcon />
+        </IconButton>
+      </>
+    )
     if (columnAccessor === 'Actions') {
       return (
-        <TableCell
-          className={userTableClasses.actionsIconStyle}
-          key={`${rowIndex} ${columnAccessor}`}
-        >
-          <MuiButton
-            className={userTableClasses.testButtonStyle}
-            variant='outlined'
-            color='default'
-            onClick={() => {
-              setOpenTestRequestModal(true);
-              setRequestData(row);
-            }}
-          >
-            Perform Test
-          </MuiButton>
-          <IconButton
-            aria-label='edit'
-            size='small'
-            edge='start'
-            onClick={() => handleOpenEditModal(row)}
-            color='default'
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            aria-label='delete'
-            size='small'
-            edge='start'
-            onClick={() => handleDeleteRow(row._id)}
-            color='secondary'
-          >
-            <DeleteIcon />
-          </IconButton>
-        </TableCell>
+        <HelixTableCell 
+        key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
+        containActions={true} 
+        displayActions={displayActions} />
       );
     }
-    return (
-      <TableCell key={`${rowIndex} ${columnAccessor}`}>
-        {row[columnAccessor]}
-      </TableCell>
-    );
+    else {
+      return (
+      <HelixTableCell 
+      key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
+      value={row[columnAccessor]} />
+      );
+    }
   };
 
   /**
@@ -312,6 +288,7 @@ const ApiTable = (props) => {
         </div>
 
         <HelixTable
+          toggleSearch={true}
           displayCreateIcon={displayCreateUserIcon}
           initialOrderBy={initialOrderBy}
           columns={columns}
@@ -334,6 +311,7 @@ const ApiTable = (props) => {
         open={openTestRequestModal}
         onClose={() => setOpenTestRequestModal(false)}
         requestData={requestData}
+        companyId={companyId}
       ></PerformTestDialog>
     </StylesProvider>
   );

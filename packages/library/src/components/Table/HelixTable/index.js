@@ -1,10 +1,10 @@
-import React, { useState } from "react"
-import { StylesProvider, createGenerateClassName, makeStyles, Paper, TableContainer, Table } from "@material-ui/core"
-import PropTypes from "prop-types"
-import HelixTableHead from "../HelixTableHead/index"
-import HelixTableBody from "../HelixTableBody/index"
-import HelixTableFooter from "../HelixTableFooter/index"
-import HelixToolBarSearch from "../HelixToolBarSearch/index"
+import React, { useState } from 'react'
+import { StylesProvider, createGenerateClassName, makeStyles, Paper, TableContainer, Table } from '@material-ui/core'
+import PropTypes from 'prop-types'
+import HelixTableHead from '../HelixTableHead/index'
+import HelixTableBody from '../HelixTableBody/index'
+import HelixTableFooter from '../HelixTableFooter/index'
+import HelixToolBarSearch from '../HelixToolBarSearch/index'
 import { getComparator, stableSort } from '../HelixTableSortFunc/index'
 
 const generateClassName = createGenerateClassName({
@@ -203,7 +203,7 @@ HelixTable.propTypes = {
 
 HelixTable.defaultProps = {
   initialOrderBy: '',
-  toggleSearch: true,
+  toggleSearch: false,
   displayCreateIcon: () => null
 }
 

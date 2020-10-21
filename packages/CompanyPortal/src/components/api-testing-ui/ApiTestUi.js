@@ -25,6 +25,7 @@ const createNewField = () => ({ id: uuidv4(), key: '', value: '' });
 
 export default function ApiTestUi({ data, onSave }) {
   const cardClasses = ApiTestUiStyles();
+  
   const [name, setName] = useState('')
   const [method, setMethod] = useState('');
   const [url, setUrl] = useState('');
@@ -51,7 +52,7 @@ export default function ApiTestUi({ data, onSave }) {
     setMethod(data.requestType);
     setUrl(data.requestUrl);
     setParams(expandToArray(data.requestParams) || [createNewField()]);
-    setMapping(expandToArray(data.requestMapping) || [createNewField()]);
+    setMapping(expandToArray(data.responseMapper) || [createNewField()]);
     setHeaders(expandToArray(data.requestHeaders) || [createNewField()]);
   }, [data]);
 
@@ -60,17 +61,17 @@ export default function ApiTestUi({ data, onSave }) {
   * @returns {Object} spreads over the existing data state object and overwrites its properties with updated values on save 
   */ 
   const handleSave = () => {
-    console.log('DATA:', data)
     const requestData = {
       ...data,
       requestType: method,
       requestUrl: url,
       requestName: name,
       requestParams: reduceToPlainObj(params),
-      requestMapping: reduceToPlainObj(mapping),
+      responseMapper: reduceToPlainObj(mapping),
       requestHeaders: reduceToPlainObj(headers),
     };
     onSave(requestData)
+    console.log('SAVE data format:', requestData)
   };
 
   return (
@@ -92,7 +93,7 @@ export default function ApiTestUi({ data, onSave }) {
         setHeaders={setHeaders}
       />
       <Controls.Button text='SAVE' onClick={handleSave}></Controls.Button>
-      <h3>Request Mapping:</h3>
+      <h3>Response Mapper:</h3>
       <pre>
         {JSON.stringify(reduceToPlainObj(mapping), null, 2)}
       </pre>
