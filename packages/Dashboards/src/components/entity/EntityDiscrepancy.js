@@ -86,6 +86,8 @@ const EntityDiscrepancy = (props) => {
 
   // matchesToSoT is 2D array with boolean values that determines whether it matches to source of truth
   const matchesToSoT = useMemo(() => [], [])
+
+  const [saveEntityData, setSaveEntityData] = useState([])
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -130,7 +132,7 @@ const EntityDiscrepancy = (props) => {
               return value.value ? value.value.toString() : "Error"
             }
             catch (e) {
-              console.log(e)
+              return e
             }
           } else {
             rowSoT.push("")
@@ -142,6 +144,8 @@ const EntityDiscrepancy = (props) => {
         const newRow = row.concat(values)
         rows[entityFieldIndex] = newRow
       })
+
+      setSaveEntityData(data.TableData)
     }
   }
 
@@ -165,6 +169,10 @@ const EntityDiscrepancy = (props) => {
     // Removes 1 object at index and adds 1 object at index
     copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
+  }
+
+  const saveData = (rowIndex, isEdited, previousValue, newValue) => {
+
   }
 
   /**
@@ -208,11 +216,9 @@ const EntityDiscrepancy = (props) => {
   }
 
   // Passes editEntityData to the confirmation route
-  const handleConfirmButton = () => {
-    props.history.push({
-      pathname: "/confirmation",
-      state: { editEntityData },
-    })
+  const handleConfirmButton = async () => {
+    // await entities.post(`report/${props.location.state._id}`)
+    props.history.push("/entity")
   }
 
   return (
