@@ -5,7 +5,7 @@ import ApiTestUi from './api-testing-ui/ApiTestUi';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
 
 const generateClassName = createGenerateClassName({
-  productionPrefix: 'comapp-',
+  productionPrefix: 'companyapp-',
 });
 
 function App() {
