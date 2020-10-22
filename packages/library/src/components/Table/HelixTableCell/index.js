@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { makeStyles, Radio, TableCell } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import ReplayIcon from '@material-ui/icons/Replay'
-import SaveIcon from '@material-ui/icons/Save'
-import ClearIcon from '@material-ui/icons/Clear'
+import IconButton from '@material-ui/core/IconButton';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ReplayIcon from '@material-ui/icons/Replay';
+import SaveIcon from '@material-ui/icons/Save';
+import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from 'prop-types'
 
 // Styling used for MaterialUI
@@ -34,7 +34,7 @@ const entityTableCellStyles = makeStyles(() => ({
     '& input:focus': {
       outline: 'none',
     },
-    backgroundColor: 'red',
+    backgroundColor: '#ffbcbb',
   },
   editedIcon: {
     fontSize: '1rem',
@@ -87,6 +87,8 @@ const EntityTableCell = ({
   sourceOfTruthData,
   matchesToSoT,
   handleSourceOfTruth,
+  saveData,
+  saveRadioData,
   rowIndex,
   columnIndex,
   columns,
@@ -133,6 +135,7 @@ const EntityTableCell = ({
     setIsDivHidden(true)
     const currentCellIndex = cellIndex()
     editData(currentCellIndex, true, value)
+    saveData(rowIndex, columnIndex, true, initialStateValue, value, sourceOfTruthData[rowIndex].trueValue === value)
   }
 
   // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
@@ -156,6 +159,7 @@ const EntityTableCell = ({
     setSaveChanges(false)
     const currentCellIndex = cellIndex()
     editData(currentCellIndex, false, "")
+    saveData(rowIndex, columnIndex, false, initialStateValue, value, sourceOfTruthData[rowIndex].trueValue === value)
   }
 
   // If there is not editable data shown, return intial-state
@@ -217,7 +221,7 @@ const EntityTableCell = ({
     if (saveChanges) {
       return entityTableCellClasses.editedCell
     }
-    else if (!matchesToSoT[rowIndex][columnIndex-1]) {
+    else if (sourceOfTruthData[rowIndex].trueValue !== initialStateValue && initialStateValue !== "") {
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell
@@ -225,6 +229,7 @@ const EntityTableCell = ({
 
   const isRadioSelected = () => {
     handleSourceOfTruth(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
+    saveRadioData(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
   }
 
   // displayTableCell return jsx object of editable table cell or non-editable table cell
@@ -240,6 +245,7 @@ const EntityTableCell = ({
         >
           <Radio 
           className={entityTableCellClasses.selectedRadio} 
+          disabled={initialStateValue === ""}
           checked={
             initialStateValue === sourceOfTruthData[rowIndex].trueValue 
             && 
