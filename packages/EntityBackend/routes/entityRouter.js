@@ -8,6 +8,12 @@ const dateTimeHelper = require("../utils/dateTimeHelper");
 const DbConnection = require("../db");
 
 /**************************************************************************************************************************************************** */
+
+// GET base route
+router.get("/", async (req, res) => {
+
+  res.json({ServerName: "entityBackend"})
+});
 // GET all entities connected to a company
 router.get("/:companyId/entities", async (req, res) => {
   const companyId = req.params.companyId;
