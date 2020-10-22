@@ -129,7 +129,7 @@ const EntityDiscrepancy = (props) => {
             try {
               const cleanValue = value.value ? value.value.toString() : "Error"
               rowSoT.push(cleanValue)
-              return value.value ? value.value.toString() : "Error"
+              return value.value ? value.value.toString() : ""
             }
             catch (e) {
               return e
@@ -170,7 +170,7 @@ const EntityDiscrepancy = (props) => {
     copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
   }
-  
+
   /** 
    * @param {int} rowIndex the rowIndex represents index of the row 
    * @param isEdited boolean represent whether cell is edited
@@ -248,8 +248,6 @@ const EntityDiscrepancy = (props) => {
     setSaveEntityData([ ...copySavedEntityData ])
   }
   
-  console.log(saveEntityData)
-
   /**
    * @param {int} rowIndex the rowIndex represents index of the row 
    * @param {string} newSourceValue the newSourceValue is the new selected the source of truth 
