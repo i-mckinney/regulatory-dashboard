@@ -292,7 +292,8 @@ const EntityDiscrepancy = (props) => {
 
   // Passes editEntityData to the confirmation route
   const handleConfirmButton = async () => {
-    // await entities.post(`report/${props.location.state._id}`)
+    const req = { savedChanges: saveEntityData }
+    await entities.post(`discrepancies/report/${props.location.state._id}`, req)
     props.history.push("/entity")
   }
 
