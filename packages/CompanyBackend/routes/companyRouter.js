@@ -8,6 +8,10 @@ const customApiRequestTest = require("../helpers/customApiRequestTest");
 // db setup
 const DbConnection = require("../db");
 
+// GET base route
+router.get("/", async (req, res) => {
+  res.json({ServerName: "Company Backend"});
+});
 // GET all companies
 router.get("/companies", async (req, res) => {
   const dbCollection = await DbConnection.getCollection("Company_Portal");
@@ -187,7 +191,7 @@ router.post("/companies/:id/customapi", async (req, res) => {
     customApiRequests = await dbCollection
       .find({ company_id: ObjectId(companyId) })
       .toArray();
-    const apiRequestJustAdded = customApiRequests[customApiRequests.length - 1]
+    const apiRequestJustAdded = customApiRequests[customApiRequests.length - 1];
     res.json(apiRequestJustAdded);
   } catch (error) {
     res.json({ Error: error.message });
@@ -284,37 +288,41 @@ router.delete("/companies/:id/customapi/:customApiId", async (req, res) => {
 });
 
 //Testing Custom API call (This route is specifically meant for Test Request button in custom apis table )
-router.get("/companies/:id/customapi/:customApiId/test/:borrowerId", async (req, res) => {
-  try {
-    const companyId = req.params.id;
-    const customApiId = req.params.customApiId;
-    const borrowerId = req.params.borrowerId;
+router.get(
+  "/companies/:id/customapi/:customApiId/test/:borrowerId",
+  async (req, res) => {
+    try {
+      const companyId = req.params.id;
+      const customApiId = req.params.customApiId;
+      const borrowerId = req.params.borrowerId;
 
-    const dbCollection = await DbConnection.getCollection("CustomApiRequests");
-    const customApi = await dbCollection.findOne({
-      $and: [
-        { company_id: ObjectId(companyId) },
-        { _id: ObjectId(customApiId) },
-      ],
-    });
+      const dbCollection = await DbConnection.getCollection(
+        "CustomApiRequests"
+      );
+      const customApi = await dbCollection.findOne({
+        $and: [
+          { company_id: ObjectId(companyId) },
+          { _id: ObjectId(customApiId) },
+        ],
+      });
 
-    if (!customApi) {
+      if (!customApi) {
+        res.json({
+          error: "Custom Api request with given id doesn't exist",
+        });
+      }
+
+      if (customApi) {
+        const result = await customApiRequestTest(customApi, borrowerId);
+        res.json(result);
+      }
+    } catch (e) {
       res.json({
-        error: "Custom Api request with given id doesn't exist",
+        ErrorStatus: e.status,
+        ErrorMessage: e.message,
       });
     }
-
-    if (customApi) {
-      const result = await customApiRequestTest(customApi, borrowerId);
-      res.json(result);
-    }
   }
-   catch (e) {
-    res.json({
-      ErrorStatus: e.status,
-      ErrorMessage: e.message,
-    });
-  }
-});
+);
 
 module.exports = router;
