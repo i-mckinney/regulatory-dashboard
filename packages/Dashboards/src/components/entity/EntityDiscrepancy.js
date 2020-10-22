@@ -234,6 +234,14 @@ const EntityDiscrepancy = (props) => {
     modifiedSourceSystem["source"] = source
     modifiedSourceSystem["trueValue"] = trueValue
 
+    const modifiedValues = [ ...modifiedData.values ] 
+    
+    modifiedValues.forEach((value) => {
+      if (value) {
+        value["matchesSoT"] = value.value === trueValue
+      }
+    })
+
     modifiedData["sourceSystem"] = modifiedSourceSystem
 
     copySavedEntityData.splice(rowIndex, 1, modifiedData)
