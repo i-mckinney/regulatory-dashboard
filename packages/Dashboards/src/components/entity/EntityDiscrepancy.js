@@ -5,9 +5,7 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixButton } from 'helixmonorepo-lib'
-import HelixTable from '../table/HelixTable'
-import HelixTableCell from '../table/HelixTableCell'
+import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 
 // Styling used for MaterialUI
