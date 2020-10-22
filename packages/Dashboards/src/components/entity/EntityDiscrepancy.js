@@ -170,10 +170,77 @@ const EntityDiscrepancy = (props) => {
     copyEditEntityData.splice(index, 1, modifiedData)
     setEditEntityData([...copyEditEntityData])
   }
+  
+  /** 
+   * @param {int} rowIndex the rowIndex represents index of the row 
+   * @param isEdited boolean represent whether cell is edited
+   * @param {*} previousValue represents old value that was provided from table data cell (child component)
+   * @param {*} value represents new value provided from table data cell (child component)
+   */
+  const saveData = (rowIndex, columnIndex, isEdited, previousValue, value, matchesSoT) => {
+    if (isEdited) {
+      const copySavedEntityData = [ ...saveEntityData ]
+      const modifiedData = { ...copySavedEntityData[rowIndex] }
 
-  const saveData = (rowIndex, isEdited, previousValue, newValue) => {
+      const modifiedValues = [ ...modifiedData.values ]
 
+      const modifiedValueDatum = modifiedValues[columnIndex-1] 
+      ? { ...modifiedValues[columnIndex-1] }
+      : {}
+
+      modifiedValueDatum["previousValue"] = previousValue
+      modifiedValueDatum["value"] = value
+      modifiedValueDatum["matchesSoT"] = matchesSoT
+
+      modifiedValues.splice(columnIndex-1, 1, modifiedValueDatum)
+      modifiedData["values"] = modifiedValues
+
+      copySavedEntityData.splice(rowIndex, 1, modifiedData)
+      setSaveEntityData([ ...copySavedEntityData ])
+
+    } else {
+      const copySavedEntityData = [ ...saveEntityData ]
+      const modifiedData = { ...copySavedEntityData[rowIndex] }
+
+      const modifiedValues = [ ...modifiedData.values ]
+      const modifiedValueDatum = modifiedValues[columnIndex-1]["previousValue"] 
+      ? { ...modifiedValues[columnIndex-1] } 
+      : null
+
+      if (modifiedValueDatum && modifiedValueDatum["previousValue"]) {
+        delete modifiedValueDatum.previousValue
+        modifiedValueDatum["value"] = previousValue
+        modifiedValueDatum["matchesSoT"] = matchesSoT
+      }
+
+      modifiedValues.splice(columnIndex-1, 1, modifiedValueDatum)
+      modifiedData["values"] = modifiedValues
+
+      copySavedEntityData.splice(rowIndex, 1, modifiedData)
+      setSaveEntityData([ ...copySavedEntityData ])
+    }
   }
+
+  /**
+   * @param {int} rowIndex the rowIndex represents index of the row 
+   * @param {string} source the source is value of the column 
+   * @param {string} trueValue the trueValue is value of the HelixTableCell selected
+   */
+  const saveRadioData = (rowIndex, source, trueValue) => {
+    const copySavedEntityData = [ ...saveEntityData ]
+    const modifiedData = { ...copySavedEntityData[rowIndex] }
+    
+    const modifiedSourceSystem = { ...modifiedData.sourceSystem }
+    modifiedSourceSystem["source"] = source
+    modifiedSourceSystem["trueValue"] = trueValue
+
+    modifiedData["sourceSystem"] = modifiedSourceSystem
+
+    copySavedEntityData.splice(rowIndex, 1, modifiedData)
+    setSaveEntityData([ ...copySavedEntityData ])
+  }
+  
+  console.log(saveEntityData)
 
   /**
    * @param {int} rowIndex the rowIndex represents index of the row 
@@ -205,7 +272,7 @@ const EntityDiscrepancy = (props) => {
     }
     else {
       return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} handleSourceOfTruth={handleSourceOfTruth} matchesToSoT={matchesToSoT} sourceOfTruthData={savedSourceOfTruthData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} saveData={saveData} saveRadioData={saveRadioData} handleSourceOfTruth={handleSourceOfTruth} matchesToSoT={matchesToSoT} sourceOfTruthData={savedSourceOfTruthData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
       )
     }
   }
