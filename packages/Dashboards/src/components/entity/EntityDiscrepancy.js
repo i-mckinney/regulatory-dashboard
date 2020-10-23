@@ -104,10 +104,6 @@ const EntityDiscrepancy = (props) => {
         data.TableHeaders.forEach((header) => columns.push(header))
         data.TableData.forEach((entityField) => {
           const row = [entityField.key_config["display"]]
-          rows.push(row)
-        })
-        data.TableData.forEach((entityField, entityFieldIndex) => {
-          const row = rows[entityFieldIndex]
           const values = entityField.values.map((value) => {
             if (value !== null) {
               try {
@@ -121,7 +117,7 @@ const EntityDiscrepancy = (props) => {
             }
           })
           const newRow = row.concat(values)
-          rows[entityFieldIndex] = newRow
+          rows.push(newRow)
         })
         setEntityData(data.TableData)
       } else {
@@ -145,7 +141,7 @@ const EntityDiscrepancy = (props) => {
    * @param {string} value represents new value provided from table data cell (child component)
    * @param {string} matchesSoT represents boolean if matches to source of truth
    */
-  const saveEntityData = (rowIndex, columnIndex, isEdited, previousValue, value, matchesSoT) => {
+  const saveEntityData = (rowIndex, columnIndex, isEdited, previousValue, value, matchesSoT, source) => {
     if (isEdited) {
       const copySavedEntityData = [ ...entityData ]
       const modifiedData = { ...copySavedEntityData[rowIndex] }
@@ -160,6 +156,13 @@ const EntityDiscrepancy = (props) => {
       modifiedValueDatum["value"] = value
       modifiedValueDatum["matchesSoT"] = matchesSoT
 
+      if (source === columns[columnIndex].Accessor) {
+        const modifiedSourceSystem = { ...modifiedData.sourceSystem }
+        modifiedSourceSystem["source"] = source
+        modifiedSourceSystem["trueValue"] = value
+        modifiedData["sourceSystem"] = modifiedSourceSystem
+      }
+
       modifiedValues.splice(columnIndex-1, 1, modifiedValueDatum)
       modifiedData["values"] = modifiedValues
 
@@ -169,6 +172,13 @@ const EntityDiscrepancy = (props) => {
     } else {
       const copySavedEntityData = [ ...entityData ]
       const modifiedData = { ...copySavedEntityData[rowIndex] }
+
+      if (source === columns[columnIndex].Accessor) {
+        const modifiedSourceSystem = { ...modifiedData.sourceSystem }
+        modifiedSourceSystem["source"] = source
+        modifiedSourceSystem["trueValue"] = previousValue
+        modifiedData["sourceSystem"] = modifiedSourceSystem
+      }
 
       const modifiedValues = [ ...modifiedData.values ]
       const modifiedValueDatum = modifiedValues[columnIndex-1]["previousValue"] 
@@ -243,7 +253,7 @@ const EntityDiscrepancy = (props) => {
     props.history.push("/entity")
   }
 
-  // Passes editEntityData to the confirmation route
+  // Passes entityData to the confirmation route
   const handleConfirmButton = async () => {
     const req = { savedChanges: entityData }
     await entities.post(`discrepancies/report/${props.location.state._id}`, req)

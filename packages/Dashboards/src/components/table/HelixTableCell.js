@@ -121,7 +121,7 @@ const EntityTableCell = ({
     setSaveChanges(true)
     setCurrentStateValue(value)
     setIsDivHidden(true)
-    saveEntityData(rowIndex, columnIndex, true, initialStateValue, value, sourceTrueValue === value)
+    saveEntityData(rowIndex, columnIndex, true, initialStateValue, value, sourceTrueValue === value, source)
   }
 
   // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
@@ -143,7 +143,7 @@ const EntityTableCell = ({
     setValue(initialStateValue)
     setIsDivHidden(true)
     setSaveChanges(false)
-    saveEntityData(rowIndex, columnIndex, false, initialStateValue, value, sourceTrueValue === value)
+    saveEntityData(rowIndex, columnIndex, false, initialStateValue, value, sourceTrueValue === value, source)
   }
 
   // If there is not editable data shown, return intial-state
@@ -231,7 +231,7 @@ const EntityTableCell = ({
           className={entityTableCellClasses.selectedRadio} 
           disabled={initialStateValue === ""}
           checked={
-            initialStateValue === sourceTrueValue 
+            (currentStateValue || initialStateValue) === sourceTrueValue 
             && 
             columns[columnIndex].Accessor === source
           }
