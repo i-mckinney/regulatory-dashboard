@@ -70,13 +70,9 @@ const entityTableCellStyles = makeStyles(() => ({
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {array} sourceOfTruthData array represents the array of original source of truth to compare with
- * @param {array} matchesToSoT matchesToSoT is an array of boolean that represents matches value to the source of truth
- * @param {func} handleSourceOfTruth handleSourceOfTruth is a func comes from parent component, once it is invoke, it will save new source and true value
  * @param {int} rowIndex index of the current row
  * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
- * @param {func} editData func comes from parent component, once it is invoke, it will pass the data back to parent component to edit data
  * @param {bool} editable represents whether this cell is editable or not
  * @param {bool} containActions represents whether this cell contains actions or not
  * @param {func} displayActions displays jsx object of actions
@@ -84,18 +80,16 @@ const entityTableCellStyles = makeStyles(() => ({
  */
 const EntityTableCell = ({
   value: initialStateValue,
-  sourceOfTruthData,
-  matchesToSoT,
-  handleSourceOfTruth,
-  saveData,
-  saveRadioData,
   rowIndex,
   columnIndex,
   columns,
-  editData,
   editable,
   containActions,
   displayActions,
+  saveEntityData,
+  saveRadioData,
+  source,
+  sourceTrueValue,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -108,7 +102,7 @@ const EntityTableCell = ({
   const [isDivHidden, setIsDivHidden] = useState(true)
   const [saveChanges, setSaveChanges] = useState(false)
 
-  // Creates an object for styling. Any className that matches key in the entityTableCellClasses object will have a corresponding styling
+  // Creates an object for styling. Any className that a key in the entityTableCellClasses object will have a corresponding styling
   const entityTableCellClasses = entityTableCellStyles();
 
   // Text input can be typed in the input tag, when keyboard event is trigger
@@ -134,8 +128,7 @@ const EntityTableCell = ({
     setCurrentStateValue(value)
     setIsDivHidden(true)
     const currentCellIndex = cellIndex()
-    editData(currentCellIndex, true, value)
-    saveData(rowIndex, columnIndex, true, initialStateValue, value, sourceOfTruthData[rowIndex].trueValue === value)
+    saveEntityData(rowIndex, columnIndex, true, initialStateValue, value, sourceTrueValue === value)
   }
 
   // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
@@ -158,8 +151,7 @@ const EntityTableCell = ({
     setIsDivHidden(true)
     setSaveChanges(false)
     const currentCellIndex = cellIndex()
-    editData(currentCellIndex, false, "")
-    saveData(rowIndex, columnIndex, false, initialStateValue, value, sourceOfTruthData[rowIndex].trueValue === value)
+    saveEntityData(rowIndex, columnIndex, false, initialStateValue, value, sourceTrueValue === value)
   }
 
   // If there is not editable data shown, return intial-state
@@ -221,14 +213,14 @@ const EntityTableCell = ({
     if (saveChanges) {
       return entityTableCellClasses.editedCell
     }
-    else if (sourceOfTruthData[rowIndex].trueValue !== initialStateValue && initialStateValue !== "") {
+    else if (sourceTrueValue !== initialStateValue && initialStateValue !== "") {
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell
   }
 
-  const isRadioSelected = () => {
-    handleSourceOfTruth(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
+  // selectedRadio saves the selected radio button data with its source and value
+  const selectedRadio = () => {
     saveRadioData(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
   }
 
@@ -247,13 +239,13 @@ const EntityTableCell = ({
           className={entityTableCellClasses.selectedRadio} 
           disabled={initialStateValue === ""}
           checked={
-            initialStateValue === sourceOfTruthData[rowIndex].trueValue 
+            initialStateValue === sourceTrueValue 
             && 
-            columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source
+            columns[columnIndex].Accessor === source
           }
           size="small" 
           color="default" 
-          onClick={isRadioSelected} 
+          onClick={selectedRadio} 
           />
           {displayInitialStateValue()}
           {displayCurrentStateChanges()}
@@ -283,13 +275,10 @@ const EntityTableCell = ({
 }
 
 EntityTableCell.propTypes = {
-  handleSourceOfTruth: PropTypes.func.isRequired,
-  matchesToSoT: PropTypes.instanceOf(Array).isRequired,
   value: PropTypes.string.isRequired,
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
   columns: PropTypes.instanceOf(Array).isRequired,
-  editData: PropTypes.func.isRequired,
   editable: PropTypes.bool.isRequired,
   containActions: PropTypes.bool.isRequired,
   displayActions: PropTypes.func.isRequired,
@@ -297,13 +286,9 @@ EntityTableCell.propTypes = {
 
 EntityTableCell.defaultProps = {
   value: "",
-  sourceOfTruthData: [],
-  matchesToSoT: [],
-  handleSourceOfTruth: () => null,
   rowIndex: 0,
   columnIndex: 0,
   columns: [],
-  editData: () => null,
   editable: false,
   containActions: false,
   displayActions: () => null,

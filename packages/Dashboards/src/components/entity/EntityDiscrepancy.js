@@ -5,7 +5,9 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
+import { HelixButton } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
+import HelixTableCell from '../table/HelixTableCell'
 import entities from '../apis/entities'
 
 // Styling used for MaterialUI
@@ -57,36 +59,20 @@ const EntityDiscrepancy = (props) => {
   // Creates an object for styling. Any className that matches key in the entityDiscrepancyStyles object will have a corresponding styling
   const entitydiscrepancyClasses = entityDiscrepancyStyles();
 
+  // data store fetchAggregatedSourceSystemsData GET Method API results
+  const [data, setData] = useState([])
+
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], [])
 
   // rows will store all the row data
   const rows = useMemo(() => [], [])
 
-  // data store fetchAggregatedSourceSystemsData GET Method API results
-  const [data, setData] = useState([])
+  // entityData is api result array of row object that contains key_config, sourceSystem, values
+  const [entityData, setEntityData] = useState([])
 
-  /**
-   * {
-   * FieldName: string
-   * IsEdited: boolean
-   * SystemOfRecord: string
-   * PreviousValue: string
-   * NewValue: string
-   * SourceSystem: string
-   * }
-   * Stores array of entity data objects
-   */
-  // const entityData = []
-  const entityData = useMemo(() => [], [])
-
-  // sourceOfTruthData stores object of sources of truth e.g. { source: 'FIS', truthValue: 'John Doe'}
-  const sourceOfTruthData = useMemo(() => [], [])
-
-  // matchesToSoT is 2D array with boolean values that determines whether it matches to source of truth
-  const matchesToSoT = useMemo(() => [], [])
-
-  const [saveEntityData, setSaveEntityData] = useState([])
+  // error is object contains err and message
+  const [error, setError] = useState({ err: false, message: "" })
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -110,8 +96,6 @@ const EntityDiscrepancy = (props) => {
     setData(response.data)
   }
 
-  const [error, setError] = useState({ err: false, message: "" })
-
   if (data.length === 0) {
     fetchAggregatedSourceSystemsData()
   } else {
@@ -120,34 +104,26 @@ const EntityDiscrepancy = (props) => {
         data.TableHeaders.forEach((header) => columns.push(header))
         data.TableData.forEach((entityField) => {
           const row = [entityField.key_config["display"]]
-          sourceOfTruthData.push(entityField.sourceSystem)
           rows.push(row)
         })
         data.TableData.forEach((entityField, entityFieldIndex) => {
           const row = rows[entityFieldIndex]
-          const rowSoT = []
           const values = entityField.values.map((value) => {
             if (value !== null) {
               try {
-                const cleanValue = value.value ? value.value.toString() : "Error"
-                rowSoT.push(cleanValue)
                 return value.value ? value.value.toString() : ""
               }
               catch (e) {
                 return e
               }
             } else {
-              rowSoT.push("")
               return ""
             }
           })
-          matchesToSoT.push(rowSoT)
-
           const newRow = row.concat(values)
           rows[entityFieldIndex] = newRow
         })
-
-        setSaveEntityData(data.TableData)
+        setEntityData(data.TableData)
       } else {
         setError({ err: true, message: "Borrower ID does not exist" })
       }
@@ -157,41 +133,21 @@ const EntityDiscrepancy = (props) => {
 
   useEffect(() => {
     if (error.err) {
-      setTimeout(() => props.history.push("/entity"), 1000)
+      setTimeout(() => props.history.push("/entity"), 3000)
     }
-  }, [error])
-
-  // editEntityData is modified data needed to send to next component/pipeline
-  const [editEntityData, setEditEntityData] = useState(entityData)
-
-  // savedSourceOfTruthData is a storage of saved new source of truth data 
-  const [savedSourceOfTruthData, setSavedSourceOfTruthData] = useState(sourceOfTruthData)
-
-  /**
-   * @param {int} index table cell index in 1-dimension array
-   * @param {boolean} isEdited boolean represent whether cell is edited
-   * @param {string} editedValue represents new value provided from table data cell (child component)
-   */
-  const editData = (index, isEdited, editedValue) => {
-    const copyEditEntityData = [ ...editEntityData ]
-    const modifiedData = { ...copyEditEntityData[index] }
-    modifiedData["IsEdited"] = isEdited
-    modifiedData["NewValue"] = editedValue
-    
-    // Removes 1 object at index and adds 1 object at index
-    copyEditEntityData.splice(index, 1, modifiedData)
-    setEditEntityData([...copyEditEntityData])
-  }
+  }, [error, props.history])
 
   /** 
    * @param {int} rowIndex the rowIndex represents index of the row 
-   * @param isEdited boolean represent whether cell is edited
-   * @param {*} previousValue represents old value that was provided from table data cell (child component)
-   * @param {*} value represents new value provided from table data cell (child component)
+   * @param {int} columnIndex the columnIndex represents index of the column
+   * @param {bool} isEdited boolean represent whether cell is edited
+   * @param {string} previousValue represents old value that was provided from table data cell (child component)
+   * @param {string} value represents new value provided from table data cell (child component)
+   * @param {string} matchesSoT represents boolean if matches to source of truth
    */
-  const saveData = (rowIndex, columnIndex, isEdited, previousValue, value, matchesSoT) => {
+  const saveEntityData = (rowIndex, columnIndex, isEdited, previousValue, value, matchesSoT) => {
     if (isEdited) {
-      const copySavedEntityData = [ ...saveEntityData ]
+      const copySavedEntityData = [ ...entityData ]
       const modifiedData = { ...copySavedEntityData[rowIndex] }
 
       const modifiedValues = [ ...modifiedData.values ]
@@ -208,10 +164,10 @@ const EntityDiscrepancy = (props) => {
       modifiedData["values"] = modifiedValues
 
       copySavedEntityData.splice(rowIndex, 1, modifiedData)
-      setSaveEntityData([ ...copySavedEntityData ])
+      setEntityData([ ...copySavedEntityData ])
 
     } else {
-      const copySavedEntityData = [ ...saveEntityData ]
+      const copySavedEntityData = [ ...entityData ]
       const modifiedData = { ...copySavedEntityData[rowIndex] }
 
       const modifiedValues = [ ...modifiedData.values ]
@@ -229,7 +185,7 @@ const EntityDiscrepancy = (props) => {
       modifiedData["values"] = modifiedValues
 
       copySavedEntityData.splice(rowIndex, 1, modifiedData)
-      setSaveEntityData([ ...copySavedEntityData ])
+      setEntityData([ ...copySavedEntityData ])
     }
   }
 
@@ -239,7 +195,7 @@ const EntityDiscrepancy = (props) => {
    * @param {string} trueValue the trueValue is value of the HelixTableCell selected
    */
   const saveRadioData = (rowIndex, source, trueValue) => {
-    const copySavedEntityData = [ ...saveEntityData ]
+    const copySavedEntityData = [ ...entityData ]
     const modifiedData = { ...copySavedEntityData[rowIndex] }
     
     const modifiedSourceSystem = { ...modifiedData.sourceSystem }
@@ -257,23 +213,7 @@ const EntityDiscrepancy = (props) => {
     modifiedData["sourceSystem"] = modifiedSourceSystem
 
     copySavedEntityData.splice(rowIndex, 1, modifiedData)
-    setSaveEntityData([ ...copySavedEntityData ])
-  }
-  
-  /**
-   * @param {int} rowIndex the rowIndex represents index of the row 
-   * @param {string} newSourceValue the newSourceValue is the new selected the source of truth 
-   * @param {string} newTrueValue 
-   */
-  const handleSourceOfTruth = (rowIndex, newSourceValue, newTrueValue) => {
-    const copySavedSourceOfTruthData = [ ...savedSourceOfTruthData ]
-    const modifiedSavedSourceOfTruthData = { ...copySavedSourceOfTruthData[rowIndex] }
-
-    modifiedSavedSourceOfTruthData["source"] = newSourceValue
-    modifiedSavedSourceOfTruthData["trueValue"] = newTrueValue
-
-    copySavedSourceOfTruthData.splice(rowIndex, 1, modifiedSavedSourceOfTruthData)
-    setSavedSourceOfTruthData([ ...copySavedSourceOfTruthData ])
+    setEntityData([ ...copySavedEntityData ])
   }
 
   /**
@@ -289,8 +229,11 @@ const EntityDiscrepancy = (props) => {
       return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]}/>
     }
     else {
+      const sourceSystem = entityData[rowIndex].sourceSystem
+      const source = sourceSystem.source
+      const sourceTrueValue = sourceSystem.trueValue
       return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} saveData={saveData} saveRadioData={saveRadioData} handleSourceOfTruth={handleSourceOfTruth} matchesToSoT={matchesToSoT} sourceOfTruthData={savedSourceOfTruthData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editData={editData} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
       )
     }
   }
@@ -302,7 +245,7 @@ const EntityDiscrepancy = (props) => {
 
   // Passes editEntityData to the confirmation route
   const handleConfirmButton = async () => {
-    const req = { savedChanges: saveEntityData }
+    const req = { savedChanges: entityData }
     await entities.post(`discrepancies/report/${props.location.state._id}`, req)
     props.history.push("/entity")
   }
