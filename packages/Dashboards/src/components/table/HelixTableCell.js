@@ -76,7 +76,11 @@ const entityTableCellStyles = makeStyles(() => ({
  * @param {bool} editable represents whether this cell is editable or not
  * @param {bool} containActions represents whether this cell contains actions or not
  * @param {func} displayActions displays jsx object of actions
- * @returns {JSX} renders a custom table data cell
+ * @param {func} saveEntityData func that allow data to be saved and pass to next component
+ * @param {func} saveRadioData func that save radio button data selected
+ * @param {string} source string that represents column value
+ * @param {string} sourceTrueValue string that represents value of the selected cell
+ * @returns {JSX} renders a custom HelixTableCell
  */
 const EntityTableCell = ({
   value: initialStateValue,
