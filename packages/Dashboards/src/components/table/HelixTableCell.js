@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { makeStyles, Radio, TableCell } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ReplayIcon from '@material-ui/icons/Replay';
-import SaveIcon from '@material-ui/icons/Save';
-import ClearIcon from '@material-ui/icons/Clear';
+import IconButton from '@material-ui/core/IconButton'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import ReplayIcon from '@material-ui/icons/Replay'
+import SaveIcon from '@material-ui/icons/Save'
+import ClearIcon from '@material-ui/icons/Clear'
+import EditIcon from '@material-ui/icons/Edit'
 import PropTypes from 'prop-types'
 
 // Styling used for MaterialUI
@@ -196,7 +197,10 @@ const EntityTableCell = ({
         </div>
       )
     }
-    return null
+    return (
+    <IconButton aria-label="edit" size="small" edge="start" onClick={handleDivChange} color="default">
+      <EditIcon />
+    </IconButton>)
   }
 
   // If changes are made, display background color for that cell 'orange'
@@ -222,8 +226,6 @@ const EntityTableCell = ({
       return (
         <TableCell 
           className={cellState()}
-          onClick={handleDivChange}
-          onKeyDown={handleDivChange}
           role="row"
           tabIndex="0"
         >
