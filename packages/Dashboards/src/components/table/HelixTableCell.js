@@ -110,16 +110,6 @@ const EntityTableCell = ({
     setValue(e.target.value)
   }
   
-  /**
-   * @returns {int} return current cell index in 1-dimension array
-   * */ 
-  const cellIndex = () => {
-    let colIndex = columnIndex
-    const currentRowIndex = rowIndex
-    const index = (columns.length-1) * currentRowIndex + colIndex-1
-    return index
-  }
-
   // Saves the text input, displays current state edited text input, hide rest of the identifier tags
   // (e.g. button, span, etc...), send the data to parent component when the save button triggers
   const handleSaveChange = (e) => {
@@ -127,7 +117,6 @@ const EntityTableCell = ({
     setSaveChanges(true)
     setCurrentStateValue(value)
     setIsDivHidden(true)
-    const currentCellIndex = cellIndex()
     saveEntityData(rowIndex, columnIndex, true, initialStateValue, value, sourceTrueValue === value)
   }
 
@@ -150,7 +139,6 @@ const EntityTableCell = ({
     setValue(initialStateValue)
     setIsDivHidden(true)
     setSaveChanges(false)
-    const currentCellIndex = cellIndex()
     saveEntityData(rowIndex, columnIndex, false, initialStateValue, value, sourceTrueValue === value)
   }
 
