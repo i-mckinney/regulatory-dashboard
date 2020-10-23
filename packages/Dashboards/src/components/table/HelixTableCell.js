@@ -274,6 +274,10 @@ EntityTableCell.propTypes = {
   editable: PropTypes.bool.isRequired,
   containActions: PropTypes.bool.isRequired,
   displayActions: PropTypes.func.isRequired,
+  saveEntityData: PropTypes.func.isRequired,
+  saveRadioData: PropTypes.func.isRequired,
+  source: PropTypes.string.isRequired,
+  sourceTrueValue: PropTypes.string.isRequired,
 }
 
 EntityTableCell.defaultProps = {
@@ -284,6 +288,10 @@ EntityTableCell.defaultProps = {
   editable: false,
   containActions: false,
   displayActions: () => null,
+  saveEntityData: () => null,
+  saveRadioData: () => null,
+  source: "",
+  sourceTrueValue: "",
 }
 
 export default EntityTableCell
