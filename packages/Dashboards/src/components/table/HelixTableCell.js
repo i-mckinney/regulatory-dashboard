@@ -5,8 +5,8 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ReplayIcon from '@material-ui/icons/Replay'
 import SaveIcon from '@material-ui/icons/Save'
 import ClearIcon from '@material-ui/icons/Clear'
-import EditIcon from '@material-ui/icons/Edit'
 import PropTypes from 'prop-types'
+import { HelixTextField } from 'helixmonorepo-lib'
 
 // Styling used for MaterialUI
 const entityTableCellStyles = makeStyles(() => ({
@@ -22,6 +22,7 @@ const entityTableCellStyles = makeStyles(() => ({
     '& input:focus': {
       outline: 'none',
     },
+    minWidth: 200,
   },
   editedCell: {
     outline: 'none',
@@ -29,6 +30,7 @@ const entityTableCellStyles = makeStyles(() => ({
       outline: 'none',
     },
     backgroundColor: 'orange',
+    minWidth: 200,
   },
   errorCell: {
     outline: 'none',
@@ -36,6 +38,15 @@ const entityTableCellStyles = makeStyles(() => ({
       outline: 'none',
     },
     backgroundColor: '#ffbcbb',
+    minWidth: 200,
+  },
+  greyCell: {
+    outline: 'none',
+    '& input:focus': {
+      outline: 'none',
+    },
+    backgroundColor: '#f1efef',
+    minWidth: 200,
   },
   editedIcon: {
     fontSize: '1rem',
@@ -56,17 +67,26 @@ const entityTableCellStyles = makeStyles(() => ({
     },
     '&:focus': {
       outline: 'none',
-    }
+    },
   },
   matIcon: {
     fill: 'black',
+    '& button': {
+      marginRight: 'unset'
+    }
   },
   matIconSpan: {
     display: 'block',
+    float: 'right',
   },
   selectedRadio: {
     color: 'green',
   },
+  matEditIcon: {
+    '& button': {
+      float: 'right',
+    }
+  }
 }))
 
 /**
@@ -155,10 +175,13 @@ const EntityTableCell = ({
     }
     return entityTableCellClasses.modifiedInitialState
   }
-
   // Display the initial state value
   const displayInitialStateValue = () => {
-    return <div className={initialState()}>{initialStateValue}</div>
+    return (
+    <div onClick={handleDivChange} className={initialState()}>
+      {initialStateValue}
+    </div>
+    )
   }
 
   // Display current state value of edited changes
@@ -185,7 +208,8 @@ const EntityTableCell = ({
     if (!isDivHidden) {
       return (
         <div>
-          <input type="text" value={value} onChange={handleInputChange} />
+          {/* <input type="text" value={value} onChange={handleInputChange} /> */}
+          <HelixTextField value={value} onChange={handleInputChange} fullWidth/>
           <span className={entityTableCellClasses.matIconSpan}>
             <IconButton className={entityTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
               <SaveIcon className={entityTableCellClasses.matIcon} />
@@ -197,10 +221,7 @@ const EntityTableCell = ({
         </div>
       )
     }
-    return (
-    <IconButton aria-label="edit" size="small" edge="start" onClick={handleDivChange} color="default">
-      <EditIcon />
-    </IconButton>)
+    return null
   }
 
   // If changes are made, display background color for that cell 'orange'
@@ -209,7 +230,10 @@ const EntityTableCell = ({
     if (saveChanges) {
       return entityTableCellClasses.editedCell
     }
-    else if (sourceTrueValue !== initialStateValue && initialStateValue !== "") {
+    else if (initialStateValue === "NULL") {
+      return entityTableCellClasses.greyCell
+    }
+    else if (sourceTrueValue !== initialStateValue && initialStateValue !== "NULL") {
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell
@@ -228,10 +252,11 @@ const EntityTableCell = ({
           className={cellState()}
           role="row"
           tabIndex="0"
+          style={{ minWidth: 175 }}
         >
           <Radio 
           className={entityTableCellClasses.selectedRadio} 
-          disabled={initialStateValue === ""}
+          disabled={initialStateValue === "NULL"}
           checked={
             (currentStateValue || initialStateValue) === sourceTrueValue 
             && 
@@ -240,7 +265,7 @@ const EntityTableCell = ({
           size="small" 
           color="default" 
           onClick={selectedRadio} 
-          />
+          /> 
           {displayInitialStateValue()}
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
@@ -248,13 +273,13 @@ const EntityTableCell = ({
       )
     } else if (containActions) {
       return (
-        <TableCell>
+        <TableCell className={entityTableCellClasses.initialCell}>
           {displayActions()}
         </TableCell>
       )
     } else {
       return (
-        <TableCell>
+        <TableCell className={entityTableCellClasses.initialCell}>
           {displayInitialStateValue()}
         </TableCell>
       )

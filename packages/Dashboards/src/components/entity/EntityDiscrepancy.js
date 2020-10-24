@@ -107,13 +107,13 @@ const EntityDiscrepancy = (props) => {
           const values = entityField.values.map((value) => {
             if (value !== null) {
               try {
-                return value.value ? value.value.toString() : ""
+                return value.value ? value.value.toString() : "Improper Mapping"
               }
               catch (e) {
                 return e
               }
             } else {
-              return ""
+              return "NULL"
             }
           })
           const newRow = row.concat(values)
@@ -125,6 +125,7 @@ const EntityDiscrepancy = (props) => {
       }
     }
   }
+
   const [counter, setCounter] = React.useState(3);
 
   useEffect(() => {
@@ -240,8 +241,8 @@ const EntityDiscrepancy = (props) => {
     }
     else {
       const sourceSystem = entityData[rowIndex].sourceSystem
-      const source = sourceSystem.source
-      const sourceTrueValue = sourceSystem.trueValue
+      const source = sourceSystem.source.toString()
+      const sourceTrueValue = sourceSystem.trueValue.toString()
       return (
         <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
       )
