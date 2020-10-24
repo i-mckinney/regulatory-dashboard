@@ -82,6 +82,9 @@ const entityTableCellStyles = makeStyles(() => ({
   selectedRadio: {
     color: 'green',
   },
+  editedField: {
+    color: 'green',
+  },
   matEditIcon: {
     '& button': {
       float: 'right',
@@ -189,7 +192,7 @@ const EntityTableCell = ({
     if (saveChanges) {
       return (
         <div>
-          {currentStateValue}
+          <span className={entityTableCellClasses.editedField}>{currentStateValue}</span>
           <CheckCircleIcon className={entityTableCellClasses.editedIcon} />
           <ReplayIcon 
           className={entityTableCellClasses.undoIcon}
@@ -208,7 +211,6 @@ const EntityTableCell = ({
     if (!isDivHidden) {
       return (
         <div>
-          {/* <input type="text" value={value} onChange={handleInputChange} /> */}
           <HelixTextField value={value} onChange={handleInputChange} fullWidth/>
           <span className={entityTableCellClasses.matIconSpan}>
             <IconButton className={entityTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
