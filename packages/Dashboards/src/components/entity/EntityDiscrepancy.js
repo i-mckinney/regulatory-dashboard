@@ -137,6 +137,7 @@ const EntityDiscrepancy = (props) => {
     }
   }
 
+  // counter acts as a count down timer to redirect to new site
   const [counter, setCounter] = React.useState(3);
 
   useEffect(() => {
