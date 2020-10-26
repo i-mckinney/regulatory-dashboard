@@ -52,8 +52,8 @@ const entityDiscrepancyStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history property to route back Entity site
- * @return {JSX} Discrepancy site
- * routed at /Discrepancy
+ * @return {JSX} EntityDiscrepancy site
+ * routed at /EntityDiscrepancy
  */
 const EntityDiscrepancy = (props) => {
   // Creates an object for styling. Any className that matches key in the entityDiscrepancyStyles object will have a corresponding styling
@@ -271,11 +271,11 @@ const EntityDiscrepancy = (props) => {
       :
       <>
         <EntityCard
-          RecordLabel={detailedInfo.RecordLabel}
+          RecordLabel={props.location.state.relationshipName}
           SystemOfRecord={detailedInfo.SystemOfRecord}
-          ID={detailedInfo.HeaderInfo.ID}
-          BorrowerName={detailedInfo.HeaderInfo.BorrowerName}
-          RelationshipManager={detailedInfo.HeaderInfo.RelationshipManager}
+          ID={props.location.state._id}
+          BorrowerName={props.location.state.borrowerName}
+          RelationshipManager={props.location.state.relationshipManager}
         />
         <HelixTable
         toggleSearch={false}
