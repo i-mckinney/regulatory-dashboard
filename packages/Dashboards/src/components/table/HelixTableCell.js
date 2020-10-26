@@ -126,7 +126,7 @@ const EntityTableCell = ({
    * 4) saveChanges is a boolean to check whether changes are saved
    * */
   const [value, setValue] = useState(initialStateValue)
-  const [currentStateValue, setCurrentStateValue] = useState(value)
+  const [currentStateValue, setCurrentStateValue] = useState(value === 'NULL' ? '' : value)
   const [isDivHidden, setIsDivHidden] = useState(true)
   const [saveChanges, setSaveChanges] = useState(false)
 
