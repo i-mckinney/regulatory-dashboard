@@ -266,7 +266,7 @@ const EntityDiscrepancy = (props) => {
       {error.err ? 
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          {`${error.message} `}<strong>Will redirect in {`${counter}`} seconds!</strong>
+          {`${error.message} `}<strong>Will redirect in {counter} seconds!</strong>
         </Alert>
       :
       <>
