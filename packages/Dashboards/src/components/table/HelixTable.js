@@ -22,7 +22,7 @@ const helixTableStyles = makeStyles(() => ({
           border: 'none',
           backgroundColor: 'white',
           '&:nth-child(even)': {
-            backgroundColor: '#f2f2f2',
+            backgroundColor: '#d3e9ff',
           },
           '&:hover': {
             backgroundColor: '#add8e6',

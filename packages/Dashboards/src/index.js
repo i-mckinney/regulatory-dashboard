@@ -4,6 +4,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'react-app-polyfill/ie11';
 
+const ID = "Dashboard-container"
+
 // render micro frontend function
 window.renderDashboard = (containerId) => {
   ReactDOM.render(
@@ -22,7 +24,7 @@ window.unmountDashboard = containerId => {
 };
 
 // Mount to root if it is not a micro frontend
-if (!document.getElementById('container')) {
+if (!document.getElementById(ID)) {
   ReactDOM.render(<App />, document.getElementById('notRoot'));
 }
 
