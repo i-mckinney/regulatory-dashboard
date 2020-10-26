@@ -282,13 +282,17 @@ const EntityDiscrepancy = (props) => {
     props.history.push("/entity")
   }
 
-  // hiddenAlert return a string instances/declartive contains described styles
+  /**
+   * @return a string instances/declartive contains described styles
+   */
   const hiddenAlert = () => {
     if (error.err) return ""
     else return entitydiscrepancyClasses.visuallyHidden
   }
 
-  // displayAlert return jsx object of alert component
+  /**
+   * @return a jsx object of alert component
+   */
   const displayAlert = () => {
     return (
       <span className={hiddenAlert()}>
