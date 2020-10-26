@@ -148,7 +148,7 @@ const EntityDiscrepancy = (props) => {
       }
     }
   }, [error, counter, props.history])
-  console.log(props.history, props.history.goBack)
+
   /** 
    * @param {int} rowIndex the rowIndex represents index of the row 
    * @param {int} columnIndex the columnIndex represents index of the column
