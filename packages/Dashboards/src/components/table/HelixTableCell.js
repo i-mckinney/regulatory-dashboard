@@ -22,7 +22,6 @@ const entityTableCellStyles = makeStyles(() => ({
     '& input:focus': {
       outline: 'none',
     },
-    minWidth: 200,
   },
   editedCell: {
     outline: 'none',
@@ -30,7 +29,6 @@ const entityTableCellStyles = makeStyles(() => ({
       outline: 'none',
     },
     backgroundColor: 'orange',
-    minWidth: 200,
   },
   errorCell: {
     outline: 'none',
@@ -38,7 +36,6 @@ const entityTableCellStyles = makeStyles(() => ({
       outline: 'none',
     },
     backgroundColor: '#ffbcbb',
-    minWidth: 200,
   },
   greyCell: {
     outline: 'none',
@@ -46,7 +43,6 @@ const entityTableCellStyles = makeStyles(() => ({
       outline: 'none',
     },
     backgroundColor: '#f1efef',
-    minWidth: 200,
   },
   editedIcon: {
     fontSize: '1rem',

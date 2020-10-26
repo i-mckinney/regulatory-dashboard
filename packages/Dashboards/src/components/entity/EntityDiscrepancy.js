@@ -314,7 +314,7 @@ const EntityDiscrepancy = (props) => {
         <EntityCard
           RecordLabel={props.location.state.relationshipName}
           SystemOfRecord={detailedInfo.SystemOfRecord}
-          ID={props.location.state._id}
+          BorrowerID={props.location.state.borrowerID}
           BorrowerName={props.location.state.borrowerName}
           RelationshipManager={props.location.state.relationshipManager}
         />
