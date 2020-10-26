@@ -2,7 +2,7 @@
 export const sortableExcludes = ["_id", "Actions"]
 
 // columnExcludes is array of identifier that we do not want to display in the table
-export const columnExcludes = ["company_id"]
+export const columnExcludes = ["company_id", "tin"]
 
 // columnFields is array of fields that UserForm will have 
 export const columnFields = ["relationshipName", "borrowerName", "borrowerID", "tin", "relationshipManager"]
