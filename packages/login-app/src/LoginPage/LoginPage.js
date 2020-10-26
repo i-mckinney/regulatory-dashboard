@@ -88,14 +88,24 @@ export default function Login() {
 
   const [newEmail, registerEmail] = useState("");
   const [newPassword, registerPassword] = useState("");
+  const [roles, registerRoles] = useState({
+      admin: true,
+      supervisor: true,
+      analyst: true,
+    }
+  );
 
   const client = useApolloClient();
+
+  const handleCheck = (event) => {
+    registerRoles({ ...roles, [event.target.name]: event.target.checked });
+  }
 
   const handleRegister = async (evt) => {
     //prevents page from reloading on form submission
     evt.preventDefault();
-    await register({ variables: { input: { email: newEmail, password: newPassword } }, notifyOnNetworkStatusChange: true })
-    alert(`Submitting Name: ${newEmail}`)
+    await register({ variables: { input: { email: newEmail, password: newPassword, analyst: roles.analyst, admin: roles.admin, supervisor: roles.supervisor } }, notifyOnNetworkStatusChange: true })
+    alert(`Submitting Account with Email:${newEmail} with roles: analyst:${roles.analyst}, admin:${roles.admin}, supervisor:${roles.supervisor}`)
   }
 
   const handleLogin = async (evt) => {
@@ -158,6 +168,18 @@ export default function Login() {
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
               label='Remember me'
+            />
+                      <FormControlLabel
+              control={<Checkbox value='admin' color='primary' checked={roles.admin} onChange={handleCheck} name='admin'/>}
+              label='Admin'
+            />
+                      <FormControlLabel
+              control={<Checkbox value='analyst' color='primary' checked={roles.analyst} onChange={handleCheck} name='analyst'/>}
+              label='Analyst'
+            />
+                                  <FormControlLabel
+              control={<Checkbox value='supervisor' color='primary' checked={roles.supervisor} onChange={handleCheck} name='supervisor' />}
+              label='Supervisor'
             />
             <Button
               type='submit'

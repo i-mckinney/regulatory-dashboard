@@ -9,32 +9,32 @@ export class User extends BaseEntity {
   id: number;
 
   @Field()
-  @Column("text", { unique: true, })
+  @Column("text", { unique: true })
   email: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column("text", { nullable: true })
   firstName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column("text", { nullable: true })
   lastName?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column("integer", { nullable: true })
   age?: number;
 
-  @Field()
-  @Column("boolean", { nullable: true })
-  admin?: boolean;
+  @Field({ nullable: true })
+  @Column("boolean", { nullable: true, default: false })
+  admin?: boolean | false;
 
-  @Field()
-  @Column("boolean", { nullable: true })
-  analyst?: boolean;
+  @Field({ nullable: true })
+  @Column("boolean", { nullable: true, default: false })
+  analyst?: boolean | false;
 
-  @Field()
-  @Column("boolean", { nullable: true })
-  supervisor?: boolean;
+  @Field({ nullable: true })
+  @Column("boolean", { nullable: true, default: false })
+  supervisor?: boolean | false;
 
   @Column()
   password: string;

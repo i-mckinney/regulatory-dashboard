@@ -19,7 +19,8 @@ export class AuthResolver {
   @Mutation(() => UserResponse)
   async register(
     @Arg("input")
-    { email, password }: AuthInput
+    { email, password, supervisor, analyst, admin }: AuthInput
+
   ): Promise<UserResponse> {
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -38,7 +39,10 @@ export class AuthResolver {
 
     const user = await User.create({
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      admin,
+      analyst,
+      supervisor
     }).save();
 
     return { user };

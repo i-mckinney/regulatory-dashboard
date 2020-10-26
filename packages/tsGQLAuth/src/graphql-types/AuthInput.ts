@@ -11,8 +11,9 @@ export class AuthInput {
   @Field(() => Boolean, { defaultValue: false })
   admin?: boolean | undefined;
 
-  @Field()
-  supervisor: boolean;
+  @Field(() => Boolean, { defaultValue: false })
+  supervisor?: boolean | undefined;
 
-  @Field()
+  @Field(() => Boolean, { defaultValue: false })
+  analyst?: boolean | undefined;
 }
