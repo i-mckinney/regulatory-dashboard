@@ -48,6 +48,12 @@ const entityDiscrepancyStyles = makeStyles(() => ({
     left: '50%', 
     top: '50%',
   },
+  visuallyHidden: {
+    position: 'absolute',
+  },
+  alert: {
+    marginBottom: '1rem',
+  }
 }))
 
 /**
@@ -57,7 +63,7 @@ const entityDiscrepancyStyles = makeStyles(() => ({
  */
 const EntityDiscrepancy = (props) => {
   // Creates an object for styling. Any className that matches key in the entityDiscrepancyStyles object will have a corresponding styling
-  const entitydiscrepancyClasses = entityDiscrepancyStyles();
+  const entitydiscrepancyClasses = entityDiscrepancyStyles()
 
   // data store fetchAggregatedSourceSystemsData GET Method API results
   const [data, setData] = useState([])
@@ -92,8 +98,13 @@ const EntityDiscrepancy = (props) => {
 
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
-    const response = await entities.get(`discrepancies/5f7e1bb2ab26a664b6e950c8/${props.location.state.borrowerID}/report/${props.location.state._id}`)
-    setData(response.data)
+    if (props.location.state.borrowerID) {
+      const response = await entities.get(`discrepancies/5f7e1bb2ab26a664b6e950c8/${props.location.state.borrowerID}/report/${props.location.state._id}`)
+      setData(response.data)
+    } else {
+      setError({ err: true, message: "Borrower ID is empty" })
+      setData({ ErrorMessage: error.message})
+    }
   }
 
   if (data.length === 0) {
@@ -129,11 +140,15 @@ const EntityDiscrepancy = (props) => {
   const [counter, setCounter] = React.useState(3);
 
   useEffect(() => {
-    if (error.err) {
-      setTimeout(() => props.history.push("/entity"), 3000)
+    if(error.err) {
+      if (counter > 0) {
+        setTimeout(() => setCounter(counter - 1), 1000);
+      } else {
+        props.history.push("/entity")
+      }
     }
-  }, [error, props.history])
-
+  }, [error, counter, props.history])
+  console.log(props.history, props.history.goBack)
   /** 
    * @param {int} rowIndex the rowIndex represents index of the row 
    * @param {int} columnIndex the columnIndex represents index of the column
@@ -241,8 +256,14 @@ const EntityDiscrepancy = (props) => {
     }
     else {
       const sourceSystem = entityData[rowIndex].sourceSystem
-      const source = sourceSystem.source.toString()
-      const sourceTrueValue = sourceSystem.trueValue.toString()
+
+      const source = sourceSystem.source 
+      ? sourceSystem.source.toString() 
+      : setError({ err: true, message: "Source is undefined" })
+
+      const sourceTrueValue = sourceSystem.trueValue 
+      ? sourceSystem.trueValue.toString() 
+      : setError({ err: true, message: "trueValue is undefined" })
       return (
         <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
       )
@@ -261,15 +282,31 @@ const EntityDiscrepancy = (props) => {
     props.history.push("/entity")
   }
 
-  return (
-    <div className={`container ${entitydiscrepancyClasses.medium}`}>
-      {error.err ? 
-        <Alert severity="error">
+  // hiddenAlert return a string instances/declartive contains described styles
+  const hiddenAlert = () => {
+    if (error.err) return ""
+    else return entitydiscrepancyClasses.visuallyHidden
+  }
+
+  // displayAlert return jsx object of alert component
+  const displayAlert = () => {
+    return (
+      <span className={hiddenAlert()}>
+        <Alert severity="error" className={entitydiscrepancyClasses.alert}>
           <AlertTitle>Error</AlertTitle>
           {`${error.message} `}<strong>Will redirect in {counter} seconds!</strong>
         </Alert>
+      </span>
+    )
+  }
+
+  return (
+    <div className={`container ${entitydiscrepancyClasses.medium}`}>
+      {error.err ? 
+        displayAlert()
       :
       <>
+        {displayAlert()}
         <EntityCard
           RecordLabel={props.location.state.relationshipName}
           SystemOfRecord={detailedInfo.SystemOfRecord}
