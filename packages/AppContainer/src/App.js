@@ -1,7 +1,8 @@
-import React, { useState } from "react"
-import { BrowserRouter, Switch, Route } from "react-router-dom"
+import React, { useEffect, useState, createContext } from "react"
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom"
 import PropTypes from "prop-types"
 import clsx from "clsx"
+import { useQuery, gql } from "@apollo/client"
 import {
   useTheme,
   CssBaseline,
@@ -11,6 +12,16 @@ import {
 } from "@material-ui/core"
 import MicroserviceLoader from "./MicroserviceLoader"
 import Header from "./Components/Header/Header"
+
+const userObj = {
+  userId: null,
+  email: null,
+  analyst: false,
+  admin: false,
+  supervisor: false,
+  setUser: () => {},
+}
+const UserCtx = createContext(userObj)
 
 const drawerWidth = 240
 
@@ -109,7 +120,17 @@ const User = ({ history }) => (
   <MicroserviceLoader history={history} host={userHost} name="User" />
 )
 
+const WHO_AM_I = gql`
+  query whoAmI {
+    whoAmI {
+      id
+      email
+    }
+  }
+`
+
 const App = () => {
+  const [loggedIn, setLogIn] = useState(false)
   // Styles for Container application
   const topContainerClasses = containerAppUseStyles()
   // Theme for container application
@@ -117,55 +138,94 @@ const App = () => {
 
   // State to determine whether side navigation is open or not
   const [sideNavOpen, setSideNavOpen] = useState(false)
+  const [localUser, setLocalUser] = useState(userObj)
 
+  const { data, loading, error } = useQuery(WHO_AM_I)
+  if (loading) return <p>loading</p>
+  if (error) return <p>ERROR `${JSON.stringify(error)}`</p>
+  if (!data) return <p>Not found</p>
+  if (data.whoAmI !== null && loggedIn === false) setLogIn(true)
+
+  if (loggedIn) {
+    return (
+      <div>
+        <UserCtx.Provider value={{ userObj }}>
+          <CssBaseline />
+          <StylesProvider generateClassName={generateClassName}>
+            <BrowserRouter>
+              <div className={topContainerClasses.topContainerClassesRoot}>
+                <Header
+                  topContainerClasses={topContainerClasses}
+                  topContainerTheme={topContainerTheme}
+                  sideNavOpen={sideNavOpen}
+                  setSideNavOpen={setSideNavOpen}
+                />
+                <main
+                  className={clsx(topContainerClasses.microServiceContent, {
+                    [topContainerClasses.microServiceContentShift]: sideNavOpen,
+                  })}
+                >
+                  <div className={topContainerClasses.sideNavDrawerHeader} />
+                  <Switch>
+                    <Route exact path="/" component={Dashboard} />
+                    <Route exact path="/homepage" component={Dashboard} />
+                    {/* <Route exact path="/dashboard" component={Dashboard} /> */}
+                    <Route exact path="/company" component={CompanyView} />
+                    <Route exact path="/entity" component={Dashboard} />
+                    <Route exact path="/entity/new" component={Dashboard} />
+                    <Route
+                      exact
+                      path="/entity/configuration"
+                      component={Dashboard}
+                    />
+                    <Route
+                      exact
+                      path="/entity/:id/discrepancy-report"
+                      component={Dashboard}
+                    />
+                    <Route
+                      exact
+                      path="/entity/edit/:id"
+                      component={Dashboard}
+                    />
+                    <Route
+                      exact
+                      path="/entity/delete/:id"
+                      component={Dashboard}
+                    />
+                    <Route exact path="/loan" component={Dashboard} />
+                    <Route exact path="/regulatory" component={Dashboard} />
+                    <Route exact path="/myrequest" component={Dashboard} />
+                    <Route exact path="/users" component={User} />
+                    <Route exact path="/users/new" component={User} />
+                    <Route exact path="/users/edit/:id" component={User} />
+                    <Route exact path="/users/delete/:id" component={User} />
+                    <Route
+                      exact
+                      path="/client-api-table"
+                      component={CompanyView}
+                    />
+                    <Route
+                      exact
+                      path="/client-api-test"
+                      component={CompanyView}
+                    />
+                  </Switch>
+                </main>
+              </div>
+            </BrowserRouter>
+          </StylesProvider>
+        </UserCtx.Provider>
+      </div>
+    )
+  }
   return (
-    <div>
-      <CssBaseline />
-      <StylesProvider generateClassName={generateClassName}>
-        <BrowserRouter>
-        <div className={topContainerClasses.topContainerClassesRoot}>
-          <Header
-            topContainerClasses={topContainerClasses}
-            topContainerTheme={topContainerTheme}
-            sideNavOpen={sideNavOpen}
-            setSideNavOpen={setSideNavOpen}
-          />
-          <main
-            className={clsx(topContainerClasses.microServiceContent, {
-              [topContainerClasses.microServiceContentShift]: sideNavOpen,
-            })}
-          >
-            <div className={topContainerClasses.sideNavDrawerHeader} />
-            <Switch>
-              <Route exact path="/" component={LoginView} />
-              <Route exact path="/homepage" component={Dashboard} />
-              {/* <Route exact path="/dashboard" component={Dashboard} /> */}
-              <Route exact path="/company" component={CompanyView} />
-              <Route exact path="/entity" component={Dashboard} />
-              <Route exact path="/entity/new" component={Dashboard} />
-              <Route exact path="/entity/configuration" component={Dashboard} />
-              <Route
-                exact
-                path="/entity/:id/discrepancy-report"
-                component={Dashboard}
-              />
-              <Route exact path="/entity/edit/:id" component={Dashboard} />
-              <Route exact path="/entity/delete/:id" component={Dashboard} />
-              <Route exact path="/loan" component={Dashboard} />
-              <Route exact path="/regulatory" component={Dashboard} />
-              <Route exact path="/myrequest" component={Dashboard} />
-              <Route exact path="/users" component={User} />
-              <Route exact path="/users/new" component={User} />
-              <Route exact path="/users/edit/:id" component={User} />
-              <Route exact path="/users/delete/:id" component={User} />
-              <Route exact path="/client-api-table" component={CompanyView} />
-              <Route exact path="/client-api-test" component={CompanyView} />
-            </Switch>
-          </main>
-        </div>
-      </BrowserRouter>
-    </StylesProvider>
-  </div>
+    <BrowserRouter>
+      <>
+        <Route exact path="/" component={LoginView} />
+        <Redirect to="/" />
+      </>
+    </BrowserRouter>
   )
 }
 

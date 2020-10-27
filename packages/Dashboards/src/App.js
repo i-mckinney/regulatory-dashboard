@@ -21,7 +21,8 @@ const generateClassName = createGenerateClassName({
   seed:"dash"
 });
 
-function App(history) {
+function App(props) {
+  console.log(props)
   return (
     <StylesProvider generateClassName={generateClassName}>
     <div className="pt-5">

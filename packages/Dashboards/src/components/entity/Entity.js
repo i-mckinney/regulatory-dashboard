@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useContext } from 'react'
 import { withRouter } from 'react-router-dom'
+import { useQuery, gql } from "@apollo/client"
 import { StylesProvider, createGenerateClassName, makeStyles, Typography } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import SettingsIcon from '@material-ui/icons/Settings'
@@ -15,6 +16,17 @@ const generateClassName = createGenerateClassName({
     productionPrefix: 'entity-',
 })
 
+const WHO_AM_I = gql`
+  query whoAmI {
+    whoAmI {
+      id
+      email
+      analyst
+      admin
+      supervisor
+    }
+  }
+`
 
 // Styling used for MaterialUI
 const entityStyles = makeStyles(() => ({
@@ -45,6 +57,7 @@ function Entity(props) {
   // Creates an object for styling. Any className that matches key in the entityStyles object will have a corresponding styling
   const entityClasses = entityStyles()
 
+
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
    * If we didn't use React.useMemo, the table would think it was receiving new data on every render
@@ -60,6 +73,9 @@ function Entity(props) {
 
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], [])
+
+  const [ login, setLogIn ] = useState(false)
+  const { data, loading, error } = useQuery(WHO_AM_I)
 
   if (rows.length !== 0) {
       const headerColumns = Object.keys(rows[0])
@@ -108,6 +124,14 @@ function Entity(props) {
 
       fetchEntities()
     }, [columns])
+
+    if (loading) return <p>loading</p>
+    if (error) return <p>ERROR `${JSON.stringify(error)}`</p>
+    if (!data) return <p>Not found</p>
+    if (data.whoAmI !== null && login !== true) {
+        setLogIn(true)
+        console.log(JSON.stringify(data))
+    }
 
     /**
      * @param {object} row the row is an object of data
