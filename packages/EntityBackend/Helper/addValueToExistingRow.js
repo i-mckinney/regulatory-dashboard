@@ -60,7 +60,7 @@ function addValueToExistingRow(
         desiredValueFromExternal === responseMapped.sourceSystem.trueValue;
 
       responseMapped.values.push({
-        value: desiredValueFromExternal,
+        externalValue: desiredValueFromExternal,
         matchesSoT: sourceOfTruth,
       });
       doesFieldExist = true
