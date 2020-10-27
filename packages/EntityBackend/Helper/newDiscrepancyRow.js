@@ -57,26 +57,34 @@ function newDiscrepancyRow(
   configuredApiIdx,
   source,
   desiredValueFromExternal,
-  newMappedKey,
+  newMappedKey
 ) {
-   /** Case 2) newMappedKey does not exist in resultWithMapping; we create a new row in discrepancy report */
-   let valueArray = [];
-   /** We make sure that responses get mapped to a correct cell */
-   valueArray[configuredApiIdx] = {
-     value: desiredValueFromExternal,
-     matchesSoT: true,
-   };
-   resultWithMapping.push({
-     key_config: {
-       key: newMappedKey,
-       display: newMappedKey.replace(/([A-Z])([A-Z])/g, "$1 $2"),
-     },
-     sourceSystem: {
-       source: source,
-       trueValue: desiredValueFromExternal,
-     },
-     values: valueArray,
-   });
+  /** Case 2) newMappedKey does not exist in resultWithMapping; we create a new row in discrepancy report */
+  let valueArray = [];
+  let nullFillerIdx = configuredApiIdx;
+
+  /** We make sure that responses get mapped to a correct cell */
+  valueArray[configuredApiIdx] = {
+    externalValue: desiredValueFromExternal,
+    matchesSoT: true,
+  };
+
+  while (nullFillerIdx > 0) {
+    nullFillerIdx -= 1;
+    valueArray[nullFillerIdx] = null;
+  }
+
+  resultWithMapping.push({
+    key_config: {
+      key: newMappedKey,
+      display: newMappedKey,
+    },
+    sourceSystem: {
+      source: source,
+      trueValue: desiredValueFromExternal,
+    },
+    values: valueArray,
+  });
 }
 
 module.exports = newDiscrepancyRow;
