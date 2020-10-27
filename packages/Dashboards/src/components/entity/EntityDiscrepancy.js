@@ -9,6 +9,7 @@ import { HelixButton } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
 import HelixTableCell from '../table/HelixTableCell'
 import entities from '../apis/entities'
+import LinearProgressWithLabel from '../utils/LinearProgressWithLabel'
 
 // Styling used for MaterialUI
 const entityDiscrepancyStyles = makeStyles(() => ({
@@ -143,7 +144,7 @@ const EntityDiscrepancy = (props) => {
   useEffect(() => {
     if(error.err) {
       if (counter > 0) {
-        setTimeout(() => setCounter(counter - 1), 1000);
+        setTimeout(() => setCounter(counter - 1), 1000)
       } else {
         props.history.push("/entity")
       }
