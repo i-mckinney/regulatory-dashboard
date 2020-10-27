@@ -9,7 +9,7 @@ import { HelixButton } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
 import HelixTableCell from '../table/HelixTableCell'
 import entities from '../apis/entities'
-import LinearProgressWithLabel from '../utils/LinearProgressWithLabel'
+import HelixLinearProgress from '../utils/HelixLinearProgress'
 
 // Styling used for MaterialUI
 const entityDiscrepancyStyles = makeStyles(() => ({
@@ -306,9 +306,23 @@ const EntityDiscrepancy = (props) => {
     )
   }
 
-  return (
-    <div className={`container ${entitydiscrepancyClasses.medium}`}>
-      {error.err ? 
+  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if(!loading) {
+      if (progress < 100) {
+        const timer = setInterval(() => setProgress(progress + 25), 500)
+        return () => clearInterval(timer)
+      } else {
+        setLoading(true)
+      }
+    }
+  }, [progress, loading])
+
+  const render = () => {
+    return (
+      error.err ? 
         displayAlert()
       :
       <>
@@ -339,7 +353,13 @@ const EntityDiscrepancy = (props) => {
           onClick={handleConfirmButton} 
           text="Confirm" />
         </div>
-      </>}
+      </>
+    )
+  }
+
+  return (
+    <div className={`container ${entitydiscrepancyClasses.medium}`}>
+      {loading ? render() : <HelixLinearProgress value={progress} />}
     </div>
   )
 }
