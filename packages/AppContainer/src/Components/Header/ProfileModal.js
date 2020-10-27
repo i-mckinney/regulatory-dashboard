@@ -1,7 +1,7 @@
-import React from "react"
-import { Menu, MenuItem, IconButton, Link } from "@material-ui/core"
-import AccountCircle from "@material-ui/icons/AccountCircle"
-import PropTypes from "prop-types"
+import React from "react";
+import { Menu, MenuItem, IconButton, Link } from "@material-ui/core";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import PropTypes from "prop-types";
 
 /**
  * @param {object} topContainerClasses contains styling of useStyles for Container App
@@ -9,24 +9,24 @@ import PropTypes from "prop-types"
  */
 
 function ProfileModal(props) {
-  const { topContainerClasses } = props
+  const { topContainerClasses } = props;
   // anchorEl determines the target, where the modal points to when it is opened
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = React.useState(null);
   // Boolean state to determine whether profile modal will be open or not
-  const openProfile = Boolean(anchorEl)
+  const openProfile = Boolean(anchorEl);
 
   /**
    * When profile circle is clicked, modal's anchor will be set
    * to the profile circle, and modal will open on top of the circle
    * */
   const openProfileModal = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
 
   // Closes profile modal
   const closeProfileModal = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
   return (
     <>
       <IconButton
@@ -56,20 +56,22 @@ function ProfileModal(props) {
         onClose={closeProfileModal}
       >
         <MenuItem>
-          <Link href="/">Home</Link>
+          <Link href="/homepage">Home</Link>
         </MenuItem>
         <MenuItem>
           <Link href="/users">Profile</Link>
         </MenuItem>
         <MenuItem onClick={closeProfileModal}>My account</MenuItem>
-        <MenuItem onClick={closeProfileModal}>Log Out</MenuItem>
+        <MenuItem>
+          <Link href="/">Log Out</Link>
+        </MenuItem>
       </Menu>
     </>
-  )
+  );
 }
 
 ProfileModal.propTypes = {
   topContainerClasses: PropTypes.instanceOf(Object).isRequired,
-}
+};
 
-export default ProfileModal
+export default ProfileModal;

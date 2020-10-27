@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { StylesProvider, makeStyles, Typography, TableCell } from '@material-ui/core'
+import { StylesProvider, makeStyles, Typography } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { HelixTable } from 'helixmonorepo-lib'
+import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
 import users from '../apis/users'
 import { sortableExcludes, columnExcludes, columnLabels } from '../../config'
 
@@ -16,44 +16,6 @@ const userTableStyles = makeStyles(() => ({
         margin: 'auto',
         marginTop: '3rem',
         paddingBottom: '3rem',
-        '& table': {
-            width: '100%',
-            display: 'table',
-            borderTopRightRadius: '4px',
-            borderTopLeftRadius: '4px',
-            boxSizing: 'border-box',
-            borderSpacing: '2px',
-            borderColor: 'grey',
-            '& tr': {
-              border: 'none',
-              backgroundColor: 'white',
-              '&:nth-child(even)': {
-                backgroundColor: '#f2f2f2',
-              },
-              '&:hover': {
-                backgroundColor: '#add8e6',
-              },
-              '&:last-child': {
-                borderBottomRightRadius: '4px',
-                borderBottomLeftRadius: '4px',
-              }
-            },
-            '& th': {
-              backgroundColor: '#2e353d',
-              color: 'white',
-              margin: '0',
-              borderBottom: 'solid 1px #e0e4e8',
-              padding: '8px',
-            },
-            '& td': {
-              margin: '0',
-              borderBottom: 'solid 1px #e0e4e8',
-              padding: '8px',
-            },
-            '&:last-children': {
-              borderBottom: 'none',
-            },
-        },
     },
     createIconStyle: {
         float: 'right',
@@ -62,12 +24,6 @@ const userTableStyles = makeStyles(() => ({
     },
     header: {
         paddingBottom: '2rem',
-    },
-    actionsIconStyle: {
-        '& button': {
-            marginRight: '1rem',
-            cursor: 'pointer',
-        },
     },
 }))
 
@@ -78,7 +34,7 @@ const userTableStyles = makeStyles(() => ({
  */
 const UserTable = (props) => {
     // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
-    const userTableClasses = userTableStyles();
+    const userTableClasses = userTableStyles()
 
     // rows will stores users from GET Method fetchUsers via Rest API 
     const [rows, setRows] = useState([])
@@ -135,23 +91,27 @@ const UserTable = (props) => {
     }, [columns])
 
     /**
-     * @param {int} rowIndex represents row index
-     * @param {object} row represent object data from the api result
-     * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
-     * @return {JSX} Table cell of object properties in that Table row
+     * @param {object} row the row is an object of data
+     * @param {object} column the column is an object of the header with accessor and label props
+     * @param {int} rowIndex the rowIndex represents index of the row
+     * @param {int} columnIndex the columnIndex represents index of the column
+     * @return {JSX} HelixTableCell of object properties in that Table row
      */
-    const customCellRender = (rowIndex, row, column) => {
+    const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
+        const displayActions = () => (
+            <>
+            <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/edit/${row._id}`, state: row }))} color="default">
+                <EditIcon />
+            </IconButton>
+            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/delete/${row._id}`, state: row }))} color="secondary">
+                <DeleteIcon />
+            </IconButton>
+            </>
+        )
         if (columnAccessor === "Actions") {
             return (
-                <TableCell className={userTableClasses.actionsIconStyle} key={`${rowIndex} ${columnAccessor}`}>
-                    <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/edit/${row._id}`, state: row }))} color="default">
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/delete/${row._id}`, state: row }))} color="secondary">
-                        <DeleteIcon />
-                    </IconButton>
-                </TableCell>
+                <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} containActions={true} displayActions={displayActions} />
             )
         }
         else if (columnAccessor === "Roles") {
@@ -160,17 +120,11 @@ const UserTable = (props) => {
             }, "")
 
             return (
-                <TableCell key={`${rowIndex} ${columnAccessor}`}>
-                    {assignedRoles}
-                </TableCell>
+                <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={assignedRoles} />
             )
         }
         else {
-            return (
-                <TableCell key={`${rowIndex} ${columnAccessor}`}>
-                    {row[columnAccessor]}
-                </TableCell>
-            )
+            return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} />
         }
     }
 
@@ -213,7 +167,7 @@ const UserTable = (props) => {
                 <div className={userTableClasses.header}>
                     <Typography variant="h5">Users</Typography>
                 </div>
-                <HelixTable displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+                <HelixTable toggleSearch={true} displayCreateIcon={displayCreateUserIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             </div>
         </StylesProvider>
     )

@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles, Toolbar, InputAdornment } from '@material-ui/core'
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types'
 import SearchIcon from '@material-ui/icons/Search'
 import HelixTextField from "../../HelixTextField/index"
 
@@ -23,7 +23,7 @@ const HelixToolBarSearch = ({ onSearch, displayCreateIcon }) => {
       <Toolbar disableGutters>
         <HelixTextField
         className={helixToolBarSearchClasses.searchStyles}
-        label="Search User"
+        label="Search"
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>

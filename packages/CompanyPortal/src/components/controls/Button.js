@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
  */
 export default function Button(props) {
   /**
-   * text: text string communicating to user the button action
+   * text: text string communicating to api the button action
    * size: the size of the component - 'large' 'medium' 'small'
    * color: the color of the component - 'default' 'inherit' 'primary' 'secondary'
    * onClick: the function called a onclick event

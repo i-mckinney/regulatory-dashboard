@@ -41,6 +41,58 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var generateClassName = (0, _core.createGenerateClassName)({
+  productionPrefix: 'helixtable-'
+}); // Styling used for MaterialUI
+
+var helixTableStyles = (0, _core.makeStyles)(function () {
+  return {
+    helixTable: {
+      '& table': {
+        width: '100%',
+        display: 'table',
+        borderTopRightRadius: '4px',
+        borderTopLeftRadius: '4px',
+        boxSizing: 'border-box',
+        borderSpacing: '2px',
+        borderColor: 'grey',
+        '& tr': {
+          border: 'none',
+          backgroundColor: 'white',
+          '&:nth-child(even)': {
+            backgroundColor: '#f2f2f2'
+          },
+          '&:hover': {
+            backgroundColor: '#add8e6'
+          },
+          '&:last-child': {
+            borderBottomRightRadius: '4px',
+            borderBottomLeftRadius: '4px'
+          }
+        },
+        '& th': {
+          backgroundColor: '#2e353d',
+          color: 'white',
+          margin: '0',
+          borderBottom: 'solid 1px #e0e4e8',
+          padding: '8px'
+        },
+        '& td': {
+          margin: '0',
+          borderBottom: 'solid 1px #e0e4e8',
+          padding: '8px',
+          '& button': {
+            marginRight: '1rem',
+            cursor: 'pointer'
+          }
+        },
+        '&:last-children': {
+          borderBottom: 'none'
+        }
+      }
+    }
+  };
+});
 /**
  * 
  * ###Params
@@ -55,6 +107,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  * ###Returns 
  * * **\<JSX\>** renders a react custom table component
  */
+
 var HelixTable = function HelixTable(_ref) {
   var columns = _ref.columns,
       rows = _ref.rows,
@@ -62,9 +115,11 @@ var HelixTable = function HelixTable(_ref) {
       customHeadColumnKeyProp = _ref.customHeadColumnKeyProp,
       customBodyRowKeyProp = _ref.customBodyRowKeyProp,
       initialOrderBy = _ref.initialOrderBy,
+      toggleSearch = _ref.toggleSearch,
       displayCreateIcon = _ref.displayCreateIcon;
+  // Creates an object for styling. Any className that matches key in the helixTableStyles object will have a corresponding styling
+  var helixTableClasses = helixTableStyles(); // Page is needed for pagination to determine the process of what page it is at
 
-  // Page is needed for pagination to determine the process of what page it is at
   var _useState = (0, _react.useState)(0),
       _useState2 = _slicedToArray(_useState, 2),
       page = _useState2[0],
@@ -159,7 +214,11 @@ var HelixTable = function HelixTable(_ref) {
     });
   };
 
-  return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_index4["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_core.StylesProvider, {
+    generateClassName: generateClassName
+  }, /*#__PURE__*/_react["default"].createElement("div", {
+    className: helixTableClasses.helixTable
+  }, toggleSearch ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_index4["default"], {
     onSearch: onSearch,
     displayCreateIcon: displayCreateIcon
   }), /*#__PURE__*/_react["default"].createElement(_core.TableContainer, {
@@ -167,12 +226,14 @@ var HelixTable = function HelixTable(_ref) {
   }, /*#__PURE__*/_react["default"].createElement(_core.Table, {
     "aria-label": "table"
   }, /*#__PURE__*/_react["default"].createElement(_index["default"], {
+    toggleSearch: toggleSearch,
     order: order,
     orderBy: orderBy,
     onSort: onSort,
     columns: columns,
     customHeadColumnKeyProp: customHeadColumnKeyProp
   }), /*#__PURE__*/_react["default"].createElement(_index2["default"], {
+    toggleSearch: toggleSearch,
     searchFilter: searchFilter,
     order: order,
     orderBy: orderBy,
@@ -191,7 +252,23 @@ var HelixTable = function HelixTable(_ref) {
     page: page,
     handleChangePage: handleChangePage,
     handleChangeRowsPerPage: handleChangeRowsPerPage
-  }))));
+  })))) : /*#__PURE__*/_react["default"].createElement(_core.TableContainer, {
+    component: _core.Paper
+  }, /*#__PURE__*/_react["default"].createElement(_core.Table, {
+    "aria-label": "table"
+  }, /*#__PURE__*/_react["default"].createElement(_index["default"], {
+    onSort: onSort,
+    columns: columns,
+    customHeadColumnKeyProp: customHeadColumnKeyProp
+  }), /*#__PURE__*/_react["default"].createElement(_index2["default"], {
+    searchFilter: searchFilter,
+    getComparator: _index5.getComparator,
+    stableSort: _index5.stableSort,
+    columns: columns,
+    rows: rows,
+    customCellRender: customCellRender,
+    customBodyRowKeyProp: customBodyRowKeyProp
+  })))));
 };
 
 HelixTable.propTypes = {
@@ -201,7 +278,15 @@ HelixTable.propTypes = {
   customHeadColumnKeyProp: _propTypes["default"].func.isRequired,
   customBodyRowKeyProp: _propTypes["default"].func.isRequired,
   initialOrderBy: _propTypes["default"].string.isRequired,
+  toggleSearch: _propTypes["default"].bool.isRequired,
   displayCreateIcon: _propTypes["default"].func.isRequired
+};
+HelixTable.defaultProps = {
+  initialOrderBy: '',
+  toggleSearch: false,
+  displayCreateIcon: function displayCreateIcon() {
+    return null;
+  }
 };
 var _default = HelixTable;
 exports["default"] = _default;

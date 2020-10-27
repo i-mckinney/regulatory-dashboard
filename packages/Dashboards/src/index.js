@@ -1,15 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import "bootstrap/dist/css/bootstrap.min.css"
 import 'react-app-polyfill/ie11';
+import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+
+const link = createHttpLink({
+  uri: 'http://localhost:4000/graphql',
+  credentials: "include"
+});
+
+const gqlClient = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache(),
+  link
+});
+
+const ID = "Dashboard-container"
 
 // render micro frontend function
 window.renderDashboard = (containerId) => {
   ReactDOM.render(
-      <App/>,
+    <ApolloProvider client={gqlClient}>
+      <App />
+    </ApolloProvider>,
     document.getElementById(containerId)
   );
   // If you want your app to work offline and load faster, you can change
@@ -24,7 +38,7 @@ window.unmountDashboard = containerId => {
 };
 
 // Mount to root if it is not a micro frontend
-if (!document.getElementById('container')) {
+if (!document.getElementById(ID)) {
   ReactDOM.render(<App />, document.getElementById('notRoot'));
 }
 
