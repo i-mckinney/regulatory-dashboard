@@ -46,7 +46,7 @@ router.post("/:companyId", async (req, res) => {
 
     /** Each company should have one configuration setting for entity dashboard.
     So we are resetting and adding a new updated configuration setting.**/
-    
+
     if (entityConfiguration) {
       await dbCollection.deleteOne({ company_id: ObjectId(companyId) });
     }
@@ -55,6 +55,12 @@ router.post("/:companyId", async (req, res) => {
       company_id: ObjectId(companyId),
       createdAt: dateTimeHelper.getTimeStamp(),
     });
+
+    //Resetting saved changes
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport")
+
+    await reportCollection.deleteMany({ company_id: ObjectId(companyId) })
 
     // return added entity configuration
     entityConfiguration = await dbCollection
