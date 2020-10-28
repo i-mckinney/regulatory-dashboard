@@ -75,6 +75,8 @@ const EntityDiscrepancy = (props) => {
 
   // error is object contains err and message
   const [error, setError] = useState({ err: false, message: "" })
+
+  const externalValues = useMemo(() => [], [])
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -95,7 +97,7 @@ const EntityDiscrepancy = (props) => {
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
     if (props.location.state.borrowerID) {
-      const response = await entities.get(`discrepancies/5f7e1bb2ab26a664b6e950c8/${props.location.state.borrowerID}/report/${props.location.state._id}`)
+      const response = await entities.get(`discrepancies/${props.location.state.company_id}/${props.location.state.borrowerID}/report/${props.location.state._id}`)
       setData(response.data)
     } else {
       setError({ err: true, message: "Borrower ID is empty" })
@@ -107,17 +109,19 @@ const EntityDiscrepancy = (props) => {
     fetchAggregatedSourceSystemsData()
   } else {
     if (columns.length === 0 && !error.err) {
-      console.log(data)
       if (!data.ErrorMessage) {
         data.TableHeaders.forEach((header) => columns.push(header))
         data.TableData.forEach((entityField) => {
           const row = [entityField.key_config["display"]]
+          const tempExternalValues = []
           const values = entityField.values.map((value) => {
             if (value !== null) {
               try {
                 if (value.currentValue) {
+                  tempExternalValues.push(value.externalValue.toString())
                   return value.currentValue.toString()
                 } else if (value.externalValue) {
+                  tempExternalValues.push(value.externalValue.toString())
                   return value.externalValue.toString()
                 } else {
                   if (!error.err) {
@@ -130,11 +134,13 @@ const EntityDiscrepancy = (props) => {
                 return e
               }
             } else {
+              tempExternalValues.push("")
               return "NULL"
             }
           })
           const newRow = row.concat(values)
           rows.push(newRow)
+          externalValues.push(tempExternalValues)
         })
         setEntityData(data.TableData)
       } else {
@@ -175,10 +181,6 @@ const EntityDiscrepancy = (props) => {
       ? { ...modifiedValues[columnIndex-1] }
       : {}
 
-      modifiedValueDatum["previousValue"] = previousValue
-      modifiedValueDatum["value"] = value
-      modifiedValueDatum["matchesSoT"] = matchesSoT
-
       if (source === columns[columnIndex].Accessor) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
         modifiedSourceSystem["source"] = source
@@ -186,7 +188,21 @@ const EntityDiscrepancy = (props) => {
         modifiedData["sourceSystem"] = modifiedSourceSystem
       }
 
+      modifiedValueDatum["currentValue"] = value
+      modifiedValueDatum["matchesSoT"] = modifiedData["sourceSystem"]["trueValue"] === value
+
       modifiedValues.splice(columnIndex-1, 1, modifiedValueDatum)
+
+      modifiedValues.forEach((value) => {
+        if (value) {
+          if (value.currentValue) {
+            value["matchesSoT"] = value.currentValue === modifiedData["sourceSystem"]["trueValue"]
+          } else if (value.externalValue) {
+            value["matchesSoT"] = value.externalValue === modifiedData["sourceSystem"]["trueValue"]
+          }
+        }
+      })
+
       modifiedData["values"] = modifiedValues
 
       copySavedEntityData.splice(rowIndex, 1, modifiedData)
@@ -195,7 +211,7 @@ const EntityDiscrepancy = (props) => {
     } else {
       const copySavedEntityData = [ ...entityData ]
       const modifiedData = { ...copySavedEntityData[rowIndex] }
-
+      console.log(source, value)
       if (source === columns[columnIndex].Accessor) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
         modifiedSourceSystem["source"] = source
@@ -204,17 +220,27 @@ const EntityDiscrepancy = (props) => {
       }
 
       const modifiedValues = [ ...modifiedData.values ]
-      const modifiedValueDatum = modifiedValues[columnIndex-1]["previousValue"] 
+      const modifiedValueDatum = modifiedValues[columnIndex-1]["externalValue"] 
       ? { ...modifiedValues[columnIndex-1] } 
       : null
 
-      if (modifiedValueDatum && modifiedValueDatum["previousValue"]) {
-        delete modifiedValueDatum.previousValue
-        modifiedValueDatum["value"] = previousValue
+      if (modifiedValueDatum && modifiedValueDatum["currentValue"]) {
+        delete modifiedValueDatum.currentValue
         modifiedValueDatum["matchesSoT"] = matchesSoT
       }
 
       modifiedValues.splice(columnIndex-1, 1, modifiedValueDatum)
+
+      modifiedValues.forEach((value) => {
+        if (value) {
+          if (value.currentValue) {
+            value["matchesSoT"] = value.currentValue === modifiedData["sourceSystem"]["trueValue"]
+          } else if (value.externalValue) {
+            value["matchesSoT"] = value.externalValue === modifiedData["sourceSystem"]["trueValue"]
+          }
+        }
+      })
+
       modifiedData["values"] = modifiedValues
 
       copySavedEntityData.splice(rowIndex, 1, modifiedData)
@@ -239,7 +265,11 @@ const EntityDiscrepancy = (props) => {
     
     modifiedValues.forEach((value) => {
       if (value) {
-        value["matchesSoT"] = value.value === trueValue
+        if (value.currentValue) {
+          value["matchesSoT"] = value.currentValue === trueValue
+        } else if (value.externalValue) {
+          value["matchesSoT"] = value.externalValue === trueValue
+        }
       }
     })
 
@@ -272,7 +302,7 @@ const EntityDiscrepancy = (props) => {
       ? sourceSystem.trueValue.toString() 
       : setError({ err: true, message: "trueValue is undefined" })
       return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={externalValues} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
       )
     }
   }
@@ -285,7 +315,7 @@ const EntityDiscrepancy = (props) => {
   // Passes entityData to the confirmation route
   const handleConfirmButton = async () => {
     const req = { savedChanges: entityData }
-    await entities.post(`discrepancies/report/${props.location.state._id}`, req)
+    await entities.post(`discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`, req)
     props.history.push("/entity")
   }
 
