@@ -76,6 +76,7 @@ const EntityDiscrepancy = (props) => {
   // error is object contains err and message
   const [error, setError] = useState({ err: false, message: "" })
 
+  // externalValues will stores all the external values of each of the source system
   const externalValues = useMemo(() => [], [])
   
   /**
