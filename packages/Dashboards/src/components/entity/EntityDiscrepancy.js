@@ -119,7 +119,14 @@ const EntityDiscrepancy = (props) => {
           const values = entityField.values.map((value) => {
             if (value !== null) {
               try {
-                return value.value ? value.value.toString() : "Improper Mapping"
+                if (value.value) {
+                  return value.value.toString()
+                } else {
+                  if (!error.err) {
+                    setError({ err: true, message: "Improper mapping due to missing value" })
+                  }
+                  return ""
+                }
               }
               catch (e) {
                 return e
