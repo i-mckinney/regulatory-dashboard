@@ -44,11 +44,6 @@ const entityDiscrepancyStyles = makeStyles(() => ({
     justifyContent: "center",
     marginTop: "48px",
   },
-  loading: {
-    position: 'absolute', 
-    left: '50%', 
-    top: '50%',
-  },
   visuallyHidden: {
     position: 'absolute',
   },
@@ -140,7 +135,7 @@ const EntityDiscrepancy = (props) => {
         })
         setEntityData(data.TableData)
       } else {
-        setError({ err: true, message: "Borrower ID does not exist" })
+        setError({ err: true, message: `${data.ErrorMessage}/Borrower ID does not exist` })
       }
     }
   }
@@ -366,7 +361,12 @@ const EntityDiscrepancy = (props) => {
 
   return (
     <div className={`container ${entitydiscrepancyClasses.medium}`}>
-      {loading ? render() : <HelixLinearProgress value={progress} />}
+      {loading 
+      ? render() 
+      : <div className={entitydiscrepancyClasses.loading}>
+          <HelixLinearProgress value={progress} />
+        </div>
+      }
     </div>
   )
 }

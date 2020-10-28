@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box'
 
 const HelixLinearProgress = (props) => {
     return (
-      <Box display="flex" alignItems="center">
+      <Box display="flex" alignItems="center" minHeight="100vh">
         <Box width="100%" mr={1}>
           <LinearProgress variant="determinate" {...props} />
         </Box>
