@@ -72,7 +72,6 @@ router.get("/:companyId/:borrowerId/report/:entityId", async (req, res) => {
      * and merge them into the data we got back.
      */
     if (resultWithMapping.length > 0) {
-
       let mergePastChanges = await mergingReportChanges(
         EntityId,
         resultWithMapping,
@@ -107,34 +106,45 @@ router.post("/:companyId/:report/:entityId", async (req, res) => {
       throw Error("Not allowed to manually give _id entity_id");
     //Making sure, table values are compared to correct source of truth value
 
-    if (savedChanges) {
-      savedChanges.forEach((rowChange) => {
-        let sourceOfTruth = rowChange.sourceSystem.trueValue;
-        let values = rowChange.values.map((cell) => {
-          if (cell === null) return null;
-          if ( cell["currentValue"]) {
-            let currentValue = cell["currentValue"];
-            let externalValue = cell["externalValue"];
-            let matchesSoT = currentValue === sourceOfTruth;
-            return {
-              currentValue,
-              externalValue,
-              matchesSoT,
-            };
-          } else {
-            let externalValue = cell["externalValue"];
-            let matchesSoT = externalValue === sourceOfTruth;
-            return {
-              externalValue,
-              matchesSoT,
-            };
-          }
-        });
+    // if (savedChanges) {
+    //   savedChanges.forEach((rowChange) => {
+    //     let sourceOfTruth = rowChange.sourceSystem.trueValue;
+    //     let values = rowChange.values.map((cell) => {
+    //       if (cell === null) return null;
+    //       if (cell["currentValue"]) {
+    //         let currentValue = cell["currentValue"];
+    //         let externalValue = cell["externalValue"];
+    //         let customApiId = cell["customApiId"];
 
-        rowChange.values = values;
-      });
-    }
-    const reportCollection = await DbConnection.getCollection("DiscrepanciesReport");
+    //         customApiId
+    //           ? (customApiId = ObjectId(customApiId))
+    //           : (customApiId = {
+    //               status: 404,
+    //               message: "No custom api id given",
+    //             });
+    //         let matchesSoT = currentValue === sourceOfTruth;
+    //         return {
+    //           currentValue,
+    //           externalValue,
+    //           customApi_id: customApiId,
+    //           matchesSoT,
+    //         };
+    //       } else {
+    //         let externalValue = cell["externalValue"];
+    //         let matchesSoT = externalValue === sourceOfTruth;
+    //         return {
+    //           externalValue,
+    //           matchesSoT,
+    //         };
+    //       }
+    //     });
+
+    //     rowChange.values = values;
+    //   });
+    // }
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
 
     let discrepancyReportChanges = await reportCollection.findOne({
       entity_id: ObjectId(EntityId),
@@ -157,6 +167,55 @@ router.post("/:companyId/:report/:entityId", async (req, res) => {
     const changesJustAdded =
       discrepancyReportChanges[discrepancyReportChanges.length - 1];
     res.json(changesJustAdded);
+  } catch (err) {
+    res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
+  }
+});
+
+// Get the changes that were made for an entity
+router.get("/:companyId/:report/:entityId", async (req, res) => {
+  try {
+    /**
+     * CompanyId : used to identify which company this report belongs to
+     * EntityId : used to identify the entity that user has created
+     */
+    const EntityId = req.params.entityId;
+    const CompanyId = req.params.companyId;
+
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
+
+    let discrepancyReportChanges = await reportCollection.findOne({
+      entity_id: ObjectId(EntityId),
+    });
+
+    res.json(discrepancyReportChanges);
+  } catch (err) {
+    res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
+  }
+});
+
+
+// Get the changes that were made for an entity
+router.get("/:companyId/:report/:entityId/id", async (req, res) => {
+  try {
+    /**
+     * CompanyId : used to identify which company this report belongs to
+     * EntityId : used to identify the entity that user has created
+     */
+    const EntityId = req.params.entityId;
+    const CompanyId = req.params.companyId;
+
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
+
+    let discrepancyReportChanges = await reportCollection.find({
+      "savedChanges.values": ObjectId("5f8e7940c5885c30a56a4a00"),
+    }).toArray()
+
+    res.json(discrepancyReportChanges);
   } catch (err) {
     res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
   }

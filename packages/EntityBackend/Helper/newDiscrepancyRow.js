@@ -57,7 +57,8 @@ function newDiscrepancyRow(
   configuredApiIdx,
   source,
   desiredValueFromExternal,
-  newMappedKey
+  newMappedKey,
+  customApiId
 ) {
   /** Case 2) newMappedKey does not exist in resultWithMapping; we create a new row in discrepancy report */
   let valueArray = [];
@@ -67,6 +68,7 @@ function newDiscrepancyRow(
   valueArray[configuredApiIdx] = {
     externalValue: desiredValueFromExternal,
     matchesSoT: true,
+    customApi_id:customApiId,
   };
 
   while (nullFillerIdx > 0) {

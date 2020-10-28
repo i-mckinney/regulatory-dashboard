@@ -50,7 +50,8 @@
 function addValueToExistingRow(
   resultWithMapping,
   desiredValueFromExternal,
-  newMappedKey
+  newMappedKey,
+  customApiId
 ) {
   let doesFieldExist = false;
   
@@ -62,6 +63,7 @@ function addValueToExistingRow(
       responseMapped.values.push({
         externalValue: desiredValueFromExternal,
         matchesSoT: sourceOfTruth,
+        customApi_id: customApiId
       });
       doesFieldExist = true
     }
