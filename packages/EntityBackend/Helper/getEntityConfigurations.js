@@ -36,15 +36,49 @@ async function getEntityConfigurations(companyId) {
   /** Using this information, we would know which custom api calls to dispatch for a discrepancy report. */
 
   try {
-    const dbCollection = await DbConnection.getCollection(
+    //Setting up entity configurations
+    const entityConfigCollection = await DbConnection.getCollection(
       "Entities_Configuration"
     );
-    const response = await dbCollection.findOne({
+    const entityConfigurationData = await entityConfigCollection.findOne({
       company_id: ObjectId(companyId),
     });
-    return response.entityConfiguration;
+
+    let entityConfiguration = entityConfigurationData.entityConfiguration;
+
+    //Using entity configurations to look up custom apis that exist in our db
+    const customApiCollection = await DbConnection.getCollection(
+      "CustomApiRequests"
+    );
+
+    let customApis = [];
+
+    if (!entityConfiguration) {
+      return { Error: "Entity configuration does not exist" };
+    } else {
+      for (let i = 0; i < entityConfiguration.length; i++) {
+        let customApiId = entityConfiguration[i];
+
+        let singleCustomApi = await customApiCollection.findOne({
+          $and: [
+            { company_id: ObjectId(companyId) },
+            { _id: ObjectId(customApiId) },
+          ],
+        });
+
+        if (singleCustomApi) {
+          customApis.push(singleCustomApi);
+        } else {
+          customApis.push(null);
+        }
+      }
+    }
+
+    return customApis;
   } catch (e) {
-    return { Error: e.message };
+    return {
+      Error: e.message + "Error in grabbing configuration settings",
+    };
   }
 }
 
