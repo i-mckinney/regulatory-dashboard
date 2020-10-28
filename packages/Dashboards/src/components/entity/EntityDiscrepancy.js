@@ -107,6 +107,7 @@ const EntityDiscrepancy = (props) => {
     fetchAggregatedSourceSystemsData()
   } else {
     if (columns.length === 0 && !error.err) {
+      console.log(data)
       if (!data.ErrorMessage) {
         data.TableHeaders.forEach((header) => columns.push(header))
         data.TableData.forEach((entityField) => {
@@ -114,11 +115,13 @@ const EntityDiscrepancy = (props) => {
           const values = entityField.values.map((value) => {
             if (value !== null) {
               try {
-                if (value.value) {
-                  return value.value.toString()
+                if (value.currentValue) {
+                  return value.currentValue.toString()
+                } else if (value.externalValue) {
+                  return value.externalValue.toString()
                 } else {
                   if (!error.err) {
-                    setError({ err: true, message: "Improper mapping due to missing value" })
+                    setError({ err: true, message: "Improper mapping due to external value" })
                   }
                   return ""
                 }
@@ -146,7 +149,7 @@ const EntityDiscrepancy = (props) => {
   useEffect(() => {
     if(error.err) {
       if (counter > 0) {
-        setTimeout(() => setCounter(counter - 1), 1000)
+        setTimeout(() => setCounter(counter - 1), 1500)
       } else {
         props.history.push("/entity")
       }
