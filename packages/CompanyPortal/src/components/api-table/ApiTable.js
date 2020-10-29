@@ -1,40 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import { StylesProvider, makeStyles, TableCell } from '@material-ui/core';
-import PageHeader from '../../layout/PageHeader';
-import TelegramIcon from '@material-ui/icons/Telegram';
-import AddIcon from '@material-ui/icons/Add';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
-import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
-import PerformTestDialog from './PerformTestDialog';
-import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
-import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import { StylesProvider, makeStyles, TableCell } from "@material-ui/core";
+import PageHeader from "../../layout/PageHeader";
+import TelegramIcon from "@material-ui/icons/Telegram";
+import AddIcon from "@material-ui/icons/Add";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { HelixTable, HelixTableCell } from "helixmonorepo-lib";
+import { sortableExcludes, columnMetadata, API_HOST } from "../../config";
+import PerformTestDialog from "./PerformTestDialog";
+import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from "./constants";
+import EditCustomApiRequestDialog from "./EditCustomApiRequestDialog";
 
-import { Button as MuiButton } from '@material-ui/core';
-import axios from 'axios';
+import { Button as MuiButton } from "@material-ui/core";
+import axios from "axios";
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
   mediumContainer: {
-    width: '80%',
-    margin: 'auto',
-    marginTop: '5rem',
-    paddingBottom: '5rem',
+    width: "80%",
+    margin: "auto",
+    marginTop: "5rem",
+    paddingBottom: "5rem",
   },
   createIconStyle: {
-    float: 'right',
-    cursor: 'pointer',
-    marginLeft: 'auto',
+    float: "right",
+    cursor: "pointer",
+    marginLeft: "auto",
   },
   header: {
-    paddingBottom: '2rem',
+    paddingBottom: "2rem",
   },
   testButtonStyle: {
-    color: '#00c200',
+    color: "#00c200",
   },
+  actionTableCell: {
+    display: "flex",
+    justifyContent: "space-evenly"
+  }
+
 }));
 
 /**
@@ -44,7 +49,7 @@ const userTableStyles = makeStyles(() => ({
  */
 const ApiTable = (props) => {
   // TODO: replace this static id with a dynamic prop
-  const companyId = '5f7e1bb2ab26a664b6e950c8';
+  const companyId = "5f7e1bb2ab26a664b6e950c8";
   // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
   const userTableClasses = userTableStyles();
 
@@ -70,12 +75,12 @@ const ApiTable = (props) => {
     const fetchCompanies = () => {
       axios
         .get(customApiUrl, {
-          headers: { 'Access-Control-Allow-Origin': '*' },
+          headers: { "Access-Control-Allow-Origin": "*" },
         })
         .then((res) => {
           // setRows(res.data[0].CustomApiRequests);
           setCompanyData(res.data);
-          console.log('RES DATA', res.data)
+          console.log("RES DATA", res.data);
         });
     };
 
@@ -92,9 +97,9 @@ const ApiTable = (props) => {
       setModalAction(MODAL_ACTION_CREATE);
       setRequestData({
         _id: new Date().getTime(),
-        requestName: '',
-        requestType: '',
-        requestURL: '',
+        requestName: "",
+        requestType: "",
+        requestURL: "",
       });
     }
     setOpenEditModal(true);
@@ -114,53 +119,49 @@ const ApiTable = (props) => {
     Sortable: sortableExcludes.includes(key) ? false : true,
   }));
   columns.push({
-    Label: 'Actions',
-    Accessor: 'Actions',
+    Label: "Actions",
+    Accessor: "Actions",
     Sortable: false,
   });
   //}
 
-  console.log('COL:', columns)
+  console.log("COL:", columns);
 
   const handleCreateRow = async (newRow) => {
-    const payload = { ...newRow }
-    delete payload._id
+    const payload = { ...newRow };
+    delete payload._id;
     setLoading(true);
     try {
-      const response = await axios.post(
-        customApiUrl,
-        payload,
-        {
-          headers: { 'Access-Control-Allow-Origin': '*' },
-        }
-      );
-      setCompanyData([ ...companyData, response.data]);
-    } catch(e) {
-      console.error(e)
+      const response = await axios.post(customApiUrl, payload, {
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
+      setCompanyData([...companyData, response.data]);
+    } catch (e) {
+      console.error(e);
     }
-
-
 
     setLoading(false);
     handleCloseEditModal();
   };
 
   const handleEditRow = async (updatedRow) => {
-    const payload = { ...updatedRow }
-    delete payload._id
-    delete payload.company_id
+    const payload = { ...updatedRow };
+    delete payload._id;
+    delete payload.company_id;
     setLoading(true);
     try {
       const response = await axios.put(
         `${customApiUrl}/${updatedRow._id}`,
         payload,
         {
-          headers: { 'Access-Control-Allow-Origin': '*' },
+          headers: { "Access-Control-Allow-Origin": "*" },
         }
       );
-      setCompanyData(companyData.map(d => d._id === updatedRow._id ? response.data : d));
-    } catch(e) {
-      console.error(e)
+      setCompanyData(
+        companyData.map((d) => (d._id === updatedRow._id ? response.data : d))
+      );
+    } catch (e) {
+      console.error(e);
     }
     setLoading(false);
     handleCloseEditModal();
@@ -168,17 +169,13 @@ const ApiTable = (props) => {
 
   const handleDeleteRow = async (_id) => {
     try {
-      await axios.delete(
-        `${customApiUrl}/${_id}`,
-        {
-          headers: { 'Access-Control-Allow-Origin': '*' },
-        }
-      );
-      setCompanyData(companyData.filter(d => d._id !== _id));
-    } catch(e) {
-      console.error(e)
+      await axios.delete(`${customApiUrl}/${_id}`, {
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
+      setCompanyData(companyData.filter((d) => d._id !== _id));
+    } catch (e) {
+      console.error(e);
     }
-
   };
 
   /**
@@ -191,51 +188,52 @@ const ApiTable = (props) => {
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor;
     const displayActions = () => (
-      <>
+      <div className={userTableClasses.actionTableCell}>
         <MuiButton
-        className={userTableClasses.testButtonStyle}
-        variant='outlined'
-        color='default'
-        onClick={() => {
-          setOpenTestRequestModal(true);
-          setRequestData(row);
-        }}
+          className={userTableClasses.testButtonStyle}
+          variant="outlined"
+          color="default"
+          onClick={() => {
+            setOpenTestRequestModal(true);
+            setRequestData(row);
+          }}
         >
           Perform Test
         </MuiButton>
         <IconButton
-          aria-label='edit'
-          size='small'
-          edge='start'
+          aria-label="edit"
+          size="small"
+          edge="start"
           onClick={() => handleOpenEditModal(row)}
-          color='default'
+          color="default"
         >
           <EditIcon />
         </IconButton>
         <IconButton
-          aria-label='delete'
-          size='small'
-          edge='start'
+          aria-label="delete"
+          size="small"
+          edge="start"
           onClick={() => handleDeleteRow(row._id)}
-          color='secondary'
+          color="secondary"
         >
           <DeleteIcon />
         </IconButton>
-      </>
-    )
-    if (columnAccessor === 'Actions') {
+      </div>
+    );
+    if (columnAccessor === "Actions") {
       return (
-        <HelixTableCell 
-        key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
-        containActions={true} 
-        displayActions={displayActions} />
+        <HelixTableCell
+          key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
+          containActions={true}
+          displayActions={displayActions}
+        />
       );
-    }
-    else {
+    } else {
       return (
-      <HelixTableCell 
-      key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} 
-      value={row[columnAccessor]} />
+        <HelixTableCell
+          key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
+          value={row[columnAccessor]}
+        />
       );
     }
   };
@@ -257,7 +255,7 @@ const ApiTable = (props) => {
   };
 
   // Initially, we can start the table to order by First Name, ascending order
-  const initialOrderBy = 'FirstName';
+  const initialOrderBy = "FirstName";
 
   /**
    * @return jsx object of create icon in child component's toolbar
@@ -266,12 +264,12 @@ const ApiTable = (props) => {
     return (
       <MuiButton
         className={userTableClasses.createIconStyle}
-        variant='outlined'
-        color='default'
+        variant="outlined"
+        color="default"
         onClick={() => handleOpenEditModal()}
       >
         Add New
-        <AddIcon fontSize='default' />
+        <AddIcon fontSize="default" />
       </MuiButton>
     );
   };
@@ -281,9 +279,9 @@ const ApiTable = (props) => {
       <div className={userTableClasses.mediumContainer}>
         <div className={userTableClasses.header}>
           <PageHeader
-            title='Client API Interface'
-            subTitle='Add new API requests or edit and test existing calls'
-            icon={<TelegramIcon fontSize='large' />}
+            title="Client API Interface"
+            subTitle="Add new API requests or edit and test existing calls"
+            icon={<TelegramIcon fontSize="large" />}
           />
         </div>
 
