@@ -5,7 +5,7 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixButton, HelixTable, HelixTableCell } from 'helixmonorepo-lib'
+import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 import HelixLinearProgress from '../utils/HelixLinearProgress'
 
