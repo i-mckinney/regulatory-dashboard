@@ -72,6 +72,7 @@ router.get("/:companyId/:borrowerId/report/:entityId", async (req, res) => {
      * and merge them into the data we got back.
      */
     if (resultWithMapping.length > 0) {
+
       let mergePastChanges = await mergingReportChanges(
         EntityId,
         resultWithMapping,
@@ -91,12 +92,14 @@ router.get("/:companyId/:borrowerId/report/:entityId", async (req, res) => {
 });
 
 // Save changes that were made to discrepancy report in edit discrepancy table.
-router.post("/report/:entityId", async (req, res) => {
+router.post("/:companyId/:report/:entityId", async (req, res) => {
   try {
     /**
+     * CompanyId : used to identify which company this report belongs to
      * EntityId : used to identify the entity that user has created
      */
     const EntityId = req.params.entityId;
+    const CompanyId = req.params.companyId;
 
     const savedChanges = req.body.savedChanges;
 
@@ -109,20 +112,20 @@ router.post("/report/:entityId", async (req, res) => {
         let sourceOfTruth = rowChange.sourceSystem.trueValue;
         let values = rowChange.values.map((cell) => {
           if (cell === null) return null;
-          if ( cell["previousValue"]) {
-            let previousValue = cell["previousValue"];
-            let value = cell["value"];
-            let matchesSoT = value === sourceOfTruth;
+          if ( cell["currentValue"]) {
+            let currentValue = cell["currentValue"];
+            let externalValue = cell["externalValue"];
+            let matchesSoT = currentValue === sourceOfTruth;
             return {
-              previousValue,
-              value,
+              currentValue,
+              externalValue,
               matchesSoT,
             };
           } else {
-            let value = cell["value"];
-            let matchesSoT = value === sourceOfTruth;
+            let externalValue = cell["externalValue"];
+            let matchesSoT = externalValue === sourceOfTruth;
             return {
-              value,
+              externalValue,
               matchesSoT,
             };
           }
@@ -144,6 +147,7 @@ router.post("/report/:entityId", async (req, res) => {
     await reportCollection.insertOne({
       savedChanges,
       entity_id: ObjectId(EntityId),
+      company_id: ObjectId(CompanyId),
     });
 
     // return added discrepancyReportChanges

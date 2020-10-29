@@ -106,6 +106,7 @@ async function responseMapper(
         } else {
           delete mappedKeyCheckOff[newMappedKey];
         }
+
         //value that newMappedKey will have
         const desiredValueFromExternal = resultData[externalSystemKey];
 
@@ -113,10 +114,10 @@ async function responseMapper(
           console.log(
             `External System key "${externalSystemKey}" does not exist in the external source data`
           );
+          continue;
         }
 
         /** Case 1) newMappedKey does already exist in resultWithMapping */
-
 
         let doesFieldExist = addValueToExistingRow(
           resultWithMapping,
@@ -144,11 +145,14 @@ async function responseMapper(
       for (let remainingKey in mappedKeyCheckOff) {
         for (let row = 0; row < resultWithMapping.length; row++) {
           if (resultWithMapping[row].key_config.key === remainingKey) {
-            resultWithMapping[row].values.push(null);
-            break;
+            let externalValue = resultData[remainingKey];
+            if (externalValue) {
+              resultWithMapping[row].values.push(externalValue);
+            } else {
+              resultWithMapping[row].values.push(null);
+            }
           }
         }
-        resultWithMapping[configuredApiIdx].values.push;
       }
     }
   });
