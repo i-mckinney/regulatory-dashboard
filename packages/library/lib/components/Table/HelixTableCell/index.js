@@ -69,7 +69,7 @@ var entityTableCellStyles = (0, _core.makeStyles)(function () {
       '& input:focus': {
         outline: 'none'
       },
-      backgroundColor: 'red'
+      backgroundColor: '#ffbcbb'
     },
     editedIcon: {
       fontSize: '1rem',
@@ -123,6 +123,8 @@ var EntityTableCell = function EntityTableCell(_ref) {
       sourceOfTruthData = _ref.sourceOfTruthData,
       matchesToSoT = _ref.matchesToSoT,
       handleSourceOfTruth = _ref.handleSourceOfTruth,
+      saveData = _ref.saveData,
+      saveRadioData = _ref.saveRadioData,
       rowIndex = _ref.rowIndex,
       columnIndex = _ref.columnIndex,
       columns = _ref.columns,
@@ -184,6 +186,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
     setIsDivHidden(true);
     var currentCellIndex = cellIndex();
     editData(currentCellIndex, true, value);
+    saveData(rowIndex, columnIndex, true, initialStateValue, value, sourceOfTruthData[rowIndex].trueValue === value);
   }; // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
 
 
@@ -207,6 +210,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
     setSaveChanges(false);
     var currentCellIndex = cellIndex();
     editData(currentCellIndex, false, "");
+    saveData(rowIndex, columnIndex, false, initialStateValue, value, sourceOfTruthData[rowIndex].trueValue === value);
   }; // If there is not editable data shown, return intial-state
   // else there is editable data shown, return modified-initial-state
 
@@ -277,7 +281,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var cellState = function cellState() {
     if (saveChanges) {
       return entityTableCellClasses.editedCell;
-    } else if (!matchesToSoT[rowIndex][columnIndex - 1]) {
+    } else if (sourceOfTruthData[rowIndex].trueValue !== initialStateValue && initialStateValue !== "") {
       return entityTableCellClasses.errorCell;
     }
 
@@ -286,6 +290,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
 
   var isRadioSelected = function isRadioSelected() {
     handleSourceOfTruth(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue);
+    saveRadioData(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue);
   }; // displayTableCell return jsx object of editable table cell or non-editable table cell
 
 
@@ -299,6 +304,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
         tabIndex: "0"
       }, /*#__PURE__*/_react["default"].createElement(_core.Radio, {
         className: entityTableCellClasses.selectedRadio,
+        disabled: initialStateValue === "",
         checked: initialStateValue === sourceOfTruthData[rowIndex].trueValue && columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source,
         size: "small",
         color: "default",
