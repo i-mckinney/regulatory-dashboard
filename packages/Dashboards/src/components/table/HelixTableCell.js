@@ -190,7 +190,8 @@ const EntityTableCell = ({
 
   // Display the external value that exist in that source system
   const displayExternalValue = () => {
-    if (externalValues[rowIndex][columnIndex-1] !== initialStateValue) {
+    const initialValue = initialStateValue === 'NULL' ? '' : initialStateValue
+    if (externalValues[rowIndex][columnIndex-1] !== initialValue) {
       return (
         `Source Value: ${externalValues[rowIndex][columnIndex-1]}`
       )

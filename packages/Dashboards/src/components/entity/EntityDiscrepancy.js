@@ -119,11 +119,14 @@ const EntityDiscrepancy = (props) => {
             if (value !== null) {
               try {
                 if (value.currentValue) {
-                  tempExternalValues.push(value.externalValue.toString())
+                  tempExternalValues.push(value.externalValue ? value.externalValue.toString() : "")
                   return value.currentValue.toString()
                 } else if (value.externalValue) {
                   tempExternalValues.push(value.externalValue.toString())
                   return value.externalValue.toString()
+                } else if (value.externalValue === null) {
+                  tempExternalValues.push("")
+                  return "NULL"
                 } else {
                   if (!error.err) {
                     setError({ err: true, message: "Improper mapping due to external value" })
@@ -212,7 +215,7 @@ const EntityDiscrepancy = (props) => {
     } else {
       const copySavedEntityData = [ ...entityData ]
       const modifiedData = { ...copySavedEntityData[rowIndex] }
-      console.log(source, value)
+
       if (source === columns[columnIndex].Accessor) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
         modifiedSourceSystem["source"] = source
