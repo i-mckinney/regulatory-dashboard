@@ -123,7 +123,6 @@ const EntityConfiguration = (props) => {
         })
         setRows(response.data)
       }
-      fetchEntitiesConfiguration()
 
       /**
        * fetchCustomApis calls backend api through get protocol to get all custom apis
@@ -134,7 +133,12 @@ const EntityConfiguration = (props) => {
         setCustomApis(response.data)
       }
 
-      fetchCustomApis()
+      const apiCallCheckList = async () => {
+        await fetchEntitiesConfiguration()
+        await fetchCustomApis()
+      }
+      apiCallCheckList()
+      
     }, [columns, tempRows, apis])
 
     /**
