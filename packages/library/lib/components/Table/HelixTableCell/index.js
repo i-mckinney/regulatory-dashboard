@@ -23,6 +23,8 @@ var _Clear = _interopRequireDefault(require("@material-ui/icons/Clear"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _index = require("../../HelixTextField/index");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -71,6 +73,13 @@ var entityTableCellStyles = (0, _core.makeStyles)(function () {
       },
       backgroundColor: '#ffbcbb'
     },
+    greyCell: {
+      outline: 'none',
+      '& input:focus': {
+        outline: 'none'
+      },
+      backgroundColor: '#f1efef'
+    },
     editedIcon: {
       fontSize: '1rem',
       color: 'green'
@@ -93,45 +102,60 @@ var entityTableCellStyles = (0, _core.makeStyles)(function () {
       }
     },
     matIcon: {
-      fill: 'black'
+      fill: 'black',
+      '& button': {
+        marginRight: 'unset'
+      }
     },
     matIconSpan: {
-      display: 'block'
+      display: 'block',
+      "float": 'right'
     },
     selectedRadio: {
       color: 'green'
+    },
+    editedField: {
+      color: 'green'
+    },
+    matEditIcon: {
+      '& button': {
+        "float": 'right'
+      }
+    },
+    helixInput: {
+      marginTop: '16px'
     }
   };
 });
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {array} sourceOfTruthData array represents the array of original source of truth to compare with
- * @param {array} matchesToSoT matchesToSoT is an array of boolean that represents matches value to the source of truth
- * @param {func} handleSourceOfTruth handleSourceOfTruth is a func comes from parent component, once it is invoke, it will save new source and true value
  * @param {int} rowIndex index of the current row
  * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
- * @param {func} editData func comes from parent component, once it is invoke, it will pass the data back to parent component to edit data
  * @param {bool} editable represents whether this cell is editable or not
  * @param {bool} containActions represents whether this cell contains actions or not
  * @param {func} displayActions displays jsx object of actions
- * @returns {JSX} renders a custom table data cell
+ * @param {func} saveEntityData func that allow data to be saved and pass to next component
+ * @param {func} saveRadioData func that save radio button data selected
+ * @param {string} source string that represents column value
+ * @param {string} sourceTrueValue string that represents value of the selected cell
+ * @param {array} externalValues array of external values from source system
+ * @returns {JSX} renders a custom HelixTableCell
  */
 
 var EntityTableCell = function EntityTableCell(_ref) {
   var initialStateValue = _ref.value,
-      sourceOfTruthData = _ref.sourceOfTruthData,
-      matchesToSoT = _ref.matchesToSoT,
-      handleSourceOfTruth = _ref.handleSourceOfTruth,
-      saveData = _ref.saveData,
-      saveRadioData = _ref.saveRadioData,
       rowIndex = _ref.rowIndex,
       columnIndex = _ref.columnIndex,
       columns = _ref.columns,
-      editData = _ref.editData,
       editable = _ref.editable,
       containActions = _ref.containActions,
-      displayActions = _ref.displayActions;
+      displayActions = _ref.displayActions,
+      saveEntityData = _ref.saveEntityData,
+      saveRadioData = _ref.saveRadioData,
+      source = _ref.source,
+      sourceTrueValue = _ref.sourceTrueValue,
+      externalValues = _ref.externalValues;
 
   /**
    * 1) value will be data from props you get from Cell object property
@@ -144,7 +168,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
       value = _useState2[0],
       setValue = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(value),
+  var _useState3 = (0, _react.useState)(value === 'NULL' ? '' : value),
       _useState4 = _slicedToArray(_useState3, 2),
       currentStateValue = _useState4[0],
       setCurrentStateValue = _useState4[1];
@@ -157,24 +181,13 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var _useState7 = (0, _react.useState)(false),
       _useState8 = _slicedToArray(_useState7, 2),
       saveChanges = _useState8[0],
-      setSaveChanges = _useState8[1]; // Creates an object for styling. Any className that matches key in the entityTableCellClasses object will have a corresponding styling
+      setSaveChanges = _useState8[1]; // Creates an object for styling. Any className that a key in the entityTableCellClasses object will have a corresponding styling
 
 
   var entityTableCellClasses = entityTableCellStyles(); // Text input can be typed in the input tag, when keyboard event is trigger
 
   var handleInputChange = function handleInputChange(e) {
     setValue(e.target.value);
-  };
-  /**
-   * @returns {int} return current cell index in 1-dimension array
-   * */
-
-
-  var cellIndex = function cellIndex() {
-    var colIndex = columnIndex;
-    var currentRowIndex = rowIndex;
-    var index = (columns.length - 1) * currentRowIndex + colIndex - 1;
-    return index;
   }; // Saves the text input, displays current state edited text input, hide rest of the identifier tags
   // (e.g. button, span, etc...), send the data to parent component when the save button triggers
 
@@ -184,9 +197,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
     setSaveChanges(true);
     setCurrentStateValue(value);
     setIsDivHidden(true);
-    var currentCellIndex = cellIndex();
-    editData(currentCellIndex, true, value);
-    saveData(rowIndex, columnIndex, true, initialStateValue, value, sourceOfTruthData[rowIndex].trueValue === value);
+    saveEntityData(rowIndex, columnIndex, true, initialStateValue, value, sourceTrueValue === value, source);
   }; // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
 
 
@@ -208,9 +219,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
     setValue(initialStateValue);
     setIsDivHidden(true);
     setSaveChanges(false);
-    var currentCellIndex = cellIndex();
-    editData(currentCellIndex, false, "");
-    saveData(rowIndex, columnIndex, false, initialStateValue, value, sourceOfTruthData[rowIndex].trueValue === value);
+    saveEntityData(rowIndex, columnIndex, false, initialStateValue, value, sourceTrueValue === value, source);
   }; // If there is not editable data shown, return intial-state
   // else there is editable data shown, return modified-initial-state
 
@@ -226,14 +235,28 @@ var EntityTableCell = function EntityTableCell(_ref) {
 
   var displayInitialStateValue = function displayInitialStateValue() {
     return /*#__PURE__*/_react["default"].createElement("div", {
+      onClick: handleDivChange,
       className: initialState()
     }, initialStateValue);
+  }; // Display the external value that exist in that source system
+
+
+  var displayExternalValue = function displayExternalValue() {
+    var initialValue = initialStateValue === 'NULL' ? '' : initialStateValue;
+
+    if (externalValues[rowIndex][columnIndex - 1] !== initialValue) {
+      return "Source Value: ".concat(externalValues[rowIndex][columnIndex - 1]);
+    }
+
+    return null;
   }; // Display current state value of edited changes
 
 
   var displayCurrentStateChanges = function displayCurrentStateChanges() {
     if (saveChanges) {
-      return /*#__PURE__*/_react["default"].createElement("div", null, currentStateValue, /*#__PURE__*/_react["default"].createElement(_CheckCircle["default"], {
+      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", {
+        className: entityTableCellClasses.editedField
+      }, currentStateValue), /*#__PURE__*/_react["default"].createElement(_CheckCircle["default"], {
         className: entityTableCellClasses.editedIcon
       }), /*#__PURE__*/_react["default"].createElement(_Replay["default"], {
         className: entityTableCellClasses.undoIcon,
@@ -250,10 +273,12 @@ var EntityTableCell = function EntityTableCell(_ref) {
 
   var displayCustomizedForm = function displayCustomizedForm() {
     if (!isDivHidden) {
-      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("input", {
-        type: "text",
+      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, displayExternalValue()), /*#__PURE__*/_react["default"].createElement(_index.HelixTextField, {
+        className: entityTableCellClasses.helixInput,
         value: value,
-        onChange: handleInputChange
+        onChange: handleInputChange,
+        label: "Value",
+        fullWidth: true
       }), /*#__PURE__*/_react["default"].createElement("span", {
         className: entityTableCellClasses.matIconSpan
       }, /*#__PURE__*/_react["default"].createElement(_IconButton["default"], {
@@ -281,15 +306,17 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var cellState = function cellState() {
     if (saveChanges) {
       return entityTableCellClasses.editedCell;
-    } else if (sourceOfTruthData[rowIndex].trueValue !== initialStateValue && initialStateValue !== "") {
+    } else if (initialStateValue === "NULL") {
+      return entityTableCellClasses.greyCell;
+    } else if (sourceTrueValue !== initialStateValue && initialStateValue !== "NULL") {
       return entityTableCellClasses.errorCell;
     }
 
     return entityTableCellClasses.initialCell;
-  };
+  }; // selectedRadio saves the selected radio button data with its source and value
 
-  var isRadioSelected = function isRadioSelected() {
-    handleSourceOfTruth(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue);
+
+  var selectedRadio = function selectedRadio() {
     saveRadioData(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue);
   }; // displayTableCell return jsx object of editable table cell or non-editable table cell
 
@@ -298,22 +325,27 @@ var EntityTableCell = function EntityTableCell(_ref) {
     if (editable) {
       return /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
         className: cellState(),
-        onClick: handleDivChange,
-        onKeyDown: handleDivChange,
         role: "row",
-        tabIndex: "0"
+        tabIndex: "0",
+        style: {
+          minWidth: 175
+        }
       }, /*#__PURE__*/_react["default"].createElement(_core.Radio, {
         className: entityTableCellClasses.selectedRadio,
-        disabled: initialStateValue === "",
-        checked: initialStateValue === sourceOfTruthData[rowIndex].trueValue && columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source,
+        disabled: initialStateValue === "NULL",
+        checked: (currentStateValue || initialStateValue) === sourceTrueValue && columns[columnIndex].Accessor === source,
         size: "small",
         color: "default",
-        onClick: isRadioSelected
+        onClick: selectedRadio
       }), displayInitialStateValue(), displayCurrentStateChanges(), displayCustomizedForm());
     } else if (containActions) {
-      return /*#__PURE__*/_react["default"].createElement(_core.TableCell, null, displayActions());
+      return /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
+        className: entityTableCellClasses.initialCell
+      }, displayActions());
     } else {
-      return /*#__PURE__*/_react["default"].createElement(_core.TableCell, null, displayInitialStateValue());
+      return /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
+        className: entityTableCellClasses.initialCell
+      }, displayInitialStateValue());
     }
   };
 
@@ -321,35 +353,38 @@ var EntityTableCell = function EntityTableCell(_ref) {
 };
 
 EntityTableCell.propTypes = {
-  handleSourceOfTruth: _propTypes["default"].func.isRequired,
-  matchesToSoT: _propTypes["default"].instanceOf(Array).isRequired,
   value: _propTypes["default"].string.isRequired,
   rowIndex: _propTypes["default"].number.isRequired,
   columnIndex: _propTypes["default"].number.isRequired,
   columns: _propTypes["default"].instanceOf(Array).isRequired,
-  editData: _propTypes["default"].func.isRequired,
   editable: _propTypes["default"].bool.isRequired,
   containActions: _propTypes["default"].bool.isRequired,
-  displayActions: _propTypes["default"].func.isRequired
+  displayActions: _propTypes["default"].func.isRequired,
+  saveEntityData: _propTypes["default"].func.isRequired,
+  saveRadioData: _propTypes["default"].func.isRequired,
+  source: _propTypes["default"].string.isRequired,
+  sourceTrueValue: _propTypes["default"].string.isRequired,
+  externalValues: _propTypes["default"].instanceOf(Array).isRequired
 };
 EntityTableCell.defaultProps = {
   value: "",
-  sourceOfTruthData: [],
-  matchesToSoT: [],
-  handleSourceOfTruth: function handleSourceOfTruth() {
-    return null;
-  },
   rowIndex: 0,
   columnIndex: 0,
   columns: [],
-  editData: function editData() {
-    return null;
-  },
   editable: false,
   containActions: false,
   displayActions: function displayActions() {
     return null;
-  }
+  },
+  saveEntityData: function saveEntityData() {
+    return null;
+  },
+  saveRadioData: function saveRadioData() {
+    return null;
+  },
+  source: "",
+  sourceTrueValue: "",
+  externalValues: []
 };
 var _default = EntityTableCell;
 exports["default"] = _default;
