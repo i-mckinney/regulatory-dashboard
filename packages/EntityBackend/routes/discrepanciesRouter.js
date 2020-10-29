@@ -64,27 +64,28 @@ router.get("/:companyId/:borrowerId/report/:entityId", async (req, res) => {
         allNewMappedKeys,
         TableHeaders,
         BorrowerId,
-        configuredApiIdx
+        configuredApiIdx,
+        EntityId
       );
     }
 
-    /**If user has made changes to the discrepancy report in the past, we need to bring in those changes
-     * and merge them into the data we got back.
-     */
-    if (resultWithMapping.length > 0) {
-      let mergePastChanges = await mergingReportChanges(
-        EntityId,
-        resultWithMapping,
-        allNewMappedKeys
-      );
+    // /**If user has made changes to the discrepancy report in the past, we need to bring in those changes
+    //  * and merge them into the data we got back.
+    //  */
+    // if (resultWithMapping? resultWithMapping.length > 0 : false) {
+    //   let mergePastChanges = await mergingReportChanges(
+    //     EntityId,
+    //     resultWithMapping,
+    //     allNewMappedKeys
+    //   );
 
-      if ((mergePastChanges.Status = 404)) {
-        //if there were no changes made in the past
+    //   if ((mergePastChanges.Status = 404)) {
+    //     //if there were no changes made in the past
         res.json({ TableHeaders, TableData: resultWithMapping });
-      } else {
-        res.json({ TableHeaders, TableData: mergePastChanges });
-      }
-    }
+      // } else {
+      //   res.json({ TableHeaders, TableData: mergePastChanges });
+      // }
+    // }
   } catch (err) {
     res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
   }
@@ -104,44 +105,7 @@ router.post("/:companyId/:report/:entityId", async (req, res) => {
 
     if (savedChanges["_id"] || savedChanges["entity_id"])
       throw Error("Not allowed to manually give _id entity_id");
-    //Making sure, table values are compared to correct source of truth value
 
-    // if (savedChanges) {
-    //   savedChanges.forEach((rowChange) => {
-    //     let sourceOfTruth = rowChange.sourceSystem.trueValue;
-    //     let values = rowChange.values.map((cell) => {
-    //       if (cell === null) return null;
-    //       if (cell["currentValue"]) {
-    //         let currentValue = cell["currentValue"];
-    //         let externalValue = cell["externalValue"];
-    //         let customApiId = cell["customApiId"];
-
-    //         customApiId
-    //           ? (customApiId = ObjectId(customApiId))
-    //           : (customApiId = {
-    //               status: 404,
-    //               message: "No custom api id given",
-    //             });
-    //         let matchesSoT = currentValue === sourceOfTruth;
-    //         return {
-    //           currentValue,
-    //           externalValue,
-    //           customApi_id: customApiId,
-    //           matchesSoT,
-    //         };
-    //       } else {
-    //         let externalValue = cell["externalValue"];
-    //         let matchesSoT = externalValue === sourceOfTruth;
-    //         return {
-    //           externalValue,
-    //           matchesSoT,
-    //         };
-    //       }
-    //     });
-
-    //     rowChange.values = values;
-    //   });
-    // }
     const reportCollection = await DbConnection.getCollection(
       "DiscrepanciesReport"
     );

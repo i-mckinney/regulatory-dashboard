@@ -107,27 +107,29 @@ async function mergingReportChanges(
       entity_id: ObjectId(EntityId),
     });
 
-    
     //in the past, changes have been made in discrepancy report
     if (discrepancyReportChanges) {
       const savedChanges = discrepancyReportChanges.savedChanges;
-      console.log(savedChanges)
-      for (let column of savedChanges) {
 
+      for (let column of savedChanges) {
         for (let cell of column) {
           for (let row of resultWithMapping) {
             if (row.key_config.key === cell.key) {
-              console.log(yo)
             }
           }
         }
       }
       return resultWithMapping;
+    } else {
+      return {
+        Error: "No changes were made in the past, Can not find saved changes",
+        Status: 404,
+      };
     }
   } catch (err) {
     return {
-      Error: "No changes were made in the past, Can not find saved changes",
-      Status: 404,
+      Error: err.Message,
+      Status: err.Status,
     };
   }
 }

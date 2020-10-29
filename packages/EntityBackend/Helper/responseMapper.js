@@ -2,6 +2,8 @@ const axios = require("axios");
 const { ObjectId } = require("mongodb");
 const newDiscrepancyRow = require("./newDiscrepancyRow");
 const addValueToExistingRow = require("./addValueToExistingRow");
+// db setup
+const DbConnection = require("../db");
 
 /**
  * @param {obj} customAPI customAPI will be an object that contains all the necessary information to make an axios request 
@@ -79,8 +81,23 @@ async function responseMapper(
   allNewMappedKeys,
   TableHeaders,
   BorrowerId,
-  configuredApiIdx
+  configuredApiIdx,
+  EntityId
 ) {
+  const reportCollection = await DbConnection.getCollection(
+    "DiscrepanciesReport"
+  );
+
+  let customApiID = customAPI._id.valueOf();
+  let savedChanges;
+
+  const discrepancyReportChanges = await reportCollection.findOne({
+    entity_id: ObjectId(EntityId),
+  });
+  if (discrepancyReportChanges) {
+    savedChanges = discrepancyReportChanges.savedChanges[customApiID];
+  }
+
 
   const customAPIrequest = await axios({
     method: customAPI.requestType,
@@ -89,8 +106,7 @@ async function responseMapper(
     headers: customAPI.requestHeaders,
     params: customAPI.requestParams,
   }).then((response) => {
-
-    let customApiId = ObjectId(customAPI["_id"])
+    let customApiId = ObjectId(customAPI["_id"]);
 
     const resultData = response.data;
     TableHeaders.push({
@@ -122,13 +138,33 @@ async function responseMapper(
           continue;
         }
 
+
+
+        //         async function hello(EntityId, customApiId) {
+        //           const reportCollection = await DbConnection.getCollection(
+        //             "DiscrepanciesReport"
+        //           );
+
+        //           const discrepancyReportChanges = await reportCollection.findOne({ entity_id: ObjectId(EntityId) });
+
+        // console.log(discrepancyReportChanges)
+        //           //in the past, changes have been made in discrepancy report
+        //           if (discrepancyReportChanges) {
+        //             return discrepancyReportChanges.savedChanges[customApiId]
+        //           } else {
+        //             return "None"
+        //           }
+        //         }
+        //          let resultYo = hello(EntityId, customApiId).then((response)=> {console.log(response)})
+        //          console.log(resultYo)
         /** Case 1) newMappedKey does already exist in resultWithMapping */
 
         let doesFieldExist = addValueToExistingRow(
           resultWithMapping,
           desiredValueFromExternal,
           newMappedKey,
-          customApiId
+          customApiId,
+          savedChanges,
         );
 
         if (doesFieldExist) {
@@ -142,7 +178,8 @@ async function responseMapper(
           resultData.ExternalSource,
           desiredValueFromExternal,
           newMappedKey,
-          customApiId
+          customApiId,
+          EntityId
         );
       }
 
