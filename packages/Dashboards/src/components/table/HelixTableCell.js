@@ -22,7 +22,6 @@ const entityTableCellStyles = makeStyles(() => ({
     '& input:focus': {
       outline: 'none',
     },
-    minWidth: 200,
   },
   editedCell: {
     outline: 'none',
@@ -30,7 +29,6 @@ const entityTableCellStyles = makeStyles(() => ({
       outline: 'none',
     },
     backgroundColor: 'orange',
-    minWidth: 200,
   },
   errorCell: {
     outline: 'none',
@@ -38,7 +36,6 @@ const entityTableCellStyles = makeStyles(() => ({
       outline: 'none',
     },
     backgroundColor: '#ffbcbb',
-    minWidth: 200,
   },
   greyCell: {
     outline: 'none',
@@ -46,7 +43,6 @@ const entityTableCellStyles = makeStyles(() => ({
       outline: 'none',
     },
     backgroundColor: '#f1efef',
-    minWidth: 200,
   },
   editedIcon: {
     fontSize: '1rem',
@@ -89,6 +85,9 @@ const entityTableCellStyles = makeStyles(() => ({
     '& button': {
       float: 'right',
     }
+  },
+  helixInput: {
+    marginTop: '16px',
   }
 }))
 
@@ -104,6 +103,7 @@ const entityTableCellStyles = makeStyles(() => ({
  * @param {func} saveRadioData func that save radio button data selected
  * @param {string} source string that represents column value
  * @param {string} sourceTrueValue string that represents value of the selected cell
+ * @param {array} externalValues array of external values from source system
  * @returns {JSX} renders a custom HelixTableCell
  */
 const EntityTableCell = ({
@@ -118,6 +118,7 @@ const EntityTableCell = ({
   saveRadioData,
   source,
   sourceTrueValue,
+  externalValues,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -181,10 +182,21 @@ const EntityTableCell = ({
   // Display the initial state value
   const displayInitialStateValue = () => {
     return (
-    <div onClick={handleDivChange} className={initialState()}>
-      {initialStateValue}
-    </div>
+      <div onClick={handleDivChange} className={initialState()}>
+        {initialStateValue}
+      </div>
     )
+  }
+
+  // Display the external value that exist in that source system
+  const displayExternalValue = () => {
+    const initialValue = initialStateValue === 'NULL' ? '' : initialStateValue
+    if (externalValues[rowIndex][columnIndex-1] !== initialValue) {
+      return (
+        `Source Value: ${externalValues[rowIndex][columnIndex-1]}`
+      )
+    }
+    return null
   }
 
   // Display current state value of edited changes
@@ -211,7 +223,8 @@ const EntityTableCell = ({
     if (!isDivHidden) {
       return (
         <div>
-          <HelixTextField value={value} onChange={handleInputChange} fullWidth/>
+          <span>{displayExternalValue()}</span>
+          <HelixTextField className={entityTableCellClasses.helixInput} value={value} onChange={handleInputChange} label="Value" fullWidth/>
           <span className={entityTableCellClasses.matIconSpan}>
             <IconButton className={entityTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
               <SaveIcon className={entityTableCellClasses.matIcon} />
@@ -267,7 +280,7 @@ const EntityTableCell = ({
           size="small" 
           color="default" 
           onClick={selectedRadio} 
-          /> 
+          />
           {displayInitialStateValue()}
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
@@ -307,6 +320,7 @@ EntityTableCell.propTypes = {
   saveRadioData: PropTypes.func.isRequired,
   source: PropTypes.string.isRequired,
   sourceTrueValue: PropTypes.string.isRequired,
+  externalValues: PropTypes.instanceOf(Array).isRequired,
 }
 
 EntityTableCell.defaultProps = {
@@ -321,6 +335,7 @@ EntityTableCell.defaultProps = {
   saveRadioData: () => null,
   source: "",
   sourceTrueValue: "",
+  externalValues: [],
 }
 
 export default EntityTableCell

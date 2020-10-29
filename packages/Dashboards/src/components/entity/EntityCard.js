@@ -45,15 +45,15 @@ const entityCardStyles = makeStyles(() => ({
 /**
  * @param {string} RecordLabel API result property
  * @param {string} SystemOfRecord API result property
- * @param {string} ID API result property of  HeaderInfo object
- * @param {string} BorrowerName API result property of HeaderInfo object
- * @param {string} RelationshipManager API result property of HeaderInfo object
+ * @param {string} BorrowerID API result property
+ * @param {string} BorrowerName API result property
+ * @param {string} RelationshipManager API result property
  * @returns {JSX} renders a entity card for edit entity dashboard
  * */
 const EntityCard = ({
   RecordLabel,
   SystemOfRecord,
-  ID,
+  BorrowerID,
   BorrowerName,
   RelationshipManager,
 }) => {
@@ -74,7 +74,7 @@ const EntityCard = ({
         </CardHeader>
         <CardContent className={entityCardClasses.entityInfoCardContent}>
             <ul>
-              <li>{`ID: ${ID}`}</li>
+              <li>{`Borrower ID: ${BorrowerID}`}</li>
               <li>{`Borrower Name: ${BorrowerName}`}</li>
               <li>{`Relationship Manager: ${RelationshipManager}` }</li>
             </ul>
@@ -87,7 +87,7 @@ const EntityCard = ({
 EntityCard.propTypes = {
   RecordLabel: PropTypes.string.isRequired,
   SystemOfRecord: PropTypes.string.isRequired,
-  ID: PropTypes.string.isRequired,
+  BorrowerID: PropTypes.string.isRequired,
   BorrowerName: PropTypes.string.isRequired,
   RelationshipManager: PropTypes.string.isRequired,
 }

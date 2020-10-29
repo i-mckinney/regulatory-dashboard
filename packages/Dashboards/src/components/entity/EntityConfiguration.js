@@ -117,13 +117,12 @@ const EntityConfiguration = (props) => {
        * fetchEntitiesConfiguration calls backend api through get protocol to get all the selected custom apis
        */
       const fetchEntitiesConfiguration = async () => {
-        const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8/")
-        response.data.entityConfiguration.forEach((row) => {
+        const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8")
+        response.data.forEach((row) => {
           tempRows.push(row)
         })
-        setRows(response.data.entityConfiguration)
+        setRows(response.data)
       }
-      fetchEntitiesConfiguration()
 
       /**
        * fetchCustomApis calls backend api through get protocol to get all custom apis
@@ -134,7 +133,12 @@ const EntityConfiguration = (props) => {
         setCustomApis(response.data)
       }
 
-      fetchCustomApis()
+      const apiCallCheckList = async () => {
+        await fetchEntitiesConfiguration()
+        await fetchCustomApis()
+      }
+      apiCallCheckList()
+      
     }, [columns, tempRows, apis])
 
     /**
@@ -174,7 +178,8 @@ const EntityConfiguration = (props) => {
      * handleSaveEntityConfiguration saves list of selected custom api in the configuration table
      */
     const handleSaveEntityConfiguration = async () => {
-      const config = { entityConfiguration: rows}
+      const config = { entityConfiguration: [] }
+      rows.forEach((row) => config.entityConfiguration.push(row._id))
       await entities.post("/config/5f7e1bb2ab26a664b6e950c8/", config)
       props.history.push("/entity")
     }
