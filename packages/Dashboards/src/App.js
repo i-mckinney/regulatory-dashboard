@@ -17,7 +17,7 @@ import {
 } from "@material-ui/core/styles";
 
 const generateClassName = createGenerateClassName({
-  productionPrefix: "dshbrd-",
+  productionPrefix: "dashbored-",
   seed:"dash"
 });
 
