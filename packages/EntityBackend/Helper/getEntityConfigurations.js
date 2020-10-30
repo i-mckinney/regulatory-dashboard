@@ -1,5 +1,3 @@
-const axios = require("axios");
-const { entity_config_url } = require("../config");
 const { ObjectId } = require("mongodb");
 // db setup
 const DbConnection = require("../db");

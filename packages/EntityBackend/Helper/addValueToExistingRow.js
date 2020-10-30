@@ -1,6 +1,3 @@
-const DbConnection = require("../db");
-const { ObjectId } = require("mongodb");
-
 /**
  * @param {obj} resultWithMapping would be the final output after
  * aggregating/mapping all the data from multiple external sources. This * will be used to populate rows of discrepancy table
@@ -55,22 +52,10 @@ function addValueToExistingRow(
   desiredValueFromExternal,
   newMappedKey,
   customApiId,
-  savedChanges
 ) {
   let doesFieldExist = false;
-  let current
-  let sot 
-  let yolo = savedChanges ? savedChanges[newMappedKey] : false
-  if (yolo){
-    current= savedChanges[newMappedKey]["CurrentValue"];
-    sot = savedChanges[newMappedKey]["SourceOfTruth"]
-    
-  }
-  resultWithMapping.forEach((responseMapped) => {
-    if (current && responseMapped["key_config"]["key"] === newMappedKey){
-      console.log(current, sot)
 
-  }
+  resultWithMapping.forEach((responseMapped) => {
     if (responseMapped["key_config"]["key"] === newMappedKey) {
       let sourceOfTruth =
         desiredValueFromExternal === responseMapped.sourceSystem.trueValue;

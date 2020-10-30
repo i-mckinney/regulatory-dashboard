@@ -1,10 +1,13 @@
-const { ObjectId } = require("mongodb");
-
-// db setup
-const DbConnection = require("../db");
 /**
  * 
- * @param {*} EntityId  BorrowerId : used to identify the specific entity among entities created by the user
+ * @param {string} customApiID  customApiID : used to identify a specific custom api
+ * @param {obj} savedProposedChanges contains all the previously proposed changes related to a specific user and custom api call
+ * ex)  {
+            "relationshipName": {
+                "CurrentValue": "testing",
+                "SourceOfTruth": true
+            }
+        }
  * @param {obj} resultWithMapping would be the final output after
  * aggregating/mapping all the data from multiple external sources. This * will be used to populate rows of discrepancy table
  * ex) [
@@ -13,7 +16,7 @@ const DbConnection = require("../db");
                 "key": "relationshipName",
                 "display": "relationshipName"
             },
-            "sourceSystem": {
+            "sourceSystem": {  
                 "source": "FIS",
                 "trueValue": "Rohan LLC"
             },
@@ -51,86 +54,45 @@ const DbConnection = require("../db");
  *  * @param {obj} allNewMappedKeys object of all external systems used and * field name after looping through all calls
  * when we get data back from external sources, this function bringing in past changes we made and aggregate those data together
  */
-// async function mergingReportChanges(
-//   EntityId,
-//   resultWithMapping,
-//   allNewMappedKeys
-// ) {
-//   try {
-//     const reportCollection = await DbConnection.getCollection(
-//       "DiscrepanciesReport"
-//     );
-//     const discrepancyReportChanges = await reportCollection.findOne({
-//       entity_id: ObjectId(EntityId),
-//     });
-
-//     const savedChanges = discrepancyReportChanges.savedChanges;
-
-//     console.log(resultWithMapping)
-//     //in the past, changes have been made in discrepancy report
-//     if (discrepancyReportChanges) {
-//       for (let idx = 0; idx < savedChanges.length; idx++) {
-//         let rowFieldKey = savedChanges[idx]["key_config"]["key"];
-
-//         //check if row that we made change to exist in discrepancy report
-//         if (allNewMappedKeys[rowFieldKey] === "") {
-//           /**we loop around the result of external data, and replace the row
-//            * that has the same field key as savedChanges does. */
-
-//           for (let row = 0; row < resultWithMapping.length; row++) {
-//             if (resultWithMapping[row]["key_config"]["key"] === rowFieldKey) {
-//               resultWithMapping[row] = savedChanges[idx];
-//             }
-//           }
-//         }
-//       }
-//     }
-//     return resultWithMapping;
-//   } catch (err) {
-//     return {
-//       Error: "No changes were made in the past, Can not find saved changes",
-//       Status: 404,
-//     };
-//   }
-// }
 
 async function mergingReportChanges(
-  EntityId,
+  savedProposedChanges,
   resultWithMapping,
-  allNewMappedKeys
+  customApiID
 ) {
-  try {
-    const reportCollection = await DbConnection.getCollection(
-      "DiscrepanciesReport"
-    );
-    const discrepancyReportChanges = await reportCollection.findOne({
-      entity_id: ObjectId(EntityId),
-    });
+  if (resultWithMapping) {
+    for (let row of resultWithMapping) {
 
-    //in the past, changes have been made in discrepancy report
-    if (discrepancyReportChanges) {
-      const savedChanges = discrepancyReportChanges.savedChanges;
+      //Name of fields for a ROW
+      let fieldName = row["key_config"]["key"];
 
-      for (let column of savedChanges) {
-        for (let cell of column) {
-          for (let row of resultWithMapping) {
-            if (row.key_config.key === cell.key) {
-            }
-          }
+      //If user previously made changes to that cell
+      if (savedProposedChanges.hasOwnProperty(row["key_config"]["key"])) {
+
+        //If user selected the cell as source of truth
+        if (savedProposedChanges[fieldName]["SourceOfTruth"]) {
+          row["sourceSystem"]["source"] = customApiID;
+          row["sourceSystem"]["trueValue"] =
+            savedProposedChanges[fieldName]["CurrentValue"];
         }
+
+        //proposed values that a user has inputted in the past
+        let proposedValue = savedProposedChanges[fieldName]["CurrentValue"];
+        let sourceOfTruthValue = row["sourceSystem"]["trueValue"];
+
+        let entireRowArray = row["values"];
+        let updatedCell = row["values"][entireRowArray.length - 1];
+
+        //merging in changes to our mapped response
+        let matchesSoT = sourceOfTruthValue === proposedValue;
+        row["values"][entireRowArray.length - 1] = {
+          ...updatedCell,
+          currentValue: proposedValue,
+          customApi_id: customApiID,
+          matchesSoT,
+        };
       }
-      return resultWithMapping;
-    } else {
-      return {
-        Error: "No changes were made in the past, Can not find saved changes",
-        Status: 404,
-      };
     }
-  } catch (err) {
-    return {
-      Error: err.Message,
-      Status: err.Status,
-    };
   }
 }
 
