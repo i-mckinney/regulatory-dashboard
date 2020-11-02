@@ -68,8 +68,8 @@ const EntityDiscrepancy = (props) => {
   // rows will store all the row data
   const rows = useMemo(() => [], [])
 
-  // entityData is api result array of row object that contains key_config, sourceSystem, values
-  const [entityData, setEntityData] = useState([])
+  // entityTableData is api result array of row object that contains key_config, sourceSystem, values
+  const [entityTableData, setEntityTableData] = useState([])
 
   // error is object contains err and message
   const [error, setError] = useState({ err: false, message: "" })
@@ -144,7 +144,7 @@ const EntityDiscrepancy = (props) => {
           rows.push(newRow)
           externalValues.push(tempExternalValues)
         })
-        setEntityData(data.TableData)
+        setEntityTableData(data.TableData)
       } else {
         setError({ err: true, message: `${data.ErrorMessage}/Borrower ID does not exist` })
       }
@@ -174,8 +174,8 @@ const EntityDiscrepancy = (props) => {
    */
   const saveEntityData = (rowIndex, columnIndex, isEdited, previousValue, value, matchesSoT, source) => {
     if (isEdited) {
-      const copySavedEntityData = [ ...entityData ]
-      const modifiedData = { ...copySavedEntityData[rowIndex] }
+      const copySavedEntityTableData = [ ...entityTableData ]
+      const modifiedData = { ...copySavedEntityTableData[rowIndex] }
 
       const modifiedValues = [ ...modifiedData.values ]
 
@@ -207,12 +207,12 @@ const EntityDiscrepancy = (props) => {
 
       modifiedData["values"] = modifiedValues
 
-      copySavedEntityData.splice(rowIndex, 1, modifiedData)
-      setEntityData([ ...copySavedEntityData ])
+      copySavedEntityTableData.splice(rowIndex, 1, modifiedData)
+      setEntityTableData([ ...copySavedEntityTableData ])
 
     } else {
-      const copySavedEntityData = [ ...entityData ]
-      const modifiedData = { ...copySavedEntityData[rowIndex] }
+      const copySavedEntityTableData = [ ...entityTableData ]
+      const modifiedData = { ...copySavedEntityTableData[rowIndex] }
 
       if (source === columns[columnIndex].Accessor) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
@@ -245,8 +245,8 @@ const EntityDiscrepancy = (props) => {
 
       modifiedData["values"] = modifiedValues
 
-      copySavedEntityData.splice(rowIndex, 1, modifiedData)
-      setEntityData([ ...copySavedEntityData ])
+      copySavedEntityTableData.splice(rowIndex, 1, modifiedData)
+      setEntityTableData([ ...copySavedEntityTableData ])
     }
   }
 
@@ -256,8 +256,8 @@ const EntityDiscrepancy = (props) => {
    * @param {string} trueValue the trueValue is value of the HelixTableCell selected
    */
   const saveRadioData = (rowIndex, source, trueValue) => {
-    const copySavedEntityData = [ ...entityData ]
-    const modifiedData = { ...copySavedEntityData[rowIndex] }
+    const copySavedEntityTableData = [ ...entityTableData ]
+    const modifiedData = { ...copySavedEntityTableData[rowIndex] }
     
     const modifiedSourceSystem = { ...modifiedData.sourceSystem }
     modifiedSourceSystem["source"] = source
@@ -277,8 +277,8 @@ const EntityDiscrepancy = (props) => {
 
     modifiedData["sourceSystem"] = modifiedSourceSystem
 
-    copySavedEntityData.splice(rowIndex, 1, modifiedData)
-    setEntityData([ ...copySavedEntityData ])
+    copySavedEntityTableData.splice(rowIndex, 1, modifiedData)
+    setEntityTableData([ ...copySavedEntityTableData ])
   }
 
   /**
@@ -294,7 +294,7 @@ const EntityDiscrepancy = (props) => {
       return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]}/>
     }
     else {
-      const sourceSystem = entityData[rowIndex].sourceSystem
+      const sourceSystem = entityTableData[rowIndex].sourceSystem
 
       const source = sourceSystem.source 
       ? sourceSystem.source.toString() 
@@ -314,9 +314,9 @@ const EntityDiscrepancy = (props) => {
     props.history.push("/entity")
   }
 
-  // Passes entityData to the confirmation route
+  // Passes entityTableData to the confirmation route
   const handleConfirmButton = async () => {
-    const req = { savedChanges: entityData }
+    const req = { savedChanges: entityTableData }
     await entities.post(`discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`, req)
     props.history.push("/entity")
   }
