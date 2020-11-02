@@ -9,6 +9,16 @@ import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import MappedKeyTransferList from './MappedKeyTransferList';
 
 const performTestPageStyles = makeStyles(() => ({
+    root:{
+      marginTop: "100px",
+      marginLeft: '100px',
+      marginRight: '100px',
+
+    },
+    responseContainer: {
+      paddingTop: '100px',
+    
+    },
     buttonStyle: {
       '& button': {
           marginTop: '16px',
@@ -23,17 +33,6 @@ const performTestPageStyles = makeStyles(() => ({
       root: {
     minWidth: 275,
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
     }
   }))
  
@@ -46,7 +45,7 @@ export default function PerformTestPage() {
    */
     const renderTestingActions = () => {
       return (
-        <div>
+        <div  >
         <HelixTextField
         label="Borrower ID"
         InputProps={{
@@ -58,17 +57,23 @@ export default function PerformTestPage() {
         }}
         />
           <HelixButton 
-              color="secondary" 
+              color="secondary"
               variant="contained" 
               type="submit" 
               size="large"
-              text="Perform Test" />
+              text="Perform Test"
+              style={{marginLeft: '2em'}}
+               />
+              
         </div>
         
         
       )
     }
 
+  /**
+   * @return {jsx} returns UI card for displaying response data
+   */
     const renderExternalSourceData = () => {
       return (
     <Card>
@@ -84,6 +89,9 @@ export default function PerformTestPage() {
   );
     }
 
+  /**
+   * @return {jsx} returns UI cards for displaying response data
+   */
      const renderMappedResponseData = () => {
        return (
     <Card>
@@ -96,10 +104,12 @@ export default function PerformTestPage() {
         </Typography>
       </CardContent>
     </Card>
-  );
-      
+  );   
     }
 
+  /**
+   * @return {jsx} returns HelixButton component for save and cancel actions
+   */
     const renderButtonActions = () => {
       return (
           <>
@@ -107,7 +117,9 @@ export default function PerformTestPage() {
               color="primary" 
               variant="contained" 
               type="submit" 
-              size="medium"
+              size="large"
+              href="/api-table"
+
               // onClick={handleSaveEntityConfiguration}
               startIcon={<SaveIcon />}
               text="Save" />
@@ -115,8 +127,8 @@ export default function PerformTestPage() {
               color="default"
               variant="contained"
               type="cancel"
-              size="medium"
-              href="/entity"
+              size="large"
+              href="/api-table"
               startIcon={<CancelIcon />}
               text="Cancel" />
           </>
@@ -124,16 +136,16 @@ export default function PerformTestPage() {
   }
 
   return (
-    <div> 
-     <Grid container>
+    <div className={performTestPageClasses.root}> 
+     <Grid container spacing={6}>
       <Grid item xs='12'>{renderTestingActions()}</Grid>
-      <Grid item xs='6'>{renderExternalSourceData()}</Grid>
-      <Grid item xs='6'>{renderMappedResponseData()}</Grid>
-      <Grid item xs='12'><MappedKeyTransferList/></Grid>
-      <Grid item xs='12' className={performTestPageClasses.buttonStyle}>
+        <Grid item xs='6' className={performTestPageClasses.responseContainer}>{renderExternalSourceData()}</Grid>
+        <Grid item xs='6'className={performTestPageClasses.responseContainer}>{renderMappedResponseData()}</Grid>
+        <Grid item xs='12'><MappedKeyTransferList/></Grid>
+        <Grid item xs='12' className={performTestPageClasses.buttonStyle} style={{textAlign: 'center'}}>
           {renderButtonActions()}
-        </Grid>
       </Grid>
+     </Grid>
     </div>
   
 
