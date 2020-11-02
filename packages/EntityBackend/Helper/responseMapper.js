@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { ObjectId } = require("mongodb");
 const newDiscrepancyRow = require("./newDiscrepancyRow");
 const addValueToExistingRow = require("./addValueToExistingRow");
 
@@ -80,6 +81,7 @@ async function responseMapper(
   BorrowerId,
   configuredApiIdx
 ) {
+
   const customAPIrequest = await axios({
     method: customAPI.requestType,
     url: customAPI.requestUrl + `/${BorrowerId}`,
@@ -87,6 +89,8 @@ async function responseMapper(
     headers: customAPI.requestHeaders,
     params: customAPI.requestParams,
   }).then((response) => {
+    let customApiId = ObjectId(customAPI["_id"]);
+
     const resultData = response.data;
     TableHeaders.push({
       Label: response.data.ExternalSource,
@@ -122,7 +126,8 @@ async function responseMapper(
         let doesFieldExist = addValueToExistingRow(
           resultWithMapping,
           desiredValueFromExternal,
-          newMappedKey
+          newMappedKey,
+          customApiId
         );
 
         if (doesFieldExist) {
@@ -135,7 +140,8 @@ async function responseMapper(
           configuredApiIdx,
           resultData.ExternalSource,
           desiredValueFromExternal,
-          newMappedKey
+          newMappedKey,
+          customApiId
         );
       }
 
