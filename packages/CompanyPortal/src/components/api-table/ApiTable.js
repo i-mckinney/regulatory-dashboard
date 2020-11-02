@@ -75,7 +75,6 @@ const ApiTable = (props) => {
         .then((res) => {
           // setRows(res.data[0].CustomApiRequests);
           setCompanyData(res.data);
-          console.log('RES DATA', res.data)
         });
     };
 
@@ -118,10 +117,7 @@ const ApiTable = (props) => {
     Accessor: 'Actions',
     Sortable: false,
   });
-  //}
-
-  console.log('COL:', columns)
-
+  
   const handleCreateRow = async (newRow) => {
     const payload = { ...newRow }
     delete payload._id

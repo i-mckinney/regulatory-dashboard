@@ -71,7 +71,6 @@ export default function ApiTestUi({ data, onSave }) {
       requestHeaders: reduceToPlainObj(headers),
     };
     onSave(requestData)
-    console.log('SAVE data format:', requestData)
   };
 
   return (
@@ -93,7 +92,7 @@ export default function ApiTestUi({ data, onSave }) {
         setHeaders={setHeaders}
       />
       <Controls.Button text='SAVE' onClick={handleSave}></Controls.Button>
-      <h3>Response Mapper:</h3>
+      <h3>Mapped Response</h3>
       <pre>
         {JSON.stringify(reduceToPlainObj(mapping), null, 2)}
       </pre>
