@@ -95,6 +95,7 @@ async function responseMapper(
     TableHeaders.push({
       Label: response.data.ExternalSource,
       Accessor: response.data.ExternalSource,
+      customApiId
     });
 
     //In the case wehre response Mapper is given
