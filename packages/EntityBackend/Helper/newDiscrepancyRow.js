@@ -82,7 +82,7 @@ function newDiscrepancyRow(
       display: newMappedKey,
     },
     sourceSystem: {
-      source: source,
+      source: customApiId,
       trueValue: desiredValueFromExternal,
     },
     values: valueArray,
