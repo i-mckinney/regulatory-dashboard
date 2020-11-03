@@ -256,7 +256,7 @@ const EntityTableCell = ({
 
   // selectedRadio saves the selected radio button data with its source and value
   const selectedRadio = () => {
-    saveRadioData(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
+    saveRadioData(rowIndex, columns[columnIndex].customApiId, currentStateValue || initialStateValue)
   }
 
   // displayTableCell return jsx object of editable table cell or non-editable table cell
@@ -275,7 +275,7 @@ const EntityTableCell = ({
           checked={
             (currentStateValue || initialStateValue) === sourceTrueValue 
             && 
-            columns[columnIndex].Accessor === source
+            columns[columnIndex].customApiId === source
           }
           size="small" 
           color="default" 

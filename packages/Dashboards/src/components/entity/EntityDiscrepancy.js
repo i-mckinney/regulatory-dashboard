@@ -5,7 +5,9 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
+import { HelixButton } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
+import HelixTableCell from '../table/HelixTableCell'
 import entities from '../apis/entities'
 import HelixLinearProgress from '../utils/HelixLinearProgress'
 
@@ -190,7 +192,7 @@ const EntityDiscrepancy = (props) => {
       ? { ...modifiedValues[columnIndex-1] }
       : {}
 
-      if (source === columns[columnIndex].Accessor) {
+      if (source === columns[columnIndex].customApiId) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
         modifiedSourceSystem["source"] = source
         modifiedSourceSystem["trueValue"] = value
@@ -222,7 +224,7 @@ const EntityDiscrepancy = (props) => {
       const copySavedEntityTableData = [ ...entityTableData ]
       const modifiedData = { ...copySavedEntityTableData[rowIndex] }
 
-      if (source === columns[columnIndex].Accessor) {
+      if (source === columns[columnIndex].customApiId) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
         modifiedSourceSystem["source"] = source
         modifiedSourceSystem["trueValue"] = previousValue
