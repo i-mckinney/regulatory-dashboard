@@ -76,6 +76,8 @@ const EntityDiscrepancy = (props) => {
 
   // externalValues will stores all the external values of each of the source system
   const externalValues = useMemo(() => [], [])
+
+  const discrepancyData = useMemo(() => [], [])
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -109,7 +111,12 @@ const EntityDiscrepancy = (props) => {
   } else {
     if (columns.length === 0 && !error.err) {
       if (!data.ErrorMessage) {
-        data.TableHeaders.forEach((header) => columns.push(header))
+        data.TableHeaders.forEach((header, headerIndex) => {
+          columns.push(header)
+          if (headerIndex) {
+            discrepancyData[[header.customApiId]] = {}
+          }
+        })
         data.TableData.forEach((entityField) => {
           const row = [entityField.key_config["display"]]
           const tempExternalValues = []
@@ -192,6 +199,7 @@ const EntityDiscrepancy = (props) => {
 
       modifiedValueDatum["currentValue"] = value
       modifiedValueDatum["matchesSoT"] = modifiedData["sourceSystem"]["trueValue"] === value
+      modifiedValueDatum["isEdited"] = true
 
       modifiedValues.splice(columnIndex-1, 1, modifiedValueDatum)
 
@@ -228,6 +236,7 @@ const EntityDiscrepancy = (props) => {
 
       if (modifiedValueDatum && modifiedValueDatum["currentValue"]) {
         delete modifiedValueDatum.currentValue
+        delete modifiedValueDatum.isEdited
         modifiedValueDatum["matchesSoT"] = matchesSoT
       }
 
@@ -316,10 +325,21 @@ const EntityDiscrepancy = (props) => {
 
   // Passes entityTableData to the confirmation route
   const handleConfirmButton = async () => {
-    const req = { savedChanges: entityTableData }
+    entityTableData.forEach((row) => {
+      row.values.forEach((cell, index) => {
+        if (cell && cell.isEdited) {
+          const key = row.key_config["key"]
+          const obj = { [key]: { "CurrentValue": cell.currentValue, "SourceOfTruth": cell.matchesSoT } }
+          discrepancyData[columns[index+1].customApiId] = { ...discrepancyData[columns[index+1].customApiId], ...obj}
+        }
+      })
+    })
+    const req = { savedChanges: { ...discrepancyData } }
+    console.log(req)
     await entities.post(`discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`, req)
     props.history.push("/entity")
   }
+  console.log(entityTableData)
 
   /**
    * @return a string instances/declartive contains described styles
