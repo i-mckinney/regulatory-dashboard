@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles, Typography, Card, CardActions, CardContent, Grid, InputAdornment } from '@material-ui/core'
+import axios from 'axios';
+
 import SearchIcon from '@material-ui/icons/Search'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
+import { API_HOST } from '../../config';
+
 
 import MappedKeyTransferList from './MappedKeyTransferList';
 
@@ -37,9 +41,32 @@ const performTestPageStyles = makeStyles(() => ({
   }))
  
  
-export default function PerformTestPage() {
+export default function PerformTestPage({
+  requestData: { requestName, _id: requestId },
+  companyId
+}
+) {
   const performTestPageClasses = performTestPageStyles()
   
+    const [requestData, setRequestData] = useState({});
+    const [response, setResponse] = useState(null);
+    const [mappedResponse, setMappedResponse] = useState(null);
+    const [keys, setKeys] = useState([])
+
+
+    /** *
+     * Executes the Test Custom API Request backend call and sets the response data for use in UI display 
+     * @param {string} borrowerId the unique Borrower ID appended to the customapi/test route
+     */
+    const testRequest = async (borrowerId) => {
+    const response = await axios.get(
+      `${API_HOST}/companies/${companyId}/customapi/${requestId}/test/${borrowerId}`
+    );
+    setResponse(response.data.externalSourceData);
+    setMappedResponse(response.data.responseMapped);
+    setKeys(Object.keys(response.data.externalSourceData))
+  };
+
   /**
    * @return {jsx} return a HelixTextField and HelixButton for capturing id 
    */

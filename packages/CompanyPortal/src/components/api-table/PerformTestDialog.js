@@ -29,18 +29,13 @@ const PerformTestDialog = ({
   const [inputState, setInputState] = useState('');
 
   const testRequest = async (borrowerId) => {
-    // setLoading(true);
     const response = await axios.get(
       `${API_HOST}/companies/${companyId}/customapi/${requestId}/test/${borrowerId}`
     );
     setResponse(response.data.externalSourceData);
     setMappedResponse(response.data.responseMapped);
-    console.log('RESPONSE EXT', response.data.externalSourceData)
     setKeys(Object.keys(response.data.externalSourceData))
-    console.log('TEST REQUEST AFTER')
   };
-
-      console.log('TESTINNG OUTSIDE')
 
 
   const handleSubmit = (evt) => {
