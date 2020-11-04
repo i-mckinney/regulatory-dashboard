@@ -6,6 +6,7 @@ import ReplayIcon from '@material-ui/icons/Replay'
 import SaveIcon from '@material-ui/icons/Save'
 import ClearIcon from '@material-ui/icons/Clear'
 import PropTypes from 'prop-types'
+import HelixTextField from '../../HelixTextField/index'
 
 // Styling used for MaterialUI
 const entityTableCellStyles = makeStyles(() => ({
@@ -34,7 +35,14 @@ const entityTableCellStyles = makeStyles(() => ({
     '& input:focus': {
       outline: 'none',
     },
-    backgroundColor: 'red',
+    backgroundColor: '#ffbcbb',
+  },
+  greyCell: {
+    outline: 'none',
+    '& input:focus': {
+      outline: 'none',
+    },
+    backgroundColor: '#f1efef',
   },
   editedIcon: {
     fontSize: '1rem',
@@ -55,45 +63,65 @@ const entityTableCellStyles = makeStyles(() => ({
     },
     '&:focus': {
       outline: 'none',
-    }
+    },
   },
   matIcon: {
     fill: 'black',
+    '& button': {
+      marginRight: 'unset'
+    }
   },
   matIconSpan: {
     display: 'block',
+    float: 'right',
   },
   selectedRadio: {
     color: 'green',
   },
+  editedField: {
+    color: 'green',
+  },
+  matEditIcon: {
+    '& button': {
+      float: 'right',
+    }
+  },
+  helixInput: {
+    marginTop: '16px',
+  },
+  pWaterMark: {
+    fontSize: '9px'
+  }
 }))
 
 /**
  * @param {string} value string represents table data cell value from Cell object property
- * @param {array} sourceOfTruthData array represents the array of original source of truth to compare with
- * @param {array} matchesToSoT matchesToSoT is an array of boolean that represents matches value to the source of truth
- * @param {func} handleSourceOfTruth handleSourceOfTruth is a func comes from parent component, once it is invoke, it will save new source and true value
  * @param {int} rowIndex index of the current row
  * @param {int} columnIndex index of the current column
  * @param {array} columns array of columns
- * @param {func} editData func comes from parent component, once it is invoke, it will pass the data back to parent component to edit data
  * @param {bool} editable represents whether this cell is editable or not
  * @param {bool} containActions represents whether this cell contains actions or not
  * @param {func} displayActions displays jsx object of actions
- * @returns {JSX} renders a custom table data cell
+ * @param {func} saveEntityData func that allow data to be saved and pass to next component
+ * @param {func} saveRadioData func that save radio button data selected
+ * @param {string} source string that represents column value
+ * @param {string} sourceTrueValue string that represents value of the selected cell
+ * @param {array} externalValues array of external values from source system
+ * @returns {JSX} renders a custom HelixTableCell
  */
 const EntityTableCell = ({
   value: initialStateValue,
-  sourceOfTruthData,
-  matchesToSoT,
-  handleSourceOfTruth,
   rowIndex,
   columnIndex,
   columns,
-  editData,
   editable,
   containActions,
   displayActions,
+  saveEntityData,
+  saveRadioData,
+  source,
+  sourceTrueValue,
+  externalValues,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -102,11 +130,11 @@ const EntityTableCell = ({
    * 4) saveChanges is a boolean to check whether changes are saved
    * */
   const [value, setValue] = useState(initialStateValue)
-  const [currentStateValue, setCurrentStateValue] = useState(value)
+  const [currentStateValue, setCurrentStateValue] = useState(value === 'NULL' ? '' : value)
   const [isDivHidden, setIsDivHidden] = useState(true)
   const [saveChanges, setSaveChanges] = useState(false)
 
-  // Creates an object for styling. Any className that matches key in the entityTableCellClasses object will have a corresponding styling
+  // Creates an object for styling. Any className that a key in the entityTableCellClasses object will have a corresponding styling
   const entityTableCellClasses = entityTableCellStyles();
 
   // Text input can be typed in the input tag, when keyboard event is trigger
@@ -114,16 +142,6 @@ const EntityTableCell = ({
     setValue(e.target.value)
   }
   
-  /**
-   * @returns {int} return current cell index in 1-dimension array
-   * */ 
-  const cellIndex = () => {
-    let colIndex = columnIndex
-    const currentRowIndex = rowIndex
-    const index = (columns.length-1) * currentRowIndex + colIndex-1
-    return index
-  }
-
   // Saves the text input, displays current state edited text input, hide rest of the identifier tags
   // (e.g. button, span, etc...), send the data to parent component when the save button triggers
   const handleSaveChange = (e) => {
@@ -131,8 +149,7 @@ const EntityTableCell = ({
     setSaveChanges(true)
     setCurrentStateValue(value)
     setIsDivHidden(true)
-    const currentCellIndex = cellIndex()
-    editData(currentCellIndex, true, value)
+    saveEntityData(rowIndex, columnIndex, true, initialStateValue, value, sourceTrueValue === value, source)
   }
 
   // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
@@ -154,8 +171,7 @@ const EntityTableCell = ({
     setValue(initialStateValue)
     setIsDivHidden(true)
     setSaveChanges(false)
-    const currentCellIndex = cellIndex()
-    editData(currentCellIndex, false, "")
+    saveEntityData(rowIndex, columnIndex, false, initialStateValue, value, sourceTrueValue === value, source)
   }
 
   // If there is not editable data shown, return intial-state
@@ -166,10 +182,24 @@ const EntityTableCell = ({
     }
     return entityTableCellClasses.modifiedInitialState
   }
-
   // Display the initial state value
   const displayInitialStateValue = () => {
-    return <div className={initialState()}>{initialStateValue}</div>
+    return (
+      <div onClick={handleDivChange} className={initialState()}>
+        {initialStateValue}
+      </div>
+    )
+  }
+
+  // Display the external value that exist in that source system
+  const displayExternalValue = () => {
+    const initialValue = initialStateValue === 'NULL' ? '' : initialStateValue
+    if (externalValues[rowIndex][columnIndex-1] !== initialValue) {
+      return (
+        `External Value Received: ${externalValues[rowIndex][columnIndex-1]}`
+      )
+    }
+    return null
   }
 
   // Display current state value of edited changes
@@ -177,7 +207,7 @@ const EntityTableCell = ({
     if (saveChanges) {
       return (
         <div>
-          {currentStateValue}
+          <span className={entityTableCellClasses.editedField} onClick={handleDivChange}>{currentStateValue}</span>
           <CheckCircleIcon className={entityTableCellClasses.editedIcon} />
           <ReplayIcon 
           className={entityTableCellClasses.undoIcon}
@@ -196,7 +226,8 @@ const EntityTableCell = ({
     if (!isDivHidden) {
       return (
         <div>
-          <input type="text" value={value} onChange={handleInputChange} />
+          <span>{displayExternalValue()}</span>
+          <HelixTextField className={entityTableCellClasses.helixInput} value={value} onChange={handleInputChange} label="Value" fullWidth/>
           <span className={entityTableCellClasses.matIconSpan}>
             <IconButton className={entityTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
               <SaveIcon className={entityTableCellClasses.matIcon} />
@@ -211,20 +242,34 @@ const EntityTableCell = ({
     return null
   }
 
+  // Display character 'p' when proposed value is introduce by user input from previous discrepancy report submission
+  const proposedWaterMark = () => {
+    if (initialStateValue !== externalValues[rowIndex][columnIndex-1] && initialStateValue !== "NULL") {
+      return (
+        <span className={entityTableCellClasses.pWaterMark}>p</span>
+      )
+    }
+    return null
+  }
+
   // If changes are made, display background color for that cell 'orange'
   // otherwise, display regular state of the cell
   const cellState = () => {
     if (saveChanges) {
       return entityTableCellClasses.editedCell
     }
-    else if (!matchesToSoT[rowIndex][columnIndex-1]) {
+    else if (initialStateValue === "NULL") {
+      return entityTableCellClasses.greyCell
+    }
+    else if (sourceTrueValue !== initialStateValue && initialStateValue !== "NULL") {
       return entityTableCellClasses.errorCell
     }
     return entityTableCellClasses.initialCell
   }
 
-  const isRadioSelected = () => {
-    handleSourceOfTruth(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
+  // selectedRadio saves the selected radio button data with its source and value
+  const selectedRadio = () => {
+    saveRadioData(rowIndex, columns[columnIndex].customApiId, currentStateValue || initialStateValue)
   }
 
   // displayTableCell return jsx object of editable table cell or non-editable table cell
@@ -233,36 +278,59 @@ const EntityTableCell = ({
       return (
         <TableCell 
           className={cellState()}
-          onClick={handleDivChange}
-          onKeyDown={handleDivChange}
           role="row"
           tabIndex="0"
+          style={{ minWidth: 175 }}
         >
-          <Radio 
-          className={entityTableCellClasses.selectedRadio} 
-          checked={
-            initialStateValue === sourceOfTruthData[rowIndex].trueValue 
-            && 
-            columns[columnIndex].Accessor === sourceOfTruthData[rowIndex].source
-          }
-          size="small" 
-          color="default" 
-          onClick={isRadioSelected} 
-          />
-          {displayInitialStateValue()}
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+            spacing={2}
+          >
+            <Grid>
+              <Radio 
+              className={entityTableCellClasses.selectedRadio} 
+              disabled={initialStateValue === "NULL"}
+              checked={
+                (currentStateValue || initialStateValue) === sourceTrueValue 
+                && 
+                columns[columnIndex].customApiId === source
+              }
+              size="small" 
+              color="default" 
+              onClick={selectedRadio} 
+              />
+            </Grid>
+            <Grid>
+              {displayInitialStateValue()}
+            </Grid>
+          </Grid>
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
+          <Grid
+            container
+            direction="row-reverse"
+            justify="flex-start"
+            alignItems="flex-start"
+            spacing={1}
+          >
+            <Grid>
+              {proposedWaterMark()}
+            </Grid>
+          </Grid>
         </TableCell>
       )
     } else if (containActions) {
       return (
-        <TableCell>
+        <TableCell className={entityTableCellClasses.initialCell}>
           {displayActions()}
         </TableCell>
       )
     } else {
       return (
-        <TableCell>
+        <TableCell className={entityTableCellClasses.initialCell}>
           {displayInitialStateValue()}
         </TableCell>
       )
@@ -277,30 +345,33 @@ const EntityTableCell = ({
 }
 
 EntityTableCell.propTypes = {
-  handleSourceOfTruth: PropTypes.func.isRequired,
-  matchesToSoT: PropTypes.instanceOf(Array).isRequired,
   value: PropTypes.string.isRequired,
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
   columns: PropTypes.instanceOf(Array).isRequired,
-  editData: PropTypes.func.isRequired,
   editable: PropTypes.bool.isRequired,
   containActions: PropTypes.bool.isRequired,
   displayActions: PropTypes.func.isRequired,
+  saveEntityData: PropTypes.func.isRequired,
+  saveRadioData: PropTypes.func.isRequired,
+  source: PropTypes.string.isRequired,
+  sourceTrueValue: PropTypes.string.isRequired,
+  externalValues: PropTypes.instanceOf(Array).isRequired,
 }
 
 EntityTableCell.defaultProps = {
   value: "",
-  sourceOfTruthData: [],
-  matchesToSoT: [],
-  handleSourceOfTruth: () => null,
   rowIndex: 0,
   columnIndex: 0,
   columns: [],
-  editData: () => null,
   editable: false,
   containActions: false,
   displayActions: () => null,
+  saveEntityData: () => null,
+  saveRadioData: () => null,
+  source: "",
+  sourceTrueValue: "",
+  externalValues: [],
 }
 
 export default EntityTableCell

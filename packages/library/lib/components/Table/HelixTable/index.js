@@ -41,10 +41,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var generateClassName = (0, _core.createGenerateClassName)({
-  productionPrefix: 'helixtable-'
-}); // Styling used for MaterialUI
-
+// Styling used for MaterialUI
 var helixTableStyles = (0, _core.makeStyles)(function () {
   return {
     helixTable: {
@@ -60,7 +57,7 @@ var helixTableStyles = (0, _core.makeStyles)(function () {
           border: 'none',
           backgroundColor: 'white',
           '&:nth-child(even)': {
-            backgroundColor: '#f2f2f2'
+            backgroundColor: '#d3e9ff'
           },
           '&:hover': {
             backgroundColor: '#add8e6'
@@ -80,11 +77,7 @@ var helixTableStyles = (0, _core.makeStyles)(function () {
         '& td': {
           margin: '0',
           borderBottom: 'solid 1px #e0e4e8',
-          padding: '8px',
-          '& button': {
-            marginRight: '1rem',
-            cursor: 'pointer'
-          }
+          padding: '8px'
         },
         '&:last-children': {
           borderBottom: 'none'
@@ -214,9 +207,7 @@ var HelixTable = function HelixTable(_ref) {
     });
   };
 
-  return /*#__PURE__*/_react["default"].createElement(_core.StylesProvider, {
-    generateClassName: generateClassName
-  }, /*#__PURE__*/_react["default"].createElement("div", {
+  return /*#__PURE__*/_react["default"].createElement("div", {
     className: helixTableClasses.helixTable
   }, toggleSearch ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_index4["default"], {
     onSearch: onSearch,
@@ -268,7 +259,7 @@ var HelixTable = function HelixTable(_ref) {
     rows: rows,
     customCellRender: customCellRender,
     customBodyRowKeyProp: customBodyRowKeyProp
-  })))));
+  }))));
 };
 
 HelixTable.propTypes = {
@@ -283,7 +274,7 @@ HelixTable.propTypes = {
 };
 HelixTable.defaultProps = {
   initialOrderBy: '',
-  toggleSearch: true,
+  toggleSearch: false,
   displayCreateIcon: function displayCreateIcon() {
     return null;
   }

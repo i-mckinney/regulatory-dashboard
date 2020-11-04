@@ -39,3 +39,5 @@ export const columnMetadata = [
 
 // dateTypeFields is array of fieldname that are date type
 export const dateTypeFields = ['DateOfBirth'];
+
+export const API_HOST = process.env.REACT_APP_API_GATEWAY_HOST

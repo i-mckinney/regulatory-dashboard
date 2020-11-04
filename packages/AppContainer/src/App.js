@@ -85,7 +85,7 @@ const {
 } = process.env
 
 const generateClassName = createGenerateClassName({
-  productionPrefix: "appcontainer-",
+  productionPrefix: "app-container-",
   seed: "app",
 })
 

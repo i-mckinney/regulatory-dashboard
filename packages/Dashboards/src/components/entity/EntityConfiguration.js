@@ -117,13 +117,12 @@ const EntityConfiguration = (props) => {
        * fetchEntitiesConfiguration calls backend api through get protocol to get all the selected custom apis
        */
       const fetchEntitiesConfiguration = async () => {
-        const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8/")
-        response.data.entityConfiguration.forEach((row) => {
+        const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8")
+        response.data.forEach((row) => {
           tempRows.push(row)
         })
-        setRows(response.data.entityConfiguration)
+        setRows(response.data)
       }
-      fetchEntitiesConfiguration()
 
       /**
        * fetchCustomApis calls backend api through get protocol to get all custom apis
@@ -134,7 +133,12 @@ const EntityConfiguration = (props) => {
         setCustomApis(response.data)
       }
 
-      fetchCustomApis()
+      const apiCallCheckList = async () => {
+        await fetchEntitiesConfiguration()
+        await fetchCustomApis()
+      }
+      apiCallCheckList()
+      
     }, [columns, tempRows, apis])
 
     /**
@@ -174,7 +178,8 @@ const EntityConfiguration = (props) => {
      * handleSaveEntityConfiguration saves list of selected custom api in the configuration table
      */
     const handleSaveEntityConfiguration = async () => {
-      const config = { entityConfiguration: rows}
+      const config = { entityConfiguration: [] }
+      rows.forEach((row) => config.entityConfiguration.push(row._id))
       await entities.post("/config/5f7e1bb2ab26a664b6e950c8/", config)
       props.history.push("/entity")
     }
@@ -196,10 +201,11 @@ const EntityConfiguration = (props) => {
     }
 
     /**
-     * @param {int} rowIndex represents row index
-     * @param {object} row represent object data from the api result
-     * @param {object} column represent object data (have a header object which has an accessor needed it for key props) from the api result
-     * @return {JSX} Table cell of object properties in that Table row
+     * @param {object} row the row is an object of data
+     * @param {object} column the column is an object of the header with accessor and label props
+     * @param {int} rowIndex the rowIndex represents index of the row
+     * @param {int} columnIndex the columnIndex represents index of the column
+     * @return {JSX} HelixTableCell of object properties in that Table row
      */
     const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
@@ -276,11 +282,15 @@ const EntityConfiguration = (props) => {
             <div className={entityConfigurationClasses.configTable}>
                 <HelixTable toggleSearch={false} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
             </div>
-            <Grid container>
-                <Grid item xs></Grid>
-                <Grid item xs={4} className={entityConfigurationClasses.buttonStyle}>
-                    {renderButtonActions()}
-                </Grid>
+            <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="center"
+            >
+              <Grid className={entityConfigurationClasses.buttonStyle}>
+                  {renderButtonActions()}
+              </Grid>
             </Grid>
         </div>
     )

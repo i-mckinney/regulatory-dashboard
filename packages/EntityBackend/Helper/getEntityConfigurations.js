@@ -1,5 +1,6 @@
-const axios = require("axios");
-const { entity_config_url } = require("../config");
+const { ObjectId } = require("mongodb");
+// db setup
+const DbConnection = require("../db");
 
 /**
  *
@@ -31,17 +32,53 @@ const { entity_config_url } = require("../config");
  */
 async function getEntityConfigurations(companyId) {
   /** Using this information, we would know which custom api calls to dispatch for a discrepancy report. */
-  let entityConfigurations = axios({
-    method: "GET",
-    url: `${entity_config_url}/${companyId}`,
-  });
 
-  let configuredApiCalls = await entityConfigurations.then((response) => {
-    let entityConfigs = response.data.entityConfiguration;
-    return entityConfigs;
-  });
+  try {
+    //Setting up entity configurations
+    const entityConfigCollection = await DbConnection.getCollection(
+      "Entities_Configuration"
+    );
+    const entityConfigurationData = await entityConfigCollection.findOne({
+      company_id: ObjectId(companyId),
+    });
 
-  return configuredApiCalls;
+    let entityConfiguration = entityConfigurationData.entityConfiguration;
+
+    //Using entity configurations to look up custom apis that exist in our db
+    const customApiCollection = await DbConnection.getCollection(
+      "CustomApiRequests"
+    );
+
+
+    let customApis = [];
+
+    if (!entityConfiguration) {
+      return { Error: "Entity configuration does not exist" };
+    } else {
+      for (let i = 0; i < entityConfiguration.length; i++) {
+        let customApiId = entityConfiguration[i];
+
+        let singleCustomApi = await customApiCollection.findOne({
+          $and: [
+            { company_id: ObjectId(companyId) },
+            { _id: ObjectId(customApiId) },
+          ],
+        });
+
+        if (singleCustomApi) {
+          customApis.push(singleCustomApi);
+        } else {
+          customApis.push(null);
+        }
+      }
+    }
+
+    return customApis;
+  } catch (e) {
+    return {
+      Error: e.message + "Error in grabbing configuration settings",
+    };
+  }
 }
 
 module.exports = getEntityConfigurations;

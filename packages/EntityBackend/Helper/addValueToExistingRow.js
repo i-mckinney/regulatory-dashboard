@@ -50,20 +50,22 @@
 function addValueToExistingRow(
   resultWithMapping,
   desiredValueFromExternal,
-  newMappedKey
+  newMappedKey,
+  customApiId,
 ) {
   let doesFieldExist = false;
-  
+
   resultWithMapping.forEach((responseMapped) => {
     if (responseMapped["key_config"]["key"] === newMappedKey) {
       let sourceOfTruth =
         desiredValueFromExternal === responseMapped.sourceSystem.trueValue;
 
       responseMapped.values.push({
-        value: desiredValueFromExternal,
+        externalValue: desiredValueFromExternal,
         matchesSoT: sourceOfTruth,
+        customApi_id: customApiId,
       });
-      doesFieldExist = true
+      doesFieldExist = true;
     }
   });
 

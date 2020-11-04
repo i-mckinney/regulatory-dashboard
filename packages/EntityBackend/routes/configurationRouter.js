@@ -6,19 +6,59 @@ const dateTimeHelper = require("../utils/dateTimeHelper");
 
 // db setup
 const DbConnection = require("../db");
+const { company } = require("faker");
 
-// GET configuration connected to a company
+// GET configuration with custom api innformation connected to a company
 router.get("/:companyId", async (req, res) => {
   const companyId = req.params.companyId;
 
+  console.log(companyId, "companyId")
   try {
-    const dbCollection = await DbConnection.getCollection(
+    //Setting up entity configurations
+    const entityConfigCollection = await DbConnection.getCollection(
       "Entities_Configuration"
     );
-    const entityConfiguration = await dbCollection.findOne({
+    const entityConfigurationData = await entityConfigCollection.findOne({
       company_id: ObjectId(companyId),
     });
-    res.json(entityConfiguration);
+
+
+
+    let entityConfiguration = entityConfigurationData.entityConfiguration;
+
+    //Using entity configurations to look up custom apis that exist in our db
+    const customApiCollection = await DbConnection.getCollection(
+      "CustomApiRequests"
+    );
+
+
+
+    let customApis = [];
+
+    if (!entityConfiguration) {
+      res.json({ Error: "Entity configuration does not exist" });
+    } else {
+      for (let i = 0; i < entityConfiguration.length; i++) {
+        let customApiId = entityConfiguration[i];
+
+        console.log(customApiId)
+        let singleCustomApi = await customApiCollection.findOne({
+          $and: [
+            { company_id: ObjectId(companyId) },
+            { _id: ObjectId(customApiId) },
+          ],
+        });
+
+        console.log(singleCustomApi)
+        if (singleCustomApi) {
+          customApis.push(singleCustomApi);
+        } else {
+          customApis.push(null);
+        }
+      }
+    }
+
+    res.json(customApis);
   } catch (e) {
     res.json({
       Error: e.message + "Error in grabbing configuration settings",
@@ -46,7 +86,7 @@ router.post("/:companyId", async (req, res) => {
 
     /** Each company should have one configuration setting for entity dashboard.
     So we are resetting and adding a new updated configuration setting.**/
-    
+
     if (entityConfiguration) {
       await dbCollection.deleteOne({ company_id: ObjectId(companyId) });
     }
@@ -55,6 +95,13 @@ router.post("/:companyId", async (req, res) => {
       company_id: ObjectId(companyId),
       createdAt: dateTimeHelper.getTimeStamp(),
     });
+
+    //Resetting saved changes
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
+
+    await reportCollection.deleteMany({ company_id: ObjectId(companyId) });
 
     // return added entity configuration
     entityConfiguration = await dbCollection

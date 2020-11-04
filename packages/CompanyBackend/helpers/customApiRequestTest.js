@@ -47,7 +47,9 @@ async function customApiRequestTest(customAPI, borrowerId) {
     customAPI.requestUrl.includes("http://") ||
     customAPI.requestUrl.includes("https://")
   ) {
-    let customUrl = borrowerId ? customAPI.requestUrl + `/${borrowerId}` : customAPI.requestUrl
+    let customUrl = borrowerId
+      ? customAPI.requestUrl + `/${borrowerId}`
+      : customAPI.requestUrl;
 
     const result = axios({
       method: customAPI.requestType,
@@ -58,8 +60,10 @@ async function customApiRequestTest(customAPI, borrowerId) {
     })
       .then((response) => {
         const resultData = response.data;
-        if(!resultData) {
-          throw new Error("Please make sure that request URL and borrower id given is valid. External source has failed to return data")
+        if (!resultData) {
+          throw new Error(
+            "Please make sure that request URL and borrower id given is valid. External source has failed to return data"
+          );
         }
         //In the case wehre response Mapper is given
         if (customAPI.responseMapper) {
@@ -79,12 +83,16 @@ async function customApiRequestTest(customAPI, borrowerId) {
             const newMappedKey = responseMapper[externalSystemKey];
             const desiredValueFromExternal = resultData[externalSystemKey];
 
-            if (!desiredValueFromExternal)
+            if (!desiredValueFromExternal) {
               console.log(
                 `External System key "${externalSystemKey}" does not exist in the external source data`
               );
 
-            resultWithMapping[newMappedKey] = desiredValueFromExternal;
+              resultWithMapping[newMappedKey] =
+                "Desired key does not exist in the external system";
+            } else {
+              resultWithMapping[newMappedKey] = desiredValueFromExternal;
+            }
           }
 
           return {

@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { ObjectId } = require("mongodb");
 const newDiscrepancyRow = require("./newDiscrepancyRow");
 const addValueToExistingRow = require("./addValueToExistingRow");
 
@@ -27,7 +28,7 @@ const addValueToExistingRow = require("./addValueToExistingRow");
                 "display": "relationshipName"
             },
             "sourceSystem": {
-                "source": "FIS",
+                "source": "352c8824eEffg234234234",
                 "trueValue": "Rohan LLC"
             },
             "values": [
@@ -48,7 +49,7 @@ const addValueToExistingRow = require("./addValueToExistingRow");
                 "display": "hqCountry"
             },
             "sourceSystem": {
-                "source": "FIS",
+                "source": "352c8824eEffg234234234",
                 "trueValue": "Djibouti"
             },
             "values": [
@@ -80,6 +81,7 @@ async function responseMapper(
   BorrowerId,
   configuredApiIdx
 ) {
+
   const customAPIrequest = await axios({
     method: customAPI.requestType,
     url: customAPI.requestUrl + `/${BorrowerId}`,
@@ -87,10 +89,13 @@ async function responseMapper(
     headers: customAPI.requestHeaders,
     params: customAPI.requestParams,
   }).then((response) => {
+    let customApiId = ObjectId(customAPI["_id"]);
+
     const resultData = response.data;
     TableHeaders.push({
       Label: response.data.ExternalSource,
       Accessor: response.data.ExternalSource,
+      customApiId
     });
 
     //In the case wehre response Mapper is given
@@ -106,6 +111,7 @@ async function responseMapper(
         } else {
           delete mappedKeyCheckOff[newMappedKey];
         }
+
         //value that newMappedKey will have
         const desiredValueFromExternal = resultData[externalSystemKey];
 
@@ -113,15 +119,16 @@ async function responseMapper(
           console.log(
             `External System key "${externalSystemKey}" does not exist in the external source data`
           );
+          continue;
         }
 
         /** Case 1) newMappedKey does already exist in resultWithMapping */
 
-
         let doesFieldExist = addValueToExistingRow(
           resultWithMapping,
           desiredValueFromExternal,
-          newMappedKey
+          newMappedKey,
+          customApiId
         );
 
         if (doesFieldExist) {
@@ -134,7 +141,8 @@ async function responseMapper(
           configuredApiIdx,
           resultData.ExternalSource,
           desiredValueFromExternal,
-          newMappedKey
+          newMappedKey,
+          customApiId
         );
       }
 
@@ -144,11 +152,14 @@ async function responseMapper(
       for (let remainingKey in mappedKeyCheckOff) {
         for (let row = 0; row < resultWithMapping.length; row++) {
           if (resultWithMapping[row].key_config.key === remainingKey) {
-            resultWithMapping[row].values.push(null);
-            break;
+            let externalValue = resultData[remainingKey];
+            if (externalValue) {
+              resultWithMapping[row].values.push(externalValue);
+            } else {
+              resultWithMapping[row].values.push(null);
+            }
           }
         }
-        resultWithMapping[configuredApiIdx].values.push;
       }
     }
   });
