@@ -343,10 +343,10 @@ const EntityDiscrepancy = (props) => {
       })
     })
     const req = { savedChanges: { ...discrepancyData } }
+    console.log(`Line 346 - ${handleConfirmButton.name} -`, req)
     await entities.post(`discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`, req)
     props.history.push("/entity")
   }
-  console.log(entityTableData)
 
   /**
    * @return a string instances/declartive contains described styles
