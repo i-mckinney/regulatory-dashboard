@@ -186,8 +186,8 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
         <form className={userFormClasses.userFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
             <Grid container
                 direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
+                justify="flex-end"
+                alignItems="center"
                 spacing={4}>
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
@@ -204,10 +204,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                         </Grid>
                     )}
                 )}
-            </Grid>
-            <Grid container spacing={3}>
-                <Grid item xs></Grid>
-                <Grid item xs={4} className={userFormClasses.buttonStyle}>
+                <Grid className={userFormClasses.buttonStyle}>
                     {renderButtonActions()}
                 </Grid>
             </Grid>
