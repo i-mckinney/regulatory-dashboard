@@ -23,7 +23,7 @@ var _Clear = _interopRequireDefault(require("@material-ui/icons/Clear"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _index = require("../../HelixTextField/index");
+var _index = _interopRequireDefault(require("../../HelixTextField/index"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -124,6 +124,9 @@ var entityTableCellStyles = (0, _core.makeStyles)(function () {
     },
     helixInput: {
       marginTop: '16px'
+    },
+    pWaterMark: {
+      fontSize: '9px'
     }
   };
 });
@@ -245,7 +248,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
     var initialValue = initialStateValue === 'NULL' ? '' : initialStateValue;
 
     if (externalValues[rowIndex][columnIndex - 1] !== initialValue) {
-      return "Source Value: ".concat(externalValues[rowIndex][columnIndex - 1]);
+      return "External Value Received: ".concat(externalValues[rowIndex][columnIndex - 1]);
     }
 
     return null;
@@ -255,7 +258,8 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var displayCurrentStateChanges = function displayCurrentStateChanges() {
     if (saveChanges) {
       return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", {
-        className: entityTableCellClasses.editedField
+        className: entityTableCellClasses.editedField,
+        onClick: handleDivChange
       }, currentStateValue), /*#__PURE__*/_react["default"].createElement(_CheckCircle["default"], {
         className: entityTableCellClasses.editedIcon
       }), /*#__PURE__*/_react["default"].createElement(_Replay["default"], {
@@ -273,7 +277,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
 
   var displayCustomizedForm = function displayCustomizedForm() {
     if (!isDivHidden) {
-      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, displayExternalValue()), /*#__PURE__*/_react["default"].createElement(_index.HelixTextField, {
+      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, displayExternalValue()), /*#__PURE__*/_react["default"].createElement(_index["default"], {
         className: entityTableCellClasses.helixInput,
         value: value,
         onChange: handleInputChange,
@@ -299,6 +303,17 @@ var EntityTableCell = function EntityTableCell(_ref) {
     }
 
     return null;
+  }; // Display character 'p' when proposed value is introduce by user input from previous discrepancy report submission
+
+
+  var proposedWaterMark = function proposedWaterMark() {
+    if (initialStateValue !== externalValues[rowIndex][columnIndex - 1] && initialStateValue !== "NULL") {
+      return /*#__PURE__*/_react["default"].createElement("span", {
+        className: entityTableCellClasses.pWaterMark
+      }, "p");
+    }
+
+    return null;
   }; // If changes are made, display background color for that cell 'orange'
   // otherwise, display regular state of the cell
 
@@ -317,7 +332,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
 
 
   var selectedRadio = function selectedRadio() {
-    saveRadioData(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue);
+    saveRadioData(rowIndex, columns[columnIndex].customApiId, currentStateValue || initialStateValue);
   }; // displayTableCell return jsx object of editable table cell or non-editable table cell
 
 
@@ -330,14 +345,26 @@ var EntityTableCell = function EntityTableCell(_ref) {
         style: {
           minWidth: 175
         }
-      }, /*#__PURE__*/_react["default"].createElement(_core.Radio, {
+      }, /*#__PURE__*/_react["default"].createElement(Grid, {
+        container: true,
+        direction: "row",
+        justify: "flex-start",
+        alignItems: "center",
+        spacing: 2
+      }, /*#__PURE__*/_react["default"].createElement(Grid, null, /*#__PURE__*/_react["default"].createElement(_core.Radio, {
         className: entityTableCellClasses.selectedRadio,
         disabled: initialStateValue === "NULL",
-        checked: (currentStateValue || initialStateValue) === sourceTrueValue && columns[columnIndex].Accessor === source,
+        checked: (currentStateValue || initialStateValue) === sourceTrueValue && columns[columnIndex].customApiId === source,
         size: "small",
         color: "default",
         onClick: selectedRadio
-      }), displayInitialStateValue(), displayCurrentStateChanges(), displayCustomizedForm());
+      })), /*#__PURE__*/_react["default"].createElement(Grid, null, displayInitialStateValue())), displayCurrentStateChanges(), displayCustomizedForm(), /*#__PURE__*/_react["default"].createElement(Grid, {
+        container: true,
+        direction: "row-reverse",
+        justify: "flex-start",
+        alignItems: "flex-start",
+        spacing: 1
+      }, /*#__PURE__*/_react["default"].createElement(Grid, null, proposedWaterMark())));
     } else if (containActions) {
       return /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
         className: entityTableCellClasses.initialCell
