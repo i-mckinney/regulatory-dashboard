@@ -204,7 +204,7 @@ const EntityTableCell = ({
     if (saveChanges) {
       return (
         <div>
-          <span className={entityTableCellClasses.editedField}>{currentStateValue}</span>
+          <span className={entityTableCellClasses.editedField} onClick={handleDivChange}>{currentStateValue}</span>
           <CheckCircleIcon className={entityTableCellClasses.editedIcon} />
           <ReplayIcon 
           className={entityTableCellClasses.undoIcon}
