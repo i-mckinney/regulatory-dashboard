@@ -88,6 +88,9 @@ const entityTableCellStyles = makeStyles(() => ({
   },
   helixInput: {
     marginTop: '16px',
+  },
+  pWaterMark: {
+    fontSize: '9px'
   }
 }))
 
@@ -193,7 +196,7 @@ const EntityTableCell = ({
     const initialValue = initialStateValue === 'NULL' ? '' : initialStateValue
     if (externalValues[rowIndex][columnIndex-1] !== initialValue) {
       return (
-        `Source Value: ${externalValues[rowIndex][columnIndex-1]}`
+        `External Value Received: ${externalValues[rowIndex][columnIndex-1]}`
       )
     }
     return null
@@ -204,7 +207,7 @@ const EntityTableCell = ({
     if (saveChanges) {
       return (
         <div>
-          <span className={entityTableCellClasses.editedField}>{currentStateValue}</span>
+          <span className={entityTableCellClasses.editedField} onClick={handleDivChange}>{currentStateValue}</span>
           <CheckCircleIcon className={entityTableCellClasses.editedIcon} />
           <ReplayIcon 
           className={entityTableCellClasses.undoIcon}
@@ -239,6 +242,16 @@ const EntityTableCell = ({
     return null
   }
 
+  // Display character 'p' when proposed value is introduce by user input from previous discrepancy report submission
+  const proposedWaterMark = () => {
+    if (initialStateValue !== externalValues[rowIndex][columnIndex-1] && initialStateValue !== "NULL") {
+      return (
+        <span className={entityTableCellClasses.pWaterMark}>p</span>
+      )
+    }
+    return null
+  }
+
   // If changes are made, display background color for that cell 'orange'
   // otherwise, display regular state of the cell
   const cellState = () => {
@@ -256,7 +269,7 @@ const EntityTableCell = ({
 
   // selectedRadio saves the selected radio button data with its source and value
   const selectedRadio = () => {
-    saveRadioData(rowIndex, columns[columnIndex].Accessor, currentStateValue || initialStateValue)
+    saveRadioData(rowIndex, columns[columnIndex].customApiId, currentStateValue || initialStateValue)
   }
 
   // displayTableCell return jsx object of editable table cell or non-editable table cell
@@ -269,21 +282,44 @@ const EntityTableCell = ({
           tabIndex="0"
           style={{ minWidth: 175 }}
         >
-          <Radio 
-          className={entityTableCellClasses.selectedRadio} 
-          disabled={initialStateValue === "NULL"}
-          checked={
-            (currentStateValue || initialStateValue) === sourceTrueValue 
-            && 
-            columns[columnIndex].Accessor === source
-          }
-          size="small" 
-          color="default" 
-          onClick={selectedRadio} 
-          />
-          {displayInitialStateValue()}
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+            spacing={2}
+          >
+            <Grid>
+              <Radio 
+              className={entityTableCellClasses.selectedRadio} 
+              disabled={initialStateValue === "NULL"}
+              checked={
+                (currentStateValue || initialStateValue) === sourceTrueValue 
+                && 
+                columns[columnIndex].customApiId === source
+              }
+              size="small" 
+              color="default" 
+              onClick={selectedRadio} 
+              />
+            </Grid>
+            <Grid>
+              {displayInitialStateValue()}
+            </Grid>
+          </Grid>
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
+          <Grid
+            container
+            direction="row-reverse"
+            justify="flex-start"
+            alignItems="flex-start"
+            spacing={1}
+          >
+            <Grid>
+              {proposedWaterMark()}
+            </Grid>
+          </Grid>
         </TableCell>
       )
     } else if (containActions) {
