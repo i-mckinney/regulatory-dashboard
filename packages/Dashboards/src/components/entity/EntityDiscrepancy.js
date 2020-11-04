@@ -113,12 +113,7 @@ const EntityDiscrepancy = (props) => {
   } else {
     if (columns.length === 0 && !error.err) {
       if (!data.ErrorMessage) {
-        data.TableHeaders.forEach((header, headerIndex) => {
-          columns.push(header)
-          if (headerIndex) {
-            discrepancyData[[header.customApiId]] = {}
-          }
-        })
+        data.TableHeaders.forEach((header) => columns.push(header))
         data.TableData.forEach((entityField) => {
           const row = [entityField.key_config["display"]]
           const tempExternalValues = []
@@ -196,6 +191,7 @@ const EntityDiscrepancy = (props) => {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
         modifiedSourceSystem["source"] = source
         modifiedSourceSystem["trueValue"] = value
+        modifiedSourceSystem["isEdited"] = true
         modifiedData["sourceSystem"] = modifiedSourceSystem
       }
 
@@ -226,6 +222,7 @@ const EntityDiscrepancy = (props) => {
 
       if (source === columns[columnIndex].customApiId) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
+        delete modifiedSourceSystem.isEdited
         modifiedSourceSystem["source"] = source
         modifiedSourceSystem["trueValue"] = previousValue
         modifiedData["sourceSystem"] = modifiedSourceSystem
@@ -273,6 +270,7 @@ const EntityDiscrepancy = (props) => {
     const modifiedSourceSystem = { ...modifiedData.sourceSystem }
     modifiedSourceSystem["source"] = source
     modifiedSourceSystem["trueValue"] = trueValue
+    modifiedSourceSystem["isEdited"] = true
 
     const modifiedValues = [ ...modifiedData.values ] 
     
@@ -330,9 +328,17 @@ const EntityDiscrepancy = (props) => {
     entityTableData.forEach((row) => {
       row.values.forEach((cell, index) => {
         if (cell && cell.isEdited) {
+          const containsCustomApiId = Object.keys(discrepancyData).includes(columns[index+1].customApiId)
           const key = row.key_config["key"]
-          const obj = { [key]: { "CurrentValue": cell.currentValue, "SourceOfTruth": cell.matchesSoT } }
-          discrepancyData[columns[index+1].customApiId] = { ...discrepancyData[columns[index+1].customApiId], ...obj}
+          const sourceOfTruth = row.sourceSystem.source === columns[index+1].customApiId ? true : false
+          const obj = { [key]: { "CurrentValue": cell.currentValue, "SourceOfTruth": sourceOfTruth } }
+          if (!containsCustomApiId) {
+
+            discrepancyData[columns[index+1].customApiId] = { ...obj }
+          } 
+          else {
+            discrepancyData[columns[index+1].customApiId] = { ...discrepancyData[columns[index+1].customApiId], ...obj }
+          }
         }
       })
     })
