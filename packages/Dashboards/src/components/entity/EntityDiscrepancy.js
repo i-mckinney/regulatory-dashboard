@@ -327,23 +327,22 @@ const EntityDiscrepancy = (props) => {
   const handleConfirmButton = async () => {
     entityTableData.forEach((row) => {
       row.values.forEach((cell, index) => {
-        if (cell && cell.isEdited) {
+        if (cell) {
           const containsCustomApiId = Object.keys(discrepancyData).includes(columns[index+1].customApiId)
           const key = row.key_config["key"]
           const sourceOfTruth = row.sourceSystem.source === columns[index+1].customApiId ? true : false
-          const obj = { [key]: { "CurrentValue": cell.currentValue, "SourceOfTruth": sourceOfTruth } }
-          if (!containsCustomApiId) {
-
-            discrepancyData[columns[index+1].customApiId] = { ...obj }
-          } 
-          else {
-            discrepancyData[columns[index+1].customApiId] = { ...discrepancyData[columns[index+1].customApiId], ...obj }
+          const obj = { [key]: { "CurrentValue": cell.currentValue || cell.externalValue, "SourceOfTruth": sourceOfTruth } }
+          if (cell.isEdited || (row.sourceSystem.isEdited && row.sourceSystem.source === columns[index+1].customApiId) ) {
+            if (!containsCustomApiId) {
+              discrepancyData[columns[index+1].customApiId] = { ...obj }
+            } else {
+              discrepancyData[columns[index+1].customApiId] = { ...discrepancyData[columns[index+1].customApiId], ...obj }
+            }
           }
         }
       })
     })
     const req = { savedChanges: { ...discrepancyData } }
-    console.log(req)
     await entities.post(`discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`, req)
     props.history.push("/entity")
   }
