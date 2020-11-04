@@ -88,6 +88,9 @@ const entityTableCellStyles = makeStyles(() => ({
   },
   helixInput: {
     marginTop: '16px',
+  },
+  pWaterMark: {
+    fontSize: '9px'
   }
 }))
 
@@ -239,6 +242,15 @@ const EntityTableCell = ({
     return null
   }
 
+  const proposedWaterMark = () => {
+    if (initialStateValue !== externalValues[rowIndex][columnIndex-1] && initialStateValue !== "NULL") {
+      return (
+        <span className={entityTableCellClasses.pWaterMark}>p</span>
+      )
+    }
+    return null
+  }
+
   // If changes are made, display background color for that cell 'orange'
   // otherwise, display regular state of the cell
   const cellState = () => {
@@ -269,21 +281,44 @@ const EntityTableCell = ({
           tabIndex="0"
           style={{ minWidth: 175 }}
         >
-          <Radio 
-          className={entityTableCellClasses.selectedRadio} 
-          disabled={initialStateValue === "NULL"}
-          checked={
-            (currentStateValue || initialStateValue) === sourceTrueValue 
-            && 
-            columns[columnIndex].customApiId === source
-          }
-          size="small" 
-          color="default" 
-          onClick={selectedRadio} 
-          />
-          {displayInitialStateValue()}
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="center"
+            spacing={2}
+          >
+            <Grid>
+              <Radio 
+              className={entityTableCellClasses.selectedRadio} 
+              disabled={initialStateValue === "NULL"}
+              checked={
+                (currentStateValue || initialStateValue) === sourceTrueValue 
+                && 
+                columns[columnIndex].customApiId === source
+              }
+              size="small" 
+              color="default" 
+              onClick={selectedRadio} 
+              />
+            </Grid>
+            <Grid>
+              {displayInitialStateValue()}
+            </Grid>
+          </Grid>
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
+          <Grid
+            container
+            direction="row-reverse"
+            justify="flex-start"
+            alignItems="flex-start"
+            spacing={1}
+          >
+            <Grid>
+              {proposedWaterMark()}
+            </Grid>
+          </Grid>
         </TableCell>
       )
     } else if (containActions) {
