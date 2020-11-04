@@ -196,7 +196,7 @@ const EntityTableCell = ({
     const initialValue = initialStateValue === 'NULL' ? '' : initialStateValue
     if (externalValues[rowIndex][columnIndex-1] !== initialValue) {
       return (
-        `Source Value: ${externalValues[rowIndex][columnIndex-1]}`
+        `External Value Received: ${externalValues[rowIndex][columnIndex-1]}`
       )
     }
     return null
@@ -242,6 +242,7 @@ const EntityTableCell = ({
     return null
   }
 
+  // Display character 'p' when proposed value is introduce by user input from previous discrepancy report submission
   const proposedWaterMark = () => {
     if (initialStateValue !== externalValues[rowIndex][columnIndex-1] && initialStateValue !== "NULL") {
       return (
