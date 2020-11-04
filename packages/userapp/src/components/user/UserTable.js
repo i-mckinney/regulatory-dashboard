@@ -25,6 +25,12 @@ const userTableStyles = makeStyles(() => ({
     header: {
         paddingBottom: '2rem',
     },
+    actionsIconStyle: {
+        '& button': {
+            marginRight: '1rem',
+            cursor: 'pointer',
+        },
+    },
 }))
 
 /**
@@ -100,14 +106,14 @@ const UserTable = (props) => {
     const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
         const displayActions = () => (
-            <>
-            <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/edit/${row._id}`, state: row }))} color="default">
-                <EditIcon />
-            </IconButton>
-            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/delete/${row._id}`, state: row }))} color="secondary">
-                <DeleteIcon />
-            </IconButton>
-            </>
+            <span className={userTableClasses.actionsIconStyle}>
+                <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/edit/${row._id}`, state: row }))} color="default">
+                    <EditIcon />
+                </IconButton>
+                <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/users/delete/${row._id}`, state: row }))} color="secondary">
+                    <DeleteIcon />
+                </IconButton>
+            </span>
         )
         if (columnAccessor === "Actions") {
             return (
