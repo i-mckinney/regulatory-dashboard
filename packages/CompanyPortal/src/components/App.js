@@ -17,9 +17,6 @@ function App() {
             <Switch>
               <Route path='/api-table' exact component={ApiTable} />
             </Switch>
-            <Switch>
-              <Route path='/api-test' exact component={PerformTestPage} />
-            </Switch>
           </div>
         </BrowserRouter>
       </StylesProvider>

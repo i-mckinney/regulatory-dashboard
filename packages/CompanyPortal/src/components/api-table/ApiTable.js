@@ -12,6 +12,7 @@ import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
 import PerformTestDialog from './PerformTestDialog';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
 import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
+import PerformTestPage from "../perform-test-page/PerformTestPage";
 
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
@@ -272,6 +273,16 @@ const ApiTable = (props) => {
     );
   };
 
+  if (openTestRequestModal) {
+    return (
+      <PerformTestPage
+        onClose={() => setOpenTestRequestModal(false)}
+        requestData={requestData}
+        companyId={companyId}
+      />
+    )
+  };
+
   return (
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
@@ -309,6 +320,7 @@ const ApiTable = (props) => {
         requestData={requestData}
         companyId={companyId}
       ></PerformTestDialog>
+
     </StylesProvider>
   );
 };

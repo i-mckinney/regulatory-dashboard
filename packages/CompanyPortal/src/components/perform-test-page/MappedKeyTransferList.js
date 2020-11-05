@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -36,23 +36,46 @@ const useTransferListStyles = makeStyles((theme) => ({
   },
 }));
 
+// Material UI Transfer List Component
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
 }
 
+// Material UI Transfer List Component
 function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
+// Material UI Transfer List Component
 function union(a, b) {
   return [...a, ...not(b, a)];
 }
 
-export default function TransferList() {
+
+/**
+ * @return {JSX} returns Material UI transfer list component fro selecting mapped response keys that are to be sent to the backend
+  
+
+ */
+export default function TransferList({ keys, setKeys}) {
   const transferListClasses = useTransferListStyles();
+  // checked keys to be stored in checked array, only items in checked array are sent to backend
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState([0, 1, 2, 3]);
-  const [right, setRight] = React.useState([4, 5, 6, 7]);
+  // list items stored in left array
+  const [left, setLeft] = React.useState(keys);
+  // list items stored in right array
+  const [right, setRight] = React.useState([]);
+
+  useEffect(() => {
+    setKeys(right)
+  }, [right, setKeys])
+
+  useEffect(() => {
+    setLeft(keys)
+    setRight([])
+    setChecked([])
+  }, [keys])
+
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -92,6 +115,10 @@ export default function TransferList() {
     setChecked(not(checked, rightChecked));
   };
 
+  /** @return {JSX} returns a custom list of mapped keys
+    * @param {string} title the custom list title to distinguish right from left
+    * @param {object} items object containing all available list items
+ */
   const customList = (title, items) => (
     <Card>
       <CardHeader
@@ -123,7 +150,7 @@ export default function TransferList() {
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              <ListItemText id={labelId} primary={value} />
             </ListItem>
           );
         })}

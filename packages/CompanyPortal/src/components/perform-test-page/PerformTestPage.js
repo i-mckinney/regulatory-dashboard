@@ -43,7 +43,8 @@ const performTestPageStyles = makeStyles(() => ({
  
 export default function PerformTestPage({
   requestData: { requestName, _id: requestId },
-  companyId
+  companyId,
+  onClose
 }
 ) {
   const performTestPageClasses = performTestPageStyles()
@@ -52,20 +53,21 @@ export default function PerformTestPage({
     const [response, setResponse] = useState(null);
     const [mappedResponse, setMappedResponse] = useState(null);
     const [keys, setKeys] = useState([])
+    const [selectedKeys, setSelectedKeys] = useState([])
+    const [borrowerId, setBorrowerId] = useState("")
 
 
     /** *
      * Executes the Test Custom API Request backend call and sets the response data for use in UI display 
-     * @param {string} borrowerId the unique Borrower ID appended to the customapi/test route
      */
-    const testRequest = async (borrowerId) => {
-    const response = await axios.get(
-      `${API_HOST}/companies/${companyId}/customapi/${requestId}/test/${borrowerId}`
-    );
-    setResponse(response.data.externalSourceData);
-    setMappedResponse(response.data.responseMapped);
-    setKeys(Object.keys(response.data.externalSourceData))
-  };
+    const testRequest = async () => {
+     const response = await axios.get(
+       `${API_HOST}/companies/${companyId}/customapi/${requestId}/test/${borrowerId}`
+     );
+     setResponse(response.data.externalSourceData);
+     setMappedResponse(response.data.responseMapped);
+     setKeys(Object.keys(response.data.responseMapped))
+   };
 
   /**
    * @return {jsx} return a HelixTextField and HelixButton for capturing id 
@@ -82,6 +84,8 @@ export default function PerformTestPage({
             </InputAdornment>
           )
         }}
+        value={borrowerId}
+        onChange={e => setBorrowerId(e.target.value)}
         />
           <HelixButton 
               color="secondary"
@@ -90,7 +94,8 @@ export default function PerformTestPage({
               size="large"
               text="Perform Test"
               style={{marginLeft: '2em'}}
-               />
+              onClick={() => testRequest()}
+            />
               
         </div>
         
@@ -109,7 +114,7 @@ export default function PerformTestPage({
           External Source Data:
         </Typography>
         <Typography variant="body2" component="p">
-          Source data object here
+          {response ? <pre>{JSON.stringify(response, null, 2)}</pre> : ""}
         </Typography>
       </CardContent>
     </Card>
@@ -127,7 +132,8 @@ export default function PerformTestPage({
           Mapped Response:
         </Typography>
         <Typography variant="body2" component="p">
-          Mapped response object here
+          
+           {response ? <pre>{JSON.stringify(mappedResponse, null, 2)}</pre> : ""}
         </Typography>
       </CardContent>
     </Card>
@@ -156,6 +162,7 @@ export default function PerformTestPage({
               type="cancel"
               size="large"
               href="/api-table"
+              onClick={onClose}
               startIcon={<CancelIcon />}
               text="Cancel" />
           </>
@@ -168,7 +175,7 @@ export default function PerformTestPage({
       <Grid item xs='12'>{renderTestingActions()}</Grid>
         <Grid item xs='6' className={performTestPageClasses.responseContainer}>{renderExternalSourceData()}</Grid>
         <Grid item xs='6'className={performTestPageClasses.responseContainer}>{renderMappedResponseData()}</Grid>
-        <Grid item xs='12'><MappedKeyTransferList/></Grid>
+        <Grid item xs='12'><MappedKeyTransferList keys={keys} setKeys={setSelectedKeys} /></Grid>
         <Grid item xs='12' className={performTestPageClasses.buttonStyle} style={{textAlign: 'center'}}>
           {renderButtonActions()}
       </Grid>
