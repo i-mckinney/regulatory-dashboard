@@ -102,7 +102,7 @@ const ApiTable = (props) => {
 
   const handleCloseEditModal = () => {
     setOpenEditModal(false);
-    setRequestData({});
+    //setRequestData({});
   };
 
   // columns will store column header that we want to show in the front end
@@ -156,6 +156,7 @@ const ApiTable = (props) => {
         }
       );
       setCompanyData(companyData.map(d => d._id === updatedRow._id ? response.data : d));
+      setRequestData({...response.data});
     } catch(e) {
       console.error(e)
     }
@@ -279,6 +280,7 @@ const ApiTable = (props) => {
         onClose={() => setOpenTestRequestModal(false)}
         requestData={requestData}
         companyId={companyId}
+        handleEditRow={handleEditRow}
       />
     )
   };
@@ -314,12 +316,6 @@ const ApiTable = (props) => {
         onCreate={handleCreateRow}
         modalAction={modalAction}
       />
-      <PerformTestDialog
-        open={openTestRequestModal}
-        onClose={() => setOpenTestRequestModal(false)}
-        requestData={requestData}
-        companyId={companyId}
-      ></PerformTestDialog>
 
     </StylesProvider>
   );

@@ -14,7 +14,7 @@ import Divider from '@material-ui/core/Divider';
 // MAPPED KEY TRANSFER LIST
 /* 
 Displays a transferable list of keys provided by the responseMapped data object associated
-with the given API response. Select keys and move from right to left to save and send to CompanyBackend 
+with the given API response. Select keys and move from selectedResponseKeys to availableResponseKeys to save and send to CompanyBackend 
    */
 
 
@@ -57,28 +57,24 @@ function union(a, b) {
   
 
  */
-export default function TransferList({ keys, setKeys}) {
+export default function TransferList({ availableResponseKeys, setAvailableResponseKeys, selectedResponseKeys, setSelectedResponseKeys}) {
   const transferListClasses = useTransferListStyles();
-  // checked keys to be stored in checked array, only items in checked array are sent to backend
   const [checked, setChecked] = React.useState([]);
-  // list items stored in left array
-  const [left, setLeft] = React.useState(keys);
-  // list items stored in right array
-  const [right, setRight] = React.useState([]);
+  //const [availableResponseKeys, setAvailableResponseKeys] = React.useState(keys);
+  //const [selectedResponseKeys, setSelectedResponseKeys] = React.useState(mappedKeys);
 
-  useEffect(() => {
-    setKeys(right)
-  }, [right, setKeys])
+  // useEffect(() => {
+  //   setKeys(selectedResponseKeys)
+  // }, [selectedResponseKeys, setKeys])
 
-  useEffect(() => {
-    setLeft(keys)
-    setRight([])
-    setChecked([])
-  }, [keys])
+  // useEffect(() => {
+  //   setAvailableResponseKeys(keys)
+  //   setSelectedResponseKeys(mappedKeys)
+  // }, [keys, mappedKeys])
 
 
-  const leftChecked = intersection(checked, left);
-  const rightChecked = intersection(checked, right);
+  const leftChecked = intersection(checked, availableResponseKeys);
+  const rightChecked = intersection(checked, selectedResponseKeys);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -104,19 +100,19 @@ export default function TransferList({ keys, setKeys}) {
   };
 
   const handleCheckedRight = () => {
-    setRight(right.concat(leftChecked));
-    setLeft(not(left, leftChecked));
+    setSelectedResponseKeys(selectedResponseKeys.concat(leftChecked));
+    setAvailableResponseKeys(not(availableResponseKeys, leftChecked));
     setChecked(not(checked, leftChecked));
   };
 
   const handleCheckedLeft = () => {
-    setLeft(left.concat(rightChecked));
-    setRight(not(right, rightChecked));
+    setAvailableResponseKeys(availableResponseKeys.concat(rightChecked));
+    setSelectedResponseKeys(not(selectedResponseKeys, rightChecked));
     setChecked(not(checked, rightChecked));
   };
 
   /** @return {JSX} returns a custom list of mapped keys
-    * @param {string} title the custom list title to distinguish right from left
+    * @param {string} title the custom list title to distinguish selectedResponseKeys from availableResponseKeys
     * @param {object} items object containing all available list items
  */
   const customList = (title, items) => (
@@ -161,7 +157,7 @@ export default function TransferList({ keys, setKeys}) {
 
   return (
     <Grid container spacing={2} justify="center" alignItems="center" className={transferListClasses.root}>
-      <Grid item>{customList('Available Mapped Keys', left)}</Grid>
+      <Grid item>{customList('Available Response Keys', availableResponseKeys)}</Grid>
       <Grid item>
         <Grid container direction="column" alignItems="center">
           <Button
@@ -170,7 +166,7 @@ export default function TransferList({ keys, setKeys}) {
             className={transferListClasses.button}
             onClick={handleCheckedRight}
             disabled={leftChecked.length === 0}
-            aria-label="move selected right"
+            aria-label="move selected selectedResponseKeys"
           >
             &gt;
           </Button>
@@ -180,13 +176,13 @@ export default function TransferList({ keys, setKeys}) {
             className={transferListClasses.button}
             onClick={handleCheckedLeft}
             disabled={rightChecked.length === 0}
-            aria-label="move selected left"
+            aria-label="move selected availableResponseKeys"
           >
             &lt;
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList('Selected Mapped Keys', right)}</Grid>
+      <Grid item>{customList('Selected Response Keys', selectedResponseKeys)}</Grid>
     </Grid>
   );
 }

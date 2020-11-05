@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { makeStyles, Typography, Card, CardActions, CardContent, Grid, InputAdornment } from '@material-ui/core'
 import axios from 'axios';
 
@@ -42,32 +42,51 @@ const performTestPageStyles = makeStyles(() => ({
  
  
 export default function PerformTestPage({
-  requestData: { requestName, _id: requestId },
+  requestData: { requestName, _id: requestId, responseMapper },
+  requestData,
   companyId,
-  onClose
+  onClose,
+  handleEditRow
 }
 ) {
   const performTestPageClasses = performTestPageStyles()
   
-    const [requestData, setRequestData] = useState({});
     const [response, setResponse] = useState(null);
     const [mappedResponse, setMappedResponse] = useState(null);
     const [keys, setKeys] = useState([])
-    const [selectedKeys, setSelectedKeys] = useState([])
+    const [mappedKeys, setMappedKeys] = useState([])
     const [borrowerId, setBorrowerId] = useState("")
+    const responseLoaded = !!response
+
+    const handleSave = () => {
+      const updatedResponseMapper = mappedKeys.reduce((acc, k) => ({ ...acc, [k]: responseMapper[k] ?? k}), {})
+      handleEditRow({ ...requestData, responseMapper: updatedResponseMapper })
+    }
 
 
     /** *
      * Executes the Test Custom API Request backend call and sets the response data for use in UI display 
      */
-    const testRequest = async () => {
-     const response = await axios.get(
-       `${API_HOST}/companies/${companyId}/customapi/${requestId}/test/${borrowerId}`
-     );
-     setResponse(response.data.externalSourceData);
-     setMappedResponse(response.data.responseMapped);
-     setKeys(Object.keys(response.data.responseMapped))
-   };
+    const testRequest = useCallback(
+      async () => {
+        const response = await axios.get(
+          `${API_HOST}/companies/${companyId}/customapi/${requestId}/test/${borrowerId}`
+        );
+        const mappedKeys = Object.keys(responseMapper);
+        setResponse(response.data.externalSourceData);
+        setMappedResponse(response.data.responseMapped);
+        setKeys(Object.keys(response.data.externalSourceData).filter(key => key !== "_id" && !mappedKeys.includes(key)))
+        setMappedKeys(Object.keys(responseMapper));
+      },
+      [requestId, borrowerId, companyId, responseMapper],
+    ) 
+
+   useEffect(() => {
+     if(borrowerId && requestData && responseLoaded) {
+       testRequest()
+     }
+
+   }, [requestData, borrowerId, testRequest, responseLoaded])
 
   /**
    * @return {jsx} return a HelixTextField and HelixButton for capturing id 
@@ -151,9 +170,7 @@ export default function PerformTestPage({
               variant="contained" 
               type="submit" 
               size="large"
-              href="/api-table"
-
-              // onClick={handleSaveEntityConfiguration}
+              onClick={handleSave}
               startIcon={<SaveIcon />}
               text="Save" />
               <HelixButton
@@ -161,7 +178,6 @@ export default function PerformTestPage({
               variant="contained"
               type="cancel"
               size="large"
-              href="/api-table"
               onClick={onClose}
               startIcon={<CancelIcon />}
               text="Cancel" />
@@ -175,7 +191,7 @@ export default function PerformTestPage({
       <Grid item xs='12'>{renderTestingActions()}</Grid>
         <Grid item xs='6' className={performTestPageClasses.responseContainer}>{renderExternalSourceData()}</Grid>
         <Grid item xs='6'className={performTestPageClasses.responseContainer}>{renderMappedResponseData()}</Grid>
-        <Grid item xs='12'><MappedKeyTransferList keys={keys} setKeys={setSelectedKeys} /></Grid>
+        <Grid item xs='12'><MappedKeyTransferList  availableResponseKeys={keys} setAvailableResponseKeys={setKeys} selectedResponseKeys={mappedKeys} setSelectedResponseKeys={setMappedKeys} /></Grid>
         <Grid item xs='12' className={performTestPageClasses.buttonStyle} style={{textAlign: 'center'}}>
           {renderButtonActions()}
       </Grid>

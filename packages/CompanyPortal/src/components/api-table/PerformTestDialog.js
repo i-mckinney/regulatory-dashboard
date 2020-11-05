@@ -50,7 +50,6 @@ const PerformTestDialog = ({
     return null;
   }
 
-  console.log('KEYS', keys)
   /////////////////////////////////////////////
   const handleKeyChange = (keys) => {
         setKeys([...keys])
