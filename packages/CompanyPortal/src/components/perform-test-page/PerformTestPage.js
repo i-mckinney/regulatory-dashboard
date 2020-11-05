@@ -61,6 +61,7 @@ export default function PerformTestPage({
     const handleSave = () => {
       const updatedResponseMapper = mappedKeys.reduce((acc, k) => ({ ...acc, [k]: responseMapper[k] ?? k}), {})
       handleEditRow({ ...requestData, responseMapper: updatedResponseMapper })
+      
     }
 
 
@@ -170,7 +171,7 @@ export default function PerformTestPage({
               variant="contained" 
               type="submit" 
               size="large"
-              onClick={handleSave}
+              onClick={() => {handleSave(); onClose();}}
               startIcon={<SaveIcon />}
               text="Save" />
               <HelixButton
