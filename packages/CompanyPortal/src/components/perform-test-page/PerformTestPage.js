@@ -15,7 +15,7 @@ const performTestPageStyles = makeStyles(() => ({
       marginRight: '100px',
 
     },
-    responseContainer: {
+    responseContainer: {      
       paddingTop: '100px',
     
     },
@@ -35,8 +35,16 @@ const performTestPageStyles = makeStyles(() => ({
   },
     }
   }))
- 
- 
+
+// PERFORM TEST PAGE COMPONENT
+// Renders page for performing Custom API user tests
+
+/**
+ * @param {Object} requestData the modified Custom API request data object
+ * @param {String} companyId the ID required to make all Custom API calls to CompanyBackend
+ * @param {Function} handleEditRow function passed down from parent component to handle API Table CRUD functions
+ * @returns {JSX} PerformTest page
+ */ 
 export default function PerformTestPage({
   requestData: { requestName, _id: requestId, responseMapper },
   requestData,
@@ -46,14 +54,22 @@ export default function PerformTestPage({
 }
 ) {
   const performTestPageClasses = performTestPageStyles()
-  
+    // the response provided by making the "Test Custom API Request" GET call to CompanyBackend 
     const [response, setResponse] = useState(null);
+    // The nested mappedResponse data object returned in the response
     const [mappedResponse, setMappedResponse] = useState(null);
+    // The nested externalSourceData object returned in the response
     const [keys, setKeys] = useState([])
+    // The mapped keys to be added to the mappedResponse object by the user
     const [mappedKeys, setMappedKeys] = useState([])
+    // The ID required to make a "Test Custom API Request" GET call to CompanyBackend 
     const [borrowerId, setBorrowerId] = useState("")
+    // Confirms that a response has been received from CompanyBackend
     const responseLoaded = !!response
 
+    /*
+     * Updates the mappedResponse object preparing for an "Update A Custom API Request" made to the CompanyBackend
+     */
     const handleSave = () => {
       const updatedResponseMapper = mappedKeys.reduce((acc, k) => ({ ...acc, [k]: responseMapper[k] ?? k}), {})
       handleEditRow({ ...requestData, responseMapper: updatedResponseMapper })
@@ -61,8 +77,8 @@ export default function PerformTestPage({
     }
 
 
-    /** *
-     * Executes the Test Custom API Request backend call and sets the response data for use in UI display 
+    /** 
+     * Makes a "Test Custom API Request" call to CompanyBackend and sets the response data for display in UI
      */
     const testRequest = useCallback(
       async () => {
@@ -120,7 +136,7 @@ export default function PerformTestPage({
     }
 
   /**
-   * @return {jsx} returns UI card for displaying response data
+   * @return {JSX} returns UI card for displaying external source response data
    */
     const renderExternalSourceData = () => {
       return (
@@ -138,7 +154,7 @@ export default function PerformTestPage({
     }
 
   /**
-   * @return {jsx} returns UI cards for displaying response data
+   * @return {jsx} returns UI cards for displaying user mapped response data
    */
      const renderMappedResponseData = () => {
        return (
@@ -194,7 +210,5 @@ export default function PerformTestPage({
       </Grid>
      </Grid>
     </div>
-  
-
   )
 }
