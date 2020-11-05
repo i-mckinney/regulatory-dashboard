@@ -140,7 +140,7 @@ export default function PerformTestPage({
    */
     const renderExternalSourceData = () => {
       return (
-    <Card>
+    <Card elevation={10}>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
           External Source Data:
@@ -158,11 +158,11 @@ export default function PerformTestPage({
    */
      const renderMappedResponseData = () => {
        return (
-    <Card>
+    <Card elevation={10}>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
           Mapped Response:
-        </Typography>
+        </Typography> 
         <Typography variant="body2" component="p">
           
            {response ? <pre>{JSON.stringify(mappedResponse, null, 2)}</pre> : ""}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { StylesProvider, makeStyles, TableCell } from '@material-ui/core';
+import { StylesProvider, makeStyles } from '@material-ui/core';
 import PageHeader from '../../layout/PageHeader';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import AddIcon from '@material-ui/icons/Add';
@@ -9,7 +9,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
 import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
-import PerformTestDialog from './PerformTestDialog';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
 import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
 import PerformTestPage from "../perform-test-page/PerformTestPage";

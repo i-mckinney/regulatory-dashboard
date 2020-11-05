@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import { Card, CardActions, CardContent, Grid } from '@material-ui/core';
+  import { Card, Grid } from '@material-ui/core';
 import Controls from '../controls/Controls';
 import * as apiCallService from '../../services/apiCallService';
 
