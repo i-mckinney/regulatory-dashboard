@@ -32,6 +32,12 @@ const entityStyles = makeStyles(() => ({
   header: {
       paddingBottom: '2rem',
   },
+  actionsIconStyle: {
+    '& button': {
+        marginRight: '1rem',
+        cursor: 'pointer',
+    },
+},
   discrepancyButton: {
     color: 'green'
   },
@@ -119,7 +125,7 @@ function Entity(props) {
     const customCellRender = (row, column, rowIndex, columnIndex) => {
         const columnAccessor = column.Accessor
         const displayActions = () => (
-            <>
+            <span className={entityClasses.actionsIconStyle}>
                 <IconButton className={entityClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/${row._id}/discrepancy-report`, state: row }))}>
                     <AssessmentIcon />
                 </IconButton>
@@ -129,7 +135,7 @@ function Entity(props) {
                 <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/entity/delete/${row._id}`, state: row }))} color="secondary">
                 <DeleteIcon />
                 </IconButton>
-            </>)
+            </span>)
 
         if (columnAccessor === "Actions") {
             return (
