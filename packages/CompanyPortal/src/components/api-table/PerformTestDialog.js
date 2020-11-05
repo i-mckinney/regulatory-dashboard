@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-// import CircularProgress from '@material-ui/core/CircularProgress';
 import { TextField, Button, InputBase } from '@material-ui/core';
 import axios from 'axios';
 import DialogModalTemplate from '../DialogModalTemplate';
 import Grid from '@material-ui/core/Grid';
 import { API_HOST } from '../../config';
-// import { Controls } from '../controls/Controls';
-import ResponseKeyPicker from '../controls/ResponseKeyPicker'
 
 const PerformTestDialog = ({
   open,
@@ -91,7 +88,6 @@ const PerformTestDialog = ({
         </Grid>
         <Grid item md={12} style={{ border: '1px solid gray', paddingTop: '10px' }}>
           <h4>Selected Response Keys</h4>
-            {/* <ResponseKeyPicker currentKeys={keys} handleKeyChange={handleKeyChange}/> */}
         </Grid>
       </Grid>
     </DialogModalTemplate>

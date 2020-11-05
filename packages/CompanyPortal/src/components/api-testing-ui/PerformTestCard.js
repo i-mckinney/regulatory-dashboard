@@ -23,7 +23,6 @@ const CardStyles = makeStyles((theme) => ({
 * Child of the ApiTestUi modal component
 */
 
-
 /**
  * @param {String} name the request name
  * @param {String} method the request method type
