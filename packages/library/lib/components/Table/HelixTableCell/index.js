@@ -345,26 +345,26 @@ var EntityTableCell = function EntityTableCell(_ref) {
         style: {
           minWidth: 175
         }
-      }, /*#__PURE__*/_react["default"].createElement(Grid, {
+      }, /*#__PURE__*/_react["default"].createElement(_core.Grid, {
         container: true,
         direction: "row",
         justify: "flex-start",
         alignItems: "center",
         spacing: 2
-      }, /*#__PURE__*/_react["default"].createElement(Grid, null, /*#__PURE__*/_react["default"].createElement(_core.Radio, {
+      }, /*#__PURE__*/_react["default"].createElement(_core.Grid, null, /*#__PURE__*/_react["default"].createElement(_core.Radio, {
         className: entityTableCellClasses.selectedRadio,
         disabled: initialStateValue === "NULL",
         checked: (currentStateValue || initialStateValue) === sourceTrueValue && columns[columnIndex].customApiId === source,
         size: "small",
         color: "default",
         onClick: selectedRadio
-      })), /*#__PURE__*/_react["default"].createElement(Grid, null, displayInitialStateValue())), displayCurrentStateChanges(), displayCustomizedForm(), /*#__PURE__*/_react["default"].createElement(Grid, {
+      })), /*#__PURE__*/_react["default"].createElement(_core.Grid, null, displayInitialStateValue())), displayCurrentStateChanges(), displayCustomizedForm(), /*#__PURE__*/_react["default"].createElement(_core.Grid, {
         container: true,
         direction: "row-reverse",
         justify: "flex-start",
         alignItems: "flex-start",
         spacing: 1
-      }, /*#__PURE__*/_react["default"].createElement(Grid, null, proposedWaterMark())));
+      }, /*#__PURE__*/_react["default"].createElement(_core.Grid, null, proposedWaterMark())));
     } else if (containActions) {
       return /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
         className: entityTableCellClasses.initialCell
