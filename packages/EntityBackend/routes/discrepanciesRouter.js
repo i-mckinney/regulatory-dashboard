@@ -1,13 +1,13 @@
 // import modules
-const express = require("express")
-const { ObjectId } = require("mongodb")
-const router = express.Router()
-const getEntityConfigurations = require("../Helper/getEntityConfigurations")
-const responseMapper = require("../Helper/responseMapper")
-const mergingReportChanges = require("../Helper/mergingReportChanges")
+const express = require("express");
+const { ObjectId } = require("mongodb");
+const router = express.Router();
+const getEntityConfigurations = require("../Helper/getEntityConfigurations");
+const responseMapper = require("../Helper/responseMapper");
+const mergingReportChanges = require("../Helper/mergingReportChanges");
 
 // db setup
-const DbConnection = require("../db")
+const DbConnection = require("../db");
 
 //Used to get a aggregated discrepancy report for an entity
 router.get("/:companyId/:borrowerId/report/:entityId", async (req, res) => {
@@ -17,33 +17,34 @@ router.get("/:companyId/:borrowerId/report/:entityId", async (req, res) => {
      * BorrowerId : used to identify the entity across different external sources
      * Entity Id: used to identify the entity that user has created
      */
-    const CompanyId = req.params.companyId
-    const BorrowerId = req.params.borrowerId
-    const EntityId = req.params.entityId
+    const CompanyId = req.params.companyId;
+    const BorrowerId = req.params.borrowerId;
+    const EntityId = req.params.entityId;
 
     /** Using this information, we would know which custom api calls to dispatch for a discrepancy report.
      *  getEntityConfigurations(CompanyId) will return a list of custom api calls that has been selected in entity configuration page.
      * ex) [{responsType:"GET", responseURL:"string", responseMapper ...}, {responseType:"GET"...}, ...]
      */
-    let configuredApiCalls = await getEntityConfigurations(CompanyId)
-
+    let configuredApiCalls = await getEntityConfigurations(CompanyId);
 
     /** Loading in all the previous changes that user made to this specific entity */
-    const savedChangesCollection = await DbConnection.getCollection("DiscrepanciesReport")
+    const savedChangesCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
 
     const proposedChanges = await savedChangesCollection.findOne({
       entity_id: ObjectId(EntityId),
-    })
+    });
 
     /** resultWithMapping : would be the final output after aggregating/mapping all the data from multiple external sources  */
-    let resultWithMapping = []
+    let resultWithMapping = [];
 
     /** object of all external systems used and field name after looping through all calls */
-    let allNewMappedKeys = {}
+    let allNewMappedKeys = {};
 
     /** list of headers to populate headers of a discrepancy table  */
-    let TableHeaders = [{ Label: "Field Name", Accessor: "FieldName" }]
-    
+    let TableHeaders = [{ Label: "Field Name", Accessor: "FieldName" }];
+
     for (
       let configuredApiIdx = 0;
       configuredApiIdx < configuredApiCalls.length;
@@ -65,86 +66,122 @@ router.get("/:companyId/:borrowerId/report/:entityId", async (req, res) => {
             }
          }
       */
-      let customAPI = configuredApiCalls[configuredApiIdx]
+      let customAPI = configuredApiCalls[configuredApiIdx];
       await responseMapper(
         customAPI,
         resultWithMapping,
         allNewMappedKeys,
         TableHeaders,
         BorrowerId,
-        configuredApiIdx,
-      )
+        configuredApiIdx
+      );
 
-      let customApiID = configuredApiCalls[configuredApiIdx]["_id"]
-  
+      let customApiID = configuredApiCalls[configuredApiIdx]["_id"];
+
       if (proposedChanges) {
-        //if propsed changes for this specific custom 
-        if (proposedChanges.savedChanges[customApiID]){
-
-          let savedProposedChanges = proposedChanges.savedChanges[customApiID]
+        //if propsed changes for this specific custom
+        if (proposedChanges.savedChanges[customApiID]) {
+          let savedProposedChanges = proposedChanges.savedChanges[customApiID];
           await mergingReportChanges(
-                savedProposedChanges,
-                resultWithMapping,
-                customApiID
-              )
+            savedProposedChanges,
+            resultWithMapping,
+            customApiID
+          );
         }
       }
-
     }
 
     /**If user has made changes to the discrepancy report in the past, we need to bring in those changes
      * and merge them into the data we got back.
      */
-    res.json({ TableHeaders, TableData: resultWithMapping })
+    res.json({ TableHeaders, TableData: resultWithMapping });
   } catch (err) {
-    res.json({ ErrorStatus: err.status, ErrorMessage: err.message })
+    res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
   }
-})
+});
 
 // Save changes that were made to discrepancy report in edit discrepancy table.
 router.post("/:companyId/report/:entityId", async (req, res) => {
   try {
+
     /**
      * CompanyId : used to identify which company this report belongs to
      * EntityId : used to identify the entity that user has created
      */
-    const EntityId = req.params.entityId
-    const CompanyId = req.params.companyId
+    const EntityId = req.params.entityId;
+    const CompanyId = req.params.companyId;
 
-    const savedChanges = req.body.savedChanges
+    const newChanges = req.body.savedChanges;
 
-    if (savedChanges["_id"] || savedChanges["entity_id"])
-      throw Error("Not allowed to manually give _id entity_id")
+    if (newChanges["_id"] || newChanges["entity_id"])
+      throw Error("Not allowed to manually give _id entity_id");
 
     const reportCollection = await DbConnection.getCollection(
       "DiscrepanciesReport"
-    )
+    );
 
-    let discrepancyReportChanges = await reportCollection.findOne({
+    let pastChanges = await reportCollection.findOne({
       entity_id: ObjectId(EntityId),
-    })
+    });
 
-    //each row will have only one discrpacy report changes.
-    if (discrepancyReportChanges) {
-      await reportCollection.deleteOne({ entity_id: ObjectId(EntityId) })
+    let finalChanges;
+
+    //each row will have only one discrpacy report changes & merging previous changes
+    if (pastChanges) {
+      let savedChanges = pastChanges.savedChanges
+      finalChanges = {...savedChanges}
+
+      // console.log(finalChanges)
+
+      // await reportCollection.deleteOne({ entity_id: ObjectId(EntityId) })
+
+      for (let column in newChanges) {
+        
+        for (let row in newChanges[column]) {
+
+          console.log(typeof(column),"column")
+          console.log(typeof(row), "row")
+
+          let object = newChanges[column][row];
+
+          if(finalChanges[column][row]){
+            finalChanges[column][row] = object
+          } else {
+            finalChanges.column.row = object
+
+          }
+
+          
+        }
+      }
+      
+      // finalChanges = finalChanges.savedChanges
+      console.log(finalChanges)
+
+      // await reportCollection.insertOne({
+      //   savedChanges: finalChanges,
+      //   entity_id: ObjectId(EntityId),
+      //   company_id: ObjectId(CompanyId),
+      // });
+  
+    } else {
+      await reportCollection.insertOne({
+        savedChanges: newChanges,
+        entity_id: ObjectId(EntityId),
+        company_id: ObjectId(CompanyId),
+      });
     }
-    await reportCollection.insertOne({
-      savedChanges,
-      entity_id: ObjectId(EntityId),
-      company_id: ObjectId(CompanyId),
-    })
-
+    
     // return added discrepancyReportChanges
-    discrepancyReportChanges = await reportCollection
+    pastChanges = await reportCollection
       .find({ entity_id: ObjectId(EntityId) })
-      .toArray()
-    const changesJustAdded =
-      discrepancyReportChanges[discrepancyReportChanges.length - 1]
-    res.json(changesJustAdded)
+      .toArray();
+    const changesJustAdded = pastChanges[pastChanges.length - 1];
+    res.json(changesJustAdded);
   } catch (err) {
-    res.json({ ErrorStatus: err.status, ErrorMessage: err.message })
+    res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
   }
-})
+});
 
 // Get the changes that were made for an entity (For development purposes)
 router.get("/:companyId/report/:entityId", async (req, res) => {
@@ -152,20 +189,20 @@ router.get("/:companyId/report/:entityId", async (req, res) => {
     /**
      * EntityId : used to identify the entity that user has created
      */
-    const EntityId = req.params.entityId
+    const EntityId = req.params.entityId;
 
     const reportCollection = await DbConnection.getCollection(
       "DiscrepanciesReport"
-    )
+    );
 
     let discrepancyReportChanges = await reportCollection.findOne({
       entity_id: ObjectId(EntityId),
-    })
+    });
 
-    res.json(discrepancyReportChanges)
+    res.json(discrepancyReportChanges);
   } catch (err) {
-    res.json({ ErrorStatus: err.status, ErrorMessage: err.message })
+    res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
   }
-})
+});
 
-module.exports = router
+module.exports = router;
