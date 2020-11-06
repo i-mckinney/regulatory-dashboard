@@ -25,7 +25,7 @@ const HelixCard = () => {
     <Card className={helixCardclasses.root}>
         <CardHeader
             avatar={
-            <Avatar aria-label="recipe" className={helixCardclasses.avatar}>
+            <Avatar aria-label="user" className={helixCardclasses.avatar}>
                 R
             </Avatar>
             }
@@ -34,14 +34,13 @@ const HelixCard = () => {
                 <MoreVertIcon />
             </IconButton>
             }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title="Last Modified by Ray"
+            subheader="Created at 01/01/2019"
         />
         <Divider />
         <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
+            CCAR Report
             </Typography>
         </CardContent>
     </Card>
