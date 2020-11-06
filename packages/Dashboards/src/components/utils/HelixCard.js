@@ -4,10 +4,9 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import HelixMenuIcon from '../utils/HelixMenuIcon'
 
 const helixCardStyles = makeStyles(() => ({
     root: {
@@ -29,11 +28,7 @@ const HelixCard = () => {
                 R
             </Avatar>
             }
-            action={
-            <IconButton aria-label="settings">
-                <MoreVertIcon />
-            </IconButton>
-            }
+            action={ <HelixMenuIcon /> }
             title="Last Modified by Ray"
             subheader="Created at 01/01/2019"
         />
