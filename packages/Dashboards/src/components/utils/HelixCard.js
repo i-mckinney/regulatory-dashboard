@@ -29,26 +29,26 @@ const HelixCard = (props) => {
 
     return (
     <Card className={helixCardClasses.root} onClick={props.handleEditReport}>
-        <CardHeader
-          avatar={
-          <Avatar aria-label="user" className={helixCardClasses.avatar}>
-              {props.user.charAt(0).toUpperCase()}
-          </Avatar>
-          }
-          action={ 
-          <HelixMenuIcon 
-          handleEditReport={props.handleEditReport}
-          handleDeleteReport={props.handleDeleteReport}
-          /> }
-          title={`Last Modified by ${props.lastModifiedBy}`}
-          subheader={`Created at ${props.createdAt}`}
-        />
-        <Divider />
-        <CardContent>
-            <Typography className={helixCardClasses.content} variant="h6" color="textPrimary" component="p">
-            CCAR Report
-            </Typography>
-        </CardContent>
+      <CardHeader
+        avatar={
+        <Avatar aria-label="user" className={helixCardClasses.avatar}>
+            {props.user.charAt(0).toUpperCase()}
+        </Avatar>
+        }
+        action={ 
+        <HelixMenuIcon 
+        handleEditReport={props.handleEditReport}
+        handleDeleteReport={props.handleDeleteReport}
+        /> }
+        title={`Last Modified by ${props.lastModifiedBy}`}
+        subheader={`Created at ${props.createdAt}`}
+      />
+      <Divider />
+      <CardContent>
+          <Typography className={helixCardClasses.content} variant="h6" color="textPrimary" component="p">
+          CCAR Report
+          </Typography>
+      </CardContent>
     </Card>
     )
 }
