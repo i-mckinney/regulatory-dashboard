@@ -11,6 +11,7 @@ import HelixMenuIcon from '../utils/HelixMenuIcon'
 const helixCardStyles = makeStyles(() => ({
     root: {
       maxWidth: 345,
+      margin: '25px',
     },
     avatar: {
       backgroundColor: red[500],
