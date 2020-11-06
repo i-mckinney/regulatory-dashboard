@@ -7,7 +7,9 @@ import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
 import HelixMenuIcon from '../utils/HelixMenuIcon'
+import PropTypes from 'prop-types'
 
+// Styling used for MaterialUI
 const helixCardStyles = makeStyles(() => ({
     root: {
       maxWidth: 345,
@@ -29,6 +31,7 @@ const helixCardStyles = makeStyles(() => ({
   }))
 
 const HelixCard = (props) => {
+  // Creates an object for styling. Any className that matches key in the helixCardStyles object will have a corresponding styling
     const helixCardClasses = helixCardStyles();
 
     return (
@@ -56,5 +59,14 @@ const HelixCard = (props) => {
     </Card>
     )
 }
+
+HelixCard.propTypes = {
+  user: PropTypes.string.isRequired,
+  lastModifiedBy: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  handleEditReport: PropTypes.func.isRequired,
+  handleDeleteReport: PropTypes.func.isRequired,
+}
+
 
 export default HelixCard

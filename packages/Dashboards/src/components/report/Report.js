@@ -35,10 +35,13 @@ const reportStyles = makeStyles(() => ({
  * routed at /Report
  */
 function Report(props) {
+    // Creates an object for styling. Any className that matches key in the reportStyles object will have a corresponding styling
     const reportClasses = reportStyles()
 
+    // localUser is a static variable
     const localUser = "Ray"
 
+    // reportData is mock data (list of Reports) but should be an api results of all reports
     const reportData = [
         {
             _id: '1',
@@ -107,14 +110,20 @@ function Report(props) {
         )
     }
 
-    const onSearch = () => {
+    /**
+     * @param {object} event the event object contains user input
+     * Pass the user query input to searchFilter and it store which object matches the query 
+     */
+    const onSearch = (event) => {
         console.log('... Searching . . .')
     }
 
+    // handleEditReport transition to edit the report
     const handleEditReport = () => {
         props.history.push('/')
     }
 
+    // handleDeleteRport transition to delete the report
     const handleDeleteReport = () => {
         props.history.push('/homepage')
     }
