@@ -1,6 +1,6 @@
 import React from 'react'
 
-const VertSettingIcon = () => {
+const MenuSettingIcon = () => {
     return (
         <IconButton aria-label="settings">
             <MoreVertIcon />
@@ -8,4 +8,4 @@ const VertSettingIcon = () => {
     )
 }
 
-export default VertSettingIcon
+export default MenuSettingIcon
