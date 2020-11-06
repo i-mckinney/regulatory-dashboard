@@ -107,12 +107,16 @@ function Report(props) {
         )
     }
 
+    const onSearch = () => {
+        console.log('... Searching . . .')
+    }
+
     const handleEditReport = () => {
-        props.history.push('/entity')
+        props.history.push('/')
     }
 
     const handleDeleteReport = () => {
-        props.history.push('/entity')
+        props.history.push('/homepage')
     }
 
     return (
@@ -120,7 +124,7 @@ function Report(props) {
             <div className={reportClasses.header}>
                 <Typography variant="h5">Choose Your Report</Typography>
             </div>
-            <HelixToolBarSearch displayCreateIcon={displayCreateReportIcon} />
+            <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateReportIcon} />
             <Paper elevation={10} className={reportClasses.paper}>
                 <GridList cellHeight={200} spacing={10} cols={3} className={reportClasses.gridList}>
                     {reportData.map((report) => (
