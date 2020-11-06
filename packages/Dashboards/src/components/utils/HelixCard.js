@@ -32,9 +32,13 @@ const HelixCard = (props) => {
               {props.user.charAt(0).toUpperCase()}
           </Avatar>
           }
-          action={ <HelixMenuIcon /> }
+          action={ 
+          <HelixMenuIcon 
+          handleEditReport={props.handleEditReport}
+          handleDeleteReport={props.handleDeleteReport}
+          /> }
           title={`Last Modified by ${props.lastModifiedBy}`}
-          subheader={props.createdAt}
+          subheader={`Created at ${props.createdAt}`}
         />
         <Divider />
         <CardContent>

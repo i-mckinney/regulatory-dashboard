@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { makeStyles, Paper, Typography, IconButton, GridList, GridListTile } from '@material-ui/core'
 import HelixCard from '../utils/HelixCard'
 import HelixToolBarSearch from '../table/HelixToolBarSearch'
@@ -33,7 +34,7 @@ const reportStyles = makeStyles(() => ({
 /** @return {JSX} Report site
  * routed at /Report
  */
-function Report() {
+function Report(props) {
     const reportClasses = reportStyles()
 
     const localUser = "Ray"
@@ -106,6 +107,14 @@ function Report() {
         )
     }
 
+    const handleEditReport = () => {
+        props.history.push('/entity')
+    }
+
+    const handleDeleteReport = () => {
+        props.history.push('/entity')
+    }
+
     return (
         <div className={reportClasses.mediumContainer}>
             <div className={reportClasses.header}>
@@ -113,13 +122,16 @@ function Report() {
             </div>
             <HelixToolBarSearch displayCreateIcon={displayCreateReportIcon} />
             <Paper elevation={10} className={reportClasses.paper}>
-                <GridList cellHeight={200} spacing={1} cols={3} className={reportClasses.gridList}>
+                <GridList cellHeight={200} spacing={10} cols={3} className={reportClasses.gridList}>
                     {reportData.map((report) => (
                         <GridListTile key={report._id}>
                             <HelixCard 
                             user={localUser} 
                             lastModifiedBy={report.lastModifiedBy} 
-                            createdAt={report.createdAt} />
+                            createdAt={report.createdAt} 
+                            handleEditReport={handleEditReport}
+                            handleDeleteReport={handleDeleteReport}
+                            />
                         </GridListTile>
                     ))}
                 </GridList>
@@ -128,4 +140,4 @@ function Report() {
     )
 }
 
-export default Report
+export default withRouter(Report)

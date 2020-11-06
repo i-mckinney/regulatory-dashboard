@@ -5,7 +5,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 
-const HelixMenuIcon = () => {
+const HelixMenuIcon = (props) => {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
   
@@ -58,13 +58,13 @@ const HelixMenuIcon = () => {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={props.handleEditReport}>
                         <ListItemIcon>
                             <EditIcon fontSize="small" />
                         </ListItemIcon>
                         <Typography>Edit</Typography>
                     </MenuItem>
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={props.handleDeleteReport}>
                         <ListItemIcon>
                             <DeleteIcon fontSize="small" />
                         </ListItemIcon>
