@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MenuSettingIcon = () => {
+const HelixMenuIcon = () => {
     return (
         <IconButton aria-label="settings">
             <MoreVertIcon />
@@ -8,4 +8,4 @@ const MenuSettingIcon = () => {
     )
 }
 
-export default MenuSettingIcon
+export default HelixMenuIcon
