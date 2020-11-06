@@ -67,7 +67,7 @@ const HelixMenuIcon = (props) => {
                     </MenuItem>
                   <MenuItem onClick={props.handleDeleteReport}>
                         <ListItemIcon>
-                            <DeleteIcon fontSize="small" />
+                            <DeleteIcon fontSize="small" color="secondary" />
                         </ListItemIcon>
                         <Typography>Delete</Typography>
                   </MenuItem>
