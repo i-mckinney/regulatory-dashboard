@@ -16,26 +16,29 @@ const helixCardStyles = makeStyles(() => ({
     avatar: {
       backgroundColor: red[500],
     },
+    content: {
+      textAlign: 'center',
+    },
   }))
 
-const HelixCard = () => {
-    const helixCardclasses = helixCardStyles();
+const HelixCard = (props) => {
+    const helixCardClasses = helixCardStyles();
 
     return (
-    <Card className={helixCardclasses.root}>
+    <Card className={helixCardClasses.root}>
         <CardHeader
-            avatar={
-            <Avatar aria-label="user" className={helixCardclasses.avatar}>
-                R
-            </Avatar>
-            }
-            action={ <HelixMenuIcon /> }
-            title="Last Modified by Ray"
-            subheader="Created at 01/01/2019"
+          avatar={
+          <Avatar aria-label="user" className={helixCardClasses.avatar}>
+              {props.user.charAt(0).toUpperCase()}
+          </Avatar>
+          }
+          action={ <HelixMenuIcon /> }
+          title={`Last Modified by ${props.lastModifiedBy}`}
+          subheader={props.createdAt}
         />
         <Divider />
         <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography className={helixCardClasses.content} variant="h6" color="textPrimary" component="p">
             CCAR Report
             </Typography>
         </CardContent>

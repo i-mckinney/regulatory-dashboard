@@ -37,46 +37,56 @@ function Report() {
     const reportClasses = reportStyles()
 
     const localUser = "Ray"
-    
+
     const reportData = [
         {
+            _id: '1',
             lastModifiedBy: 'Ray',
             createdAt: '01/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '2',
+            lastModifiedBy: 'Ian',
             createdAt: '02/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '3',
+            lastModifiedBy: 'Eric',
             createdAt: '03/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '4',
+            lastModifiedBy: 'Neil',
             createdAt: '04/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '5',
+            lastModifiedBy: 'Mikey',
             createdAt: '05/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '6',
+            lastModifiedBy: 'Jacob',
             createdAt: '06/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '7',
+            lastModifiedBy: 'Taharka',
             createdAt: '07/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '8',
+            lastModifiedBy: 'LeBron',
             createdAt: '08/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '9',
+            lastModifiedBy: 'Michael',
             createdAt: '09/01/2020',
         },
         {
-            lastModifiedBy: 'Ray',
+            _id: '10',
+            lastModifiedBy: 'David',
             createdAt: '10/01/2020',
         },
     ]
@@ -104,9 +114,12 @@ function Report() {
             <HelixToolBarSearch displayCreateIcon={displayCreateReportIcon} />
             <Paper elevation={10} className={reportClasses.paper}>
                 <GridList cellHeight={200} spacing={1} cols={3} className={reportClasses.gridList}>
-                    {reportData.map((datum) => (
-                        <GridListTile key={datum.lastModifiedBy}>
-                            <HelixCard />
+                    {reportData.map((report) => (
+                        <GridListTile key={report._id}>
+                            <HelixCard 
+                            user={localUser} 
+                            lastModifiedBy={report.lastModifiedBy} 
+                            createdAt={report.createdAt} />
                         </GridListTile>
                     ))}
                 </GridList>
