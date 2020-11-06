@@ -1,12 +1,49 @@
-import React from "react"
-import { Styles } from "../../ReactTable/AdminDashboardStyle"
-import AdminDashboard from "../../ReactTable/AdminDashboard"
+import React, { useState, useEffect, useMemo }  from "react"
+import { withRouter } from 'react-router-dom'
+import { StylesProvider, createGenerateClassName, makeStyles, Typography } from '@material-ui/core'
+import IconButton from '@material-ui/core/IconButton'
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
+import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
+import { sortableExcludes, columnExcludes, columnLabels } from './config'
+import mockData from "./MockRequestData"
 
-/** @return {JSX} MyRequest site
- * routed at /MyRequest
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'myRequests-',
+})
+
+// Styling used for MaterialUI
+const requestTableStyles = makeStyles(() => ({
+  mediumContainer: {
+      width: '80%',
+      margin: 'auto',
+      marginTop: '3rem',
+      paddingBottom: '3rem',
+  },
+  createIconStyle: {
+      float: 'right',
+      cursor: 'pointer',
+      marginLeft: "auto",
+  },
+  header: {
+      paddingBottom: '2rem',
+  },
+}))
+
+/**
+ * @param {Object} props TO DO: Use the history location to route next component with data state
+ * @return {JSX} MyRequest site show list of Requests
+ * routed at /
  */
+const MyRequest = (props) => {
+    // Creates an object for styling. Any className that matches key in the requestTableStyles object will have a corresponding styling
+    const requestTableClasses = requestTableStyles()
 
-function MyRequest() {
+    //TO DO: rows will store my requests from GET Method fetchRequests (yet to be made) via Rest API 
+    const [rows, setRows] = useState([])
+      
+    // columns will store column header that we want to show in the front end
+    const columns = useMemo(() => [], [])
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
    * If we didn't use React.useMemo, the table would think it was receiving new data on every render
@@ -17,66 +54,85 @@ function MyRequest() {
    * filter -> includes (tells react table to show values that matches the value in the select field)
    * Filter not given -> will use global filter
    * */
-  const columns = React.useMemo(() => [
-    {
-      Header: "Loan ID",
-      accessor: "LoanID",
-    },
-    {
-      Header: "Primary Borrower",
-      accessor: "PrimaryBorrower",
-    },
-    {
-      Header: "Guarantor",
-      accessor: "Guarantor",
-    },
-    {
-      Header: "PrimaryTIN",
-      accessor: "PrimaryTIN",
-    },
-    {
-      Header: "Commitment Type",
-      accessor: "CommitmentType",
-    },
-    {
-      Header: "Commitment Amount",
-      accessor: "CommitmentAmount",
-    },
-    {
-      Header: "Outstanding Amount",
-      accessor: "OutstandingAmount",
-    },
-  ],[])
-  const mockData = [
-    {
-      LoanID: "Loan",
-      PrimaryBorrower: "Eric Jho",
-      Guarantor: "David Geisinger",
-      PrimaryTIN: "L2343243",
-      CommitmentType: "Message",
-      CommitmentAmount: "$30,200",
-      OutstandingAmount: "$32,333",
-    },
-  ]
 
-  /** setting custom cells for each specific columns while creating rows for the dashboard */
-  const customRow = (cell) => {
-    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+    if (rows.length !== 0) {
+      const headerColumns = Object.keys(rows[0])
+      headerColumns.forEach((key, index) => {
+          if (!columnExcludes.includes(key)) {
+              columns.push({
+              Label: columnLabels[index],
+              Accessor: key,
+              Sortable: sortableExcludes.includes(key) ? false : true,
+              })
+          }
+      })
+    }
+
+  /**
+    * Renders only when it is mounted at first
+    * It will fetch Requests whenever MyRequest loads
+    * TO DO: implelment a fetchRequest call to backend api through GET protocol to get all the requests
+    */
+    useEffect(() => {
+      setRows(mockData)
+    },[columns])
+
+  /**
+   * @param {object} row the row is an object of data
+   * @param {object} column the column is an object of the header with accessor and label props
+   * @param {int} rowIndex the rowIndex represents index of the row
+   * @param {int} columnIndex the columnIndex represents index of the column
+   * @return {JSX} HelixTableCell of object properties in that Table row
+   */
+  const customCellRender = (row, column, rowIndex, columnIndex) => {
+    const columnAccessor = column.Accessor
+    const displayActions = () => (
+      <>
+      <IconButton aria-label="edit" size="small" edge="start" onClick={() => (console.log('Edit Request Clicked'))} color="default">
+          <EditIcon />
+      </IconButton>
+      <IconButton aria-label="delete" size="small" edge="start" onClick={() => (console.log('Delete Request Clicked'))} color="secondary">
+          <DeleteIcon />
+      </IconButton>
+      </>
+    )
+    if (columnAccessor === "Actions") {
+      return (
+          <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} containActions={true} displayActions={displayActions} />
+      )
+    }
+    else {
+      return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} />
+    }
+  }
+
+  /**
+   * @param {object} column represent object data regarding the api result  
+   * @return {string} provide table row with unique key props (required)
+   */
+  const customHeadColumnKeyProp = (column) => {
+    return column.Accessor
+  }
+
+  /**
+   * @param {object} row represent object data regarding the api result 
+   * @return {string} provide table row with unique key props (required)
+   */
+  const customBodyRowKeyProp = (row) => {
+    return row._id
   }
 
   return (
-    <div>
-      <h4 className="mt-1 ml-4">My Request</h4>
-      <Styles>
-        <AdminDashboard
-          columns={columns}
-          data={mockData}
-          customRowRender={customRow}
-          destinationString="reports"
-        />
-      </Styles>
-    </div>
-  )
+    <StylesProvider generateClassName={generateClassName}>
+        <div className={requestTableClasses.mediumContainer}>
+            <div className={requestTableClasses.header}>
+                <Typography variant="h5">My Requests</Typography>
+            </div>  
+            <HelixTable toggleSearch={true} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+        </div>
+    </StylesProvider>
+  ) 
 }
 
-export default MyRequest
+export default withRouter(MyRequest)
+
