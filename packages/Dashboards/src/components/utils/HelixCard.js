@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, Divider } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
@@ -37,6 +37,7 @@ const HelixCard = () => {
             title="Shrimp and Chorizo Paella"
             subheader="September 14, 2016"
         />
+        <Divider />
         <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
             This impressive paella is a perfect party dish and a fun meal to cook together with your
