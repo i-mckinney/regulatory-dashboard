@@ -28,7 +28,7 @@ const HelixCard = (props) => {
     const helixCardClasses = helixCardStyles();
 
     return (
-    <Card className={helixCardClasses.root}>
+    <Card className={helixCardClasses.root} onClick={props.handleEditReport}>
         <CardHeader
           avatar={
           <Avatar aria-label="user" className={helixCardClasses.avatar}>

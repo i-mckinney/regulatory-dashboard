@@ -9,8 +9,9 @@ const HelixMenuIcon = (props) => {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
   
-    const handleToggle = () => {
-      setOpen((prevOpen) => !prevOpen);
+    const handleToggle = (e) => {
+      e.stopPropagation()
+      setOpen((prevOpen) => !prevOpen)
     };
   
     const handleClose = (event) => {
