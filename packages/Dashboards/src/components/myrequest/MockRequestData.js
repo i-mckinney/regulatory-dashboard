@@ -5,8 +5,8 @@ const mockData = [
         ReportName: "CCAR",
         Approver: "Jane Doe",
         Submitter: "Jake",
-        StartDate: "10/10/2020",
-        SubmittedDate: "11/10/2020",
+        StartDate: "2019-10-09",
+        SubmittedDate: "2019-12-09",
         Actions: ""
     },
     {
@@ -15,8 +15,8 @@ const mockData = [
         ReportName: "Discrepancy Report",
         Approver: "Mikey",
         Submitter: "Mikey",
-        StartDate: "10/10/2020",
-        SubmittedDate: "11/10/2020",
+        StartDate: "2020-10-09",
+        SubmittedDate: "2020-10-12",
         Actions: ""
       },
       {
@@ -25,8 +25,8 @@ const mockData = [
         ReportName: "Discrepancy Report",
         Approver: "Mikey",
         Submitter: "Some User",
-        StartDate: "10/10/2020",
-        SubmittedDate: "11/10/2020",
+        StartDate: "2020-04-09",
+        SubmittedDate: "2020-05-06",
         Actions: ""
       },
       {
@@ -35,8 +35,8 @@ const mockData = [
         ReportName: "CCAR",
         Approver: "Some Approver",
         Submitter: "Another User",
-        StartDate: "10/10/2020",
-        SubmittedDate: "11/10/2020",
+        StartDate: "2020-10-10",
+        SubmittedDate: "2020-10-11",
         Actions: ""
       },
   ]

@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useMemo }  from "react"
 import { withRouter } from 'react-router-dom'
-import { StylesProvider, createGenerateClassName, makeStyles, Typography } from '@material-ui/core'
+import { StylesProvider, makeStyles, Typography } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import mockData from "./MockRequestData"
-
-const generateClassName = createGenerateClassName({
-  productionPrefix: 'myRequests-',
-})
 
 // Styling used for MaterialUI
 const requestTableStyles = makeStyles(() => ({
@@ -33,13 +29,13 @@ const requestTableStyles = makeStyles(() => ({
 /**
  * @param {Object} props TO DO: Use the history location to route next component with data state
  * @return {JSX} MyRequest site show list of Requests
- * routed at /
+ * routed at /myrequest
  */
 const MyRequest = (props) => {
     // Creates an object for styling. Any className that matches key in the requestTableStyles object will have a corresponding styling
     const requestTableClasses = requestTableStyles()
 
-    //TO DO: rows will store my requests from GET Method fetchRequests (yet to be made) via Rest API 
+    //Rows will store my requests. To Do: from GET Method fetchRequests (yet to be made) via Rest API 
     const [rows, setRows] = useState([])
       
     // columns will store column header that we want to show in the front end
@@ -70,7 +66,7 @@ const MyRequest = (props) => {
 
   /**
     * Renders only when it is mounted at first
-    * It will fetch Requests whenever MyRequest loads
+    * It will fetch Requests whenever MyRequest loads and set rows
     * TO DO: implelment a fetchRequest call to backend api through GET protocol to get all the requests
     */
     useEffect(() => {
@@ -123,7 +119,7 @@ const MyRequest = (props) => {
   }
 
   return (
-    <StylesProvider generateClassName={generateClassName}>
+    <StylesProvider injectFirst>
         <div className={requestTableClasses.mediumContainer}>
             <div className={requestTableClasses.header}>
                 <Typography variant="h5">My Requests</Typography>
