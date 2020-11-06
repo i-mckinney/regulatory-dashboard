@@ -1,9 +1,9 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { makeStyles, Paper, Typography, IconButton, GridList, GridListTile } from '@material-ui/core'
-import HelixCard from '../utils/HelixCard'
+import { makeStyles, Typography, IconButton } from '@material-ui/core'
 import HelixToolBarSearch from '../table/HelixToolBarSearch'
 import AddBoxIcon from '@material-ui/icons/AddBox'
+import HelixCollectionList from '../utils/HelixCollectionList'
 
 // Styling used for MaterialUI
 const reportStyles = makeStyles(() => ({
@@ -134,21 +134,12 @@ function Report(props) {
                 <Typography variant="h5">Choose Your Report</Typography>
             </div>
             <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateReportIcon} />
-            <Paper elevation={10} className={reportClasses.paper}>
-                <GridList cellHeight={200} spacing={10} cols={3} className={reportClasses.gridList}>
-                    {reportData.map((report) => (
-                        <GridListTile key={report._id}>
-                            <HelixCard 
-                            user={localUser} 
-                            lastModifiedBy={report.lastModifiedBy} 
-                            createdAt={report.createdAt} 
-                            handleEditReport={handleEditReport}
-                            handleDeleteReport={handleDeleteReport}
-                            />
-                        </GridListTile>
-                    ))}
-                </GridList>
-            </Paper>
+            <HelixCollectionList 
+            user={localUser} 
+            reportData={reportData} 
+            handleEditReport={handleEditReport} 
+            handleDeleteReport={handleDeleteReport}
+            />
         </div>
     )
 }

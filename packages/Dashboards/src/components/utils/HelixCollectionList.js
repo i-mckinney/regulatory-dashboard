@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles, Paper, GridList, GridListTile } from '@material-ui/core'
+import HelixCard from './HelixCard'
 import PropTypes from 'prop-types'
 
 const helixCollectionListStyles = makeStyles(() => ({
@@ -13,7 +14,7 @@ const helixCollectionListStyles = makeStyles(() => ({
     },
 }))
 
-const HelixCollectionList = () => {
+const HelixCollectionList = (props) => {
     // Creates an object for styling. Any className that matches key in the helixCollectionListStyles object will have a corresponding styling
     const helixCollectionListClasses = helixCollectionListStyles()
 
