@@ -9,7 +9,6 @@ const helixCollectionListStyles = makeStyles(() => ({
         marginTop: '1rem',
     },
     gridList: {
-        width: '100%',
         height: 500,
         transform: 'translateZ(0)',
     },
@@ -25,7 +24,7 @@ const HelixCollectionList = (props) => {
     <Paper elevation={props.elevation} className={helixCollectionListClasses.paper}>
         <GridList cellHeight={props.cellHeight} spacing={props.spacing} cols={props.columnSpan} className={helixCollectionListClasses.gridList}>
             {sortedReports.map((report) => (
-                <GridListTile key={report._id}>
+                <GridListTile key={report._id} style={{ padding: 0 }}>
                     <HelixCard 
                     user={props.user} 
                     lastModifiedBy={report.lastModifiedBy} 
