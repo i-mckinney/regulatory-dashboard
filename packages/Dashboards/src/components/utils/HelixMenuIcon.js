@@ -33,6 +33,16 @@ const HelixMenuIcon = (props) => {
     setOpen(false)
   }
 
+  const handleEditReport = (event) => {
+    event.stopPropagation()
+    props.handleEditReport(event)
+  }
+
+  const handleDeleteReport = (event) => {
+    event.stopPropagation()
+    props.handleDeleteReport(event)
+  }
+
   /**
    * @param {object} event the event object
    * handleListKeyDown checks if there is a tab event to close the Menu
@@ -78,13 +88,13 @@ const HelixMenuIcon = (props) => {
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
               <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                <MenuItem onClick={props.handleEditReport}>
+                <MenuItem onClick={handleEditReport}>
                   <ListItemIcon>
                       <EditIcon fontSize="small" />
                   </ListItemIcon>
                   <Typography>Edit</Typography>
                 </MenuItem>
-                <MenuItem onClick={props.handleDeleteReport}>
+                <MenuItem onClick={handleDeleteReport}>
                   <ListItemIcon>
                       <DeleteIcon fontSize="small" color="secondary" />
                   </ListItemIcon>
