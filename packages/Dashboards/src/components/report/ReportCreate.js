@@ -1,9 +1,33 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
+import ReportInputForm from './ReportInputForm'
+import { columnFields } from './config'
 
-const ReportCreate = () => {
+// initialReportTemplate with preset data
+const initialReportTemplate = {}
+columnFields.forEach((columnField) => {
+    initialReportTemplate[[columnField]] = ""
+})
+
+/**
+ * @param {Object} props Using the history property to route next component with data state
+ * @return {JSX} ReportCreate site with ReportInputForm provided for report creation
+ * routed at /report/new
+ */
+const ReportCreate = (props) => {
+    /**
+     * @param {object} reportTemplate represent entity object with props values that it will create 
+     */
+    const createReportTemplate = async (reportTemplate) => {
+        console.log(reportTemplate)
+        props.history.push("/report")
+    }
+
     return (
-        <div>ReportCreate</div>
+    <div>
+        <ReportInputForm header="Create Report Template" initialReportTemplate={initialReportTemplate} onSubmit={createReportTemplate} />
+    </div>
     )
 }
 
-export default ReportCreate
+export default withRouter(ReportCreate)
