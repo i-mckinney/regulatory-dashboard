@@ -12,7 +12,7 @@ import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
-import ReportInputForm from './components/report/ReportInputForm'
+import ReportCreate from './components/report/ReportCreate'
 import {
   StylesProvider,
   createGenerateClassName,
@@ -79,7 +79,7 @@ function App(history) {
             </Route>
 
             <Route exact path="/report/new">
-              <ReportInputForm />
+              <ReportCreate />
             </Route>
 
             <Redirect to="/" />
