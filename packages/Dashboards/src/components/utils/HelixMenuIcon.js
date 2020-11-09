@@ -13,11 +13,11 @@ const HelixMenuIcon = (props) => {
   const anchorRef = useRef(null)
 
   /**
-   * @param {object} e the event object
+   * @param {object} event the event object
    * handleToggle handle mouse click trigger whenever user clicks Menu
    */
-  const handleToggle = (e) => {
-    e.stopPropagation()
+  const handleToggle = (event) => {
+    event.stopPropagation()
     setOpen((prevOpen) => !prevOpen)
   }
 
@@ -69,7 +69,7 @@ const HelixMenuIcon = (props) => {
       onClick={handleToggle}>
           <MoreVertIcon />
       </IconButton>
-      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition>
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}
