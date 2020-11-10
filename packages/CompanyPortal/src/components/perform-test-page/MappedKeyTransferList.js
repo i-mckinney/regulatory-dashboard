@@ -50,14 +50,17 @@ function union(a, b) {
 /**
  * @param {Object} availableResponseKeys list of available keys provided by the external data source
  * @param {Object} selectedResponseKeys list of keys selected using the response mapping tool
+ * @param {function } setAvailableResponseKeys setKeys function passed down from parent component 
+ * @param {function } setSelectedResponseKeys setKeys function passed down from parent component 
  * @returns {JSX} returns Material UI transfer list component fro selecting mapped response keys that are to be sent to the backend
  */
 export default function TransferList({ availableResponseKeys, setAvailableResponseKeys, selectedResponseKeys, setSelectedResponseKeys}) {
   const transferListClasses = useTransferListStyles();
-  // Checked store array of keys that are ready to move to the available or selected list 
+  // Checked store array of keys that are checked and ready to move to the available or selected list 
   const [checked, setChecked] = React.useState([]);
-
+  // leftChecked stores array of external source system keys available 
   const leftChecked = intersection(checked, availableResponseKeys);
+  // rightChecked stores array of keys that have been selected
   const rightChecked = intersection(checked, selectedResponseKeys);
 
   /**
@@ -83,7 +86,7 @@ export default function TransferList({ availableResponseKeys, setAvailableRespon
   const numberOfChecked = (items) => intersection(checked, items).length;
 
   /**
-   * @param {array} items represents an array of roles 
+   * @param {array} items represents an array of keys 
    */
   const handleToggleAll = (items) => () => {
     if (numberOfChecked(items) === items.length) {

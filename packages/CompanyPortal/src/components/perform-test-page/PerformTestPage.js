@@ -43,6 +43,7 @@ const performTestPageStyles = makeStyles(() => ({
  * @param {Object} requestData the modified Custom API request data object
  * @param {String} companyId the ID required to make all Custom API calls to CompanyBackend
  * @param {Function} handleEditRow function passed down from parent component to handle API Table CRUD functions
+ * @param {Function} oClose function passed down from parent component to handle open/close of Perform Test UI
  * @returns {JSX} PerformTest page
  */ 
 export default function PerformTestPage({
@@ -75,7 +76,6 @@ export default function PerformTestPage({
       handleEditRow({ ...requestData, responseMapper: updatedResponseMapper })
       
     }
-
 
     /** 
      * Makes a "Test Custom API Request" call to CompanyBackend and sets the response data for display in UI
