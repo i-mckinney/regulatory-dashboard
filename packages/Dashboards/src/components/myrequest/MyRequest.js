@@ -143,7 +143,6 @@ const MyRequest = () => {
   }
 
   return (
-  <>
     <StylesProvider injectFirst>
         <div className={requestTableClasses.mediumContainer}>
             <div className={requestTableClasses.header}>
@@ -153,7 +152,6 @@ const MyRequest = () => {
             <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
         </div>
     </StylesProvider>
-  </>
   ) 
 }
 
