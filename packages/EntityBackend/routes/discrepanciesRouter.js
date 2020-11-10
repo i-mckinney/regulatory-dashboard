@@ -103,7 +103,6 @@ router.get("/:companyId/:borrowerId/report/:entityId", async (req, res) => {
 // Save changes that were made to discrepancy report in edit discrepancy table.
 router.post("/:companyId/report/:entityId", async (req, res) => {
   try {
-
     /**
      * CompanyId : used to identify which company this report belongs to
      * EntityId : used to identify the entity that user has created
@@ -124,46 +123,55 @@ router.post("/:companyId/report/:entityId", async (req, res) => {
       entity_id: ObjectId(EntityId),
     });
 
-    let finalChanges;
+    let unMergedChanges;
 
-    //each row will have only one discrpacy report changes & merging previous changes
     if (pastChanges) {
-      let savedChanges = pastChanges.savedChanges
-      finalChanges = {...savedChanges}
-
-      // console.log(finalChanges)
-
-      // await reportCollection.deleteOne({ entity_id: ObjectId(EntityId) })
+      let savedChanges = pastChanges.savedChanges;
+      unMergedChanges = { ...savedChanges };
 
       for (let column in newChanges) {
-        
         for (let row in newChanges[column]) {
+          let updatedCellValue = newChanges[column][row];
 
-          console.log(typeof(column),"column")
-          console.log(typeof(row), "row")
-
-          let object = newChanges[column][row];
-
-          if(finalChanges[column][row]){
-            finalChanges[column][row] = object
+          //if column exists in past changes
+          if (unMergedChanges[column]) {
+            //if column & row (cell) exists in past changes, you replace the old object with the new updated cell value
+            if (unMergedChanges[column][row]) {
+              unMergedChanges[column][row] = updatedCellValue;
+            } else {
+              // adding in new row (cell value) to existing column (changes)
+              let cellValue = newChanges[column][row];
+              unMergedChanges[column][row] = cellValue;
+            }
           } else {
-            finalChanges.column.row = object
+            //if column does not exist in past changes, create a new column and add in new updated cell
 
+            unMergedChanges[column] = "";
+
+            let cellValue = newChanges[column][row];
+            let fieldName = row;
+
+            let newCell = {};
+            newCell[fieldName] = cellValue;
+
+            unMergedChanges[column] = newCell;
           }
-
-          
         }
       }
-      
-      // finalChanges = finalChanges.savedChanges
-      console.log(finalChanges)
 
-      // await reportCollection.insertOne({
-      //   savedChanges: finalChanges,
-      //   entity_id: ObjectId(EntityId),
-      //   company_id: ObjectId(CompanyId),
-      // });
-  
+      console.log(unMergedChanges);
+      let finalChanges = unMergedChanges;
+
+      await reportCollection.updateOne(
+        { entity_id: ObjectId(EntityId) },
+        {
+          $set: {
+            savedChanges: finalChanges,
+            entity_id: ObjectId(EntityId),
+            company_id: ObjectId(CompanyId),
+          },
+        }
+      );
     } else {
       await reportCollection.insertOne({
         savedChanges: newChanges,
@@ -171,7 +179,7 @@ router.post("/:companyId/report/:entityId", async (req, res) => {
         company_id: ObjectId(CompanyId),
       });
     }
-    
+
     // return added discrepancyReportChanges
     pastChanges = await reportCollection
       .find({ entity_id: ObjectId(EntityId) })
