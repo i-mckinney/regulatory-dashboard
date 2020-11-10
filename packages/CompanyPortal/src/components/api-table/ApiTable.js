@@ -47,19 +47,19 @@ const ApiTable = (props) => {
   const companyId = '5f7e1bb2ab26a664b6e950c8';
   // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
   const userTableClasses = userTableStyles();
-
+  // openTestRequestModal handles the click event that renders the Perform Test Page component 
   const [openTestRequestModal, setOpenTestRequestModal] = useState(false);
-
+  // companyData is the company data object retrieved from CompanyBackend
   const [companyData, setCompanyData] = useState([]);
-
+  // openEditModal handles the open and close of the Edit Custom Request Modal
   const [openEditModal, setOpenEditModal] = React.useState(false);
-
+  // requestData is the custom api request data object returned from CompanyBackend
   const [requestData, setRequestData] = useState({});
-
+  // modalAction defines the Material UI modal state
   const [modalAction, setModalAction] = useState(MODAL_ACTION_CREATE);
-
+  // loading defines Material UI modal loading state
   const [loading, setLoading] = useState(false);
-
+  // customApiUrl is the CompanyBackend endpoint required for custom api calls
   const customApiUrl = `${API_HOST}/companies/${companyId}/customapi`;
 
   /**
@@ -319,7 +319,5 @@ const ApiTable = (props) => {
     </StylesProvider>
   );
 };
-
-//loading, onUpdate, onCreate, modalAction
 
 export default withRouter(ApiTable);
