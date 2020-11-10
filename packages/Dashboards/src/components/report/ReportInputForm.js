@@ -4,6 +4,7 @@ import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { columnFields, columnLabels } from './config'
+import ReportPreference from './ReportPreference'
 
 // Styling used for MaterialUI
 const reportInputFormStyles = makeStyles(() => ({
@@ -130,12 +131,21 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                 spacing={4}>
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
-                    return (
-                        <Grid item xs={12} key={`${index} ${fields}`}>
-                            {setHelixTextField(fields, columnLabels[index+1], "", false)}
-                        </Grid>
-                    )}
-                )}
+                    console.log(fields)
+                    if (fields === 'preference') {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                <ReportPreference />
+                            </Grid>
+                        )
+                    } else {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                {setHelixTextField(fields, columnLabels[index+1], "", false)}
+                            </Grid>
+                        )
+                    }
+                })}
                 <Grid className={reportInputFormClasses.buttonStyle}>
                     {renderButtonActions()}
                 </Grid>

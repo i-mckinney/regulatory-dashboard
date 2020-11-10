@@ -5,7 +5,7 @@ export const sortableExcludes = ["_id", "Actions"]
 export const columnExcludes = []
 
 // columnFields is array of fields that ReportInputForm will have 
-export const columnFields = ["reportName", "preferences", "archive"]
+export const columnFields = ["reportName", "preference", "archive"]
 
 // columnLabels is array of label name that correspondings to columnFields EXCEPT _id (primary key)
 // PRIMARY KEY must be FIRST in the array (required)
