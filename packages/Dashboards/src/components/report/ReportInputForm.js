@@ -5,6 +5,7 @@ import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { columnFields, columnLabels } from './config'
 import ReportPreference from './ReportPreference'
+import ReportArchive from './ReportArchive'
 
 // Styling used for MaterialUI
 const reportInputFormStyles = makeStyles(() => ({
@@ -45,7 +46,7 @@ columnFields.forEach((columnField) => {
  */
 const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     // Set reportTemplate with preset empty data for report template creation
-    const [report, setReport] = useState(initialReportTemplate)
+    const [report, setReport] = useState({ reportName: 'cool'})
     
     // Perform error check for form validatation upon report template data
     const [error] = useState(reportError)
@@ -131,11 +132,16 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                 spacing={4}>
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
-                    console.log(fields)
                     if (fields === 'preference') {
                         return (
                             <Grid item xs={12} key={`${index} ${fields}`}>
                                 <ReportPreference />
+                            </Grid>
+                        )
+                    } else if (fields === 'archive') {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                <ReportArchive />
                             </Grid>
                         )
                     } else {
