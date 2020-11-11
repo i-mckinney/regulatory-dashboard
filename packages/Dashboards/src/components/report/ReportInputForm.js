@@ -4,6 +4,8 @@ import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { columnFields, columnLabels } from './config'
+import ReportPreference from './ReportPreference'
+import ReportArchive from './ReportArchive'
 
 // Styling used for MaterialUI
 const reportInputFormStyles = makeStyles(() => ({
@@ -37,17 +39,16 @@ columnFields.forEach((columnField) => {
 })
 
 /**
- * @param {object} initialReport represent preset empty entity data object
+ * @param {object} initialReportTemplate represent preset empty report template data object
  * @param {string} header represent the header title of this form
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
- * @return {JSX} EntityForm site with input form to fill in
- * routed at /entity/new
+ * @return {JSX} ReportInputForm site with input form to fill in
  */
-const ReportInputForm = ({ initialReport, header, onSubmit}) => {
-    // Set entity with preset empty data for entity creation e.g. { FirstName: "", LastName: "", ...}
-    const [report, setReport] = useState(initialReport)
+const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
+    // Set reportTemplate with preset empty data for report template creation
+    const [report, setReport] = useState({ reportName: 'cool'})
     
-    // Perform error check for form validatation upon entity data
+    // Perform error check for form validatation upon report template data
     const [error] = useState(reportError)
 
     // Creates an object for styling. Any className that matches key in the reportInputFormStyles object will have a corresponding styling
@@ -56,7 +57,7 @@ const ReportInputForm = ({ initialReport, header, onSubmit}) => {
     /**
      * @param {Object} event the event object
      * name: the name property on the target text field element
-     * value: the value property on the target text field element as entity input text
+     * value: the value property on the target text field element as report template input text
      */
     const handleInputChange = (event) => {
         const { name, value } = event.target
@@ -65,7 +66,7 @@ const ReportInputForm = ({ initialReport, header, onSubmit}) => {
 
     /**
      * @param {Object} event the event object 
-     * Send the created entity back to parent component
+     * Send the created report template back to parent component
      */
     const onSubmitForm = (event) => {
         event.preventDefault()
@@ -114,7 +115,7 @@ const ReportInputForm = ({ initialReport, header, onSubmit}) => {
                 variant="contained"
                 type="cancel"
                 size="small"
-                href="/entity"
+                href="/report"
                 startIcon={<CancelIcon />}
                 text="Cancel" />
             </>
@@ -131,12 +132,26 @@ const ReportInputForm = ({ initialReport, header, onSubmit}) => {
                 spacing={4}>
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
-                    return (
-                        <Grid item xs={12} key={`${index} ${fields}`}>
-                            {setHelixTextField(fields, columnLabels[index+1], "", false)}
-                        </Grid>
-                    )}
-                )}
+                    if (fields === 'preference') {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                <ReportPreference />
+                            </Grid>
+                        )
+                    } else if (fields === 'archive') {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                <ReportArchive />
+                            </Grid>
+                        )
+                    } else {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                {setHelixTextField(fields, columnLabels[index+1], "", false)}
+                            </Grid>
+                        )
+                    }
+                })}
                 <Grid className={reportInputFormClasses.buttonStyle}>
                     {renderButtonActions()}
                 </Grid>
