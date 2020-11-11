@@ -13,11 +13,11 @@ const HelixMenuIcon = (props) => {
   const anchorRef = useRef(null)
 
   /**
-   * @param {object} e the event object
+   * @param {object} event the event object
    * handleToggle handle mouse click trigger whenever user clicks Menu
    */
-  const handleToggle = (e) => {
-    e.stopPropagation()
+  const handleToggle = (event) => {
+    event.stopPropagation()
     setOpen((prevOpen) => !prevOpen)
   }
 
@@ -31,6 +31,16 @@ const HelixMenuIcon = (props) => {
     }
 
     setOpen(false)
+  }
+
+  const handleEditReport = (event) => {
+    event.stopPropagation()
+    props.handleEditReport(event)
+  }
+
+  const handleDeleteReport = (event) => {
+    event.stopPropagation()
+    props.handleDeleteReport(event)
   }
 
   /**
@@ -69,7 +79,7 @@ const HelixMenuIcon = (props) => {
       onClick={handleToggle}>
           <MoreVertIcon />
       </IconButton>
-      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition>
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}
@@ -78,13 +88,13 @@ const HelixMenuIcon = (props) => {
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
               <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                <MenuItem onClick={props.handleEditReport}>
+                <MenuItem onClick={handleEditReport}>
                   <ListItemIcon>
                       <EditIcon fontSize="small" />
                   </ListItemIcon>
                   <Typography>Edit</Typography>
                 </MenuItem>
-                <MenuItem onClick={props.handleDeleteReport}>
+                <MenuItem onClick={handleDeleteReport}>
                   <ListItemIcon>
                       <DeleteIcon fontSize="small" color="secondary" />
                   </ListItemIcon>

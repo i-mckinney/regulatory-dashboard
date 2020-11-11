@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { makeStyles, Typography, IconButton } from '@material-ui/core'
 import HelixToolBarSearch from '../table/HelixToolBarSearch'
@@ -95,6 +95,9 @@ function Report(props) {
         },
     ]
 
+    // searchFilter contains a func that store filter query search upon user input
+    const [searchFilter, setSearchFilter] = useState({ search: (rows) => { return rows }})
+  
     /**
      * @return jsx object of create icon in child component's toolbar
      */
@@ -115,7 +118,14 @@ function Report(props) {
      * Pass the user query input to searchFilter and it store which object matches the query 
      */
     const onSearch = (event) => {
-        console.log('... Searching . . .')
+        const value = event.target.value
+        setSearchFilter({ search: (rows) => {
+            if (value === '') return rows
+            else 
+              return rows.filter((row) => 
+                row['lastModifiedBy'].toLowerCase().includes(value.toLowerCase())
+            )
+        }})
     }
 
     // handleEditReport transition to edit the report
@@ -137,6 +147,7 @@ function Report(props) {
             <HelixCollectionList 
             user={localUser} 
             reportData={reportData} 
+            searchFilter={searchFilter}
             handleEditReport={handleEditReport} 
             handleDeleteReport={handleDeleteReport}
             />
