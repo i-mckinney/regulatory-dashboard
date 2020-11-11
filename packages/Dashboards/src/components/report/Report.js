@@ -133,7 +133,7 @@ function Report(props) {
             if (value === '') return rows
             else 
               return rows.filter((row) => 
-                row['lastModifiedBy'].toLowerCase().includes(value.toLowerCase())
+                row['reportName'].toLowerCase().includes(value.toLowerCase())
             )
         }})
     }
