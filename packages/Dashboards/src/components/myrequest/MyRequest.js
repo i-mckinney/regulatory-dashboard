@@ -34,7 +34,7 @@ const requestTableStyles = makeStyles(() => ({
  */
 const MyRequest = () => {
     // Sets state of confirm Dialog window used for editing/deleting a request
-    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' })
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '', confirmText: 'Yes', cancelText: 'Cancel'})
     
     // Creates an object for styling. Any className that matches key in the requestTableStyles object will have a corresponding styling
     const requestTableClasses = requestTableStyles()
@@ -109,6 +109,8 @@ const MyRequest = () => {
           setConfirmDialog({
               isOpen: true, 
               title: 'Send notification to approver to delete this request?',
+              cancelText: 'Cancel',
+              confirmText: 'Yes',
               onConfirm: ()=>{handleDelete(row._id)}
               }) 
             }}>

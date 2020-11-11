@@ -24,6 +24,8 @@ const useStyles = makeStyles(theme => ({
  * isOpen: (boolean), 
  * title: (string), 
  * subtitle: (string), 
+ * confirmText: (string),
+ * cancelText: (string),
  * onConfirm: (callback function)
  * @return {JSX} ConfirmDialog modal window to confirm a button click
  */
@@ -46,8 +48,8 @@ const ConfirmDialog = (props)=>{
                 </Typography>
             </DialogContent>
             <DialogActions className={classes.dialogAction}>
-                <HelixButton text="Cancel" color="default" onClick={()=> setConfirmDialog({...confirmDialog, isOpen: false})} />
-                <HelixButton text="Yes" color="primary" onClick={confirmDialog.onConfirm}/>
+                <HelixButton text={confirmDialog.cancelText} color="default" onClick={()=> setConfirmDialog({...confirmDialog, isOpen: false})} />
+                <HelixButton text={confirmDialog.confirmText} color="primary" onClick={confirmDialog.onConfirm}/>
             </DialogActions>
         </Dialog>
     )
