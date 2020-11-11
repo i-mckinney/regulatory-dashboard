@@ -1,3 +1,4 @@
+//Component for listing table of My Requests
 import React, { useState, useEffect, useMemo }  from "react"
 import { withRouter } from 'react-router-dom'
 import { StylesProvider, makeStyles, Typography } from '@material-ui/core'
@@ -7,6 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import mockData from "./MockRequestData"
+import ConfirmDialog from "../utils/ConfirmDialog"
 
 // Styling used for MaterialUI
 const requestTableStyles = makeStyles(() => ({
@@ -27,11 +29,13 @@ const requestTableStyles = makeStyles(() => ({
 }))
 
 /**
- * @param {Object} props TO DO: Use the history location to route next component with data state
  * @return {JSX} MyRequest site show list of Requests
  * routed at /myrequest
  */
-const MyRequest = (props) => {
+const MyRequest = () => {
+    // Sets state of confirm Dialog window used for editing/deleting a request
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '', confirmText: 'Yes', cancelText: 'Cancel'})
+    
     // Creates an object for styling. Any className that matches key in the requestTableStyles object will have a corresponding styling
     const requestTableClasses = requestTableStyles()
 
@@ -43,7 +47,7 @@ const MyRequest = (props) => {
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
    * If we didn't use React.useMemo, the table would think it was receiving new data on every render
-   * and attempt to recalulate a lot of logic every single time. Only when the memoized value actually changes, it re renders
+   * and attempt to recalulate a lot of logic every single time. Only when the memorized value actually changes, it re renders
    * Header -> Represents what is shown in the table
    * Accessor -> represents key that you look for in a given data
    * Filter -> choosing which filter to use.
@@ -51,7 +55,7 @@ const MyRequest = (props) => {
    * Filter not given -> will use global filter
    * */
 
-    if (rows.length !== 0) {
+    if (rows.length !== 0 && columns.length ===0) {
       const headerColumns = Object.keys(rows[0])
       headerColumns.forEach((key, index) => {
           if (!columnExcludes.includes(key)) {
@@ -65,13 +69,26 @@ const MyRequest = (props) => {
     }
 
   /**
-    * Renders only when it is mounted at first
-    * It will fetch Requests whenever MyRequest loads and set rows
-    * TO DO: implelment a fetchRequest call to backend api through GET protocol to get all the requests
-    */
-    useEffect(() => {
-      setRows(mockData)
-    },[columns])
+   * On first render (column length is zero), set rows to full set of mock data 
+   * TO DO: implelment a fetchRequest call to myrequest backend api (once completed) through GET protocol to get all the requests
+   */
+   if (columns.length === 0){
+    setRows(mockData)
+  }
+
+  /**
+   * @param {string} id row id to be deleted 
+   * Closes dialog box and updates row data 
+   */
+  const handleDelete = id => {
+    const tempData = [...rows]
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+    })
+    const newData = tempData.filter(myRequest => myRequest._id !== id)
+    setRows(newData)
+  }
 
   /**
    * @param {object} row the row is an object of data
@@ -87,7 +104,16 @@ const MyRequest = (props) => {
       <IconButton aria-label="edit" size="small" edge="start" onClick={() => (console.log('Edit Request Clicked'))} color="default">
           <EditIcon />
       </IconButton>
-      <IconButton aria-label="delete" size="small" edge="start" onClick={() => (console.log('Delete Request Clicked'))} color="secondary">
+      <IconButton aria-label="delete" size="small" edge="start" color="secondary"
+        onClick={() => { 
+          setConfirmDialog({
+              isOpen: true, 
+              title: 'Send notification to approver to delete this request?',
+              cancelText: 'Cancel',
+              confirmText: 'Yes',
+              onConfirm: ()=>{handleDelete(row._id)}
+              }) 
+            }}>
           <DeleteIcon />
       </IconButton>
       </>
@@ -125,6 +151,7 @@ const MyRequest = (props) => {
                 <Typography variant="h5">My Requests</Typography>
             </div>  
             <HelixTable toggleSearch={true} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
         </div>
     </StylesProvider>
   ) 
