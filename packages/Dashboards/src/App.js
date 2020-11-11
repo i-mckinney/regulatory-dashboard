@@ -13,7 +13,6 @@ import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportCreate from './components/report/ReportCreate'
-import ReportInputForm from './components/report/ReportInputForm'
 import ReportEdit from './components/report/ReportEdit'
 import {
   StylesProvider,

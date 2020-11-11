@@ -55,7 +55,7 @@ const HelixCard = (props) => {
       <Divider />
       <CardContent>
           <Typography className={helixCardClasses.content} variant="h6" color="textPrimary" component="p">
-          CCAR Report
+            {props.report.reportName}
           </Typography>
       </CardContent>
     </Card>

@@ -45,51 +45,61 @@ function Report(props) {
     const reportData = [
         {
             _id: '1',
+            reportName: "CCAR",
             lastModifiedBy: 'Ray',
             createdAt: '01/01/2020',
         },
         {
             _id: '2',
+            reportName: "Regulatory",
             lastModifiedBy: 'Ian',
             createdAt: '02/01/2020',
         },
         {
             _id: '3',
+            reportName: "Loan",
             lastModifiedBy: 'Eric',
             createdAt: '03/01/2020',
         },
         {
             _id: '4',
+            reportName: "Loan",
             lastModifiedBy: 'Neil',
             createdAt: '04/01/2020',
         },
         {
             _id: '5',
+            reportName: "CCAR",
             lastModifiedBy: 'Mikey',
             createdAt: '05/01/2020',
         },
         {
             _id: '6',
+            reportName: "Regulatory",
             lastModifiedBy: 'Jacob',
             createdAt: '06/01/2020',
         },
         {
             _id: '7',
+            reportName: "CCAR",
             lastModifiedBy: 'Taharka',
             createdAt: '07/01/2020',
         },
         {
             _id: '8',
+            reportName: "Regulatory",
             lastModifiedBy: 'LeBron',
             createdAt: '08/01/2020',
         },
         {
             _id: '9',
+            reportName: "Loan",
             lastModifiedBy: 'Michael',
             createdAt: '09/01/2020',
         },
         {
             _id: '10',
+            reportName: "Loan",
             lastModifiedBy: 'David',
             createdAt: '10/01/2020',
         },
