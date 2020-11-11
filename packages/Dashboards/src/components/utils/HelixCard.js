@@ -44,12 +44,13 @@ const HelixCard = (props) => {
         </Avatar>
         }
         action={ 
-        <HelixMenuIcon 
+        <HelixMenuIcon
+        report={props.report}
         handleEditReport={props.handleEditReport}
         handleDeleteReport={props.handleDeleteReport}
         /> }
-        title={`Last Modified by ${props.lastModifiedBy}`}
-        subheader={`Created at ${props.createdAt}`}
+        title={`Last Modified by ${props.report.lastModifiedBy}`}
+        subheader={`Created at ${props.report.createdAt}`}
       />
       <Divider />
       <CardContent>
@@ -63,8 +64,6 @@ const HelixCard = (props) => {
 
 HelixCard.propTypes = {
   user: PropTypes.string.isRequired,
-  lastModifiedBy: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
   handleEditReport: PropTypes.func.isRequired,
   handleDeleteReport: PropTypes.func.isRequired,
 }

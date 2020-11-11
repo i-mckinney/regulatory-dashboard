@@ -46,7 +46,7 @@ columnFields.forEach((columnField) => {
  */
 const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     // Set reportTemplate with preset empty data for report template creation
-    const [report, setReport] = useState({ reportName: 'cool'})
+    const [report, setReport] = useState(initialReportTemplate)
     
     // Perform error check for form validatation upon report template data
     const [error] = useState(reportError)

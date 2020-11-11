@@ -106,7 +106,7 @@ function Report(props) {
           <span className={reportClasses.createIconStyle}>
             <IconButton
             color="primary"
-            >
+            onClick={() => (props.history.push("/report/new"))}>
                 <AddBoxIcon fontSize="large" />
             </IconButton>
           </span>
@@ -129,8 +129,8 @@ function Report(props) {
     }
 
     // handleEditReport transition to edit the report
-    const handleEditReport = () => {
-        props.history.push('/')
+    const handleEditReport = (report) => {
+        props.history.push({ pathname: `/report/edit/${report._id}`, state: report })
     }
 
     // handleDeleteRport transition to delete the report

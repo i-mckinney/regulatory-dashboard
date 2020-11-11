@@ -26,9 +26,8 @@ const HelixCollectionList = (props) => {
             {sortedReports.map((report) => (
                 <GridListTile key={report._id} style={{ padding: 0 }}>
                     <HelixCard 
-                    user={props.user} 
-                    lastModifiedBy={report.lastModifiedBy} 
-                    createdAt={report.createdAt} 
+                    user={props.user}
+                    report={report} 
                     handleEditReport={props.handleEditReport}
                     handleDeleteReport={props.handleDeleteReport}
                     />
