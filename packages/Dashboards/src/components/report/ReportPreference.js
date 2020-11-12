@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Switch, FormLabel, FormControl, FormGroup, FormControlLabel } from '@material-ui/core'
+import { FormLabel, FormControl, FormGroup, FormControlLabel } from '@material-ui/core'
+import HelixSwitch from '../utils/HelixSwitch'
 
 const ReportPreference = (props) => {
     // preference is an object that contains boolean of key-value pair of entities, loan, and regulatory
@@ -19,15 +20,15 @@ const ReportPreference = (props) => {
         <FormLabel component="legend">Select Report Preference</FormLabel>
         <FormGroup>
             <FormControlLabel
-            control={<Switch checked={preference.entities} onChange={handleChange} name="entities" />}
+            control={<HelixSwitch checked={preference.entities} onChange={handleChange} name="entities" />}
             label="Entities"
             />
             <FormControlLabel
-            control={<Switch checked={preference.loan} onChange={handleChange} name="loan" />}
+            control={<HelixSwitch checked={preference.loan} onChange={handleChange} name="loan" />}
             label="Loan"
             />
             <FormControlLabel
-            control={<Switch checked={preference.regulatory} onChange={handleChange} name="regulatory" />}
+            control={<HelixSwitch checked={preference.regulatory} onChange={handleChange} name="regulatory" />}
             label="Regulatory"
             />
         </FormGroup>

@@ -32,9 +32,8 @@ const helixSwitchStyles = makeStyles((theme) => ({
     },
     track: {
       borderRadius: 26 / 2,
-      border: `1px solid ${theme.palette.grey[400]}`,
-      backgroundColor: theme.palette.grey[50],
-      opacity: 1,
+      backgroundColor: theme.palette.grey[1000],
+      opacity: .38,
       transition: theme.transitions.create(['background-color', 'border']),
     },
     checked: {},
