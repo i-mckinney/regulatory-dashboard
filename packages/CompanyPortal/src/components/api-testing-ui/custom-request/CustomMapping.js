@@ -76,7 +76,7 @@ export default function CustomMapping({ fields, onChange }) {
                   label='Value'
                   defaultValue='Default Value'
                   width={true}
-                  value={f.value}
+                  value={f.value === f.key ? "" : f.value}
                   onChange={onFieldChange('value')}
                 ></Controls.Input>
               </Grid>

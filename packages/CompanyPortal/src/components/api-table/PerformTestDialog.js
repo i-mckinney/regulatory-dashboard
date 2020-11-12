@@ -5,18 +5,21 @@ import axios from 'axios';
 import DialogModalTemplate from '../DialogModalTemplate';
 import Grid from '@material-ui/core/Grid';
 import { API_HOST } from '../../config';
+// import { Controls } from '../controls/Controls';
+import ResponseKeyPicker from '../controls/ResponseKeyPicker'
 
 const PerformTestDialog = ({
   open,
   onClose,
   requestData: { requestName, _id: requestId },
-  companyId
+  companyId,
+  initialKeys
 }) => {
-  console.log(requestId);
   const [response, setResponse] = useState(null);
   const [mappedResponse, setMappedResponse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [keys, setKeys] = useState([])
 
   useEffect(() => {
     setResponse(null)
@@ -26,14 +29,14 @@ const PerformTestDialog = ({
   const [inputState, setInputState] = useState('');
 
   const testRequest = async (borrowerId) => {
-    // setLoading(true);
     const response = await axios.get(
       `${API_HOST}/companies/${companyId}/customapi/${requestId}/test/${borrowerId}`
     );
     setResponse(response.data.externalSourceData);
     setMappedResponse(response.data.responseMapped);
-    // setLoading(false);
+    setKeys(Object.keys(response.data.externalSourceData))
   };
+
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -43,26 +46,14 @@ const PerformTestDialog = ({
     setInputState(evt.target.value);
   };
 
-  // useEffect(() => {
-  //   const testRequest = async () => {
-  //     setLoading(true);
-  //     //const response = await axios.get(getTestUrl(requestId))
-  //     const response = await axios.get(
-  //       `http://localhost:5000/companies/5f7e1bb2ab26a664b6e950c8/customapi/${requestId}/test`
-  //     );
-  //     setTestResponse(response.data);
-  //     setResponse(response.data.externalSourceData);
-  //     setMappedResponse(response.data.responseMapped);
-  //     setLoading(false);
-  //   };
-  //   if (open) {
-  //     testRequest();
-  //   }
-  // }, [requestId, open]);
-
   if (!open) {
     return null;
   }
+
+  /////////////////////////////////////////////
+  const handleKeyChange = (keys) => {
+        setKeys([...keys])
+    }
 
   return (
     <DialogModalTemplate
@@ -70,11 +61,13 @@ const PerformTestDialog = ({
       open={open}
       onClose={onClose}
     >
+          <h3>Testing API Call "{`${requestName}`}"</h3>
+
       {/* <form noValidate autoComplete="off" onSubmit={handleSubmit}> */}
       <div style={{ display: 'flex', alignItems: 'baseline' }}>
         <TextField
           id='standard-basic'
-          label='Borrower Id'
+          label='Borrower ID'
           onChange={handleChange}
         />
         <Button
@@ -87,15 +80,18 @@ const PerformTestDialog = ({
         </Button>
       </div>
       {/* </form> */}
-      <h3>Testing API Call "{`${requestName}`}"</h3>
-      <Grid container spacing={2}>
-        <Grid item md={6} style={{ borderRight: '1px solid gray' }}>
+      <Grid container spacing={4} style={{width: '100%'}}>
+        <Grid item md={6} style={{ border: '1px solid gray', paddingTop: '10px' }}>
           <h4>Response</h4>
           <pre>{response ? JSON.stringify(response, null, 2) : null}</pre>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={6} style={{ border: '1px solid gray' }}>
           <h4>Mapped Response</h4>
           <pre>{response ? JSON.stringify(mappedResponse, null, 2) : null}</pre>
+        </Grid>
+        <Grid item md={12} style={{ border: '1px solid gray', paddingTop: '10px' }}>
+          <h4>Selected Response Keys</h4>
+            {/* <ResponseKeyPicker currentKeys={keys} handleKeyChange={handleKeyChange}/> */}
         </Grid>
       </Grid>
     </DialogModalTemplate>

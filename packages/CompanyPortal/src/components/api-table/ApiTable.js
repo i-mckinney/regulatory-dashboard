@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import { StylesProvider, makeStyles, TableCell } from "@material-ui/core";
-import PageHeader from "../../layout/PageHeader";
-import TelegramIcon from "@material-ui/icons/Telegram";
-import AddIcon from "@material-ui/icons/Add";
-import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { HelixTable, HelixTableCell } from "helixmonorepo-lib";
-import { sortableExcludes, columnMetadata, API_HOST } from "../../config";
-import PerformTestDialog from "./PerformTestDialog";
-import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from "./constants";
-import EditCustomApiRequestDialog from "./EditCustomApiRequestDialog";
-
-import { Button as MuiButton } from "@material-ui/core";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { StylesProvider, makeStyles, TableCell } from '@material-ui/core';
+import PageHeader from '../../layout/PageHeader';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
+import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
+import PerformTestDialog from './PerformTestDialog';
+import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
+import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
+import PerformTestPage from "../perform-test-page/PerformTestPage";
+import { Button as MuiButton } from '@material-ui/core';
+import axios from 'axios';
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -80,7 +80,6 @@ const ApiTable = (props) => {
         .then((res) => {
           // setRows(res.data[0].CustomApiRequests);
           setCompanyData(res.data);
-          console.log("RES DATA", res.data);
         });
     };
 
@@ -107,7 +106,7 @@ const ApiTable = (props) => {
 
   const handleCloseEditModal = () => {
     setOpenEditModal(false);
-    setRequestData({});
+    //setRequestData({});
   };
 
   // columns will store column header that we want to show in the front end
@@ -123,10 +122,6 @@ const ApiTable = (props) => {
     Accessor: "Actions",
     Sortable: false,
   });
-  //}
-
-  console.log("COL:", columns);
-
   const handleCreateRow = async (newRow) => {
     const payload = { ...newRow };
     delete payload._id;
@@ -157,11 +152,10 @@ const ApiTable = (props) => {
           headers: { "Access-Control-Allow-Origin": "*" },
         }
       );
-      setCompanyData(
-        companyData.map((d) => (d._id === updatedRow._id ? response.data : d))
-      );
-    } catch (e) {
-      console.error(e);
+      setCompanyData(companyData.map(d => d._id === updatedRow._id ? response.data : d));
+      setRequestData({...response.data});
+    } catch(e) {
+      console.error(e)
     }
     setLoading(false);
     handleCloseEditModal();
@@ -274,6 +268,17 @@ const ApiTable = (props) => {
     );
   };
 
+  if (openTestRequestModal) {
+    return (
+      <PerformTestPage
+        onClose={() => setOpenTestRequestModal(false)}
+        requestData={requestData}
+        companyId={companyId}
+        handleEditRow={handleEditRow}
+      />
+    )
+  };
+
   return (
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
@@ -305,12 +310,7 @@ const ApiTable = (props) => {
         onCreate={handleCreateRow}
         modalAction={modalAction}
       />
-      <PerformTestDialog
-        open={openTestRequestModal}
-        onClose={() => setOpenTestRequestModal(false)}
-        requestData={requestData}
-        companyId={companyId}
-      ></PerformTestDialog>
+
     </StylesProvider>
   );
 };
