@@ -64,6 +64,9 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
         setReport({ ...report, [name]: value })
     }
 
+    /**
+     * @param {Object} preferenceObj preferenceObj is an object that contains preference of entities, loan, and regulatory
+     */
     const handlePreferenceChange = (preferenceObj) => {
         setReport({ ...report, preference: preferenceObj })
     }

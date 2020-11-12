@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import { Switch, FormLabel, FormControl, FormGroup, FormControlLabel } from '@material-ui/core'
 
 const ReportPreference = (props) => {
+    // preference is an object that contains boolean of key-value pair of entities, loan, and regulatory
     const [preference, setPreference] = useState(props.preference)
 
+    /**
+     * @param {object} event the event object
+     */
     const handleChange = (event) => {
         const preferenceObj = { ...preference, [event.target.name]: event.target.checked }
         setPreference(preferenceObj)
