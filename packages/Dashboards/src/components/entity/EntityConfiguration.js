@@ -282,11 +282,15 @@ const EntityConfiguration = (props) => {
             <div className={entityConfigurationClasses.configTable}>
                 <HelixTable toggleSearch={false} columns={columns} rows={rows} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} customCellRender={customCellRender} />
             </div>
-            <Grid container>
-                <Grid item xs></Grid>
-                <Grid item xs={4} className={entityConfigurationClasses.buttonStyle}>
-                    {renderButtonActions()}
-                </Grid>
+            <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="center"
+            >
+              <Grid className={entityConfigurationClasses.buttonStyle}>
+                  {renderButtonActions()}
+              </Grid>
             </Grid>
         </div>
     )

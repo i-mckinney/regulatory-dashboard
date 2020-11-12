@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
@@ -76,7 +76,7 @@ export default function CustomMapping({ fields, onChange }) {
                   label='Value'
                   defaultValue='Default Value'
                   width={true}
-                  value={f.value}
+                  value={f.value === f.key ? "" : f.value}
                   onChange={onFieldChange('value')}
                 ></Controls.Input>
               </Grid>
