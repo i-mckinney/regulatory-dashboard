@@ -33,11 +33,17 @@ const HelixMenuIcon = (props) => {
     setOpen(false)
   }
 
+  /**
+   * @param {object} event the event object
+   */
   const handleEditReport = (event) => {
     event.stopPropagation()
     props.handleEditReport(props.report)
   }
 
+  /**
+   * @param {object} event the event object
+   */
   const handleDeleteReport = (event) => {
     event.stopPropagation()
     props.handleDeleteReport(props.report)

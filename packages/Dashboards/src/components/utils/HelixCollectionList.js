@@ -4,6 +4,7 @@ import HelixCard from './HelixCard'
 import PropTypes from 'prop-types'
 import { getComparator, stableSort } from '../table/HelixTableSortFunc'
 
+// Styling used for MaterialUI
 const helixCollectionListStyles = makeStyles(() => ({
     paper: {
         marginTop: '1rem',
