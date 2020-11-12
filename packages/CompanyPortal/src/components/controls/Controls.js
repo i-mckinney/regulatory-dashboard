@@ -3,7 +3,7 @@ import RadioGroup from './RadioGroup';
 import Select from './Select';
 import Button from './Button';
 import ActionButton from './ActionButton';
-import Textarea from "./Textarea"
+import Textarea from './Textarea';
 
 
 // Import form controls here and import only this file when building forms
@@ -13,7 +13,7 @@ const Controls = {
   Select,
   Button,
   ActionButton,
-  Textarea,
-};
+  Textarea
+  };
 
 export default Controls;
