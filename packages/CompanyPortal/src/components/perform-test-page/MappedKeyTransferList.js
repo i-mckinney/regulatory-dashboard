@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -11,12 +11,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-// MAPPED KEY TRANSFER LIST
+// MAPPED KEY TRANSFER LIST COMPONENT
 /* 
-Displays a transferable list of keys provided by the responseMapped data object associated
-with the given API response. Select keys and move from selectedResponseKeys to availableResponseKeys to save and send to CompanyBackend 
-   */
-
+Displays a transferable list of keys provided by the externalSourceData and responseMapped data objects
+ */
 
 const useTransferListStyles = makeStyles((theme) => ({
   root: {
@@ -36,46 +34,38 @@ const useTransferListStyles = makeStyles((theme) => ({
   },
 }));
 
-// Material UI Transfer List Component
+// Material UI Transfer List Component default behavior
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
 }
 
-// Material UI Transfer List Component
 function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-// Material UI Transfer List Component
 function union(a, b) {
   return [...a, ...not(b, a)];
 }
 
-
 /**
- * @return {JSX} returns Material UI transfer list component fro selecting mapped response keys that are to be sent to the backend
-  
-
+ * @param {Object} availableResponseKeys list of available keys provided by the external data source
+ * @param {Object} selectedResponseKeys list of keys selected using the response mapping tool
+ * @param {function } setAvailableResponseKeys setKeys function passed down from parent component 
+ * @param {function } setSelectedResponseKeys setKeys function passed down from parent component 
+ * @returns {JSX} returns Material UI transfer list component fro selecting mapped response keys that are to be sent to the backend
  */
 export default function TransferList({ availableResponseKeys, setAvailableResponseKeys, selectedResponseKeys, setSelectedResponseKeys}) {
   const transferListClasses = useTransferListStyles();
+  // Checked store array of keys that are checked and ready to move to the available or selected list 
   const [checked, setChecked] = React.useState([]);
-  //const [availableResponseKeys, setAvailableResponseKeys] = React.useState(keys);
-  //const [selectedResponseKeys, setSelectedResponseKeys] = React.useState(mappedKeys);
-
-  // useEffect(() => {
-  //   setKeys(selectedResponseKeys)
-  // }, [selectedResponseKeys, setKeys])
-
-  // useEffect(() => {
-  //   setAvailableResponseKeys(keys)
-  //   setSelectedResponseKeys(mappedKeys)
-  // }, [keys, mappedKeys])
-
-
+  // leftChecked stores array of external source system keys available 
   const leftChecked = intersection(checked, availableResponseKeys);
+  // rightChecked stores array of keys that have been selected
   const rightChecked = intersection(checked, selectedResponseKeys);
 
+  /**
+  * @param {String} value represents the key input name
+  */
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -89,8 +79,15 @@ export default function TransferList({ availableResponseKeys, setAvailableRespon
     setChecked(newChecked);
   };
 
+  /**
+   * @param {Array} items represents an array of keys
+   * @return the length of checked keys
+   */
   const numberOfChecked = (items) => intersection(checked, items).length;
 
+  /**
+   * @param {array} items represents an array of keys 
+   */
   const handleToggleAll = (items) => () => {
     if (numberOfChecked(items) === items.length) {
       setChecked(not(checked, items));
@@ -99,21 +96,28 @@ export default function TransferList({ availableResponseKeys, setAvailableRespon
     }
   };
 
+  /**
+   * handleCheckedRight changes the state for availableResponseKeys and selectedResponseKeys
+   */
   const handleCheckedRight = () => {
     setSelectedResponseKeys(selectedResponseKeys.concat(leftChecked));
     setAvailableResponseKeys(not(availableResponseKeys, leftChecked));
     setChecked(not(checked, leftChecked));
   };
 
+  /**
+   * handleCheckedRight changes the state for availableResponseKeys and selectedResponseKeys
+   */
   const handleCheckedLeft = () => {
     setAvailableResponseKeys(availableResponseKeys.concat(rightChecked));
     setSelectedResponseKeys(not(selectedResponseKeys, rightChecked));
     setChecked(not(checked, rightChecked));
   };
 
-  /** @return {JSX} returns a custom list of mapped keys
-    * @param {string} title the custom list title to distinguish selectedResponseKeys from availableResponseKeys
-    * @param {object} items object containing all available list items
+  /** 
+    * @param {String} title the custom list title of either availableResponseKeys or selectedResponseKeys
+    * @param {Array} items array of all keys
+    * @returns {JSX} the entire TransferList component
  */
   const customList = (title, items) => (
     <Card>

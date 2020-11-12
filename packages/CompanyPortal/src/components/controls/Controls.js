@@ -4,7 +4,6 @@ import Select from './Select';
 import Button from './Button';
 import ActionButton from './ActionButton';
 import Textarea from './Textarea';
-import ResponseKeyPicker from './ResponseKeyPicker';
 
 
 // Import form controls here and import only this file when building forms
@@ -14,8 +13,7 @@ const Controls = {
   Select,
   Button,
   ActionButton,
-  Textarea,
-  ResponseKeyPicker
-};
+  Textarea
+  };
 
 export default Controls;
