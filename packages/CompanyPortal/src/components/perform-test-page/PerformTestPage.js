@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { makeStyles, Typography, Card, CardContent, Grid, InputAdornment } from '@material-ui/core'
+import { makeStyles, Typography, Card, CardContent, Grid, InputAdornment  } from '@material-ui/core'
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import { API_HOST } from '../../config';
 import axios from 'axios';
@@ -8,7 +15,7 @@ import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 import MappedKeyTransferList from './MappedKeyTransferList';
 
-const performTestPageStyles = makeStyles(() => ({
+const performTestPageStyles = makeStyles((theme) => ({
     root:{
       marginTop: "100px",
       marginLeft: '100px',
@@ -25,14 +32,22 @@ const performTestPageStyles = makeStyles(() => ({
           marginRight: '16px',
       },
       '& a': {
-          marginTop: '16px',
+          marginTop: '16px',  
           marginRight: '16px',
       }
     },
+    formControl: {
+    minWidth: '200px',
+    paddingRight: '40px'
+  },
+  helixTextField: {
+    minWidth: '375px'
+  },
     cardStyle: {
       root: {
     minWidth: 275,
-  },
+  }
+
     }
   }))
 
@@ -55,19 +70,21 @@ export default function PerformTestPage({
 }
 ) {
   const performTestPageClasses = performTestPageStyles()
-    // the response provided by making the "Test Custom API Request" GET call to CompanyBackend 
-    const [response, setResponse] = useState(null);
-    // The nested mappedResponse data object returned in the response
-    const [mappedResponse, setMappedResponse] = useState(null);
-    // The nested externalSourceData object returned in the response
-    const [keys, setKeys] = useState([])
-    // The mapped keys to be added to the mappedResponse object by the user
-    const [mappedKeys, setMappedKeys] = useState([])
-    // The ID required to make a "Test Custom API Request" GET call to CompanyBackend 
-    const [borrowerId, setBorrowerId] = useState("")
-    // Confirms that a response has been received from CompanyBackend
-    const responseLoaded = !!response
-
+  // the response provided by making the "Test Custom API Request" GET call to CompanyBackend 
+  const [response, setResponse] = useState(null);
+  // The nested mappedResponse data object returned in the response
+  const [mappedResponse, setMappedResponse] = useState(null);
+  // The nested externalSourceData object returned in the response
+  const [keys, setKeys] = useState([])
+  // The mapped keys to be added to the mappedResponse object by the user
+  const [mappedKeys, setMappedKeys] = useState([])
+  // The ID required to make a "Test Custom API Request" GET call to CompanyBackend 
+  const [borrowerId, setBorrowerId] = useState("")
+  // Confirms that a response has been received from CompanyBackend
+  const responseLoaded = !!response
+  // List of borrower IDs available for prefill using Select component 
+  const [prefilledBorrowerId] = React.useState('');
+  
     /*
      * Updates the mappedResponse object preparing for an "Update A Custom API Request" made to the CompanyBackend
      */
@@ -102,13 +119,31 @@ export default function PerformTestPage({
    }, [requestData, borrowerId, testRequest, responseLoaded])
 
   /**
-   * @return {jsx} return a HelixTextField and HelixButton for capturing id 
+   * @return {jsx} return a HelixTextField and HelixButton for capturing id, and Material UI Select component for prefilling input with known IDs
    */
     const renderTestingActions = () => {
       return (
         <div  >
+        <FormControl className={performTestPageClasses.formControl}>
+                {/* <FormControl className={performTestPageClasses.formControl} style={{width:200, paddingRight:20}}> */}
+
+        <InputLabel id="demo-simple-select-label">Prefill ID</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select" 
+          value={prefilledBorrowerId}
+          onChange={e => setBorrowerId(e.target.value)}
+        >
+          <MenuItem value={'258ad85e-f6f0-44dc-bf61-4ce55f41ea96'}>FIS</MenuItem>
+          <MenuItem value={'fd979084-4e36-4983-90e7-c743933518db'}>Sales Force</MenuItem>
+          <MenuItem value={''}>DataWarehouse</MenuItem>
+          <MenuItem value={'a58946c5-b227-45e0-9f2b-fc33103b1587'}>Temenos</MenuItem>
+        </Select>
+      </FormControl>
+
         <HelixTextField
-        label="Borrower ID"
+        className={performTestPageClasses.helixTextField}
+        label="Search for ID" 
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>
@@ -128,10 +163,7 @@ export default function PerformTestPage({
               style={{marginLeft: '2em'}}
               onClick={() => testRequest()}
             />
-              
-        </div>
-        
-        
+        </div> 
       )
     }
 
@@ -202,11 +234,11 @@ export default function PerformTestPage({
     <div className={performTestPageClasses.root}> 
      <Grid container spacing={6}>
       <Grid item xs='12'>{renderTestingActions()}</Grid>
-        <Grid item xs='6' className={performTestPageClasses.responseContainer}>{renderExternalSourceData()}</Grid>
-        <Grid item xs='6'className={performTestPageClasses.responseContainer}>{renderMappedResponseData()}</Grid>
-        <Grid item xs='12'><MappedKeyTransferList  availableResponseKeys={keys} setAvailableResponseKeys={setKeys} selectedResponseKeys={mappedKeys} setSelectedResponseKeys={setMappedKeys} /></Grid>
-        <Grid item xs='12' className={performTestPageClasses.buttonStyle} style={{textAlign: 'center'}}>
-          {renderButtonActions()}
+      <Grid item xs='6' className={performTestPageClasses.responseContainer}>{renderExternalSourceData()}</Grid>
+      <Grid item xs='6'className={performTestPageClasses.responseContainer}>{renderMappedResponseData()}</Grid>
+      <Grid item xs='12'><MappedKeyTransferList  availableResponseKeys={keys} setAvailableResponseKeys={setKeys} selectedResponseKeys={mappedKeys} setSelectedResponseKeys={setMappedKeys} /></Grid>
+      <Grid item xs='12' className={performTestPageClasses.buttonStyle} style={{textAlign: 'center'}}>
+        {renderButtonActions()}
       </Grid>
      </Grid>
     </div>
