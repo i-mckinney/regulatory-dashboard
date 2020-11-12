@@ -148,6 +148,7 @@ function Report(props) {
         props.history.push('/homepage')
     }
 
+    // handleReport transition to report page
     const handleReport = () => {
         props.history.push('/homepage')
     }
