@@ -128,10 +128,7 @@ const EntityDiscrepancy = (props) => {
                   tempExternalValues.push("")
                   return "NULL"
                 } else {
-                  if (!error.err) {
-                    setError({ err: true, message: "Improper mapping due to external value" })
-                  }
-                  return ""
+                  return "Error: Improper Mapping"
                 }
               }
               catch (e) {
