@@ -90,7 +90,10 @@ const entityTableCellStyles = makeStyles(() => ({
     marginTop: '16px',
   },
   pWaterMark: {
-    fontSize: '9px'
+    padding: '.5px',
+    fontSize: '11px',
+    fontWeight: 1000,
+    color: '#555555',
   }
 }))
 
@@ -305,11 +308,12 @@ const EntityTableCell = ({
             </Grid>
             <Grid>
               {displayInitialStateValue()}
+              {proposedWaterMark()}
             </Grid>
           </Grid>
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
-          <Grid
+          {/* <Grid
             container
             direction="row-reverse"
             justify="flex-start"
@@ -319,7 +323,7 @@ const EntityTableCell = ({
             <Grid>
               {proposedWaterMark()}
             </Grid>
-          </Grid>
+          </Grid> */}
         </TableCell>
       )
     } else if (containActions) {
