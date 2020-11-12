@@ -16,7 +16,6 @@ router.get("/companies/:id/customapi", async (req, res) => {
     const customAPIs = await dbCollection
       .find({ company_id: ObjectId(companyId) })
       .toArray((err, result) => {
-        console.log(result);
         if (err) throw err;
         res.json(result);
       });
@@ -149,6 +148,16 @@ router.delete("/companies/:id/customapi/:customApiId", async (req, res) => {
       ],
     });
 
+    //When we remove a custom api, we need to make sure to delete custom api that is selected in entity configruation
+    const entityConfigCollection = await DbConnection.getCollection(
+      "Entities_Configuration"
+    );
+    const entityConfigurationData = await entityConfigCollection.findOne({
+      company_id: ObjectId(companyId),
+    });
+    console.log(entityConfigurationData, "entityconfig data");
+    let entityConfiguration = entityConfigurationData.entityConfiguration;
+
     if (!customApi) {
       res.json({
         error: "Custom API with given id doesn't exist",
@@ -160,6 +169,20 @@ router.delete("/companies/:id/customapi/:customApiId", async (req, res) => {
           { _id: ObjectId(customApiId) },
         ],
       });
+
+      if (entityConfiguration) {
+        for (let i = 0; i < entityConfiguration.length; i++) {
+          if (customApiId === entityConfiguration[i]) {
+            //remove that custom api and update entity configs
+            entityConfiguration.splice(i, 1);
+
+            await entityConfigCollection.updateOne(
+              { company_id: ObjectId(companyId) },
+              { $set: {"entityConfiguration":entityConfiguration} } 
+            );
+          }
+        }
+      }
 
       // return success message
       res.json({
