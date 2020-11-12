@@ -328,8 +328,9 @@ const EntityDiscrepancy = (props) => {
         if (cell) {
           const containsCustomApiId = Object.keys(discrepancyData).includes(columns[index+1].customApiId)
           const key = row.key_config["key"]
+          const source = columns[index+1].Label
           const sourceOfTruth = row.sourceSystem.source === columns[index+1].customApiId ? true : false
-          const obj = { [key]: { "CurrentValue": cell.currentValue || cell.externalValue, "SourceOfTruth": sourceOfTruth } }
+          const obj = { [key]: { "CurrentValue": cell.currentValue, "externalValue": cell.externalValue, "externalSource": source, "SourceOfTruth": sourceOfTruth } }
           if (cell.isEdited || (row.sourceSystem.isEdited && row.sourceSystem.source === columns[index+1].customApiId) ) {
             if (!containsCustomApiId) {
               discrepancyData[columns[index+1].customApiId] = { ...obj }
