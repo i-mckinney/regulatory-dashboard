@@ -27,7 +27,8 @@ const HelixCollectionList = (props) => {
                 <GridListTile key={report._id} style={{ padding: 0 }}>
                     <HelixCard 
                     user={props.user}
-                    report={report} 
+                    report={report}
+                    handleReport={props.handleReport}
                     handleEditReport={props.handleEditReport}
                     handleDeleteReport={props.handleDeleteReport}
                     />

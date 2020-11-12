@@ -148,6 +148,10 @@ function Report(props) {
         props.history.push('/homepage')
     }
 
+    const handleReport = () => {
+        props.history.push('/homepage')
+    }
+
     return (
         <div className={reportClasses.mediumContainer}>
             <div className={reportClasses.header}>
@@ -158,6 +162,7 @@ function Report(props) {
             user={localUser} 
             reportData={reportData} 
             searchFilter={searchFilter}
+            handleReport={handleReport}
             handleEditReport={handleEditReport} 
             handleDeleteReport={handleDeleteReport}
             />
