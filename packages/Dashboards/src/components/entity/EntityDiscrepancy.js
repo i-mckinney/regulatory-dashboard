@@ -5,7 +5,8 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import PropTypes from "prop-types"
 import EntityCard from "./EntityCard"
 import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
+import { HelixTable, HelixButton } from 'helixmonorepo-lib'
+import HelixTableCell from '../table/HelixTableCell'
 import entities from '../apis/entities'
 import HelixLinearProgress from '../utils/HelixLinearProgress'
 
@@ -68,14 +69,16 @@ const EntityDiscrepancy = (props) => {
   // rows will store all the row data
   const rows = useMemo(() => [], [])
 
-  // entityData is api result array of row object that contains key_config, sourceSystem, values
-  const [entityData, setEntityData] = useState([])
+  // entityTableData is api result array of row object that contains key_config, sourceSystem, values
+  const [entityTableData, setEntityTableData] = useState([])
 
   // error is object contains err and message
   const [error, setError] = useState({ err: false, message: "" })
 
   // externalValues will stores all the external values of each of the source system
   const externalValues = useMemo(() => [], [])
+
+  const discrepancyData = useMemo(() => [], [])
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -144,7 +147,7 @@ const EntityDiscrepancy = (props) => {
           rows.push(newRow)
           externalValues.push(tempExternalValues)
         })
-        setEntityData(data.TableData)
+        setEntityTableData(data.TableData)
       } else {
         setError({ err: true, message: `${data.ErrorMessage}/Borrower ID does not exist` })
       }
@@ -174,8 +177,8 @@ const EntityDiscrepancy = (props) => {
    */
   const saveEntityData = (rowIndex, columnIndex, isEdited, previousValue, value, matchesSoT, source) => {
     if (isEdited) {
-      const copySavedEntityData = [ ...entityData ]
-      const modifiedData = { ...copySavedEntityData[rowIndex] }
+      const copySavedEntityTableData = [ ...entityTableData ]
+      const modifiedData = { ...copySavedEntityTableData[rowIndex] }
 
       const modifiedValues = [ ...modifiedData.values ]
 
@@ -183,15 +186,17 @@ const EntityDiscrepancy = (props) => {
       ? { ...modifiedValues[columnIndex-1] }
       : {}
 
-      if (source === columns[columnIndex].Accessor) {
+      if (source === columns[columnIndex].customApiId) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
         modifiedSourceSystem["source"] = source
         modifiedSourceSystem["trueValue"] = value
+        modifiedSourceSystem["isEdited"] = true
         modifiedData["sourceSystem"] = modifiedSourceSystem
       }
 
       modifiedValueDatum["currentValue"] = value
       modifiedValueDatum["matchesSoT"] = modifiedData["sourceSystem"]["trueValue"] === value
+      modifiedValueDatum["isEdited"] = true
 
       modifiedValues.splice(columnIndex-1, 1, modifiedValueDatum)
 
@@ -207,15 +212,16 @@ const EntityDiscrepancy = (props) => {
 
       modifiedData["values"] = modifiedValues
 
-      copySavedEntityData.splice(rowIndex, 1, modifiedData)
-      setEntityData([ ...copySavedEntityData ])
+      copySavedEntityTableData.splice(rowIndex, 1, modifiedData)
+      setEntityTableData([ ...copySavedEntityTableData ])
 
     } else {
-      const copySavedEntityData = [ ...entityData ]
-      const modifiedData = { ...copySavedEntityData[rowIndex] }
+      const copySavedEntityTableData = [ ...entityTableData ]
+      const modifiedData = { ...copySavedEntityTableData[rowIndex] }
 
-      if (source === columns[columnIndex].Accessor) {
+      if (source === columns[columnIndex].customApiId) {
         const modifiedSourceSystem = { ...modifiedData.sourceSystem }
+        delete modifiedSourceSystem.isEdited
         modifiedSourceSystem["source"] = source
         modifiedSourceSystem["trueValue"] = previousValue
         modifiedData["sourceSystem"] = modifiedSourceSystem
@@ -228,6 +234,7 @@ const EntityDiscrepancy = (props) => {
 
       if (modifiedValueDatum && modifiedValueDatum["currentValue"]) {
         delete modifiedValueDatum.currentValue
+        delete modifiedValueDatum.isEdited
         modifiedValueDatum["matchesSoT"] = matchesSoT
       }
 
@@ -245,8 +252,8 @@ const EntityDiscrepancy = (props) => {
 
       modifiedData["values"] = modifiedValues
 
-      copySavedEntityData.splice(rowIndex, 1, modifiedData)
-      setEntityData([ ...copySavedEntityData ])
+      copySavedEntityTableData.splice(rowIndex, 1, modifiedData)
+      setEntityTableData([ ...copySavedEntityTableData ])
     }
   }
 
@@ -256,12 +263,13 @@ const EntityDiscrepancy = (props) => {
    * @param {string} trueValue the trueValue is value of the HelixTableCell selected
    */
   const saveRadioData = (rowIndex, source, trueValue) => {
-    const copySavedEntityData = [ ...entityData ]
-    const modifiedData = { ...copySavedEntityData[rowIndex] }
+    const copySavedEntityTableData = [ ...entityTableData ]
+    const modifiedData = { ...copySavedEntityTableData[rowIndex] }
     
     const modifiedSourceSystem = { ...modifiedData.sourceSystem }
     modifiedSourceSystem["source"] = source
     modifiedSourceSystem["trueValue"] = trueValue
+    modifiedSourceSystem["isEdited"] = true
 
     const modifiedValues = [ ...modifiedData.values ] 
     
@@ -277,8 +285,8 @@ const EntityDiscrepancy = (props) => {
 
     modifiedData["sourceSystem"] = modifiedSourceSystem
 
-    copySavedEntityData.splice(rowIndex, 1, modifiedData)
-    setEntityData([ ...copySavedEntityData ])
+    copySavedEntityTableData.splice(rowIndex, 1, modifiedData)
+    setEntityTableData([ ...copySavedEntityTableData ])
   }
 
   /**
@@ -294,7 +302,7 @@ const EntityDiscrepancy = (props) => {
       return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]}/>
     }
     else {
-      const sourceSystem = entityData[rowIndex].sourceSystem
+      const sourceSystem = entityTableData[rowIndex].sourceSystem
 
       const source = sourceSystem.source 
       ? sourceSystem.source.toString() 
@@ -314,9 +322,27 @@ const EntityDiscrepancy = (props) => {
     props.history.push("/entity")
   }
 
-  // Passes entityData to the confirmation route
+  // Passes entityTableData to the confirmation route
   const handleConfirmButton = async () => {
-    const req = { savedChanges: entityData }
+    entityTableData.forEach((row) => {
+      row.values.forEach((cell, index) => {
+        if (cell) {
+          const containsCustomApiId = Object.keys(discrepancyData).includes(columns[index+1].customApiId)
+          const key = row.key_config["key"]
+          const sourceOfTruth = row.sourceSystem.source === columns[index+1].customApiId ? true : false
+          const obj = { [key]: { "CurrentValue": cell.currentValue || cell.externalValue, "SourceOfTruth": sourceOfTruth } }
+          if (cell.isEdited || (row.sourceSystem.isEdited && row.sourceSystem.source === columns[index+1].customApiId) ) {
+            if (!containsCustomApiId) {
+              discrepancyData[columns[index+1].customApiId] = { ...obj }
+            } else {
+              discrepancyData[columns[index+1].customApiId] = { ...discrepancyData[columns[index+1].customApiId], ...obj }
+            }
+          }
+        }
+      })
+    })
+    const req = { savedChanges: { ...discrepancyData } }
+    console.log(`Line 346 - ${handleConfirmButton.name} -`, req)
     await entities.post(`discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`, req)
     props.history.push("/entity")
   }
