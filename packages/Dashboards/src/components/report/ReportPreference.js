@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import { Switch, FormLabel, FormControl, FormGroup, FormControlLabel } from '@material-ui/core'
 
-const ReportPreference = () => {
-    const [preference, setPreference] = useState({
-        entities: false,
-        loan: false,
-        regulatory: false,
-    })
-    
+const ReportPreference = (props) => {
+    const [preference, setPreference] = useState(props.preference)
+
     const handleChange = (event) => {
-        setPreference({ ...preference, [event.target.name]: event.target.checked });
+        const preferenceObj = { ...preference, [event.target.name]: event.target.checked }
+        setPreference(preferenceObj)
+        props.handlePreferenceChange(preferenceObj)
     }
 
     return (

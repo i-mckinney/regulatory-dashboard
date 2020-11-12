@@ -6,7 +6,12 @@ import { columnFields } from './config'
 // initialReportTemplate with preset data
 const initialReportTemplate = {}
 columnFields.forEach((columnField) => {
-    initialReportTemplate[[columnField]] = ""
+    if (columnField === 'preference') {
+        const preference = { entities: false, loan: false, regulatory: false }
+        initialReportTemplate[[columnField]] = preference
+    } else {
+        initialReportTemplate[[columnField]] = ""
+    }
 })
 
 /**

@@ -64,6 +64,10 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
         setReport({ ...report, [name]: value })
     }
 
+    const handlePreferenceChange = (preferenceObj) => {
+        setReport({ ...report, preference: preferenceObj })
+    }
+
     /**
      * @param {Object} event the event object 
      * Send the created report template back to parent component
@@ -133,9 +137,10 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
                     if (fields === 'preference') {
+                        const preference = initialReportTemplate.preference
                         return (
                             <Grid item xs={12} key={`${index} ${fields}`}>
-                                <ReportPreference />
+                                <ReportPreference preference={preference} handlePreferenceChange={handlePreferenceChange} />
                             </Grid>
                         )
                     } else if (fields === 'archive') {
