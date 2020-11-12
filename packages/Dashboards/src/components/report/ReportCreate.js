@@ -24,7 +24,6 @@ const ReportCreate = (props) => {
      * @param {object} reportTemplate represent entity object with props values that it will create 
      */
     const createReportTemplate = async (reportTemplate) => {
-        console.log(reportTemplate)
         props.history.push("/report")
     }
 
