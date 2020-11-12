@@ -108,43 +108,89 @@ router.post("/:companyId/report/:entityId", async (req, res) => {
      * CompanyId : used to identify which company this report belongs to
      * EntityId : used to identify the entity that user has created
      */
-    const EntityId = req.params.entityId
-    const CompanyId = req.params.companyId
+    const EntityId = req.params.entityId;
+    const CompanyId = req.params.companyId;
 
-    const savedChanges = req.body.savedChanges
+    const newChanges = req.body.savedChanges;
 
-    if (savedChanges["_id"] || savedChanges["entity_id"])
-      throw Error("Not allowed to manually give _id entity_id")
+    if (newChanges["_id"] || newChanges["entity_id"])
+      throw Error("Not allowed to manually give _id entity_id");
 
     const reportCollection = await DbConnection.getCollection(
       "DiscrepanciesReport"
-    )
+    );
 
-    let discrepancyReportChanges = await reportCollection.findOne({
+    let pastChanges = await reportCollection.findOne({
       entity_id: ObjectId(EntityId),
-    })
+    });
 
-    //each row will have only one discrpacy report changes.
-    if (discrepancyReportChanges) {
-      await reportCollection.deleteOne({ entity_id: ObjectId(EntityId) })
+    let unMergedChanges;
+
+    if (pastChanges) {
+      let savedChanges = pastChanges.savedChanges;
+      unMergedChanges = { ...savedChanges };
+
+      for (let column in newChanges) {
+        for (let row in newChanges[column]) {
+          let updatedCellValue = newChanges[column][row];
+
+          //if column exists in past changes
+          if (unMergedChanges[column]) {
+            //if column & row (cell) exists in past changes, you replace the old object with the new updated cell value
+            if (unMergedChanges[column][row]) {
+              unMergedChanges[column][row] = updatedCellValue;
+            } else {
+              // adding in new row (cell value) to existing column (changes)
+              let cellValue = newChanges[column][row];
+              unMergedChanges[column][row] = cellValue;
+            }
+          } else {
+            //if column does not exist in past changes, create a new column and add in new updated cell
+
+            unMergedChanges[column] = "";
+
+            let cellValue = newChanges[column][row];
+            let fieldName = row;
+
+            let newCell = {};
+            newCell[fieldName] = cellValue;
+
+            unMergedChanges[column] = newCell;
+          }
+        }
+      }
+
+      console.log(unMergedChanges);
+      let finalChanges = unMergedChanges;
+
+      await reportCollection.updateOne(
+        { entity_id: ObjectId(EntityId) },
+        {
+          $set: {
+            savedChanges: finalChanges,
+            entity_id: ObjectId(EntityId),
+            company_id: ObjectId(CompanyId),
+          },
+        }
+      );
+    } else {
+      await reportCollection.insertOne({
+        savedChanges: newChanges,
+        entity_id: ObjectId(EntityId),
+        company_id: ObjectId(CompanyId),
+      });
     }
-    await reportCollection.insertOne({
-      savedChanges,
-      entity_id: ObjectId(EntityId),
-      company_id: ObjectId(CompanyId),
-    })
 
     // return added discrepancyReportChanges
-    discrepancyReportChanges = await reportCollection
+    pastChanges = await reportCollection
       .find({ entity_id: ObjectId(EntityId) })
-      .toArray()
-    const changesJustAdded =
-      discrepancyReportChanges[discrepancyReportChanges.length - 1]
-    res.json(changesJustAdded)
+      .toArray();
+    const changesJustAdded = pastChanges[pastChanges.length - 1];
+    res.json(changesJustAdded);
   } catch (err) {
-    res.json({ ErrorStatus: err.status, ErrorMessage: err.message })
+    res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
   }
-})
+});
 
 // Get the changes that were made for an entity (For development purposes)
 router.get("/:companyId/report/:entityId", async (req, res) => {

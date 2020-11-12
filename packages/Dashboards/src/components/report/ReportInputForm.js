@@ -3,12 +3,13 @@ import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
-import { columnFields, columnLabels, dateTypeFields } from '../../config'
-import RolePicker from '../controls/RolePicker'
+import { columnFields, columnLabels } from './config'
+import ReportPreference from './ReportPreference'
+import ReportArchive from './ReportArchive'
 
 // Styling used for MaterialUI
-const userFormStyles = makeStyles(() => ({
-    userFormStyle: {
+const reportInputFormStyles = makeStyles(() => ({
+    reportInputFormStyle: {
         marginTop: '8rem',
         width: '50%',
         margin: 'auto',
@@ -32,103 +33,53 @@ const userFormStyles = makeStyles(() => ({
 }));
 
 //Used to perform error checks for validation
-const userError = {}
+const reportError = {}
 columnFields.forEach((columnField) => {
-    userError[[columnField]] = ""
+    reportError[[columnField]] = ""
 })
 
 /**
- * @param {object} initialUser represent preset empty user data object
+ * @param {object} initialReportTemplate represent preset empty report template data object
  * @param {string} header represent the header title of this form
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
- * @return {JSX} UserForm site with input form to fill in
- * routed at /user/new
+ * @return {JSX} ReportInputForm site with input form to fill in
  */
-const UserForm = ({ initialUser, header, onSubmit}) => {
-    // Set user with preset empty data for user creation e.g. { FirstName: "", LastName: "", ...}
-    const [user, setUser] = useState(initialUser)
+const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
+    // Set reportTemplate with preset empty data for report template creation
+    const [report, setReport] = useState(initialReportTemplate)
     
-    // Perform error check for form validatation upon user data
-    const [error, setError] = useState(userError)
+    // Perform error check for form validatation upon report template data
+    const [error] = useState(reportError)
 
-    // Creates an object for styling. Any className that matches key in the userFormStyles object will have a corresponding styling
-    const userFormClasses = userFormStyles()
+    // Creates an object for styling. Any className that matches key in the reportInputFormStyles object will have a corresponding styling
+    const reportInputFormClasses = reportInputFormStyles()
     
     /**
      * @param {Object} event the event object
      * name: the name property on the target text field element
-     * value: the value property on the target text field element as user input text
+     * value: the value property on the target text field element as report template input text
      */
     const handleInputChange = (event) => {
         const { name, value } = event.target
-        setUser({ ...user, [name]: value })
-        validation(name, value)
-    }
-
-    const handleRolesChange = (roles) => {
-        setUser({ ...user, Roles: roles})
+        setReport({ ...report, [name]: value })
     }
 
     /**
-     * 
-     * @param {string} name  the name property on the target text field element
-     * @param {string} value the value property on the target text field element as user input text
-     * @param {string} label the label is used for logging errors
+     * @param {Object} preferenceObj preferenceObj is an object that contains preference of entities, loan, and regulatory
      */
-    const validate = (name, value, label) => {
-        if(name === "Phone" && 0 < value.length && value.length < 10) {
-            setError({ ...error, [name]: `${label} must be length of 10` })
-        }
-        else if((name === "FirstName" || name === "LastName") && value.length === 0) {
-            setError({ ...error, [name]: `${label} cannot be empty` })
-        }
-        else {
-            setError({ ...error, [name]: "" })
-        }
-    }
-
-    /**
-     * @param {string} name represent accessor of the object
-     * @param {string} value represent the keyboard input value from the event object
-     */
-    const validation = (name, value) => {
-        switch(name) {
-            case "FirstName":
-                validate(name, value, "First Name")
-                break
-            case "LastName":
-                validate(name, value, "Last Name")
-                break
-            case "Phone":
-                validate(name, value, "Phone")
-                break
-            default:
-                break
-        }
+    const handlePreferenceChange = (preferenceObj) => {
+        setReport({ ...report, preference: preferenceObj })
     }
 
     /**
      * @param {Object} event the event object 
-     * Send the created user back to parent component
+     * Send the created report template back to parent component
      */
     const onSubmitForm = (event) => {
         event.preventDefault()
-        onSubmit(user);
+        onSubmit(report);
     }
     
-    /**
-     * 
-     * @param {string} name the column text field name
-     * @return the data type in a form of string
-     */
-    const dataType = (name) => {
-        if (dateTypeFields.includes(name)) {
-            return "date"
-        } else {
-            return ""
-        }
-    }
-
     /**
      * @param {string} name the form control name 
      * @param {string} label the form control label
@@ -142,15 +93,12 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
             error={error[[name]].length > 0}
             description={label}
             name={name}
-            type={dataType(name)}
             label={label}
-            value={user[[name]]}
+            value={report[[name]]}
             placeholder={placeholder}
             helperText={error[[name]]}
             required={required}
             fullWidth 
-            InputLabelProps={dateTypeFields.includes(name) ? { shrink: true } : {}}
-            inputProps={name === "Phone" ? { maxLength: 10 } : { maxLength: 40 }}
             onChange={handleInputChange}
             />
         )
@@ -174,7 +122,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 variant="contained"
                 type="cancel"
                 size="small"
-                href="/users"
+                href="/report"
                 startIcon={<CancelIcon />}
                 text="Cancel" />
             </>
@@ -183,7 +131,7 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
 
     return (
     <div>
-        <form className={userFormClasses.userFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
+        <form className={reportInputFormClasses.reportInputFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
             <Grid container
                 direction="row"
                 justify="flex-end"
@@ -191,20 +139,28 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
                 spacing={4}>
                 <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
                 {columnFields.map((fields, index) => {
-                    if (fields === "Roles") {
+                    if (fields === 'preference') {
+                        const preference = initialReportTemplate.preference
                         return (
                             <Grid item xs={12} key={`${index} ${fields}`}>
-                                <RolePicker currentRoles={user["Roles"]} handleRolesChange={handleRolesChange}/>
+                                <ReportPreference preference={preference} handlePreferenceChange={handlePreferenceChange} />
+                            </Grid>
+                        )
+                    } else if (fields === 'archive') {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                <ReportArchive />
+                            </Grid>
+                        )
+                    } else {
+                        return (
+                            <Grid item xs={12} key={`${index} ${fields}`}>
+                                {setHelixTextField(fields, columnLabels[index+1], "", false)}
                             </Grid>
                         )
                     }
-                    return (
-                        <Grid item xs={12} key={`${index} ${fields}`}>
-                            {setHelixTextField(fields, columnLabels[index+1], "", false)}
-                        </Grid>
-                    )}
-                )}
-                <Grid className={userFormClasses.buttonStyle}>
+                })}
+                <Grid className={reportInputFormClasses.buttonStyle}>
                     {renderButtonActions()}
                 </Grid>
             </Grid>
@@ -213,4 +169,4 @@ const UserForm = ({ initialUser, header, onSubmit}) => {
     )
 }
 
-export default UserForm
+export default ReportInputForm
