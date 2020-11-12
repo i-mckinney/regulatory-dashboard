@@ -25,12 +25,17 @@ const createNewField = () => ({ id: uuidv4(), key: '', value: '' });
 
 export default function ApiTestUi({ data, onSave }) {
   const cardClasses = ApiTestUiStyles();
-  
+  // The custom request name from the name input
   const [name, setName] = useState('')
+  // The custom request method from the select dropdown
   const [method, setMethod] = useState('');
+  // The custom request url from the endpoint input
   const [url, setUrl] = useState('');
+  // The custom params object 
   const [params, setParams] = useState([]);
+  // The custom mapping object
   const [mapping, setMapping] = useState([]);
+  // The custom headers object
   const [headers, setHeaders] = useState([]);
 
 
@@ -43,6 +48,9 @@ export default function ApiTestUi({ data, onSave }) {
       {}
     );
 
+   /**
+ * @returns {array} expands object to an array
+ */
   const expandToArray = (obj) =>
     obj &&
     Object.entries(obj).map(([key, value]) => ({ id: uuidv4(), key, value }));
@@ -71,7 +79,6 @@ export default function ApiTestUi({ data, onSave }) {
       requestHeaders: reduceToPlainObj(headers),
     };
     onSave(requestData)
-    console.log('SAVE data format:', requestData)
   };
 
   return (
@@ -93,7 +100,7 @@ export default function ApiTestUi({ data, onSave }) {
         setHeaders={setHeaders}
       />
       <Controls.Button text='SAVE' onClick={handleSave}></Controls.Button>
-      <h3>Response Mapper:</h3>
+      <h3>Mapped Response</h3>
       <pre>
         {JSON.stringify(reduceToPlainObj(mapping), null, 2)}
       </pre>
