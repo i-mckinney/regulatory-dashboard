@@ -12,7 +12,6 @@ const { company } = require("faker");
 router.get("/:companyId", async (req, res) => {
   const companyId = req.params.companyId;
 
-  console.log(companyId, "companyId")
   try {
     //Setting up entity configurations
     const entityConfigCollection = await DbConnection.getCollection(
@@ -22,16 +21,12 @@ router.get("/:companyId", async (req, res) => {
       company_id: ObjectId(companyId),
     });
 
-
-
     let entityConfiguration = entityConfigurationData.entityConfiguration;
 
     //Using entity configurations to look up custom apis that exist in our db
     const customApiCollection = await DbConnection.getCollection(
       "CustomApiRequests"
     );
-
-
 
     let customApis = [];
 
@@ -41,7 +36,6 @@ router.get("/:companyId", async (req, res) => {
       for (let i = 0; i < entityConfiguration.length; i++) {
         let customApiId = entityConfiguration[i];
 
-        console.log(customApiId)
         let singleCustomApi = await customApiCollection.findOne({
           $and: [
             { company_id: ObjectId(companyId) },
@@ -49,7 +43,6 @@ router.get("/:companyId", async (req, res) => {
           ],
         });
 
-        console.log(singleCustomApi)
         if (singleCustomApi) {
           customApis.push(singleCustomApi);
         } else {

@@ -9,6 +9,7 @@ import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import mockData from "./MockRequestData"
 import ConfirmDialog from "../utils/ConfirmDialog"
+import Notification from "../utils/Notification"
 
 // Styling used for MaterialUI
 const requestTableStyles = makeStyles(() => ({
@@ -33,6 +34,9 @@ const requestTableStyles = makeStyles(() => ({
  * routed at /myrequest
  */
 const MyRequest = () => {
+    //Set state of notification in response to a button action
+    const [notification, setNotification] = useState({isOpen: false, message: '', type: ''}) 
+  
     // Sets state of confirm Dialog window used for editing/deleting a request
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '', confirmText: 'Yes', cancelText: 'Cancel'})
     
@@ -88,6 +92,11 @@ const MyRequest = () => {
     })
     const newData = tempData.filter(myRequest => myRequest._id !== id)
     setRows(newData)
+    setNotification({
+      isOpen: true,
+      message: 'Successfully deleted request',
+      type: 'success'
+    })
   }
 
   /**
@@ -152,6 +161,7 @@ const MyRequest = () => {
             </div>  
             <HelixTable toggleSearch={true} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+            <Notification notification={notification} setNotification={setNotification} />
         </div>
     </StylesProvider>
   ) 

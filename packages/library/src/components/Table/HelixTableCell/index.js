@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import HelixTextField from '../../HelixTextField/index'
 
 // Styling used for MaterialUI
-const entityTableCellStyles = makeStyles(() => ({
+const helixTableCellStyles = makeStyles(() => ({
   initialState: {
     display: 'inline-block',
   },
@@ -90,7 +90,10 @@ const entityTableCellStyles = makeStyles(() => ({
     marginTop: '16px',
   },
   pWaterMark: {
-    fontSize: '9px'
+    padding: '.5px',
+    fontSize: '11px',
+    fontWeight: 1000,
+    color: '#555555',
   }
 }))
 
@@ -109,7 +112,7 @@ const entityTableCellStyles = makeStyles(() => ({
  * @param {array} externalValues array of external values from source system
  * @returns {JSX} renders a custom HelixTableCell
  */
-const EntityTableCell = ({
+const HelixTableCell = ({
   value: initialStateValue,
   rowIndex,
   columnIndex,
@@ -134,8 +137,8 @@ const EntityTableCell = ({
   const [isDivHidden, setIsDivHidden] = useState(true)
   const [saveChanges, setSaveChanges] = useState(false)
 
-  // Creates an object for styling. Any className that a key in the entityTableCellClasses object will have a corresponding styling
-  const entityTableCellClasses = entityTableCellStyles();
+  // Creates an object for styling. Any className that a key in the helixTableCellStyles object will have a corresponding styling
+  const helixTableCellClasses = helixTableCellStyles();
 
   // Text input can be typed in the input tag, when keyboard event is trigger
   const handleInputChange = (e) => {
@@ -178,9 +181,9 @@ const EntityTableCell = ({
   // else there is editable data shown, return modified-initial-state
   const initialState = () => {
     if (!saveChanges) {
-      return entityTableCellClasses.initialState
+      return helixTableCellClasses.initialState
     }
-    return entityTableCellClasses.modifiedInitialState
+    return helixTableCellClasses.modifiedInitialState
   }
   // Display the initial state value
   const displayInitialStateValue = () => {
@@ -207,10 +210,10 @@ const EntityTableCell = ({
     if (saveChanges) {
       return (
         <div>
-          <span className={entityTableCellClasses.editedField} onClick={handleDivChange}>{currentStateValue}</span>
-          <CheckCircleIcon className={entityTableCellClasses.editedIcon} />
+          <span className={helixTableCellClasses.editedField} onClick={handleDivChange}>{currentStateValue}</span>
+          <CheckCircleIcon className={helixTableCellClasses.editedIcon} />
           <ReplayIcon 
-          className={entityTableCellClasses.undoIcon}
+          className={helixTableCellClasses.undoIcon}
           onClick={handleResetChange}
           onKeyDown={handleResetChange}
           role="button"
@@ -227,13 +230,13 @@ const EntityTableCell = ({
       return (
         <div>
           <span>{displayExternalValue()}</span>
-          <HelixTextField className={entityTableCellClasses.helixInput} value={value} onChange={handleInputChange} label="Value" fullWidth/>
-          <span className={entityTableCellClasses.matIconSpan}>
-            <IconButton className={entityTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
-              <SaveIcon className={entityTableCellClasses.matIcon} />
+          <HelixTextField className={helixTableCellClasses.helixInput} value={value} onChange={handleInputChange} label="Value" fullWidth/>
+          <span className={helixTableCellClasses.matIconSpan}>
+            <IconButton className={helixTableCellClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
+              <SaveIcon className={helixTableCellClasses.matIcon} />
             </IconButton>
-            <IconButton className={entityTableCellClasses.matButton} aria-label="clear" type="button" onClick={handleCancelChange}>
-              <ClearIcon className={entityTableCellClasses.matIcon}/>
+            <IconButton className={helixTableCellClasses.matButton} aria-label="clear" type="button" onClick={handleCancelChange}>
+              <ClearIcon className={helixTableCellClasses.matIcon}/>
             </IconButton>
           </span>
         </div>
@@ -246,7 +249,7 @@ const EntityTableCell = ({
   const proposedWaterMark = () => {
     if (initialStateValue !== externalValues[rowIndex][columnIndex-1] && initialStateValue !== "NULL") {
       return (
-        <span className={entityTableCellClasses.pWaterMark}>p</span>
+        <span className={helixTableCellClasses.pWaterMark}>p</span>
       )
     }
     return null
@@ -256,15 +259,15 @@ const EntityTableCell = ({
   // otherwise, display regular state of the cell
   const cellState = () => {
     if (saveChanges) {
-      return entityTableCellClasses.editedCell
+      return helixTableCellClasses.editedCell
     }
     else if (initialStateValue === "NULL") {
-      return entityTableCellClasses.greyCell
+      return helixTableCellClasses.greyCell
     }
     else if (sourceTrueValue !== initialStateValue && initialStateValue !== "NULL") {
-      return entityTableCellClasses.errorCell
+      return helixTableCellClasses.errorCell
     }
-    return entityTableCellClasses.initialCell
+    return helixTableCellClasses.initialCell
   }
 
   // selectedRadio saves the selected radio button data with its source and value
@@ -291,7 +294,7 @@ const EntityTableCell = ({
           >
             <Grid>
               <Radio 
-              className={entityTableCellClasses.selectedRadio} 
+              className={helixTableCellClasses.selectedRadio} 
               disabled={initialStateValue === "NULL"}
               checked={
                 (currentStateValue || initialStateValue) === sourceTrueValue 
@@ -305,32 +308,22 @@ const EntityTableCell = ({
             </Grid>
             <Grid>
               {displayInitialStateValue()}
+              {proposedWaterMark()}
             </Grid>
           </Grid>
           {displayCurrentStateChanges()}
           {displayCustomizedForm()}
-          <Grid
-            container
-            direction="row-reverse"
-            justify="flex-start"
-            alignItems="flex-start"
-            spacing={1}
-          >
-            <Grid>
-              {proposedWaterMark()}
-            </Grid>
-          </Grid>
         </TableCell>
       )
     } else if (containActions) {
       return (
-        <TableCell className={entityTableCellClasses.initialCell}>
+        <TableCell className={helixTableCellClasses.initialCell}>
           {displayActions()}
         </TableCell>
       )
     } else {
       return (
-        <TableCell className={entityTableCellClasses.initialCell}>
+        <TableCell className={helixTableCellClasses.initialCell}>
           {displayInitialStateValue()}
         </TableCell>
       )
@@ -344,7 +337,7 @@ const EntityTableCell = ({
   )
 }
 
-EntityTableCell.propTypes = {
+HelixTableCell.propTypes = {
   value: PropTypes.string.isRequired,
   rowIndex: PropTypes.number.isRequired,
   columnIndex: PropTypes.number.isRequired,
@@ -359,7 +352,7 @@ EntityTableCell.propTypes = {
   externalValues: PropTypes.instanceOf(Array).isRequired,
 }
 
-EntityTableCell.defaultProps = {
+HelixTableCell.defaultProps = {
   value: "",
   rowIndex: 0,
   columnIndex: 0,
@@ -374,4 +367,4 @@ EntityTableCell.defaultProps = {
   externalValues: [],
 }
 
-export default EntityTableCell
+export default HelixTableCell
