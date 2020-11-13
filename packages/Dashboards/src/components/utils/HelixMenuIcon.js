@@ -36,17 +36,17 @@ const HelixMenuIcon = (props) => {
   /**
    * @param {object} event the event object
    */
-  const handleEditReport = (event) => {
+  const handleEditMenuItem = (event) => {
     event.stopPropagation()
-    props.handleEditReport(props.report)
+    props.handleEditMenuItem(props.report)
   }
 
   /**
    * @param {object} event the event object
    */
-  const handleDeleteReport = (event) => {
+  const handleDeleteMenuItem = (event) => {
     event.stopPropagation()
-    props.handleDeleteReport(props.report)
+    props.handleDeleteMenuItem(props.report)
   }
 
   /**
@@ -94,18 +94,7 @@ const HelixMenuIcon = (props) => {
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
               <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                <MenuItem onClick={handleEditReport}>
-                  <ListItemIcon>
-                      <EditIcon fontSize="small" />
-                  </ListItemIcon>
-                  <Typography>Edit</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleDeleteReport}>
-                  <ListItemIcon>
-                      <DeleteIcon fontSize="small" color="secondary" />
-                  </ListItemIcon>
-                  <Typography>Delete</Typography>
-                </MenuItem>
+                {props.renderCustomizedMenuItems(handleEditMenuItem, handleDeleteMenuItem)}
               </MenuList>
             </ClickAwayListener>
           </Paper>
@@ -117,6 +106,7 @@ const HelixMenuIcon = (props) => {
 }
 
 HelixMenuIcon.propTypes = {
+  renderCustomizedMenuItems: PropTypes.func.isRequired,
   handleEditReport: PropTypes.func.isRequired,
   handleDeleteReport: PropTypes.func.isRequired,
 }
