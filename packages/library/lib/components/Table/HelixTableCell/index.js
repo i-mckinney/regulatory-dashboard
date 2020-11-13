@@ -44,7 +44,7 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Styling used for MaterialUI
-var entityTableCellStyles = (0, _core.makeStyles)(function () {
+var helixTableCellStyles = (0, _core.makeStyles)(function () {
   return {
     initialState: {
       display: 'inline-block'
@@ -126,7 +126,10 @@ var entityTableCellStyles = (0, _core.makeStyles)(function () {
       marginTop: '16px'
     },
     pWaterMark: {
-      fontSize: '9px'
+      padding: '.5px',
+      fontSize: '11px',
+      fontWeight: 1000,
+      color: '#555555'
     }
   };
 });
@@ -146,7 +149,7 @@ var entityTableCellStyles = (0, _core.makeStyles)(function () {
  * @returns {JSX} renders a custom HelixTableCell
  */
 
-var EntityTableCell = function EntityTableCell(_ref) {
+var HelixTableCell = function HelixTableCell(_ref) {
   var initialStateValue = _ref.value,
       rowIndex = _ref.rowIndex,
       columnIndex = _ref.columnIndex,
@@ -184,10 +187,10 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var _useState7 = (0, _react.useState)(false),
       _useState8 = _slicedToArray(_useState7, 2),
       saveChanges = _useState8[0],
-      setSaveChanges = _useState8[1]; // Creates an object for styling. Any className that a key in the entityTableCellClasses object will have a corresponding styling
+      setSaveChanges = _useState8[1]; // Creates an object for styling. Any className that a key in the helixTableCellStyles object will have a corresponding styling
 
 
-  var entityTableCellClasses = entityTableCellStyles(); // Text input can be typed in the input tag, when keyboard event is trigger
+  var helixTableCellClasses = helixTableCellStyles(); // Text input can be typed in the input tag, when keyboard event is trigger
 
   var handleInputChange = function handleInputChange(e) {
     setValue(e.target.value);
@@ -229,10 +232,10 @@ var EntityTableCell = function EntityTableCell(_ref) {
 
   var initialState = function initialState() {
     if (!saveChanges) {
-      return entityTableCellClasses.initialState;
+      return helixTableCellClasses.initialState;
     }
 
-    return entityTableCellClasses.modifiedInitialState;
+    return helixTableCellClasses.modifiedInitialState;
   }; // Display the initial state value
 
 
@@ -258,12 +261,12 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var displayCurrentStateChanges = function displayCurrentStateChanges() {
     if (saveChanges) {
       return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", {
-        className: entityTableCellClasses.editedField,
+        className: helixTableCellClasses.editedField,
         onClick: handleDivChange
       }, currentStateValue), /*#__PURE__*/_react["default"].createElement(_CheckCircle["default"], {
-        className: entityTableCellClasses.editedIcon
+        className: helixTableCellClasses.editedIcon
       }), /*#__PURE__*/_react["default"].createElement(_Replay["default"], {
-        className: entityTableCellClasses.undoIcon,
+        className: helixTableCellClasses.undoIcon,
         onClick: handleResetChange,
         onKeyDown: handleResetChange,
         role: "button",
@@ -278,27 +281,27 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var displayCustomizedForm = function displayCustomizedForm() {
     if (!isDivHidden) {
       return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("span", null, displayExternalValue()), /*#__PURE__*/_react["default"].createElement(_index["default"], {
-        className: entityTableCellClasses.helixInput,
+        className: helixTableCellClasses.helixInput,
         value: value,
         onChange: handleInputChange,
         label: "Value",
         fullWidth: true
       }), /*#__PURE__*/_react["default"].createElement("span", {
-        className: entityTableCellClasses.matIconSpan
+        className: helixTableCellClasses.matIconSpan
       }, /*#__PURE__*/_react["default"].createElement(_IconButton["default"], {
-        className: entityTableCellClasses.matButton,
+        className: helixTableCellClasses.matButton,
         "aria-label": "save",
         type: "button",
         onClick: handleSaveChange
       }, /*#__PURE__*/_react["default"].createElement(_Save["default"], {
-        className: entityTableCellClasses.matIcon
+        className: helixTableCellClasses.matIcon
       })), /*#__PURE__*/_react["default"].createElement(_IconButton["default"], {
-        className: entityTableCellClasses.matButton,
+        className: helixTableCellClasses.matButton,
         "aria-label": "clear",
         type: "button",
         onClick: handleCancelChange
       }, /*#__PURE__*/_react["default"].createElement(_Clear["default"], {
-        className: entityTableCellClasses.matIcon
+        className: helixTableCellClasses.matIcon
       }))));
     }
 
@@ -309,7 +312,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
   var proposedWaterMark = function proposedWaterMark() {
     if (initialStateValue !== externalValues[rowIndex][columnIndex - 1] && initialStateValue !== "NULL") {
       return /*#__PURE__*/_react["default"].createElement("span", {
-        className: entityTableCellClasses.pWaterMark
+        className: helixTableCellClasses.pWaterMark
       }, "p");
     }
 
@@ -320,14 +323,14 @@ var EntityTableCell = function EntityTableCell(_ref) {
 
   var cellState = function cellState() {
     if (saveChanges) {
-      return entityTableCellClasses.editedCell;
+      return helixTableCellClasses.editedCell;
     } else if (initialStateValue === "NULL") {
-      return entityTableCellClasses.greyCell;
+      return helixTableCellClasses.greyCell;
     } else if (sourceTrueValue !== initialStateValue && initialStateValue !== "NULL") {
-      return entityTableCellClasses.errorCell;
+      return helixTableCellClasses.errorCell;
     }
 
-    return entityTableCellClasses.initialCell;
+    return helixTableCellClasses.initialCell;
   }; // selectedRadio saves the selected radio button data with its source and value
 
 
@@ -352,26 +355,20 @@ var EntityTableCell = function EntityTableCell(_ref) {
         alignItems: "center",
         spacing: 2
       }, /*#__PURE__*/_react["default"].createElement(_core.Grid, null, /*#__PURE__*/_react["default"].createElement(_core.Radio, {
-        className: entityTableCellClasses.selectedRadio,
+        className: helixTableCellClasses.selectedRadio,
         disabled: initialStateValue === "NULL",
         checked: (currentStateValue || initialStateValue) === sourceTrueValue && columns[columnIndex].customApiId === source,
         size: "small",
         color: "default",
         onClick: selectedRadio
-      })), /*#__PURE__*/_react["default"].createElement(_core.Grid, null, displayInitialStateValue())), displayCurrentStateChanges(), displayCustomizedForm(), /*#__PURE__*/_react["default"].createElement(_core.Grid, {
-        container: true,
-        direction: "row-reverse",
-        justify: "flex-start",
-        alignItems: "flex-start",
-        spacing: 1
-      }, /*#__PURE__*/_react["default"].createElement(_core.Grid, null, proposedWaterMark())));
+      })), /*#__PURE__*/_react["default"].createElement(_core.Grid, null, displayInitialStateValue(), proposedWaterMark())), displayCurrentStateChanges(), displayCustomizedForm());
     } else if (containActions) {
       return /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
-        className: entityTableCellClasses.initialCell
+        className: helixTableCellClasses.initialCell
       }, displayActions());
     } else {
       return /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
-        className: entityTableCellClasses.initialCell
+        className: helixTableCellClasses.initialCell
       }, displayInitialStateValue());
     }
   };
@@ -379,7 +376,7 @@ var EntityTableCell = function EntityTableCell(_ref) {
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, displayTableCell());
 };
 
-EntityTableCell.propTypes = {
+HelixTableCell.propTypes = {
   value: _propTypes["default"].string.isRequired,
   rowIndex: _propTypes["default"].number.isRequired,
   columnIndex: _propTypes["default"].number.isRequired,
@@ -393,7 +390,7 @@ EntityTableCell.propTypes = {
   sourceTrueValue: _propTypes["default"].string.isRequired,
   externalValues: _propTypes["default"].instanceOf(Array).isRequired
 };
-EntityTableCell.defaultProps = {
+HelixTableCell.defaultProps = {
   value: "",
   rowIndex: 0,
   columnIndex: 0,
@@ -413,5 +410,5 @@ EntityTableCell.defaultProps = {
   sourceTrueValue: "",
   externalValues: []
 };
-var _default = EntityTableCell;
+var _default = HelixTableCell;
 exports["default"] = _default;

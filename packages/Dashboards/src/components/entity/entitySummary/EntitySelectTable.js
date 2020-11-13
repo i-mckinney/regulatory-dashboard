@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { withRouter } from "react-router-dom"
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import entities from '../../apis/entities'
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import {
   withStyles,
@@ -186,6 +187,8 @@ function EntitySelectTable(props) {
     const fetchSavedChanges = async () => {
       if (props.location.state) {
         console.log(props.location)
+        let result = await entities.get(`discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`)
+        console.log(result, "RESULT YOOO")
         // const response = await entities.get(`discrepancies/${props.location.state.company_id}/${props.location.state.borrowerID}/report/${props.location.state._id}`)
         // setData(response.data)
       } else {
