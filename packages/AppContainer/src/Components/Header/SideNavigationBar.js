@@ -109,7 +109,7 @@ function SideNavigationBar(props) {
         </List>
         <Divider />
         <List>
-          <Link color="inherit" href="/client-api-table">
+          <Link color="inherit" href="/api-table">
             <ListItem button>
               <ListItemIcon>
                 <BusinessIcon />
