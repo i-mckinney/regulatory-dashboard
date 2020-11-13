@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { makeStyles, Divider, MenuItem, ListItemIcon } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'

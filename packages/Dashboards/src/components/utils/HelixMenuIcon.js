@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect }from 'react';
+import React, {useState, useRef, useEffect }from 'react'
 import { Grow, Paper, Popper, ClickAwayListener, MenuList, IconButton } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import PropTypes from 'prop-types'
