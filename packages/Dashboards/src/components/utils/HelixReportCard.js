@@ -6,11 +6,11 @@ import CardContent from '@material-ui/core/CardContent'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
-import HelixMenuIcon from '../utils/HelixMenuIcon'
+import HelixMenuIcon from './HelixMenuIcon'
 import PropTypes from 'prop-types'
 
 // Styling used for MaterialUI
-const helixCardStyles = makeStyles(() => ({
+const helixReportCardStyles = makeStyles(() => ({
     root: {
       maxWidth: 345,
       marginTop: '25px',
@@ -31,15 +31,15 @@ const helixCardStyles = makeStyles(() => ({
     },
   }))
 
-const HelixCard = (props) => {
-  // Creates an object for styling. Any className that matches key in the helixCardStyles object will have a corresponding styling
-    const helixCardClasses = helixCardStyles();
+const HelixReportCard = (props) => {
+  // Creates an object for styling. Any className that matches key in the helixReportCardStyles object will have a corresponding styling
+    const helixReportCardClasses = helixReportCardStyles();
 
     return (
-    <Card className={helixCardClasses.root} onClick={props.handleReport}>
+    <Card className={helixReportCardClasses.root} onClick={props.handleReport}>
       <CardHeader
         avatar={
-        <Avatar aria-label="user" className={helixCardClasses.avatar}>
+        <Avatar aria-label="user" className={helixReportCardClasses.avatar}>
             {props.user.charAt(0).toUpperCase()}
         </Avatar>
         }
@@ -54,7 +54,7 @@ const HelixCard = (props) => {
       />
       <Divider />
       <CardContent>
-          <Typography className={helixCardClasses.content} variant="h6" color="textPrimary" component="p">
+          <Typography className={helixReportCardClasses.content} variant="h6" color="textPrimary" component="p">
             {props.report.reportName}
           </Typography>
       </CardContent>
@@ -62,11 +62,11 @@ const HelixCard = (props) => {
     )
 }
 
-HelixCard.propTypes = {
+HelixReportCard.propTypes = {
   user: PropTypes.string.isRequired,
   handleEditReport: PropTypes.func.isRequired,
   handleDeleteReport: PropTypes.func.isRequired,
 }
 
 
-export default HelixCard
+export default HelixReportCard
