@@ -35,6 +35,7 @@ const HelixCollectionList = (props) => {
 
 HelixCollectionList.propTypes = {
     user: PropTypes.string.isRequired,
+    searchFilter: PropTypes.shape({ search: PropTypes.func.isRequired }).isRequired,
     data: PropTypes.instanceOf(Array).isRequired,
     elevation: PropTypes.number.isRequired,
     cellHeight: PropTypes.number.isRequired,
