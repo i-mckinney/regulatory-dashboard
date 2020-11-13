@@ -33,6 +33,18 @@ Object.defineProperty(exports, "HelixTableCell", {
     return _HelixTableCell["default"];
   }
 });
+Object.defineProperty(exports, "HelixSwitch", {
+  enumerable: true,
+  get: function get() {
+    return _HelixSwitch["default"];
+  }
+});
+Object.defineProperty(exports, "HelixLinearProgress", {
+  enumerable: true,
+  get: function get() {
+    return _HelixLinearProgress["default"];
+  }
+});
 Object.defineProperty(exports, "dark", {
   enumerable: true,
   get: function get() {
@@ -55,6 +67,10 @@ var _HelixTextField = _interopRequireDefault(require("./components/HelixTextFiel
 var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"));
 
 var _HelixTableCell = _interopRequireDefault(require("./components/Table/HelixTableCell"));
+
+var _HelixSwitch = _interopRequireDefault(require("./components/HelixSwitch"));
+
+var _HelixLinearProgress = _interopRequireDefault(require("./components/HelixLinearProgress"));
 
 var _dark = _interopRequireDefault(require("./themes/dark"));
 

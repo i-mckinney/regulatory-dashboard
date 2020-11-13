@@ -105,8 +105,8 @@ const HelixMenuIcon = (props) => {
 
 HelixMenuIcon.propTypes = {
   renderCustomizedMenuItems: PropTypes.func.isRequired,
-  handleEditReport: PropTypes.func.isRequired,
-  handleDeleteReport: PropTypes.func.isRequired,
+  handleEditMenuItem: PropTypes.func.isRequired,
+  handleDeleteMenuItem: PropTypes.func.isRequired,
 }
 
 export default HelixMenuIcon
