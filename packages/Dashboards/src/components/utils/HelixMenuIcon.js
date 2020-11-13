@@ -1,8 +1,6 @@
 import React, {useState, useRef, useEffect }from 'react';
-import { Grow, Paper, Popper, ClickAwayListener, MenuList, MenuItem, ListItemIcon, Typography, IconButton } from '@material-ui/core'
+import { Grow, Paper, Popper, ClickAwayListener, MenuList, IconButton } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import EditIcon from '@material-ui/icons/Edit'
-import DeleteIcon from '@material-ui/icons/Delete'
 import PropTypes from 'prop-types'
 
 const HelixMenuIcon = (props) => {
