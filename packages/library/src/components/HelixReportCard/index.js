@@ -31,7 +31,7 @@ const helixReportCardStyles = makeStyles(() => ({
     },
   }))
 
-const HelixCard = (props) => {
+const HelixReportCard = (props) => {
   // Creates an object for styling. Any className that matches key in the helixCardStyles object will have a corresponding styling
     const helixReportCardClasses = helixReportCardStyles();
 
@@ -62,11 +62,11 @@ const HelixCard = (props) => {
     )
 }
 
-HelixCard.propTypes = {
+HelixReportCard.propTypes = {
   user: PropTypes.string.isRequired,
   handleEditReport: PropTypes.func.isRequired,
   handleDeleteReport: PropTypes.func.isRequired,
 }
 
 
-export default HelixCard
+export default HelixReportCard
