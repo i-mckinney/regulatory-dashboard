@@ -67,6 +67,10 @@ function App(history) {
               <Loan />
             </Route>
 
+            <Route exact path="/loan/new" />
+
+            <Route exact path="/loan/edit/:id" />
+
             <Route exact path="/regulatory">
               <Regulatory />
             </Route>
