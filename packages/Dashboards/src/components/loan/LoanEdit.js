@@ -1,14 +1,14 @@
 import React from "react"
 
-/** @return {JSX} LoanDelete site
- * routed at /LoanDelete
+/** @return {JSX} LoanEdit site
+ * routed at /LoanEdit
  */
-function LoanDelete() {
+function LoanEdit() {
   return (
     <div>
-      LoanDelete
+      LoanEdit
     </div>
   )
 }
 
-export default LoanDelete
+export default LoanEdit
