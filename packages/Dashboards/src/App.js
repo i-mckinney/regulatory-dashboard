@@ -80,6 +80,10 @@ function App(history) {
               <MyReport />
             </Route>
 
+            <Route exact path="/myreport/:id" />
+
+            <Route exact path="/myreport/edit/:id" />
+
             <Route exact path="/report">
               <Report />
             </Route>
