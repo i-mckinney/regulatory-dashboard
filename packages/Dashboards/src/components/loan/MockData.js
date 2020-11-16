@@ -5,6 +5,8 @@ const mockData = [
         loanType: "Student Loan",
         commitmentAmount: "$123,456,789",
         maturityDate: "2025-01-01",
+        borrowerID: '12354',
+        borrowerName: "Jill",
         Actions: "",
     },
     {
@@ -13,6 +15,8 @@ const mockData = [
         loanType: "Mortgage Loan",
         commitmentAmount: "$900,000",
         maturityDate: "2028-09-09",
+        borrowerID: '34444',
+        borrowerName: "Barry",
         Actions: "",
     },
     {   
@@ -21,6 +25,8 @@ const mockData = [
         loanType: "Auto Loan",
         commitmentAmount: "$456,000",
         maturityDate: "2030-03-28",
+        borrowerID: '76573',
+        borrowerName: "Jeff",
         Actions: "",
     },
     {
@@ -29,6 +35,8 @@ const mockData = [
         loanType: "Personal Loan",
         commitmentAmount: "$989,000",
         maturityDate: "2024-11-11",
+        borrowerID: '54367',
+        borrowerName: "Risa",
         Actions: "",
     },
     {
@@ -37,6 +45,8 @@ const mockData = [
         loanType: "Home Equity",
         commitmentAmount: "$1,080,000",
         maturityDate: "2035-01-01",
+        borrowerID: '98345',
+        borrowerName: "Mark",
         Actions: "",
     },
     {
@@ -45,6 +55,8 @@ const mockData = [
         loanType: "Auto title Loan",
         commitmentAmount: "Jane Doe",
         maturityDate: "2025-12-12",
+        borrowerID: '43254',
+        borrowerName: "Bill",
         Actions: "",
     },
   
