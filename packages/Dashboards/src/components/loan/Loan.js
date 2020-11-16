@@ -8,6 +8,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
+import mockData from './MockData'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 
 const generateClassName = createGenerateClassName({
@@ -65,7 +66,11 @@ function Loan(props) {
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], [])
 
-  if (rows.length !== 0) {
+  if (columns.length === 0) {
+    setRows(mockData)
+  }
+
+  if (rows.length !== 0 && columns.length === 0) {
     const headerColumns = Object.keys(rows[0])
     headerColumns.forEach((key, index) => {
       if (!columnExcludes.includes(key)) {
