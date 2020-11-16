@@ -8,13 +8,26 @@ import {
   Checkbox,
 } from "@material-ui/core";
 
+//Head cells to determine column for the select table
 const headCells = [
-  { id: 'externalSource', disablePadding: true, label: 'External Source' },
+  { id: 'ExternalSource', disablePadding: true, label: 'External Source' },
   { id: 'fieldName', disablePadding: false, label: 'Field Name' },
-  { id: 'externalValue', disablePadding: false, label: 'External Value' },
-  { id: 'proposedValue', disablePadding: false, label: 'Proposed Value' },
+  { id: 'ExternalValue', disablePadding: false, label: 'External Value' },
+  { id: 'CurrentValue', disablePadding: false, label: 'Proposed Value' },
+  { id: 'SourceOfTruth', disablePadding: false, label: 'Source Of Truth' },
 ];
 
+/**
+ * 
+ * @param {object} classes used for styling regarding select tabled
+ * @param {func} onSelectAllClick used for selecting all rows in the table
+ * @param {string} order determines whether the order of rows will be asc or desc
+ * @param {string} orderBy determines which column will be the basis for ordering
+ * @param {number} numSelected number of rows selected
+ * @param {number} rowCount number of total rows
+ * @param {func} onRequestSort helper function for sorting rows in the table.
+ * @return renders table head for select table.
+ */
 function SelectTableHead(props) {
   const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {

@@ -6,11 +6,11 @@ import { Toolbar, Typography, IconButton, Tooltip } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const useToolbarStyles = makeStyles((theme) => ({
-  root: {
+  selectTableToolBarRoot: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
   },
-  highlight:
+  toolBarHighlight:
     theme.palette.type === "light"
       ? {
           color: theme.palette.secondary.main,
@@ -20,24 +20,28 @@ const useToolbarStyles = makeStyles((theme) => ({
           color: theme.palette.text.primary,
           backgroundColor: theme.palette.secondary.dark,
         },
-  title: {
+  toolbarTitle: {
     flex: "1 1 100%",
   },
 }));
-
+/**
+ * @param {num} numSelected number of rows that are selected
+ * @param {func} handleDeleteRow function to delete rows that are selected
+ * @return renders a table tool bar that shows selected rows and functionality to delete selected rows
+ */
 function SelectTableToolBar(props) {
-  const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const selectTableToolBarClasses = useToolbarStyles();
+  const { numSelected, handleDeleteRow } = props;
 
   return (
     <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
+      className={clsx(selectTableToolBarClasses.selectTableToolBarRoot, {
+        [selectTableToolBarClasses.toolBarHighlight]: numSelected > 0,
       })}
     >
       {numSelected > 0 ? (
         <Typography
-          className={classes.title}
+          className={selectTableToolBarClasses.toolbarTitle}
           color="inherit"
           variant="subtitle1"
           component="div"
@@ -46,18 +50,21 @@ function SelectTableToolBar(props) {
         </Typography>
       ) : (
         <Typography
-          className={classes.title}
+          className={selectTableToolBarClasses.toolbarTitle}
           variant="h6"
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          <strong>Discrepancy Table Summary</strong>
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton
+            aria-label="delete"
+            onClick={handleDeleteRow}
+          >
             <DeleteIcon />
           </IconButton>
         </Tooltip>
