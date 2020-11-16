@@ -1,7 +1,7 @@
 // server.js
 const config = require('./config');
 const companyRouter = require('./routes/companyRouter');
-const customAPiRouter = require('./routes/customAPiRouter');
+const customApiRouter = require('./routes/customApiRouter');
 const express = require("express");
 let cors = require("cors");
 const server = express();
@@ -18,7 +18,7 @@ const port = config.port || 4005;
 
 server.use(cors())
 server.use("/", companyRouter);
-server.use("/", customAPiRouter);
+server.use("/", customApiRouter);
 
 server.listen(port, () => {
     console.log(`Server listening at ${port}`);

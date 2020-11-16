@@ -148,6 +148,10 @@ const App = () => {
               <Route exact path="/entity/:id/discrepancy-report" component={Dashboard}/>
               <Route exact path="/entity/edit/:id" component={Dashboard} />
               <Route exact path="/entity/delete/:id" component={Dashboard} />
+              <Route exact path="/report" component={Dashboard} />
+              <Route exact path="/report/new" component={Dashboard} />
+              <Route exact path="/report/edit/:id" component={Dashboard} />
+              <Route exact path="/report/delete/:id" component={Dashboard} />
               <Route exact path="/loan" component={Dashboard} />
               <Route exact path="/regulatory" component={Dashboard} />
               <Route exact path="/myrequest" component={Dashboard} />
