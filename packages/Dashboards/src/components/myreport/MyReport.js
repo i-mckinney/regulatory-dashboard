@@ -12,11 +12,11 @@ import mockData from './MockData'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 
 const generateClassName = createGenerateClassName({
-    productionPrefix: 'loan-',
+    productionPrefix: 'myreport-',
 })
 
 // Styling used for MaterialUI
-const loanStyles = makeStyles(() => ({
+const myReportStyles = makeStyles(() => ({
   mediumContainer: {
       width: '80%',
       margin: 'auto',
@@ -42,13 +42,13 @@ const loanStyles = makeStyles(() => ({
   },
 }))
 
-/** @return {JSX} Loan site
- * routed at /loan
+/** @return {JSX} MyReport site
+ * routed at /myreport
  */
 
-function Loan(props) {
-  // Creates an object for styling. Any className that matches key in the loanStyles object will have a corresponding styling
-  const loanClasses = loanStyles()
+function MyReport(props) {
+  // Creates an object for styling. Any className that matches key in the myReportStyles object will have a corresponding styling
+  const myReportClasses = myReportStyles()
 
   /** useMemo is a React hook that memorizes the output of a function.
    * It's important that we're using React.useMemo here to ensure that our data isn't recreated on every render.
@@ -60,7 +60,7 @@ function Loan(props) {
    * filter -> includes (tells react table to show values that matches the value in the select field)
    * Filter not given -> will use global filter
    * */
-  // rows will stores loans from GET Method fetchLoans via Rest API
+  // rows will stores my reports from GET Method fetchMyReports via Rest API
   const [rows, setRows] = useState([])
 
   // columns will store column header that we want to show in the front end
@@ -84,15 +84,6 @@ function Loan(props) {
   }
 
   /**
-   * @param {object} loan represent object of loan with particular props
-   * @param {string} accessor represents the accessor which loan with acessor can access the property value
-   */
-  const isoToDate = (loan, accessor) => {
-      const strDate = loan[accessor];
-      loan[accessor] = strDate.substring(0, 10)
-  }
-
-  /**
    * @param {object} row the row is an object of data
    * @param {object} column the column is an object of the header with accessor and label props
    * @param {int} rowIndex the rowIndex represents index of the row
@@ -102,18 +93,15 @@ function Loan(props) {
   const customCellRender = (row, column, rowIndex, columnIndex) => {
       const columnAccessor = column.Accessor
       const displayActions = () => (
-        <span className={loanClasses.actionsIconStyle}>
-            <IconButton className={loanClasses.viewReportButton} aria-label="report" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/report`, state: row }))}>
+        <span className={myReportClasses.actionsIconStyle}>
+            <IconButton className={myReportClasses.viewReportButton} aria-label="report" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/myreport/${row._id}`, state: row }))}>
               <AssignmentIcon />
             </IconButton>
-            <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/edit/${row._id}`, state: row }))} color="default">
+            <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/myreport/edit/${row._id}`, state: row }))} color="default">
               <EditIcon />
             </IconButton>
-            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/delete/${row._id}`, state: row }))} color="secondary">
+            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/myreport/delete/${row._id}`, state: row }))} color="secondary">
               <DeleteIcon />
-            </IconButton>
-            <IconButton aria-label="config" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/configuration/${row._id}`, state: row }))} color="default">
-              <SettingsIcon />
             </IconButton>
         </span>)
 
@@ -143,34 +131,24 @@ function Loan(props) {
         return row._id
     }
 
-    // Initially, we can start the table to order by Loan Name or etc in ascending order
-    const initialOrderBy = "loanName"
+    // Initially, we can start the table to order by Report Name or etc in ascending order
+    const initialOrderBy = "reportName"
 
     /**
      * @return jsx object of create icon in child component's toolbar
      */
-    const displayCreateLoanIcon = () => {
-        return (
-          <span className={loanClasses.createIconStyle}>
-            <IconButton
-            color="primary"
-            onClick={() => (props.history.push("/loan/new"))}>
-                <AddBoxIcon fontSize="large" />
-            </IconButton>
-          </span>
-        )
-    }
+    const displayCreateIcon = () => null
 
     return (
       <StylesProvider generateClassName={generateClassName}>
-          <div className={loanClasses.mediumContainer}>
-            <div className={loanClasses.header}>
-                <Typography variant="h5">Loan</Typography>
+          <div className={myReportClasses.mediumContainer}>
+            <div className={myReportClasses.header}>
+                <Typography variant="h5">My Report</Typography>
             </div>
-            <HelixTable toggleSearch={true} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            <HelixTable toggleSearch={true} displayCreateIcon={displayCreateIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
           </div>
       </StylesProvider>
     )
 }
 
-export default withRouter(Loan)
+export default withRouter(MyReport)
