@@ -11,6 +11,7 @@ import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
+import MyReport from './components/myreport/MyReport'
 import Report from './components/report/Report'
 import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
@@ -73,6 +74,10 @@ function App(history) {
 
             <Route exact path="/myrequest">
               <MyRequest />
+            </Route>
+
+            <Route exact path="/myreport" >
+              <MyReport />
             </Route>
 
             <Route exact path="/report">
