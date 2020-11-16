@@ -4,7 +4,7 @@ import { StylesProvider, createGenerateClassName, makeStyles, Typography } from 
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import SettingsIcon from '@material-ui/icons/Settings'
 import IconButton from '@material-ui/core/IconButton'
-import AssessmentIcon from '@material-ui/icons/Assessment'
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
@@ -37,8 +37,8 @@ const loanStyles = makeStyles(() => ({
         cursor: 'pointer',
     },
 },
-  discrepancyButton: {
-    color: 'green'
+  viewReportButton: {
+    color: 'blue'
   },
 }))
 
@@ -103,8 +103,8 @@ function Loan(props) {
       const columnAccessor = column.Accessor
       const displayActions = () => (
         <span className={loanClasses.actionsIconStyle}>
-            <IconButton className={loanClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/discrepancy-report`, state: row }))}>
-              <AssessmentIcon />
+            <IconButton className={loanClasses.viewReportButton} aria-label="report" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/report`, state: row }))}>
+              <AssignmentIcon />
             </IconButton>
             <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/edit/${row._id}`, state: row }))} color="default">
               <EditIcon />
