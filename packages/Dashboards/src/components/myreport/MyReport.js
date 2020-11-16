@@ -1,8 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
 import { StylesProvider, createGenerateClassName, makeStyles, Typography } from '@material-ui/core'
-import AddBoxIcon from '@material-ui/icons/AddBox'
-import SettingsIcon from '@material-ui/icons/Settings'
 import IconButton from '@material-ui/core/IconButton'
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import EditIcon from '@material-ui/icons/Edit'
