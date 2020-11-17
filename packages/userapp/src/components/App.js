@@ -4,7 +4,6 @@ import UserTable from './user/UserTable'
 import UserCreate from './user/UserCreate'
 import UserEdit from './user/UserEdit'
 import UserDelete from './user/UserDelete'
-import Breadcrumbs from './utils/Breadcrumbs'
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
 
 const generateClassName = createGenerateClassName({
@@ -17,7 +16,6 @@ function App() {
       <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
           <div>
-            <Breadcrumbs />
             <Switch>
               <Route path="/users" exact component={UserTable} />
               <Route path="/users/new" component={UserCreate} />
