@@ -5,7 +5,7 @@ export const sortableExcludes = ["_id", "Actions"]
 export const columnExcludes = []
 
 // columnFields is array of fields that LoanForm will have 
-export const columnFields = ["eportName", "reportType"]
+export const columnFields = ["eportName", "reportType", "reportWriter"]
 
 // columnLabels is array of label name that correspondings to columnFields EXCEPT _id (primary key)
 // PRIMARY KEY must be FIRST in the array (required)
@@ -13,5 +13,5 @@ export const columnFields = ["eportName", "reportType"]
 // (1) User Created ( refers to "createdAt" (mongodb semantics) )
 // (2) User Updated ( refers to replaces "updatedAt" (mongodb semantics) )
 // (3) Actions
-export const columnLabels = ["_id", "Report Name", "Report Type", "Actions"]
+export const columnLabels = ["_id", "Report Name", "Report Type", "Report Writer", "Report Created", "Report Updated", "Actions"]
 
