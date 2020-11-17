@@ -7,6 +7,8 @@ const mockData = [
         maturityDate: "2025-01-01",
         borrowerID: '12354',
         borrowerName: "Jill",
+        createdAt: "2020-02-02",
+        updatedAt: "2020-02-02",
         Actions: "",
     },
     {
@@ -17,6 +19,8 @@ const mockData = [
         maturityDate: "2028-09-09",
         borrowerID: '34444',
         borrowerName: "Barry",
+        createdAt: "2020-02-28",
+        updatedAt: "",
         Actions: "",
     },
     {   
@@ -27,6 +31,8 @@ const mockData = [
         maturityDate: "2030-03-28",
         borrowerID: '76573',
         borrowerName: "Jeff",
+        createdAt: "2020-02-02",
+        updatedAt: "2020-02-23",
         Actions: "",
     },
     {
@@ -37,6 +43,8 @@ const mockData = [
         maturityDate: "2024-11-11",
         borrowerID: '54367',
         borrowerName: "Risa",
+        createdAt: "2020-02-02",
+        updatedAt: "2020-11-01",
         Actions: "",
     },
     {
@@ -47,6 +55,8 @@ const mockData = [
         maturityDate: "2035-01-01",
         borrowerID: '98345',
         borrowerName: "Mark",
+        createdAt: "2020-02-02",
+        updatedAt: "2020-11-11",
         Actions: "",
     },
     {
@@ -57,6 +67,8 @@ const mockData = [
         maturityDate: "2025-12-12",
         borrowerID: '43254',
         borrowerName: "Bill",
+        createdAt: "2020-02-02",
+        updatedAt: "",
         Actions: "",
     },
   
