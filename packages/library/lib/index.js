@@ -80,15 +80,12 @@ var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"
 
 var _HelixTableCell = _interopRequireDefault(require("./components/Table/HelixTableCell"));
 
-<<<<<<< HEAD
 var _HelixSwitch = _interopRequireDefault(require("./components/HelixSwitch"));
 
 var _HelixLinearProgress = _interopRequireDefault(require("./components/HelixLinearProgress"));
-=======
 var _Notification = _interopRequireDefault(require("./components/Notification"));
 
 var _ConfirmDialogModal = _interopRequireDefault(require("./components/ConfirmDialogModal"));
->>>>>>> develop
 
 var _dark = _interopRequireDefault(require("./themes/dark"));
 
