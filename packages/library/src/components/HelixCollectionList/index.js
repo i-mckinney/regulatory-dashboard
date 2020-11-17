@@ -18,6 +18,7 @@ const HelixCollectionList = (props) => {
     // Creates an object for styling. Any className that matches key in the helixCollectionListStyles object will have a corresponding styling
     const helixCollectionListClasses = helixCollectionListStyles()
 
+    // sortedComponents is array of sorted elements and order by createdAt
     const sortedComponents = stableSort(props.searchFilter.search(props.data), getComparator('asc', 'createdAt'))
 
     return (
