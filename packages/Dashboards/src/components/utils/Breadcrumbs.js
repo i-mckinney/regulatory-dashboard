@@ -1,4 +1,4 @@
-//Component for creating a breadcrumb for app navigation
+// Component for creating a breadcrumb for app navigation
 import React  from "react"
 import {withRouter} from "react-router-dom"
 import {
@@ -43,7 +43,7 @@ const editBreadcrumb = (pathToEdit,start,end, separator ) => {
 
 /**
  * @param {Object} props history (object) and location (object)
- * history is used to direct browser to location specificed in histroy.push()
+ * history is used to direct browser to location specificed in history.push()
  * location is used to extract path of application 
  * @return {JSX} Breadcrumbs component for navigating within app
  */
