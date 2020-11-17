@@ -1,7 +1,7 @@
 import React from "react"
 
 /** @return {JSX} LoanEdit site
- * routed at /LoanEdit
+ * routed at /loan/edit/:id
  */
 function LoanEdit() {
   return (

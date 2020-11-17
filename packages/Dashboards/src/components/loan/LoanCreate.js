@@ -1,7 +1,7 @@
 import React from "react"
 
 /** @return {JSX} LoanCreate site
- * routed at /LoanCreate
+ * routed at /loan/new
  */
 function LoanCreate() {
   return (

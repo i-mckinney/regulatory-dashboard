@@ -1,7 +1,7 @@
 import React from "react"
 
 /** @return {JSX} LoanDiscrepancy site
- * routed at /LoanDiscrepancy
+ * routed at /loan/:id/discrepancy-report
  */
 function LoanDiscrepancy() {
   return (

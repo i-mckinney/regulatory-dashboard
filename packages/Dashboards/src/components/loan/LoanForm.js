@@ -1,7 +1,6 @@
 import React from "react"
 
-/** @return {JSX} LoanForm site
- * routed at /LoanForm
+/** @return {JSX} LoanForm template
  */
 function LoanForm() {
   return (
