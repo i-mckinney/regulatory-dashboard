@@ -38,6 +38,12 @@ Object.defineProperty(exports, "Notification", {
   get: function get() {
     return _Notification["default"];
   }
+});  
+Object.defineProperty(exports, "ConfirmDialogModal", {
+  enumerable: true,
+  get: function get() {
+    return _ConfirmDialogModal["default"];
+  }
 });
 Object.defineProperty(exports, "dark", {
   enumerable: true,
@@ -63,6 +69,8 @@ var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"
 var _HelixTableCell = _interopRequireDefault(require("./components/Table/HelixTableCell"));
 
 var _Notification = _interopRequireDefault(require("./components/Notification"));
+
+var _ConfirmDialogModal = _interopRequireDefault(require("./components/ConfirmDialogModal"));
 
 var _dark = _interopRequireDefault(require("./themes/dark"));
 
