@@ -33,7 +33,6 @@ Object.defineProperty(exports, "HelixTableCell", {
     return _HelixTableCell["default"];
   }
 });
-<<<<<<< HEAD
 Object.defineProperty(exports, "HelixSwitch", {
   enumerable: true,
   get: function get() {
@@ -44,7 +43,8 @@ Object.defineProperty(exports, "HelixLinearProgress", {
   enumerable: true,
   get: function get() {
     return _HelixLinearProgress["default"];
-=======
+  }
+});
 Object.defineProperty(exports, "Notification", {
   enumerable: true,
   get: function get() {
@@ -55,7 +55,6 @@ Object.defineProperty(exports, "ConfirmDialogModal", {
   enumerable: true,
   get: function get() {
     return _ConfirmDialogModal["default"];
->>>>>>> develop
   }
 });
 Object.defineProperty(exports, "dark", {
