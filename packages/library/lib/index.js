@@ -33,6 +33,7 @@ Object.defineProperty(exports, "HelixTableCell", {
     return _HelixTableCell["default"];
   }
 });
+<<<<<<< HEAD
 Object.defineProperty(exports, "HelixSwitch", {
   enumerable: true,
   get: function get() {
@@ -43,6 +44,18 @@ Object.defineProperty(exports, "HelixLinearProgress", {
   enumerable: true,
   get: function get() {
     return _HelixLinearProgress["default"];
+=======
+Object.defineProperty(exports, "Notification", {
+  enumerable: true,
+  get: function get() {
+    return _Notification["default"];
+  }
+});  
+Object.defineProperty(exports, "ConfirmDialogModal", {
+  enumerable: true,
+  get: function get() {
+    return _ConfirmDialogModal["default"];
+>>>>>>> develop
   }
 });
 Object.defineProperty(exports, "dark", {
@@ -68,9 +81,15 @@ var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"
 
 var _HelixTableCell = _interopRequireDefault(require("./components/Table/HelixTableCell"));
 
+<<<<<<< HEAD
 var _HelixSwitch = _interopRequireDefault(require("./components/HelixSwitch"));
 
 var _HelixLinearProgress = _interopRequireDefault(require("./components/HelixLinearProgress"));
+=======
+var _Notification = _interopRequireDefault(require("./components/Notification"));
+
+var _ConfirmDialogModal = _interopRequireDefault(require("./components/ConfirmDialogModal"));
+>>>>>>> develop
 
 var _dark = _interopRequireDefault(require("./themes/dark"));
 
