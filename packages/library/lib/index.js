@@ -39,6 +39,18 @@ Object.defineProperty(exports, "HelixSwitch", {
     return _HelixSwitch["default"];
   }
 });
+Object.defineProperty(exports, "HelixMenuIcon", {
+  enumerable: true,
+  get: function get() {
+    return _HelixMenuIcon["default"];
+  }
+});
+Object.defineProperty(exports, "HelixCollectionList", {
+  enumerable: true,
+  get: function get() {
+    return _HelixCollectionList["default"];
+  }
+});
 Object.defineProperty(exports, "HelixLinearProgress", {
   enumerable: true,
   get: function get() {
@@ -50,7 +62,7 @@ Object.defineProperty(exports, "Notification", {
   get: function get() {
     return _Notification["default"];
   }
-});  
+});
 Object.defineProperty(exports, "ConfirmDialogModal", {
   enumerable: true,
   get: function get() {
@@ -82,7 +94,12 @@ var _HelixTableCell = _interopRequireDefault(require("./components/Table/HelixTa
 
 var _HelixSwitch = _interopRequireDefault(require("./components/HelixSwitch"));
 
+var _HelixMenuIcon = _interopRequireDefault(require("./components/HelixMenuIcon"));
+
+var _HelixCollectionList = _interopRequireDefault(require("./components/HelixCollectionList"));
+
 var _HelixLinearProgress = _interopRequireDefault(require("./components/HelixLinearProgress"));
+
 var _Notification = _interopRequireDefault(require("./components/Notification"));
 
 var _ConfirmDialogModal = _interopRequireDefault(require("./components/ConfirmDialogModal"));
