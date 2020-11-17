@@ -5,7 +5,7 @@ const mockData = [
         reportType: "Loan",
         reportWriter: "Ray",
         createdAt: "2020-02-02",
-        updatedAt: "",
+        updatedAt: "2020-11-11",
         Actions: "",
     },
     {
@@ -23,7 +23,7 @@ const mockData = [
         reportType: "Loan",
         reportWriter: "Risa",
         createdAt: "2020-09-02",
-        updatedAt: "",
+        updatedAt: "2020-09-27",
         Actions: "",
     },
     {
@@ -32,7 +32,7 @@ const mockData = [
         reportType: "CCAR",
         reportWriter: "Jake",
         createdAt: "2020-11-11",
-        updatedAt: "",
+        updatedAt: "2020-06-06",
         Actions: "",
     },
     {
@@ -50,7 +50,7 @@ const mockData = [
         reportType: "Entity",
         reportWriter: "Eric",
         createdAt: "2019-12-02",
-        updatedAt: "",
+        updatedAt: "2020-11-12",
         Actions: "",
     },
   
