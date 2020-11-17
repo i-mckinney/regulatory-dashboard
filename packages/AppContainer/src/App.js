@@ -144,7 +144,8 @@ const App = () => {
               <Route exact path="/entity" component={Dashboard} />
               <Route exact path="/entity/new" component={Dashboard} />
               <Route exact path="/entity/configuration" component={Dashboard} />
-              <Route exact path="/entity/:id/discrepancy-report" component={Dashboard} />
+              <Route exact path="/entity/:id/discrepancy-report/summary" component={Dashboard}/>
+              <Route exact path="/entity/:id/discrepancy-report" component={Dashboard}/>
               <Route exact path="/entity/edit/:id" component={Dashboard} />
               <Route exact path="/entity/delete/:id" component={Dashboard} />
               <Route exact path="/report" component={Dashboard} />
