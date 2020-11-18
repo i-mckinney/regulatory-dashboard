@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import SelectTableHead from "./SelectTableComponents/SelectTableHead";
 import SelectTableToolBar from "./SelectTableComponents/SelectTableToolBar";
+import EntitySummaryDialog from "./EntitySummaryDialog";
 import { getComparator, stableSort } from "./HelperFunctions";
 
 const useSelectTableStyles = makeStyles((theme) => ({
@@ -71,6 +72,17 @@ const useSelectTableStyles = makeStyles((theme) => ({
 function EntitySelectTable(props) {
   //used for styling entity select table
   const classes = useSelectTableStyles();
+
+  const [openSummaryDialog, setOpenSummaryDialog] = useState(false);
+
+  const handleCloseSummaryDialog = () => {
+    setOpenSummaryDialog(false)
+  }
+
+  const handleOpenSummaryDialog = () => {
+    setOpenSummaryDialog(true)
+  }
+  
 
   //used for setting orders of rows in select table
   const [order, setOrder] = useState("asc");
@@ -133,7 +145,6 @@ function EntitySelectTable(props) {
 
   //api request to save changes
   const handleClickSave = (event) => {
-    console.log(apiRows);
     console.log(rows);
   };
 
@@ -328,6 +339,7 @@ function EntitySelectTable(props) {
           className={classes.confirmationSendChangesButton}
           variant="contained"
           color="primary"
+          onClick={handleOpenSummaryDialog}
         >
           Send Changes
         </Button>
@@ -348,6 +360,11 @@ function EntitySelectTable(props) {
           Cancel
         </Button>
       </div>
+      <EntitySummaryDialog
+        rows={rows}
+        openSummaryDialog={openSummaryDialog}
+        handleCloseSummaryDialog={handleCloseSummaryDialog}
+      />
     </div>
   );
 }
