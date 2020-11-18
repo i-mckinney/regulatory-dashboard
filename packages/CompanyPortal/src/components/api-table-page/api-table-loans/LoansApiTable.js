@@ -11,8 +11,8 @@ import { Button as MuiButton } from '@material-ui/core';
 
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
 import { sortableExcludes, columnMetadata, API_HOST } from '../../../config';
-import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from '../../api-table/constants';
-import EditCustomApiRequestDialog from '../../api-table/EditCustomApiRequestDialog';
+import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from '../../api-table-entities/constants';
+import EditCustomApiRequestDialog from '../../api-table-entities/EditCustomApiRequestDialog';
 import PerformTestPage from "../../perform-test-page/PerformTestPage";
 import axios from 'axios';
 

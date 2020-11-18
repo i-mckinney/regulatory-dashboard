@@ -41,10 +41,10 @@ const userTableStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history location to route next component with data state
- * @return {JSX} ApiTable of the client's custom APIs
+ * @return {JSX} EntitiesApiTable of the client's custom APIs
  * routed at /
  */
-const ApiTable = (props) => {
+const EntitiesApiTable = (props) => {
   // TODO: replace this static id with a dynamic prop
   const companyId = "5f7e1bb2ab26a664b6e950c8";
   // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
@@ -66,7 +66,7 @@ const ApiTable = (props) => {
 
   /**
    * Renders only when it is mounted at first
-   * It will fetchUsers whenever ApiTable loads
+   * It will fetchUsers whenever EntitiesApiTable loads
    */
   useEffect(() => {
     const fetchCompanies = () => {
@@ -306,4 +306,4 @@ const ApiTable = (props) => {
   );
 };
 
-export default withRouter(ApiTable);
+export default withRouter(EntitiesApiTable);
