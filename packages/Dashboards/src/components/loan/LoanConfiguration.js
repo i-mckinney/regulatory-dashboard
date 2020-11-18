@@ -250,7 +250,7 @@ const LoanConfiguration = (props) => {
 
     return (
         <div className={loanConfigurationClasses.configContainer}>
-          <Grid item xs={12} className={loanConfigurationClasses.header}><Typography variant="h5" component="h2">Configure Loan</Typography></Grid>
+          <Grid item xs={12} className={loanConfigurationClasses.header}><Typography variant="h5" component="h2">Configure Loan Custom API(s)</Typography></Grid>
             <div>
                 <HelixTextField
                 className={loanConfigurationClasses.selectFormControl}
