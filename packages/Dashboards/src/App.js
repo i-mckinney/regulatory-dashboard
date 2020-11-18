@@ -4,6 +4,7 @@ import Homepage from "./components/homepage/Homepage"
 import Dashboard from "./components/dashboard/Dashboard"
 import Entity from "./components/entity/Entity"
 import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
+import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
 import Loan from "./components/loan/Loan"
 import Regulatory from "./components/regulatory/Regulatory"
 import MyRequest from "./components/myrequest/MyRequest"
@@ -12,6 +13,9 @@ import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
+import ReportCreate from './components/report/ReportCreate'
+import ReportEdit from './components/report/ReportEdit'
+import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import {
   StylesProvider,
   createGenerateClassName,
@@ -28,6 +32,7 @@ function App(history) {
     <div className="pt-5">
       <BrowserRouter>
         <div>
+        <Breadcrumbs />
           <Switch>
             <Route exact path="/homepage">
               <Homepage />
@@ -61,6 +66,10 @@ function App(history) {
               <EntityDiscrepancy />
             </Route>
 
+            <Route exact path="/entity/:id/discrepancy-report/summary" >
+              <EntitySelectTable />
+            </Route>
+
             <Route exact path="/loan">
               <Loan />
             </Route>
@@ -75,6 +84,14 @@ function App(history) {
 
             <Route exact path="/report">
               <Report />
+            </Route>
+
+            <Route exact path="/report/new">
+              <ReportCreate />
+            </Route>
+
+            <Route exact path="/report/edit/:id">
+              <ReportEdit />
             </Route>
 
             <Redirect to="/" />

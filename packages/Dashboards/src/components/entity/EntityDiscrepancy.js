@@ -128,10 +128,7 @@ const EntityDiscrepancy = (props) => {
                   tempExternalValues.push("")
                   return "NULL"
                 } else {
-                  if (!error.err) {
-                    setError({ err: true, message: "Improper mapping due to external value" })
-                  }
-                  return ""
+                  return "Error: Improper Mapping"
                 }
               }
               catch (e) {
@@ -328,8 +325,9 @@ const EntityDiscrepancy = (props) => {
         if (cell) {
           const containsCustomApiId = Object.keys(discrepancyData).includes(columns[index+1].customApiId)
           const key = row.key_config["key"]
+          const source = columns[index+1].Label
           const sourceOfTruth = row.sourceSystem.source === columns[index+1].customApiId ? true : false
-          const obj = { [key]: { "CurrentValue": cell.currentValue || cell.externalValue, "SourceOfTruth": sourceOfTruth } }
+          const obj = { [key]: { "CurrentValue": cell.currentValue || cell.externalValue, "ExternalValue": cell.externalValue, "ExternalSource": source, "SourceOfTruth": sourceOfTruth } }
           if (cell.isEdited || (row.sourceSystem.isEdited && row.sourceSystem.source === columns[index+1].customApiId) ) {
             if (!containsCustomApiId) {
               discrepancyData[columns[index+1].customApiId] = { ...obj }
