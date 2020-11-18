@@ -4,6 +4,7 @@ import Homepage from "./components/homepage/Homepage"
 import Dashboard from "./components/dashboard/Dashboard"
 import Entity from "./components/entity/Entity"
 import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
+import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
 import Loan from "./components/loan/Loan"
 import LoanCreate from "./components/loan/LoanCreate"
 import LoanEdit from "./components/loan/LoanEdit"
@@ -19,6 +20,7 @@ import MyReport from './components/myreport/MyReport'
 import Report from './components/report/Report'
 import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
+import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import {
   StylesProvider,
   createGenerateClassName,
@@ -35,6 +37,7 @@ function App(history) {
     <div className="pt-5">
       <BrowserRouter>
         <div>
+        <Breadcrumbs />
           <Switch>
             <Route exact path="/homepage">
               <Homepage />
@@ -68,6 +71,10 @@ function App(history) {
               <EntityDiscrepancy />
             </Route>
 
+            <Route exact path="/entity/:id/discrepancy-report/summary" >
+              <EntitySelectTable />
+            </Route>
+
             <Route exact path="/loan">
               <Loan />
             </Route>
@@ -99,6 +106,10 @@ function App(history) {
             <Route exact path="/myreport" >
               <MyReport />
             </Route>
+
+            <Route exact path="/myreport/:id" />
+
+            <Route exact path="/myreport/edit/:id" />
 
             <Route exact path="/report">
               <Report />
