@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { StylesProvider, makeStyles } from '@material-ui/core';
-import PageHeader from '../../layout/PageHeader';
-import TelegramIcon from '@material-ui/icons/Telegram';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';

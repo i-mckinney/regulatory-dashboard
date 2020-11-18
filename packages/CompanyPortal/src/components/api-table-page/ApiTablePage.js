@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, PropTypes} from 'react';
 import { makeStyles, Grid } from '@material-ui/core';
 
 import ApiTable from '../api-table/ApiTable'
@@ -26,27 +26,32 @@ const useCustomApiPageStyles = makeStyles(() => ({
   },
 }));
 
-export default function ControlledAccordions() {
+export default function ControlledAccordions(props) {
   const customApiPageClasses = useCustomApiPageStyles();
-  const [expanded, setExpanded] = React.useState(false);
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+
+  // const handleChange = (panel) => (event, isExpanded) => {
+  //   setExpanded(isExpanded ? panel : false);
+  // };
+
+const {expanded, toggle} = props
 
   // TODO: Conditionally renders the ApiTable Component on click
   const renderEntitiesApiTableButton = () => {
       return (
           <>
+          {expanded ? <ApiTable/> : ""}
               <HelixButton 
               className={customApiPageClasses.showEntitiesButton}
               color="primary" 
               variant="contained" 
               type="submit" 
               size="large"
-              // onClick={() => {handleOpen();}}
+              onClick = {toggle}
+              aria-expanded = {expanded}
               endIcon={<ExpandMoreIcon />} // Need conditional that renders ExpandLessIcon based on state
               text="Entities Custom API Table" />
+              {/* <ApiTable/> */}
           </>
       )
   }
