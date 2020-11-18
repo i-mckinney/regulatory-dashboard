@@ -98,37 +98,37 @@ const LoanConfiguration = (props) => {
       * @param {object} response the response is an api results/response via api call
       */
       const showSelection = (response) => {
-        const copyCustomApis = [ ...response ]
-        const remainingCustomApis = copyCustomApis.filter((customApi) => 
-          !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
-        )
+        // const copyCustomApis = [ ...response ]
+        // const remainingCustomApis = copyCustomApis.filter((customApi) => 
+        //   !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
+        // )
 
-        remainingCustomApis.forEach((customApi) => {
-          const copyCustomApi = { ...customApi }
-          copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
-          copyCustomApi["value"] = customApi["_id"]
-          apis.push(copyCustomApi)
-        })
+        // remainingCustomApis.forEach((customApi) => {
+        //   const copyCustomApi = { ...customApi }
+        //   copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+        //   copyCustomApi["value"] = customApi["_id"]
+        //   apis.push(copyCustomApi)
+        // })
       }
 
       /**
        * fetchEntitiesConfiguration calls backend api through get protocol to get all the selected custom apis
        */
       const fetchEntitiesConfiguration = async () => {
-        const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8")
-        response.data.forEach((row) => {
-          tempRows.push(row)
-        })
-        setRows(response.data)
+        // const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8")
+        // response.data.forEach((row) => {
+        //   tempRows.push(row)
+        // })
+        // setRows(response.data)
       }
 
       /**
        * fetchCustomApis calls backend api through get protocol to get all custom apis
        */
       const fetchCustomApis = async () => {
-        const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
-        showSelection(response.data)
-        setCustomApis(response.data)
+        // const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
+        // showSelection(response.data)
+        // setCustomApis(response.data)
       }
 
       const apiCallCheckList = async () => {
@@ -178,7 +178,7 @@ const LoanConfiguration = (props) => {
     const handleSaveEntityConfiguration = async () => {
       const config = { entityConfiguration: [] }
       rows.forEach((row) => config.entityConfiguration.push(row._id))
-      await entities.post("/config/5f7e1bb2ab26a664b6e950c8/", config)
+      // await entities.post("/config/5f7e1bb2ab26a664b6e950c8/", config)
       props.history.push("/entity")
     }
 
@@ -241,7 +241,7 @@ const LoanConfiguration = (props) => {
               variant="contained"
               type="cancel"
               size="small"
-              href="/entity"
+              href="/loan"
               startIcon={<CancelIcon />}
               text="Cancel" />
           </>
@@ -250,7 +250,7 @@ const LoanConfiguration = (props) => {
 
     return (
         <div className={loanConfigurationClasses.configContainer}>
-          <Grid item xs={12} className={loanConfigurationClasses.header}><Typography variant="h5" component="h2">Configure Entity</Typography></Grid>
+          <Grid item xs={12} className={loanConfigurationClasses.header}><Typography variant="h5" component="h2">Configure Loan</Typography></Grid>
             <div>
                 <HelixTextField
                 className={loanConfigurationClasses.selectFormControl}
