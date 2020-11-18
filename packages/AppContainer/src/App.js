@@ -144,13 +144,14 @@ const App = () => {
               <Route exact path="/entity" component={Dashboard} />
               <Route exact path="/entity/new" component={Dashboard} />
               <Route exact path="/entity/configuration" component={Dashboard} />
-              <Route
-                exact
-                path="/entity/:id/discrepancy-report"
-                component={Dashboard}
-              />
+              <Route exact path="/entity/:id/discrepancy-report/summary" component={Dashboard}/>
+              <Route exact path="/entity/:id/discrepancy-report" component={Dashboard}/>
               <Route exact path="/entity/edit/:id" component={Dashboard} />
               <Route exact path="/entity/delete/:id" component={Dashboard} />
+              <Route exact path="/report" component={Dashboard} />
+              <Route exact path="/report/new" component={Dashboard} />
+              <Route exact path="/report/edit/:id" component={Dashboard} />
+              <Route exact path="/report/delete/:id" component={Dashboard} />
               <Route exact path="/loan" component={Dashboard} />
               <Route exact path="/regulatory" component={Dashboard} />
               <Route exact path="/myrequest" component={Dashboard} />
@@ -158,8 +159,7 @@ const App = () => {
               <Route exact path="/users/new" component={User} />
               <Route exact path="/users/edit/:id" component={User} />
               <Route exact path="/users/delete/:id" component={User} />
-              <Route exact path="/client-api-table" component={CompanyView} />
-              <Route exact path="/client-api-test" component={CompanyView} />
+              <Route exact path="/api-table" component={CompanyView} />
             </Switch>
           </main>
         </div>
