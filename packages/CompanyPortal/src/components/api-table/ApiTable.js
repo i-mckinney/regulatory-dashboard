@@ -281,13 +281,7 @@ const ApiTable = (props) => {
   return (
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
-        <div className={userTableClasses.header}>
-          <PageHeader
-            title="Client API Interface"
-            subTitle="Add new API requests or edit and test existing calls"
-            icon={<TelegramIcon fontSize="large" />}
-          />
-        </div>
+        
 
         <HelixTable
           toggleSearch={true}
