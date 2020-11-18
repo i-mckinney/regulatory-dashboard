@@ -68,14 +68,22 @@ function App(history) {
               <Loan />
             </Route>
 
-            <Route exact path="/loan/new" />
+            <Route exact path="/loan/new" >
+              <LoanCreate />
+            </Route>
 
-            <Route exact path="/loan/edit/:id" />
+            <Route exact path="/loan/edit/:id" >
+              <LoanEdit />
+            </Route>
 
-            <Route exact path="/loan/:id/discrepancy-report" />
-
-            <Route exact path="/loan/configuration/:id" />
-
+            <Route exact path="/loan/:id/discrepancy-report" >
+              <LoanDiscrepancy />
+            </Route>
+            
+            <Route exact path="/loan/configuration/:id" >
+              <LoanConfiguration />
+            </Route>
+            
             <Route exact path="/regulatory">
               <Regulatory />
             </Route>
