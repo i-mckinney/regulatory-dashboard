@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { makeStyles, Grid } from '@material-ui/core';
 
 import ApiTable from '../api-table/ApiTable'
+import LoansApiTable from './api-table-loans/LoansApiTable';
 import PageHeader from '../../layout/PageHeader';
 import TelegramIcon from '@material-ui/icons/Telegram';
 
@@ -65,7 +66,7 @@ export default function CustomApiPage(props) {
               onClick = {()=>{setDisplayLoansApiTable(!displayLoansApiTable)}}
               endIcon={<ExpandMoreIcon />} // Need conditional that renders ExpandLessIcon based on state
               text="Loans Custom API Table" />
-              {displayLoansApiTable && <ApiTable/>}
+              {displayLoansApiTable && <LoansApiTable/>}
           </>
       )
   }
