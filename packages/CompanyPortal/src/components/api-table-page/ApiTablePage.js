@@ -1,4 +1,4 @@
-import React, {useState, PropTypes} from 'react';
+import React, {useState} from 'react';
 import { makeStyles, Grid } from '@material-ui/core';
 
 import ApiTable from '../api-table/ApiTable'
@@ -6,12 +6,9 @@ import PageHeader from '../../layout/PageHeader';
 import TelegramIcon from '@material-ui/icons/Telegram';
 
 import { HelixButton } from 'helixmonorepo-lib';
-
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+// CONTAINER PAGE FOR ALL CUSTOM API TABLES
 
 const useCustomApiPageStyles = makeStyles(() => ({
   root: {
@@ -26,37 +23,36 @@ const useCustomApiPageStyles = makeStyles(() => ({
   },
 }));
 
-export default function ControlledAccordions(props) {
+export default function CustomApiPage(props) {
   const customApiPageClasses = useCustomApiPageStyles();
+  // displayEntitiesApiTable and setDisplayEntitiesApiTable used to conditionally render the Entities API table on click
+  const [displayEntitiesApiTable, setDisplayEntitiesApiTable] = useState(false)
+  // displayLoansApiTable and setDisplayLoansApiTable used to conditionally render the Entities API table on click
+  const [displayLoansApiTable, setDisplayLoansApiTable] = useState(false)
 
-
-  // const handleChange = (panel) => (event, isExpanded) => {
-  //   setExpanded(isExpanded ? panel : false);
-  // };
-
-const {expanded, toggle} = props
-
-  // TODO: Conditionally renders the ApiTable Component on click
+  /**
+   * @return {jsx} returns a HelixButton with an onClick event to toggle any custom api table rendering
+   */
   const renderEntitiesApiTableButton = () => {
       return (
           <>
-          {expanded ? <ApiTable/> : ""}
               <HelixButton 
               className={customApiPageClasses.showEntitiesButton}
               color="primary" 
               variant="contained" 
               type="submit" 
               size="large"
-              onClick = {toggle}
-              aria-expanded = {expanded}
+              onClick = {()=>{setDisplayEntitiesApiTable(!displayEntitiesApiTable)}}
               endIcon={<ExpandMoreIcon />} // Need conditional that renders ExpandLessIcon based on state
               text="Entities Custom API Table" />
-              {/* <ApiTable/> */}
+              {displayEntitiesApiTable && <ApiTable/>}
           </>
       )
   }
 
-  // TODO: Conditionally renders the ApiTable Component on click
+  /**
+   * @return {jsx} returns a HelixButton with an onClick event to toggle any custom api table rendering
+   */
   const renderLoansApiTableButton = () => {
       return (
           <>
@@ -66,17 +62,13 @@ const {expanded, toggle} = props
               variant="contained" 
               type="submit" 
               size="large"
-              // onClick={() => {handleOpen();}}
+              onClick = {()=>{setDisplayLoansApiTable(!displayLoansApiTable)}}
               endIcon={<ExpandMoreIcon />} // Need conditional that renders ExpandLessIcon based on state
               text="Loans Custom API Table" />
+              {displayLoansApiTable && <ApiTable/>}
           </>
       )
   }
-
-  // function to handle table visibility?
-  // const tableVisibilityControl = () => {
-  //   const [showEntitiesApi, setShowEntitiesApi] = useState()
-  // }
   
   return (
     <div className={customApiPageClasses.root}>
@@ -89,35 +81,6 @@ const {expanded, toggle} = props
           <Grid item xs='12'>{renderEntitiesApiTableButton()}</Grid>
           <Grid item xs='12'>{renderLoansApiTableButton()}</Grid>
          </Grid>
-
-      {/* <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-          <Typography className={customApiPageClasses.heading}>Entities Custom API</Typography>
-          <Typography className={customApiPageClasses.secondaryHeading}>Click to expand and view Entities Custom API data table</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ApiTable/>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
-        >
-          <Typography className={customApiPageClasses.heading}>Loans Custom API</Typography>
-          <Typography className={customApiPageClasses.secondaryHeading}>
-            Click to expand and view Loans Custom API data table
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <ApiTable/>
-        </AccordionDetails>
-      </Accordion> */}
     </div>
   );
 }
