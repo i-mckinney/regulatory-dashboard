@@ -84,15 +84,6 @@ function Loan(props) {
   }
 
   /**
-   * @param {object} loan represent object of loan with particular props
-   * @param {string} accessor represents the accessor which loan with acessor can access the property value
-   */
-  const isoToDate = (loan, accessor) => {
-      const strDate = loan[accessor];
-      loan[accessor] = strDate.substring(0, 10)
-  }
-
-  /**
    * @param {object} row the row is an object of data
    * @param {object} column the column is an object of the header with accessor and label props
    * @param {int} rowIndex the rowIndex represents index of the row

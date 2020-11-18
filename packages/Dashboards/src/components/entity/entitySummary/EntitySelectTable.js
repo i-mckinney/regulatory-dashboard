@@ -133,7 +133,8 @@ function EntitySelectTable(props) {
 
   //api request to save changes
   const handleClickSave = (event) => {
-    console.log(apiRows);
+    // TODO: uncomment it
+    // console.log(apiRows);
     console.log(rows);
   };
 

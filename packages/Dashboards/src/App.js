@@ -7,6 +7,7 @@ import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
 import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
 import Loan from "./components/loan/Loan"
 import LoanCreate from "./components/loan/LoanCreate"
+import LoanForm from "./components/loan/LoanForm"
 import LoanEdit from "./components/loan/LoanEdit"
 import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
@@ -16,7 +17,6 @@ import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
-import MyReport from './components/myreport/MyReport'
 import Report from './components/report/Report'
 import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
@@ -80,7 +80,7 @@ function App(history) {
             </Route>
 
             <Route exact path="/loan/new" >
-              <LoanCreate />
+              <LoanForm />
             </Route>
 
             <Route exact path="/loan/edit/:id" >
@@ -102,14 +102,6 @@ function App(history) {
             <Route exact path="/myrequest">
               <MyRequest />
             </Route>
-
-            <Route exact path="/myreport" >
-              <MyReport />
-            </Route>
-
-            <Route exact path="/myreport/:id" />
-
-            <Route exact path="/myreport/edit/:id" />
 
             <Route exact path="/report">
               <Report />
