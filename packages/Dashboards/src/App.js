@@ -15,6 +15,7 @@ import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
+import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import {
   StylesProvider,
   createGenerateClassName,
@@ -31,6 +32,7 @@ function App(history) {
     <div className="pt-5">
       <BrowserRouter>
         <div>
+        <Breadcrumbs />
           <Switch>
             <Route exact path="/homepage">
               <Homepage />
