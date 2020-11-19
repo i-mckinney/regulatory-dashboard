@@ -159,7 +159,7 @@ function Loan(props) {
             <div className={loanClasses.header}>
                 <Typography variant="h5">Loan</Typography>
             </div>
-            <HelixTable toggleSearch={true} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            {/* <HelixTable toggleSearch={true} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} /> */}
             <HelixExpandableTable rows={rows} columns={columns.slice(1)}/>
           </div>
       </StylesProvider>

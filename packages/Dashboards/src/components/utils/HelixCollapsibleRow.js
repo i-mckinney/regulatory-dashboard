@@ -23,6 +23,23 @@ const HelixCollapsibleRowStyles = makeStyles({
     discrepancyButton: {
         color: 'green'
     },
+    innerTable: {
+      width: '50%!important',
+      margin: 'auto',
+      '& tr': {
+        border: 'none',
+        backgroundColor: 'white!important',
+      },
+    },
+    innerTableHead: {
+      '& th': {
+        backgroundColor: 'white!important',
+        color: 'black!important',
+        margin: '0',
+        borderBottom: 'solid 1px #e0e4e8',
+        padding: '8px',
+      },
+    }
 });
 
 function HelixCollapsibleRow(props) {
@@ -47,7 +64,7 @@ function HelixCollapsibleRow(props) {
         </span>)
   
     return (
-      <React.Fragment>
+      <>
         <TableRow className={helixCollapsibleRowclasses.root}>
           <TableCell>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
@@ -63,39 +80,35 @@ function HelixCollapsibleRow(props) {
           <TableCell align="right">{displayActions()}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box margin={1}>
-                <Typography variant="h6" gutterBottom component="div">
-                  Loan Information
-                </Typography>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Maturity Date</TableCell>
-                      <TableCell>Commitment Amount</TableCell>
-                      <TableCell align="right">Borrower ID</TableCell>
-                      <TableCell align="right">Borrower Name</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                        <TableCell scope="row">
-                          {row.maturityDate}
-                        </TableCell>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <Box margin={1}>
+                  <Typography variant="h6" gutterBottom component="div">
+                    Loan Information
+                  </Typography>
+                  <Table className={helixCollapsibleRowclasses.innerTable} size="small" aria-label="purchases">
+                    <TableHead className={helixCollapsibleRowclasses.innerTableHead}>
+                      <TableRow>
+                          <TableCell>Maturity Date</TableCell>
+                          <TableCell>Commitment Amount</TableCell>
+                          <TableCell align="right">Borrower ID</TableCell>
+                          <TableCell align="right">Borrower Name</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell scope="row">{row.maturityDate}</TableCell>
                         <TableCell>{row.commitmentAmount}</TableCell>
                         <TableCell align="right">{row.borrowerID}</TableCell>
-                        <TableCell align="right">
-                          {row.borrowerName}
-                        </TableCell>
+                        <TableCell align="right">{row.borrowerName}</TableCell>
                       </TableRow>
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
+                    </TableBody>
+                  </Table>
+                </Box>
+              </Collapse>
+            </TableCell>
+          </TableRow>
+      </>
     );
   }
   

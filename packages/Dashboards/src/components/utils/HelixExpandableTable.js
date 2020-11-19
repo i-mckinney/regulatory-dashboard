@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -53,51 +52,29 @@ const helixExpandableTableStyles = makeStyles(() => ({
     },
   }))
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      { date: '2020-01-05', customerId: '11091700', amount: 3 },
-      { date: '2020-01-02', customerId: 'Anonymous', amount: 1 },
-    ],
-  };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
-
 function HelixExpandableTable(props) {
     const helixExpandableTableClases = helixExpandableTableStyles()
     return (
-        <TableContainer className={helixExpandableTableClases.helixExpandableTable}  component={Paper}>
+      <TableContainer className={helixExpandableTableClases.helixExpandableTable}  component={Paper}>
         <Table aria-label="collapsible table">
-            <TableHead>
+          <TableHead>
             <TableRow>
-                <TableCell />
-                <TableCell align="right">Loan Name</TableCell>
-                <TableCell align="right">Loan Type</TableCell>
-                <TableCell align="right">Loan Created</TableCell>
-                <TableCell align="right">Loan Updated</TableCell>
-                <TableCell align="center">Actions</TableCell>
+              <TableCell />
+              <TableCell align="right">Loan Name</TableCell>
+              <TableCell align="right">Loan Type</TableCell>
+              <TableCell align="right">Loan Created</TableCell>
+              <TableCell align="right">Loan Updated</TableCell>
+              <TableCell align="center">Actions</TableCell>
             </TableRow>
-            </TableHead>
-            <TableBody>
-            {props.rows.map((row) => (
-                <HelixCollapsibleRow key={row._id} row={row} />
-            ))}
-            </TableBody>
+          </TableHead>
+          <TableBody>
+            {props.rows.map((row) => {
+              console.log(row)
+              return <HelixCollapsibleRow key={row._id} row={row} />
+            })}
+          </TableBody>
         </Table>
-        </TableContainer>
+      </TableContainer>
     );
 }
 
