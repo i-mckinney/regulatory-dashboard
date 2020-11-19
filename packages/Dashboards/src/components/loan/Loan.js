@@ -9,6 +9,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
 import mockData from './MockData'
+import HelixExpandableTable from '../utils/HelixExpandableTable'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 
 const generateClassName = createGenerateClassName({
@@ -36,7 +37,7 @@ const loanStyles = makeStyles(() => ({
         marginRight: '1rem',
         cursor: 'pointer',
     },
-},
+  },
   discrepancyButton: {
     color: 'green'
   },
@@ -159,6 +160,7 @@ function Loan(props) {
                 <Typography variant="h5">Loan</Typography>
             </div>
             <HelixTable toggleSearch={true} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            <HelixExpandableTable rows={rows} columns={columns.slice(1)}/>
           </div>
       </StylesProvider>
     )
