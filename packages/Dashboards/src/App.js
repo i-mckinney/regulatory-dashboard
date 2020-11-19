@@ -7,7 +7,6 @@ import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
 import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
 import Loan from "./components/loan/Loan"
 import LoanCreate from "./components/loan/LoanCreate"
-import LoanForm from "./components/loan/LoanForm"
 import LoanEdit from "./components/loan/LoanEdit"
 import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
@@ -80,7 +79,7 @@ function App(history) {
             </Route>
 
             <Route exact path="/loan/new" >
-              <LoanForm />
+              <LoanCreate />
             </Route>
 
             <Route exact path="/loan/edit/:id" >
