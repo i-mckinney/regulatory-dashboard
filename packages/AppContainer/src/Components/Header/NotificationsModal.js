@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 
 /**
  * @param {object} topContainerClasses contains styling of useStyles for Container App
- * @return {jsx} Notification modal that pops up when notification circle button is clicked in the Container Top Navbar.
+ * @return {jsx} Notification modal that pops up when notification icon button is clicked in the Container Top Navbar.
  */
-
 function NotificationsModal(props) {
   const { topContainerClasses } = props;
   // anchorEl determines the target, where the modal points to when it is opened
