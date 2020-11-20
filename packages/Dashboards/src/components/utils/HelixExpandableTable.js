@@ -22,9 +22,9 @@ const helixExpandableTableStyles = makeStyles(() => ({
           '& tr': {
             border: 'none',
             backgroundColor: 'white',
-            '&:nth-child(even)': {
-              backgroundColor: '#d3e9ff',
-            },
+            // '&:nth-child(even)': {
+            //   backgroundColor: '#d3e9ff',
+            // },
             '&:hover': {
               backgroundColor: '#add8e6',
             },

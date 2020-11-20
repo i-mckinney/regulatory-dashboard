@@ -2,7 +2,7 @@
 export const sortableExcludes = ["_id", "Actions"]
 
 // columnExcludes is array of identifier that we do not want to display in the table
-export const columnExcludes = []
+export const columnExcludes = ["commitmentAmount", "maturityDate", "borrowerID", "borrowerName"]
 
 // columnFields is array of fields that LoanForm will have 
 export const columnFields = ["loanName", "loanType", "commitmentAmount", "maturityDate", "borrowerID", "borrowerName"]
