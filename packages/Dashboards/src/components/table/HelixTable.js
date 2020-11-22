@@ -70,6 +70,7 @@ const HelixTable = ({
   customBodyRowKeyProp,
   initialOrderBy,
   toggleSearch,
+  toggleExpandable,
   displayCreateIcon,
   }) => {
   // Creates an object for styling. Any className that matches key in the helixTableStyles object will have a corresponding styling
@@ -185,12 +186,14 @@ HelixTable.propTypes = {
   customBodyRowKeyProp: PropTypes.func.isRequired,
   initialOrderBy: PropTypes.string.isRequired,
   toggleSearch: PropTypes.bool.isRequired,
+  toggleExpandable: PropTypes.bool.isRequired,
   displayCreateIcon: PropTypes.func.isRequired,
 }
 
 HelixTable.defaultProps = {
   initialOrderBy: '',
   toggleSearch: false,
+  toggleExpandable: false,
   displayCreateIcon: () => null
 }
 
