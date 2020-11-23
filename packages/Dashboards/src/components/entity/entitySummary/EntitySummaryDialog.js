@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Link,
   Button,
   Select,
   Dialog,
@@ -11,6 +10,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@material-ui/core";
+import entities from "../../apis/entities";
 import EntityReceiptTable from "./EntityReceiptTable";
 
 /**
@@ -33,8 +33,19 @@ function EntitySummaryDialog(props) {
   };
 
   //handle sending an email of static receipt to a selected approver
-  const handleSendApproverEmail = (event) =>{
+  const handleSendApproverEmail = async (event) =>{
     //sending email
+
+      let finalChanges = {rows}
+ 
+      try {
+        await entities.post(
+          `entitysummary/email`,
+          finalChanges
+        );
+      } catch (error) {
+        console.log(error);
+      }
   }
 
   return (
