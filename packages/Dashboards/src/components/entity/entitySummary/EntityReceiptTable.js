@@ -42,7 +42,11 @@ const columns = [
     align: "left",
   },
 ];
-
+/**
+ * @param {array} rows a list of obejcts that contains current changes for a cell
+ * @param {object} classes object for styling
+ * @return static table for changes user made to a discrepancy table
+ */
 function EntityReceiptTable(props) {
   const { rows, classes } = props;
   const [page, setPage] = React.useState(0);
