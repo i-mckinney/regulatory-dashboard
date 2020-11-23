@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sendgrid/mail": "^7.4.0",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -20,7 +19,6 @@
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "mongoose": "^5.10.6",
-    "nodemailer": "^6.4.16",
     "uuid": "^8.3.0"
   }
 }

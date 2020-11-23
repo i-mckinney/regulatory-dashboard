@@ -1,5 +1,4 @@
 import React from "react";
-// import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -44,41 +43,8 @@ const columns = [
   },
 ];
 
-// function createData(fieldName, externalSource, externalValue, proposedValue ) {
-//   return { fieldName, externalSource, externalValue, proposedValue };
-// }
-
-// const rows = [
-//   createData('borrowerName', 'FIS', "Eric", "Ian"),
-//   createData('borrowerName', 'SalesForce', "Raymond", "Ian"),
-//   createData('borrowerName', 'DataWareHouse', "Jacob", "Ian"),
-//   createData('TIN', 'FIS', 1324171354, 3287263),
-//   createData('AccountID', 'SalesForce', 1324171354, 3287263),
-//   createData('Account#', 'FIS', 1324171354, 3287263),
-//   createData('PhoneType', 'DataWareHouse', "Home", "Home"),
-//   createData('borrowerName', 'FIS', "Eric", "Ian"),
-//   createData('borrowerName', 'SalesForce', "Raymond", "Ian"),
-//   createData('borrowerName', 'DataWareHouse', "Jacob", "Ian"),
-//   createData('TIN', 'FIS', 1324171354, 3287263),
-//   createData('AccountID', 'SalesForce', 1324171354, 3287263),
-//   createData('Account#', 'FIS', 1324171354, 3287263),
-//   createData('PhoneType', 'DataWareHouse', "Home", "Home"),
-
-// ];
-
-// const useStyles = makeStyles({
-//   root: {
-//     width: "100%",
-//   },
-//   container: {
-//     maxHeight: 440,
-//   },
-// });
-
 function EntityReceiptTable(props) {
   const { rows, classes } = props;
-  console.log(rows);
-  // const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
