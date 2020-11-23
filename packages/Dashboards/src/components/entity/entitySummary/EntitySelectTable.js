@@ -67,22 +67,33 @@ const useSelectTableStyles = makeStyles((theme) => ({
     marginTop: "50px",
     marginLeft: "10px",
   },
+  summaryReceiptRoot: {
+    width: "100%",
+  },
+  summaryReceiptContainer: {
+    maxHeight: 440,
+  },
 }));
 
+/**
+ * @param  props (withRouter)  object of location, state and history
+ * @return Select table used in entity summary page (Can delete rows and save changes)
+ *
+ */
 function EntitySelectTable(props) {
   //used for styling entity select table
   const classes = useSelectTableStyles();
 
+  //State to determine whether modal that contains static receipt of all the propsed changes is open or not
   const [openSummaryDialog, setOpenSummaryDialog] = useState(false);
 
   const handleCloseSummaryDialog = () => {
-    setOpenSummaryDialog(false)
-  }
+    setOpenSummaryDialog(false);
+  };
 
   const handleOpenSummaryDialog = () => {
-    setOpenSummaryDialog(true)
-  }
-  
+    setOpenSummaryDialog(true);
+  };
 
   //used for setting orders of rows in select table
   const [order, setOrder] = useState("asc");
@@ -100,6 +111,16 @@ function EntitySelectTable(props) {
 
   //used for pre populating row items in select table
   const [rows, setRows] = useState([]);
+
+  /**when you initially mount savedChanges saves initial data on mount 
+   * Because in order to save updated changes, since rows and savedChanges format are different,
+   * if user deletes a row in rows, we would need to filter through savedChagnes and used savedChanges
+   * to make an api request to update our backend.
+   * **/
+  const [savedChanges, setSavedChanges] = useState({});
+
+  /**A list of objects: { externalCallId, fieldName }. We will use to track which cells have been deleted */
+  const [deletedCells, setDeletedCells] = useState([]);
 
   //used for fetching api on mount
   const [mounted, setMounted] = useState(false);
@@ -121,14 +142,19 @@ function EntitySelectTable(props) {
    **/
   const handleDeleteRow = () => {
     let newRows = [];
+    let deleteRows = [];
 
     for (let i = 0; i < rows.length; i++) {
       if (selected.includes(rows[i]["entryNumber"])) {
+        let externalCallId = rows[i]["externalCallId"];
+        let fieldName = rows[i]["fieldName"];
+        deleteRows.push({ externalCallId, fieldName });
         continue;
       }
       newRows.push(rows[i]);
     }
 
+    setDeletedCells(...deletedCells, deleteRows);
     setSelected([]);
     setRows(newRows);
   };
@@ -143,9 +169,27 @@ function EntitySelectTable(props) {
     setSelected([]);
   };
 
-  //api request to save changes
-  const handleClickSave = (event) => {
-    console.log(rows);
+  //api request to save changes (WIP will be fully functional with upcoming backend merge request)
+  const handleClickSave = async (event) => {
+    // let finalChanges = { ...savedChanges };
+
+    // if (deletedCells.length > 0) {
+    //   for (let i = 0; i < deletedCells.length; i++) {
+    //     let keyId = deletedCells[i].externalCallId;
+    //     let fieldName = deletedCells[i].fieldName;
+
+    //     delete finalChanges["savedChanges"][keyId][fieldName];
+    //   }
+    // }
+
+    // try {
+    //   await entities.post(
+    //     `discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`,
+    //     finalChanges
+    //   );
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   /**
@@ -197,7 +241,7 @@ function EntitySelectTable(props) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  //FetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
+  //fetchSavedChanges calls backend api through get protocol to get all the aggregated source system data
   const fetchSavedChanges = async () => {
     if (props.location.state) {
       try {
@@ -206,12 +250,17 @@ function EntitySelectTable(props) {
         );
 
         if (result) {
+          setSavedChanges(result.data);
+
           let proposedChanges = Object.values(result.data.savedChanges);
+          let listOfExternallCallIds = Object.keys(result.data.savedChanges);
 
           let finalRows = [];
           let entryNumber = 0;
 
           for (let i = 0; i < proposedChanges.length; i++) {
+            let externalCallId = listOfExternallCallIds[i];
+
             /**
              * ex) proposedChanges -> is [{masterId: {currentValue, ExternalSource}}, {mailingState: {currentValue, ExternalSource}}]
              */
@@ -225,6 +274,7 @@ function EntitySelectTable(props) {
 
               finalCellValue.fieldName = fieldName;
               finalCellValue.entryNumber = entryNumber;
+              finalCellValue.externalCallId = externalCallId;
 
               entryNumber++;
               finalRows.push(finalCellValue);
@@ -361,6 +411,7 @@ function EntitySelectTable(props) {
         </Button>
       </div>
       <EntitySummaryDialog
+      classes={classes}
         rows={rows}
         openSummaryDialog={openSummaryDialog}
         handleCloseSummaryDialog={handleCloseSummaryDialog}

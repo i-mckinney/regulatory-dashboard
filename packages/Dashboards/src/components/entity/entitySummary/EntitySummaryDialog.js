@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Link,
   Button,
@@ -13,9 +13,29 @@ import {
 } from "@material-ui/core";
 import EntityReceiptTable from "./EntityReceiptTable";
 
+/**
+ *
+ * @param {object} classes object for styling entity summary page
+ * @param {boolean} openSummaryDialog state to determine whether summary dialog is open or not
+ * @param {func} handleCloseSummaryDialog set openSummaryDialog to false (closes the dialog)
+ * @param {array} rows list of object that contains information about proposed changes in each cell
+ * @return {jsx} renders a modal that shows static receipt of all the proposed changes and the ability to send proposed changes to
+ * the approver.
+ */
 function EntitySummaryDialog(props) {
+  const { openSummaryDialog, handleCloseSummaryDialog, rows, classes } = props;
+  
+  //state for selected approver in select field
+  const [selectedApprover, setSelectedApprover] = useState("lebronJames");
 
-  const { openSummaryDialog, handleCloseSummaryDialog , rows} = props;
+  const handleSelectApprover = (event) => {
+    setSelectedApprover(event.target.value);
+  };
+
+  //handle sending an email of static receipt to a selected approver
+  const handleSendApproverEmail = (event) =>{
+    //sending email
+  }
 
   return (
     <Dialog
@@ -24,12 +44,9 @@ function EntitySummaryDialog(props) {
       aria-labelledby="form-dialog-title"
       maxWidth={"lg"}
     >
-      <DialogTitle id="form-dialog-title">
-        {" "}
-        Confirm Proposed Changes{" "}
-      </DialogTitle>
+      <DialogTitle id="form-dialog-title">Confirm Proposed Changes</DialogTitle>
       <DialogContent>
-      <EntityReceiptTable rows={rows}/>
+        <EntityReceiptTable rows={rows} classes={classes} />
         <DialogContentText style={{ marginTop: "50px" }}>
           Send your proposed changes to the selected approver. Once the approver
           recieves an email, the approver will confirm your changes,
@@ -40,20 +57,22 @@ function EntitySummaryDialog(props) {
         >
           Approver
         </InputLabel>
-        <Select labelId="label" id="select" fullWidth>
-          <MenuItem value="10">Lebron James</MenuItem>
-          <MenuItem value="20">Tyler Herro</MenuItem>
-          <MenuItem value="30">Anthony Davis</MenuItem>
-          <MenuItem value="40">Mike Tyson</MenuItem>
-          <MenuItem value="50">Jimmy Butler</MenuItem>
+        <Select
+          labelId="labelApprover"
+          id="selectApproverId"
+          value={selectedApprover}
+          fullWidth
+          onChange={handleSelectApprover}
+        >
+          <MenuItem value="lebronJames">Lebron James</MenuItem>
+          <MenuItem value="tylerHerro">Tyler Herro</MenuItem>
+          <MenuItem value="anthonyDavis">Anthony Davis</MenuItem>
         </Select>
       </DialogContent>
       <DialogActions>
-        <Link href="/entity">
-          <Button onClick={handleCloseSummaryDialog} color="primary">
+          <Button onClick={handleSendApproverEmail} color="primary">
             Send
           </Button>
-        </Link>
         <Button onClick={handleCloseSummaryDialog} color="primary">
           Cancel
         </Button>

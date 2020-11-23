@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,6 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import { v4 as uuidv4 } from "uuid";
 
 const columns = [
   {
@@ -65,19 +66,19 @@ const columns = [
 
 // ];
 
-const useStyles = makeStyles({
-  root: {
-    width: "100%",
-  },
-  container: {
-    maxHeight: 440,
-  },
-});
+// const useStyles = makeStyles({
+//   root: {
+//     width: "100%",
+//   },
+//   container: {
+//     maxHeight: 440,
+//   },
+// });
 
 function EntityReceiptTable(props) {
-  const { rows } = props;
+  const { rows, classes } = props;
   console.log(rows);
-  const classes = useStyles();
+  // const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -91,14 +92,14 @@ function EntityReceiptTable(props) {
   };
 
   return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
+    <Paper className={classes.summaryReceiptRoot}>
+      <TableContainer className={classes.summaryReceiptContainer}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
-                  key={column.id}
+                  key={uuidv4()}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
@@ -111,8 +112,9 @@ function EntityReceiptTable(props) {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
+                console.log
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={uuidv4()}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       if (column.id === "fieldName") {
