@@ -82,7 +82,6 @@ function EntityReceiptTable(props) {
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
-                console.log
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={uuidv4()}>
                     {columns.map((column) => {
