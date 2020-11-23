@@ -4,6 +4,7 @@ const entityRouter = require("./routes/entityRouter");
 const externalSourceRouter = require("./routes/externalSourceRouter");
 const configurationRouter = require("./routes/configurationRouter");
 const discrepanciesRouter = require("./routes/discrepanciesRouter");
+
 const express = require("express");
 const cors = require("cors");
 const server = express();
