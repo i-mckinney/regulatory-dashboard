@@ -10,6 +10,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import entities from "../../apis/entities";
 import EntityReceiptTable from "./EntityReceiptTable";
 
@@ -23,8 +24,14 @@ import EntityReceiptTable from "./EntityReceiptTable";
  * the approver.
  */
 function EntitySummaryDialog(props) {
-  const { openSummaryDialog, handleCloseSummaryDialog, rows, classes } = props;
-  
+  const {
+    openSummaryDialog,
+    handleCloseSummaryDialog,
+    rows,
+    classes,
+    savedChanges,
+  } = props;
+
   //state for selected approver in select field
   const [selectedApprover, setSelectedApprover] = useState("lebronJames");
 
@@ -33,20 +40,25 @@ function EntitySummaryDialog(props) {
   };
 
   //handle sending an email of static receipt to a selected approver
-  const handleSendApproverEmail = async (event) =>{
+  const handleSendApproverEmail = async (event) => {
     //sending email
-
-      let finalChanges = {rows}
- 
-      try {
-        await entities.post(
-          `entitysummary/email`,
-          finalChanges
-        );
-      } catch (error) {
-        console.log(error);
+    let entityId;
+    if (savedChanges) {
+      entityId = savedChanges.entity_id;
+    }
+    let changesForApproval = { finalChanges: rows, entityId };
+    try {
+      let result = await entities.post(
+        `entitysummary/email`,
+        changesForApproval
+      );
+      if (result) {
+        props.history.push("/entity");
       }
-  }
+    } catch (error) {
+      return { error: error.message };
+    }
+  };
 
   return (
     <Dialog
@@ -81,9 +93,9 @@ function EntitySummaryDialog(props) {
         </Select>
       </DialogContent>
       <DialogActions>
-          <Button onClick={handleSendApproverEmail} color="primary">
-            Send
-          </Button>
+        <Button onClick={handleSendApproverEmail} color="primary">
+          Send
+        </Button>
         <Button onClick={handleCloseSummaryDialog} color="primary">
           Cancel
         </Button>
@@ -92,4 +104,4 @@ function EntitySummaryDialog(props) {
   );
 }
 
-export default EntitySummaryDialog;
+export default withRouter(EntitySummaryDialog);

@@ -415,6 +415,7 @@ function EntitySelectTable(props) {
         rows={rows}
         openSummaryDialog={openSummaryDialog}
         handleCloseSummaryDialog={handleCloseSummaryDialog}
+        savedChanges={savedChanges}
       />
     </div>
   );
