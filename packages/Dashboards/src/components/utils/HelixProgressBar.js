@@ -70,6 +70,12 @@ export default function HorizontalNonLinearStepper() {
           steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
+    
+    if (newActiveStep === 2) {
+      setOpenMenu(true)
+    } else {
+      setOpenMenu(false)
+    }
   };
 
   const handleBack = () => {
@@ -87,17 +93,20 @@ export default function HorizontalNonLinearStepper() {
     handleNext();
   };
 
-  const handleAdditionalOptions = () => {
-    console.log('am i clicked')
-    handleToggle()
-  }
-
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+  const [openMenu, setOpenMenu] = React.useState(false);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
+
+  const handleAdditionalOptions = () => {
+    console.log(openMenu)
+    if (openMenu) {
+      handleToggle()
+    }
+  }
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -133,7 +142,8 @@ export default function HorizontalNonLinearStepper() {
                 <StepButton 
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
-                aria-haspopup="true"onClick={handleAdditionalOptions} 
+                aria-haspopup="true"
+                onClick={handleAdditionalOptions} 
                 completed={completed[index]}>
                 {label}
                 </StepButton>)
@@ -151,9 +161,8 @@ export default function HorizontalNonLinearStepper() {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleClose}>#5 Normalization Table</MenuItem>
+                    <MenuItem onClick={handleClose}>#10 Normalization Table</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
