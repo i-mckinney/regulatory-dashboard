@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/email", async (req, res) => {
   let finalChanges = req.body.finalChanges || [];
   let rows = "";
-  let entityId = req.body.entityId || ""
+  let entityId = req.body.entityId || "";
 
   if (finalChanges.length > 0) {
     for (let i = 0; i < finalChanges.length; i++) {
@@ -24,16 +24,16 @@ router.post("/email", async (req, res) => {
       let ExternalSource = finalChanges[i]["ExternalSource"];
       let SourceOfTruth = finalChanges[i]["SourceOfTruth"];
       let errorColor = false;
-      if(ExternalValue == undefined){
-        errorColor= true
-        ExternalValue="No Value Received"
+      if (ExternalValue == undefined) {
+        errorColor = true;
+        ExternalValue = "No Value Received";
       }
       let finalRow = `<tr>
     <td>${fieldName}</td>
     <td>${ExternalSource}</td>
-    <td ${errorColor?"style=color:red": null}>${ExternalValue}</td>
+    <td ${errorColor ? "style=color:red" : null}>${ExternalValue}</td>
     <td>${CurrentValue}</td>
-    <td>${SourceOfTruth}</td>
+    <td ${SourceOfTruth ? "style=color:#2776D2" : "style=color:#F50057"}>${SourceOfTruth}</td>
     </tr>`;
 
       rows += finalRow;

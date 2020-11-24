@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Select,
@@ -9,7 +9,11 @@ import {
   DialogTitle,
   InputLabel,
   MenuItem,
+  Collapse,
+  IconButton
 } from "@material-ui/core";
+import { Alert} from "@material-ui/lab";
+import CloseIcon from '@material-ui/icons/Close';
 import { withRouter } from "react-router-dom";
 import entities from "../../apis/entities";
 import EntityReceiptTable from "./EntityReceiptTable";
@@ -20,6 +24,7 @@ import EntityReceiptTable from "./EntityReceiptTable";
  * @param {boolean} openSummaryDialog state to determine whether summary dialog is open or not
  * @param {func} handleCloseSummaryDialog set openSummaryDialog to false (closes the dialog)
  * @param {array} rows list of object that contains information about proposed changes in each cell
+ * @param {func} handleClickSave when user sends changes for an approval, it also saves the reflected changes in backend
  * @return {jsx} renders a modal that shows static receipt of all the proposed changes and the ability to send proposed changes to
  * the approver.
  */
@@ -30,7 +35,11 @@ function EntitySummaryDialog(props) {
     rows,
     classes,
     savedChanges,
+    handleClickSave,
   } = props;
+
+  //state for opening alert when message is successfully sent
+  const [openEmailSuccessMessage, setOpenEmailSuccessMessage] = useState(false);
 
   //state for selected approver in select field
   const [selectedApprover, setSelectedApprover] = useState("lebronJames");
@@ -43,9 +52,13 @@ function EntitySummaryDialog(props) {
   const handleSendApproverEmail = async (event) => {
     //sending email
     let entityId;
+
     if (savedChanges) {
       entityId = savedChanges.entity_id;
+      //Saving changes to the helix backend
+      handleClickSave("summaryDialog");
     }
+
     let changesForApproval = { finalChanges: rows, entityId };
     try {
       let result = await entities.post(
@@ -53,12 +66,13 @@ function EntitySummaryDialog(props) {
         changesForApproval
       );
       if (result) {
-        props.history.push("/entity");
+        setOpenEmailSuccessMessage(true)
       }
     } catch (error) {
       return { error: error.message };
     }
   };
+
 
   return (
     <Dialog
@@ -67,6 +81,25 @@ function EntitySummaryDialog(props) {
       aria-labelledby="form-dialog-title"
       maxWidth={"lg"}
     >
+        <Collapse in={openEmailSuccessMessage} className={classes.successAlert}>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpenEmailSuccessMessage(false);
+                location.reload()
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          Email has been sent successfully to the selected approver.
+        </Alert>
+      </Collapse>
       <DialogTitle id="form-dialog-title">Confirm Proposed Changes</DialogTitle>
       <DialogContent>
         <EntityReceiptTable rows={rows} classes={classes} />
@@ -93,7 +126,10 @@ function EntitySummaryDialog(props) {
         </Select>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSendApproverEmail} color="primary">
+        <Button
+          onClick={handleSendApproverEmail}
+          color="primary"
+        >
           Send
         </Button>
         <Button onClick={handleCloseSummaryDialog} color="primary">
