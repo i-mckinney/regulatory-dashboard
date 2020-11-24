@@ -10,7 +10,6 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTableCell } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
 import mockData from './MockData'
-import HelixExpandableTable from '../utils/HelixExpandableTable'
 import HelixProgressBar from '../utils/HelixProgressBar'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
@@ -168,7 +167,6 @@ function Loan(props) {
             </div>
             <HelixProgressBar />
             <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
-            {/* <HelixExpandableTable rows={rows} columns={columns.slice(1)}/> */}
           </div>
       </StylesProvider>
     )
