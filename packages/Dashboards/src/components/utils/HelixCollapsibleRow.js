@@ -71,13 +71,13 @@ function HelixCollapsibleRow(props) {
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell scope="row" align="right">
+          <TableCell scope="row">
             {row.loanName}
           </TableCell>
-          <TableCell align="right">{row.loanType}</TableCell>
-          <TableCell align="right">{row.createdAt}</TableCell>
-          <TableCell align="right">{row.updatedAt}</TableCell>
-          <TableCell align="right">{displayActions()}</TableCell>
+          <TableCell>{row.loanType}</TableCell>
+          <TableCell>{row.createdAt}</TableCell>
+          <TableCell>{row.updatedAt}</TableCell>
+          <TableCell>{displayActions()}</TableCell>
         </TableRow>
         <TableRow>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

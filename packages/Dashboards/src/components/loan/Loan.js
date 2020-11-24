@@ -12,6 +12,7 @@ import HelixTable from '../table/HelixTable'
 import mockData from './MockData'
 import HelixExpandableTable from '../utils/HelixExpandableTable'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
+import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 
 const generateClassName = createGenerateClassName({
     productionPrefix: 'loan-',
@@ -83,6 +84,10 @@ function Loan(props) {
         })
       }
     })
+  }
+
+  const customCollapsibleRowRender = (row) => {
+    return <HelixCollapsibleRow key={row._id} row={row}/>
   }
 
   /**
@@ -160,8 +165,8 @@ function Loan(props) {
             <div className={loanClasses.header}>
                 <Typography variant="h5">Loan</Typography>
             </div>
-            <HelixTable toggleSearch={true} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
-            <HelixExpandableTable rows={rows} columns={columns.slice(1)}/>
+            <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            {/* <HelixExpandableTable rows={rows} columns={columns.slice(1)}/> */}
           </div>
       </StylesProvider>
     )

@@ -72,6 +72,7 @@ const HelixTable = ({
   toggleSearch,
   toggleExpandable,
   displayCreateIcon,
+  customCollapsibleRowRender,
   }) => {
   // Creates an object for styling. Any className that matches key in the helixTableStyles object will have a corresponding styling
   const helixTableClasses = helixTableStyles()
@@ -160,9 +161,9 @@ const HelixTable = ({
       <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateIcon} />
       <TableContainer component={Paper}>
         <Table aria-label="table">
-          <HelixTableHead toggleSearch={toggleSearch} order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
-          <HelixTableBody toggleSearch={toggleSearch} searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
-          <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
+          <HelixTableHead toggleSearch={toggleSearch} toggleExpandable={toggleExpandable} order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
+          <HelixTableBody toggleSearch={toggleSearch} toggleExpandable={toggleExpandable} customCollapsibleRowRender={customCollapsibleRowRender} searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
+          <HelixTableFooter toggleExpandable={toggleExpandable} rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
         </Table>
       </TableContainer>
       </>
@@ -188,13 +189,14 @@ HelixTable.propTypes = {
   toggleSearch: PropTypes.bool.isRequired,
   toggleExpandable: PropTypes.bool.isRequired,
   displayCreateIcon: PropTypes.func.isRequired,
+  customCollapsibleRowRender: PropTypes.func.isRequired,
 }
 
 HelixTable.defaultProps = {
   initialOrderBy: '',
   toggleSearch: false,
   toggleExpandable: false,
-  displayCreateIcon: () => null
+  displayCreateIcon: () => null,
 }
 
 export default HelixTable
