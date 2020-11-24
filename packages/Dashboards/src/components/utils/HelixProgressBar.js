@@ -80,6 +80,11 @@ export default function HorizontalNonLinearStepper() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if (activeStep - 1 === 2) {
+      setOpenMenu(true)
+    } else {
+      setOpenMenu(false)
+    }
   };
 
   const handleStep = (step) => () => {
