@@ -23,8 +23,11 @@ const HelixCollapsibleRowStyles = makeStyles({
     discrepancyButton: {
         color: 'green'
     },
+    rowInnerTable: {
+      backgroundColor: 'white!important',
+    },
     innerTable: {
-      width: '50%!important',
+      width: '65%!important',
       margin: 'auto',
       '& tr': {
         border: 'none',
@@ -79,7 +82,7 @@ function HelixCollapsibleRow(props) {
           <TableCell>{row.updatedAt}</TableCell>
           <TableCell>{displayActions()}</TableCell>
         </TableRow>
-        <TableRow>
+        <TableRow className={helixCollapsibleRowclasses.rowInnerTable}>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
               <Collapse in={open} timeout="auto" unmountOnExit>
                 <Box margin={1}>
