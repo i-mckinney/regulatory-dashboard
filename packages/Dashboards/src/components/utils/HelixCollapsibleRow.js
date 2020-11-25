@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles,Typography, Box, Collapse, Table, TableHead, TableRow, TableBody, TableCell, IconButton } from '@material-ui/core'
+import { makeStyles, Box, Collapse, Table, TableHead, TableRow, TableBody, TableCell, IconButton } from '@material-ui/core'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import SettingsIcon from '@material-ui/icons/Settings'
@@ -74,9 +74,7 @@ function HelixCollapsibleRow(props) {
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell scope="row">
-            {row.loanName}
-          </TableCell>
+          <TableCell>{row.loanName}</TableCell>
           <TableCell>{row.loanType}</TableCell>
           <TableCell>{row.createdAt}</TableCell>
           <TableCell>{row.updatedAt}</TableCell>
@@ -91,16 +89,16 @@ function HelixCollapsibleRow(props) {
                       <TableRow>
                           <TableCell>Maturity Date</TableCell>
                           <TableCell>Commitment Amount</TableCell>
-                          <TableCell align="right">Borrower ID</TableCell>
-                          <TableCell align="right">Borrower Name</TableCell>
+                          <TableCell>Borrower ID</TableCell>
+                          <TableCell>Borrower Name</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell scope="row">{row.maturityDate}</TableCell>
+                        <TableCell>{row.maturityDate}</TableCell>
                         <TableCell>{row.commitmentAmount}</TableCell>
-                        <TableCell align="right">{row.borrowerID}</TableCell>
-                        <TableCell align="right">{row.borrowerName}</TableCell>
+                        <TableCell>{row.borrowerID}</TableCell>
+                        <TableCell>{row.borrowerName}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
