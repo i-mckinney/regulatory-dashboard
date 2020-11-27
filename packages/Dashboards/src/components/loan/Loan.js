@@ -13,6 +13,7 @@ import mockData from './MockData'
 import HelixProgressBar from '../utils/HelixProgressBar'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
+import HelixVerticalTab from '../utils/HelixVerticalTab'
 
 const generateClassName = createGenerateClassName({
     productionPrefix: 'loan-',
@@ -165,8 +166,9 @@ function Loan(props) {
             <div className={loanClasses.header}>
                 <Typography variant="h5">Loan</Typography>
             </div>
-            <HelixProgressBar />
-            <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            <HelixVerticalTab />
+            {/* <HelixProgressBar />
+            <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} /> */}
           </div>
       </StylesProvider>
     )
