@@ -23,9 +23,9 @@ function HelixTabPanel(props) {
 }
   
 HelixTabPanel.propTypes = {
-children: PropTypes.node,
-index: PropTypes.any.isRequired,
-value: PropTypes.any.isRequired,
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
 }
 
 export default HelixTabPanel
