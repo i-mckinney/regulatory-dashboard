@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { makeStyles, Divider } from '@material-ui/core';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import HelixTabPanel from './HelixTabPanel';
+import React, { useState } from 'react'
+import { makeStyles, Divider } from '@material-ui/core'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import HelixTabPanel from './HelixTabPanel'
 
 const verticalTabsStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +23,7 @@ const verticalTabsStyles = makeStyles((theme) => ({
     width: `5px`,
     height: '100vh',
   }
-}));
+}))
 
 export default function VerticalTabs() {
   const verticalTabsClasses = verticalTabsStyles();
@@ -31,7 +31,7 @@ export default function VerticalTabs() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
+  }
 
   return (
     <div className={verticalTabsClasses.root}>
@@ -58,5 +58,5 @@ export default function VerticalTabs() {
         Reports Content
       </HelixTabPanel>
     </div>
-  );
+  )
 }
