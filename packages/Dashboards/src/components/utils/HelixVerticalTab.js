@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { makeStyles, Divider } from '@material-ui/core'
+import { makeStyles, Tabs, Tab, Divider } from '@material-ui/core'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import HelixTabPanel from './HelixTabPanel'
@@ -20,12 +20,12 @@ const verticalTabsStyles = makeStyles((theme) => ({
   },
   divider: {
     marginLeft: '1rem',
-    width: `5px`,
+    width: '5px',
     height: '100vh',
   }
 }))
 
-export default function VerticalTabs() {
+function VerticalTabs() {
   const verticalTabsClasses = verticalTabsStyles();
   const [value, setValue] = useState(1);
 
@@ -60,3 +60,5 @@ export default function VerticalTabs() {
     </div>
   )
 }
+
+export default VerticalTabs
