@@ -34,8 +34,8 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
     if (toggleExpandable) {
       return (
         <TableBody>
-          {dataRows.map((row) => {
-            return customCollapsibleRowRender(row)
+          {dataRows.map((row, rowIndex) => {
+            return customCollapsibleRowRender(row, rowIndex, columns, customCellRender)
           })}
         </TableBody>
       )

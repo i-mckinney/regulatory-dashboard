@@ -87,8 +87,8 @@ function Loan(props) {
     })
   }
 
-  const customCollapsibleRowRender = (row) => {
-    return <HelixCollapsibleRow key={row._id} row={row}/>
+  const customCollapsibleRowRender = (row, rowIndex, columns, customCellRender) => {
+    return <HelixCollapsibleRow key={row._id} row={row} rowIndex={rowIndex} columns={columns} customCellRender={customCellRender} />
   }
 
   /**
@@ -166,9 +166,9 @@ function Loan(props) {
             <div className={loanClasses.header}>
                 <Typography variant="h5">Loan</Typography>
             </div>
-            <HelixVerticalTab />
-            {/* <HelixProgressBar />
-            <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} /> */}
+            {/* <HelixVerticalTab />
+            <HelixProgressBar /> */}
+            <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
           </div>
       </StylesProvider>
     )

@@ -46,25 +46,25 @@ const HelixCollapsibleRowStyles = makeStyles({
 });
 
 function HelixCollapsibleRow(props) {
-    const { row } = props;
+    const { row, rowIndex, columns, customCellRender } = props;
     const [open, setOpen] = useState(false);
     const helixCollapsibleRowclasses = HelixCollapsibleRowStyles();
 
-    const displayActions = () => (
-        <span className={helixCollapsibleRowclasses.actionsIconStyle}>
-            <IconButton className={helixCollapsibleRowclasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/discrepancy-report`, state: row }))}>
-              <AssessmentIcon />
-            </IconButton>
-            <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/edit/${row._id}`, state: row }))} color="default">
-              <EditIcon />
-            </IconButton>
-            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/delete/${row._id}`, state: row }))} color="secondary">
-              <DeleteIcon />
-            </IconButton>
-            <IconButton aria-label="config" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/configuration/${row._id}`, state: row }))} color="default">
-              <SettingsIcon />
-            </IconButton>
-        </span>)
+    // const displayActions = () => (
+    //     <span className={helixCollapsibleRowclasses.actionsIconStyle}>
+    //         <IconButton className={helixCollapsibleRowclasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/discrepancy-report`, state: row }))}>
+    //           <AssessmentIcon />
+    //         </IconButton>
+    //         <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/edit/${row._id}`, state: row }))} color="default">
+    //           <EditIcon />
+    //         </IconButton>
+    //         <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/delete/${row._id}`, state: row }))} color="secondary">
+    //           <DeleteIcon />
+    //         </IconButton>
+    //         <IconButton aria-label="config" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/configuration/${row._id}`, state: row }))} color="default">
+    //           <SettingsIcon />
+    //         </IconButton>
+    //     </span>)
   
     return (
       <>
@@ -74,31 +74,35 @@ function HelixCollapsibleRow(props) {
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell>{row.loanName}</TableCell>
+          {columns.map((column, columnIndex) => {
+            return (
+              customCellRender(row, column, rowIndex, columnIndex)
+            )
+          })}
+          {/* <TableCell>{row.loanName}</TableCell>
           <TableCell>{row.loanType}</TableCell>
-          <TableCell>{row.createdAt}</TableCell>
-          <TableCell>{row.updatedAt}</TableCell>
-          <TableCell>{displayActions()}</TableCell>
+          <TableCell>{row.commitmentAmount}</TableCell>
+          <TableCell>{row.maturityDate}</TableCell>
+          <TableCell>{row.borrowerName}</TableCell>
+          <TableCell>{displayActions()}</TableCell> */}
         </TableRow>
         <TableRow className={helixCollapsibleRowclasses.rowInnerTable}>
-            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns.length+1}>
               <Collapse in={open} timeout="auto" unmountOnExit>
                 <Box margin={1}>
                   <Table className={helixCollapsibleRowclasses.innerTable} size="small" aria-label="purchases">
                     <TableHead className={helixCollapsibleRowclasses.innerTableHead}>
                       <TableRow>
-                          <TableCell>Maturity Date</TableCell>
-                          <TableCell>Commitment Amount</TableCell>
                           <TableCell>Borrower ID</TableCell>
-                          <TableCell>Borrower Name</TableCell>
+                          <TableCell>Loan Created</TableCell>
+                          <TableCell>Loan Updated</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{row.maturityDate}</TableCell>
-                        <TableCell>{row.commitmentAmount}</TableCell>
                         <TableCell>{row.borrowerID}</TableCell>
-                        <TableCell>{row.borrowerName}</TableCell>
+                        <TableCell>{row.createdAt}</TableCell>
+                        <TableCell>{row.updatedAt}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

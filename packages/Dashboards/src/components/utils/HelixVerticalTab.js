@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { makeStyles, Tabs, Tab, Divider } from '@material-ui/core'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
 import HelixTabPanel from './HelixTabPanel'
 
 const verticalTabsStyles = makeStyles((theme) => ({
