@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
  * @param {int} page page is current page currently at
  * @param {func} handleChangePage this function will be pass down to (child component) HelixTablePagination to handle page changes
  * @param {func} handleChangeRowsPerPage this function will be pass down to (child component) HelixTablePagination to handle how many rows per page changes 
- * @param {func} toggleExpandable bool represents true or false if table should have a expandable rows
  * @returns {JSX} renders a custom table footer for table
  */
 const HelixTableFooter = ({ rows, colSpan, rowsPerPage, page, handleChangePage, handleChangeRowsPerPage, toggleExpandable }) => {
@@ -39,6 +38,10 @@ HelixTableFooter.propTypes = {
     handleChangePage: PropTypes.func.isRequired,
     handleChangeRowsPerPage: PropTypes.func.isRequired,
     toggleExpandable: PropTypes.bool.isRequired,
+}
+
+HelixTableFooter.defaultProps = {
+    toggleExpandable: false,
 }
 
 export default HelixTableFooter

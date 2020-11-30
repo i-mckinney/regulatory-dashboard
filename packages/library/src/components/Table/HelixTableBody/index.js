@@ -36,8 +36,8 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
     if (toggleExpandable) {
       return (
         <TableBody>
-          {dataRows.map((row) => {
-            return customCollapsibleRowRender(row)
+          {dataRows.map((row, rowIndex) => {
+            return customCollapsibleRowRender(row, rowIndex, columns, customCellRender)
           })}
         </TableBody>
       )
@@ -80,7 +80,6 @@ HelixTableBody.propTypes = {
   searchFilter: PropTypes.shape({ search: PropTypes.func.isRequired }).isRequired,
   toggleSearch: PropTypes.bool.isRequired,
   toggleExpandable: PropTypes.bool.isRequired,
-  customCollapsibleRowRender: PropTypes.func.isRequired,
 }
 
 HelixTableBody.defaultProps = {
