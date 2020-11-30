@@ -91,8 +91,13 @@ function HelixProgressBar() {
     }
   }
 
+  //open is boolean that allow menu list to open
   const [open, setOpen] = useState(false);
+
+  // anchorRef is a reference of StepperButton
   const anchorRef = useRef(null);
+
+  // openMenu is a boolean tells us the current state when we can open the menu
   const [openMenu, setOpenMenu] = useState(false);
 
   // handleToggle toggles opening of the menu list
