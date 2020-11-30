@@ -46,7 +46,7 @@ const HelixCollapsibleRowStyles = makeStyles({
 });
 
 function HelixCollapsibleRow(props) {
-    const { row, rowIndex, columns, customCellRender } = props;
+    const { row, rowIndex, columns, innerTableHeadColumns, innerTableBodyRows, customCellRender } = props;
     const [open, setOpen] = useState(false);
     const helixCollapsibleRowclasses = HelixCollapsibleRowStyles();
 
@@ -87,16 +87,16 @@ function HelixCollapsibleRow(props) {
                   <Table className={helixCollapsibleRowclasses.innerTable} size="small" aria-label="purchases">
                     <TableHead className={helixCollapsibleRowclasses.innerTableHead}>
                       <TableRow>
-                          <TableCell>Borrower ID</TableCell>
-                          <TableCell>Loan Created</TableCell>
-                          <TableCell>Loan Updated</TableCell>
+                        {innerTableHeadColumns.map((column) => {
+                          return <TableCell>{column}</TableCell>
+                        })}
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <TableCell>{row.borrowerID}</TableCell>
-                        <TableCell>{row.createdAt}</TableCell>
-                        <TableCell>{row.updatedAt}</TableCell>
+                        {innerTableBodyRows.map((row) => {
+                          return <TableCell>{row}</TableCell>
+                        })}
                       </TableRow>
                     </TableBody>
                   </Table>

@@ -88,7 +88,9 @@ function Loan(props) {
   }
 
   const customCollapsibleRowRender = (row, rowIndex, columns, customCellRender) => {
-    return <HelixCollapsibleRow key={row._id} row={row} rowIndex={rowIndex} columns={columns} customCellRender={customCellRender} />
+    const innerTableHeadColumns = ["Borrower ID", "Loan Created", "Loan Updated"]
+    const innerTableBodyRows = [row.borrowerID, row.createdAt, row.updatedAt]
+    return <HelixCollapsibleRow key={row._id} row={row} rowIndex={rowIndex} columns={columns} innerTableHeadColumns={innerTableHeadColumns} innerTableBodyRows={innerTableBodyRows} customCellRender={customCellRender} />
   }
 
   /**
