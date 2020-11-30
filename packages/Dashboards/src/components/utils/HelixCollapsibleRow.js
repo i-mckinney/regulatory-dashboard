@@ -3,10 +3,6 @@ import PropTypes from 'prop-types'
 import { makeStyles, Box, Collapse, Table, TableHead, TableRow, TableBody, TableCell, IconButton } from '@material-ui/core'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import SettingsIcon from '@material-ui/icons/Settings'
-import AssessmentIcon from '@material-ui/icons/Assessment'
-import EditIcon from '@material-ui/icons/Edit'
-import DeleteIcon from '@material-ui/icons/Delete'
 
 const HelixCollapsibleRowStyles = makeStyles({
     root: {
@@ -43,28 +39,12 @@ const HelixCollapsibleRowStyles = makeStyles({
         padding: '8px',
       },
     }
-});
+})
 
 function HelixCollapsibleRow(props) {
     const { row, rowIndex, columns, innerTableHeadColumns, innerTableBodyRows, customCellRender } = props;
-    const [open, setOpen] = useState(false);
-    const helixCollapsibleRowclasses = HelixCollapsibleRowStyles();
-
-    // const displayActions = () => (
-    //     <span className={helixCollapsibleRowclasses.actionsIconStyle}>
-    //         <IconButton className={helixCollapsibleRowclasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/discrepancy-report`, state: row }))}>
-    //           <AssessmentIcon />
-    //         </IconButton>
-    //         <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/edit/${row._id}`, state: row }))} color="default">
-    //           <EditIcon />
-    //         </IconButton>
-    //         <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/delete/${row._id}`, state: row }))} color="secondary">
-    //           <DeleteIcon />
-    //         </IconButton>
-    //         <IconButton aria-label="config" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/configuration/${row._id}`, state: row }))} color="default">
-    //           <SettingsIcon />
-    //         </IconButton>
-    //     </span>)
+    const [open, setOpen] = useState(false)
+    const helixCollapsibleRowclasses = HelixCollapsibleRowStyles()
   
     return (
       <>
@@ -108,8 +88,13 @@ function HelixCollapsibleRow(props) {
     );
   }
   
-  HelixCollapsibleRow.propTypes = {
-    row: PropTypes.instanceOf(Object).isRequired,
+HelixCollapsibleRow.propTypes = {
+  row: PropTypes.instanceOf(Object).isRequired,
+  rowIndex: PropTypes.number.isRequired, 
+  columns: PropTypes.instanceOf(Array).isRequired, 
+  innerTableHeadColumns: PropTypes.instanceOf(Array).isRequired, 
+  innerTableBodyRows: PropTypes.instanceOf(Array).isRequired, 
+  customCellRender: PropTypes.func.isRequired,
 }
 
 export default HelixCollapsibleRow
