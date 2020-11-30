@@ -168,8 +168,8 @@ function Loan(props) {
             <div className={loanClasses.header}>
                 <Typography variant="h5">Loan</Typography>
             </div>
-            {/* <HelixVerticalTab />
-            <HelixProgressBar /> */}
+            {/* <HelixVerticalTab /> */}
+            <HelixProgressBar />
             <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
           </div>
       </StylesProvider>

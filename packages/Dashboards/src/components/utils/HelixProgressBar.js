@@ -1,17 +1,17 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepButton from '@material-ui/core/StepButton';
+import React, { useState, useEffect, useRef } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Stepper from '@material-ui/core/Stepper'
+import Step from '@material-ui/core/Step'
+import StepButton from '@material-ui/core/StepButton'
 import StepLabel from '@material-ui/core/StepLabel'
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Grow from '@material-ui/core/Grow'
+import Paper from '@material-ui/core/Paper'
+import Popper from '@material-ui/core/Popper'
+import MenuItem from '@material-ui/core/MenuItem'
+import MenuList from '@material-ui/core/MenuList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,41 +27,44 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
-}));
+}))
 
 function getSteps() {
-  return ['Entities', 'Loan', 'Normalization Table', 'Summary'];
+  return ['Entities', 'Loan', 'Normalization Table', 'Summary']
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return 'Entities';
+      return 'Entities'
     case 1:
-      return 'Loan';
+      return 'Loan'
     case 2:
-      return 'Normalization Table';
+      return 'Normalization Table'
     case 3:
       return 'Summary'
     default:
-      return 'Unknown step';
+      return 'Unknown step'
   }
 }
 
-export default function HorizontalNonLinearStepper() {
-  const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
-  const steps = getSteps();
+function HelixProgressBar() {
+  const helixProgressBarClasses = useStyles()
+  const [activeStep, setActiveStep] = useState(0)
+  const [completed] = useState({})
+  const steps = getSteps()
 
+  // totalSteps get the total steps
   const totalSteps = () => {
     return steps.length;
-  };
+  }
 
+  // isLastStep checks is this step the last step
   const isLastStep = () => {
     return activeStep === totalSteps() - 1;
-  };
+  }
 
+  // handleNext moves to the next steps
   const handleNext = () => {
     const newActiveStep =
       isLastStep()
@@ -76,8 +79,9 @@ export default function HorizontalNonLinearStepper() {
     } else {
       setOpenMenu(false)
     }
-  };
+  }
 
+  // handleBack goes back one page
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     if (activeStep - 1 === 2) {
@@ -85,42 +89,38 @@ export default function HorizontalNonLinearStepper() {
     } else {
       setOpenMenu(false)
     }
-  };
+  }
 
-  const handleStep = (step) => () => {
-    setActiveStep(step);
-  };
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+  const [openMenu, setOpenMenu] = useState(false);
 
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
-
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  const [openMenu, setOpenMenu] = React.useState(false);
-
+  // handleToggle toggles opening of the menu list
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
-  };
+  }
 
+  // handleAdditionalOptions checks for openMenu is the current step to click for additional menu list
   const handleAdditionalOptions = () => {
-    console.log(openMenu)
     if (openMenu) {
       handleToggle()
     }
   }
 
+  /**
+   * @param {object} event the event object
+   */
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
 
     setOpen(false);
-  };
+  }
 
+  /**
+   * @param {object} event the event object
+   */
   function handleListKeyDown(event) {
     if (event.key === 'Tab') {
       event.preventDefault();
@@ -129,31 +129,31 @@ export default function HorizontalNonLinearStepper() {
   }
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
+  const prevOpen = useRef(open);
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
     }
 
     prevOpen.current = open;
-  }, [open]);
+  }, [open])
 
   return (
-    <div className={classes.root}>
+    <div className={helixProgressBarClasses.root}>
         <Stepper nonLinear activeStep={activeStep}>
             {steps.map((label, index) => (
             <Step key={label}>
-                {index === 2 ? (
-                <StepButton 
-                ref={anchorRef}
-                aria-controls={open ? 'menu-list-grow' : undefined}
-                aria-haspopup="true"
-                onClick={handleAdditionalOptions} 
-                completed={completed[index]}>
-                {label}
-                </StepButton>)
-                : <StepLabel>{label}</StepLabel>
-                }
+              {index === 2 ? (
+              <StepButton 
+              ref={anchorRef}
+              aria-controls={open ? 'menu-list-grow' : undefined}
+              aria-haspopup="true"
+              onClick={handleAdditionalOptions} 
+              completed={completed[index]}>
+              {label}
+              </StepButton>)
+              : <StepLabel>{label}</StepLabel>
+              }
             </Step>
             ))}
         </Stepper>
@@ -175,219 +175,25 @@ export default function HorizontalNonLinearStepper() {
           )}
         </Popper>
         <div>
+          <div>
+            <Typography className={helixProgressBarClasses.instructions}>{getStepContent(activeStep)}</Typography>
             <div>
-                <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                <div>
-                <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                    Back
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                >
-                    Next
-                </Button>
-                </div>
+              <Button disabled={activeStep === 0} onClick={handleBack} className={helixProgressBarClasses.button}>
+                Back
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleNext}
+                className={helixProgressBarClasses.button}
+              >
+                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              </Button>
             </div>
+          </div>
         </div>
     </div>
   );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import PropTypes from 'prop-types';
-// import { makeStyles, withStyles } from '@material-ui/core/styles';
-// import clsx from 'clsx';
-// import Stepper from '@material-ui/core/Stepper';
-// import Step from '@material-ui/core/Step';
-// import StepLabel from '@material-ui/core/StepLabel';
-// import Check from '@material-ui/icons/Check';
-// import SettingsIcon from '@material-ui/icons/Settings';
-// import GroupAddIcon from '@material-ui/icons/GroupAdd';
-// import VideoLabelIcon from '@material-ui/icons/VideoLabel';
-// import StepConnector from '@material-ui/core/StepConnector';
-// import Button from '@material-ui/core/Button';
-// import Typography from '@material-ui/core/Typography';
-
-// const QontoConnector = withStyles({
-//   alternativeLabel: {
-//     top: 10,
-//     left: 'calc(-50% + 16px)',
-//     right: 'calc(50% + 16px)',
-//   },
-//   active: {
-//     '& $line': {
-//       borderColor: '#784af4',
-//     },
-//   },
-//   completed: {
-//     '& $line': {
-//       borderColor: '#784af4',
-//     },
-//   },
-//   line: {
-//     borderColor: '#eaeaf0',
-//     borderTopWidth: 3,
-//     borderRadius: 1,
-//   },
-// })(StepConnector);
-
-// const useQontoStepIconStyles = makeStyles({
-//   root: {
-//     color: '#eaeaf0',
-//     display: 'flex',
-//     height: 22,
-//     alignItems: 'center',
-//   },
-//   active: {
-//     color: '#784af4',
-//   },
-//   circle: {
-//     width: 8,
-//     height: 8,
-//     borderRadius: '50%',
-//     backgroundColor: 'currentColor',
-//   },
-//   completed: {
-//     color: '#784af4',
-//     zIndex: 1,
-//     fontSize: 18,
-//   },
-// });
-
-// function QontoStepIcon(props) {
-//   const classes = useQontoStepIconStyles();
-//   const { active, completed } = props;
-
-//   return (
-//     <div
-//       className={clsx(classes.root, {
-//         [classes.active]: active,
-//       })}
-//     >
-//       {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
-//     </div>
-//   );
-// }
-
-// QontoStepIcon.propTypes = {
-//   /**
-//    * Whether this step is active.
-//    */
-//   active: PropTypes.bool,
-//   /**
-//    * Mark the step as completed. Is passed to child components.
-//    */
-//   completed: PropTypes.bool,
-// };
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     width: '100%',
-//   },
-//   button: {
-//     marginRight: theme.spacing(1),
-//   },
-//   instructions: {
-//     marginTop: theme.spacing(1),
-//     marginBottom: theme.spacing(1),
-//   },
-// }));
-
-// function getSteps() {
-//   return ['Entities', 'Loan', 'Normalization Table', 'Summary'];
-// }
-
-// function getStepContent(step) {
-//   switch (step) {
-//     case 0:
-//       return 'Entities';
-//     case 1:
-//       return 'Loan';
-//     case 2:
-//       return 'Normalization Table';
-//     case 3:
-//         return 'Summary';
-//     default:
-//       return 'Unknown step';
-//   }
-// }
-
-// export default function CustomizedSteppers() {
-//   const classes = useStyles();
-//   const [activeStep, setActiveStep] = React.useState(0);
-//   const steps = getSteps();
-
-//   const handleNext = () => {
-//     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-//   };
-
-//   const handleBack = () => {
-//     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-//   };
-
-//   const handleReset = () => {
-//     setActiveStep(0);
-//   };
-
-//   return (
-//     <div className={classes.root}>
-//       <Stepper alternativeLabel activeStep={activeStep}>
-//         {steps.map((label) => (
-//           <Step key={label}>
-//             <StepLabel>{label}</StepLabel>
-//           </Step>
-//         ))}
-//       </Stepper>
-//       <div>
-//         {activeStep === steps.length ? (
-//           <div>
-//             <Typography className={classes.instructions}>
-//               All steps completed - you&apos;re finished
-//             </Typography>
-//             <Button onClick={handleReset} className={classes.button}>
-//               Reset
-//             </Button>
-//           </div>
-//         ) : (
-//           <div>
-//             <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-//             <div>
-//               <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-//                 Back
-//               </Button>
-//               <Button
-//                 variant="contained"
-//                 color="primary"
-//                 onClick={handleNext}
-//                 className={classes.button}
-//               >
-//                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-//               </Button>
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
+export default HelixProgressBar
