@@ -327,7 +327,7 @@ function EntitySelectTable(props) {
                 size="small"
                 onClick={() => {
                   setOpenSaveSuccess(false);
-                  location.reload();
+                  window.location.reload();
                 }}
               >
                 <CloseIcon fontSize="inherit" />
