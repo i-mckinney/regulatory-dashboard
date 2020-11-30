@@ -16,6 +16,7 @@ const ReportEdit = (props) => {
      * @param {object} editedReportTemplate represent object with edited entity props values
      */
     const editReportTemplate = async (editedReportTemplate) => {
+        console.log(id)
         props.history.push("/report")
     }
 
