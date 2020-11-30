@@ -90,7 +90,7 @@ function EntitySummaryDialog(props) {
               size="small"
               onClick={() => {
                 setOpenEmailSuccessMessage(false);
-                location.reload()
+                window.location.reload()
               }}
             >
               <CloseIcon fontSize="inherit" />
