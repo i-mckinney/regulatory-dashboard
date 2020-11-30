@@ -94,8 +94,16 @@ function EntityReceiptTable(props) {
                         );
                       } else if (column.id === "SourceOfTruth") {
                         return (
-                          <TableCell key={column.id} align={column.align}>
-                            {`${value}`}
+                          <TableCell
+                            style={
+                              value
+                                ? { color: "#2776D2" }
+                                : { color: "#F50057" }
+                            }
+                            key={column.id}
+                            align={column.align}
+                          >
+                            <b>{`${value}`}</b>
                           </TableCell>
                         );
                       } else {
