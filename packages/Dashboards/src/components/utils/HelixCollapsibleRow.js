@@ -79,12 +79,6 @@ function HelixCollapsibleRow(props) {
               customCellRender(row, column, rowIndex, columnIndex)
             )
           })}
-          {/* <TableCell>{row.loanName}</TableCell>
-          <TableCell>{row.loanType}</TableCell>
-          <TableCell>{row.commitmentAmount}</TableCell>
-          <TableCell>{row.maturityDate}</TableCell>
-          <TableCell>{row.borrowerName}</TableCell>
-          <TableCell>{displayActions()}</TableCell> */}
         </TableRow>
         <TableRow className={helixCollapsibleRowclasses.rowInnerTable}>
             <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns.length+1}>
