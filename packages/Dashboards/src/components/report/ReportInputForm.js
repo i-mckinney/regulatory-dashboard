@@ -1,35 +1,46 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
-import SaveIcon from '@material-ui/icons/Save'
-import CancelIcon from '@material-ui/icons/Cancel'
 import { columnFields, columnLabels } from './config'
-import ReportPreference from './ReportPreference'
 import ReportArchive from './ReportArchive'
+import ReportTemplateCreateTable from './ReportTemplateCreateTable'
+import SelectDropdown from '../utils/SelectDropdown'
 
 // Styling used for MaterialUI
 const reportInputFormStyles = makeStyles(() => ({
     reportInputFormStyle: {
-        marginTop: '8rem',
+        marginTop: '2rem',
+        marginLeft: '4rem',
         width: '50%',
         margin: 'auto',
         boxShadow: '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)',
         transition: 'box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1)',
         display: 'block',
         position: 'relative',
-        padding: '48px',
+        padding: '30px',
         borderRadius: '4px',
     },
-    buttonStyle: {
-        '& button': {
-            marginTop: '16px',
-            marginRight: '16px',
-        },
-        '& a': {
-            marginTop: '16px',
-            marginRight: '16px',
-        }
+    hide: { 
+        display: 'none',
     },
+    buttonStyle: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        display:'flex'
+    },
+    selectDropdown: {
+        width: "30%",
+        margin: "auto",
+        marginTop: "0.25rem",
+        paddingBottom: "3rem",
+        '& p': {
+            fontWeight: "bold",
+            paddingBottom: "0.5rem",
+            fontSize: "1rem",
+            margin: "0",
+            textAlign: "center"
+        },  
+    }
 }));
 
 //Used to perform error checks for validation
@@ -51,6 +62,15 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     // Perform error check for form validatation upon report template data
     const [error] = useState(reportError)
 
+    // Options to be used for dropdown select component
+    const [selectOptions, setSelectOptions] = useState([])
+
+     // Options to be used for dropdown select component
+    const [rowData, setRowData] = useState([])
+
+    // Options to be used for dropdown select component
+    const [colData, setColData] = useState([])
+
     // Creates an object for styling. Any className that matches key in the reportInputFormStyles object will have a corresponding styling
     const reportInputFormClasses = reportInputFormStyles()
     
@@ -62,13 +82,6 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     const handleInputChange = (event) => {
         const { name, value } = event.target
         setReport({ ...report, [name]: value })
-    }
-
-    /**
-     * @param {Object} preferenceObj preferenceObj is an object that contains preference of entities, loan, and regulatory
-     */
-    const handlePreferenceChange = (preferenceObj) => {
-        setReport({ ...report, preference: preferenceObj })
     }
 
     /**
@@ -115,38 +128,63 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                 variant="contained" 
                 type="submit" 
                 size="small"
-                startIcon={<SaveIcon />}
-                text="Save" />
+                text="Next" />
                 <HelixButton
                 color="default"
                 variant="contained"
                 type="cancel"
                 size="small"
                 href="/report"
-                startIcon={<CancelIcon />}
                 text="Cancel" />
             </>
         )
     }
-
+    
+    /**
+     * @param {Array} columns Array of column objects from child component
+     * @return {Array} options - returns array of column objects to be used for dropdown select menu
+     */
+    const extractOptions = (columns) => {
+        let options = []
+        for (let i= 0; i<columns.length; i++) {
+            options[i]= {
+                label: columns[i]['Label'],
+                value: columns[i]['Accessor']
+            } 
+        } 
+        return options
+    }
+    
+    /**
+     * @param {Array} rows - Array of row objects from child component
+     * @param {Array} columns Array of column objects from child component
+     * Function used to keep row and column hooks in sync with child component and set options for dropdown select
+     */
+    const extractTableData = (rows,columns) => {
+        const options = extractOptions(columns.slice(2,columns.length-1))
+        useEffect(() => {
+            setColData(columns)
+            setRowData(rows)
+            setSelectOptions(options)
+        },[columns,rows])
+    }
+     
     return (
     <div>
+    {console.log('****************')}
+    {console.log('rowData', rowData)}
+    {console.log('colData', colData)}
+    {console.log('****************')}
+
         <form className={reportInputFormClasses.reportInputFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
             <Grid container
                 direction="row"
                 justify="flex-end"
                 alignItems="center"
                 spacing={4}>
-                <Grid item xs={12}><Typography variant="h5" component="h2">{header}</Typography></Grid>
+                <Grid item xs={12}> <Typography variant="h5">{header} </Typography> </Grid>
                 {columnFields.map((fields, index) => {
-                    if (fields === 'preference') {
-                        const preference = initialReportTemplate.preference
-                        return (
-                            <Grid item xs={12} key={`${index} ${fields}`}>
-                                <ReportPreference preference={preference} handlePreferenceChange={handlePreferenceChange} />
-                            </Grid>
-                        )
-                    } else if (fields === 'archive') {
+                 if (fields === 'archive') {
                         return (
                             <Grid item xs={12} key={`${index} ${fields}`}>
                                 <ReportArchive />
@@ -160,11 +198,16 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                         )
                     }
                 })}
-                <Grid className={reportInputFormClasses.buttonStyle}>
-                    {renderButtonActions()}
-                </Grid>
+                <Grid className={reportInputFormClasses.hide}> {renderButtonActions()}</Grid> 
             </Grid>
         </form>
+        <ReportTemplateCreateTable sendTableData = {extractTableData}  />
+        <div className={reportInputFormClasses.selectDropdown}>
+            <SelectDropdown text ="Select Report Field Name Column" options= {selectOptions} />
+        </div>
+        <div className={reportInputFormClasses.buttonStyle}>
+            {renderButtonActions()}
+        </div>
     </div>
     )
 }

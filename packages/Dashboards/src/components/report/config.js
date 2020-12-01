@@ -5,7 +5,7 @@ export const sortableExcludes = ["_id", "Actions"]
 export const columnExcludes = []
 
 // columnFields is array of fields that ReportInputForm will have 
-export const columnFields = ["reportName", "preference", "archive"]
+export const columnFields = ["reportName", "archive"]
 
 // columnLabels is array of label name that correspondings to columnFields EXCEPT _id (primary key)
 // PRIMARY KEY must be FIRST in the array (required)
@@ -13,5 +13,6 @@ export const columnFields = ["reportName", "preference", "archive"]
 // (1) Report Created ( refers to "createdAt" (mongodb semantics) )
 // (2) Report Updated ( refers to replaces "updatedAt" (mongodb semantics) )
 // (3) Actions
-export const columnLabels = ["_id", "Report Name", "Perferences", "Archive"]
+export const columnLabels = ["_id", "Report Name", "Archive"]
+
 

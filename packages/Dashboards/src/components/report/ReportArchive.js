@@ -6,8 +6,10 @@ import { HelixTextField } from 'helixmonorepo-lib'
 
 // Styling used for MaterialUI
 const reportArchiveStyles = makeStyles(() => ({
-    label: {
-        marginBottom: '8px'
+    title: {
+        color: 'black',
+        marginBottom: '12px',
+        fontSize: '1.25rem',
     },
     textfield: {
         width: '105%',
@@ -20,7 +22,7 @@ const ReportArchive = () => {
 
     return (
         <div>
-            <FormLabel className={reportArchiveStylesClasses.label} component="legend">Report Form Archive</FormLabel>
+            <FormLabel className={reportArchiveStylesClasses.title} component="legend">Create Required Fields</FormLabel>
             <Grid 
             container
             direction="row"
@@ -43,8 +45,8 @@ const ReportArchive = () => {
                 <Grid item xs={6}>
                     <HelixTextField
                     className={reportArchiveStylesClasses.textfield}
-                    name="pdfForm"
-                    label="PDF Form"
+                    name="csvForm"
+                    label="CSV Form"
                     value=""
                     />
                 </Grid>
