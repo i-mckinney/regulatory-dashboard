@@ -171,11 +171,6 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
      
     return (
     <div>
-    {console.log('****************')}
-    {console.log('rowData', rowData)}
-    {console.log('colData', colData)}
-    {console.log('****************')}
-
         <form className={reportInputFormClasses.reportInputFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
             <Grid container
                 direction="row"
