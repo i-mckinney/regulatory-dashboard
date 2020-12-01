@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 // import EntityCard from "./EntityCard"
 // import { detailedInfo } from "../../MockData/ReconcileDWMockData"
 import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
+import { columns, rows, data, externalValues } from './ReportNormTableMockData'
 
 // Styling used for MaterialUI
 const reportNormalizationTableStyles = makeStyles(() => ({
@@ -57,10 +58,12 @@ const ReportNormalizationTable = (props) => {
   const reportNormalizationTableClasses = reportNormalizationTableStyles()
 
   // columns will store column header that we want to show in the front end
-  const columns = useMemo(() => [], [])
+//   const columns = useMemo(() => [], [])
 
-  // rows will store all the row data
-  const rows = useMemo(() => [], [])
+//   // rows will store all the row data
+//   const rows = useMemo(() => [], [])
+
+  const [entityTableData, setEntityTableData] = useState(data)
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -78,6 +81,41 @@ const ReportNormalizationTable = (props) => {
     return row[0]
   }
 
+  const saveEntityData = () => null
+  
+    /**
+   * @param {int} rowIndex the rowIndex represents index of the row 
+   * @param {string} source the source is value of the column 
+   * @param {string} trueValue the trueValue is value of the HelixTableCell selected
+   */
+  const saveRadioData = (rowIndex, source, trueValue) => {
+    const copySavedEntityTableData = [ ...entityTableData ]
+    const modifiedData = { ...copySavedEntityTableData[rowIndex] }
+    
+    const modifiedSourceSystem = { ...modifiedData.sourceSystem }
+    modifiedSourceSystem["source"] = source
+    modifiedSourceSystem["trueValue"] = trueValue
+    modifiedSourceSystem["isEdited"] = true
+
+    const modifiedValues = [ ...modifiedData.values ] 
+    
+    modifiedValues.forEach((value) => {
+      if (value) {
+        if (value.currentValue) {
+          value["matchesSoT"] = value.currentValue === trueValue
+        } else if (value.externalValue) {
+          value["matchesSoT"] = value.externalValue === trueValue
+        }
+      }
+    })
+
+    modifiedData["sourceSystem"] = modifiedSourceSystem
+
+    copySavedEntityTableData.splice(rowIndex, 1, modifiedData)
+    setEntityTableData([ ...copySavedEntityTableData ])
+  }
+
+
   /**
    * @param {object} row the row is an object of data
    * @param {object} column the column is an object of the header with accessor and label props
@@ -87,23 +125,20 @@ const ReportNormalizationTable = (props) => {
    */
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
-    if (columnIndex === 0) {
+    if (columnIndex === 0 || columnIndex === 1) {
       return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]}/>
     }
-    // else {
-    //   const sourceSystem = entityTableData[rowIndex].sourceSystem
+    else {
+      const sourceSystem = entityTableData[rowIndex].sourceSystem
 
-    //   const source = sourceSystem.source 
-    //   ? sourceSystem.source.toString() 
-    //   : setError({ err: true, message: "Source is undefined" })
+      const source = sourceSystem.source ? sourceSystem.source.toString() : ""
+     
+      const sourceTrueValue = sourceSystem.trueValue ? sourceSystem.trueValue.toString() : "" 
 
-    //   const sourceTrueValue = sourceSystem.trueValue 
-    //   ? sourceSystem.trueValue.toString() 
-    //   : setError({ err: true, message: "trueValue is undefined" })
-    //   return (
-    //     <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={externalValues} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
-    //   )
-    // }
+      return (
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={[["Relationship Name", "Abc Cafe", "Ice Cafe", ""], ["Master ID", "123456", "123456", ""]]} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
+      )
+    }
   }
 
   const render = () => {
