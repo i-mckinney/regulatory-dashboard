@@ -4,6 +4,7 @@ import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import PropTypes from "prop-types"
 import ProfileModal from "./ProfileModal"
+import NotificationsModal from "./NotificationsModal"
 
 /**
  * @param {object} topContainerClasses contains styling of useStyles for Container App
@@ -44,6 +45,7 @@ function NavigationBar(props) {
           <Typography variant="h6" noWrap>
             Regulatory Dashboard
           </Typography>
+          <NotificationsModal topContainerClasses={topContainerClasses} />
           <ProfileModal topContainerClasses={topContainerClasses} />
         </Toolbar>
       </AppBar>

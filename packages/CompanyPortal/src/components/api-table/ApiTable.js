@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { StylesProvider, makeStyles } from '@material-ui/core';
-
+import PageHeader from '../../layout/PageHeader';
+import TelegramIcon from '@material-ui/icons/Telegram';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Button as MuiButton } from '@material-ui/core';
-
-
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
-import { sortableExcludes, columnMetadata, API_HOST } from '../../../config';
-import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from '../../api-table-entities/constants';
-import EditCustomApiRequestDialog from '../../api-table-entities/EditCustomApiRequestDialog';
-import PerformTestPage from "../../perform-test-page/PerformTestPage";
+import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
+import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
+import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
+import PerformTestPage from "../perform-test-page/PerformTestPage";
+import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
 
 // Styling used for MaterialUI
@@ -44,10 +43,10 @@ const userTableStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history location to route next component with data state
- * @return {JSX} LoansApiTable of the client's custom APIs
+ * @return {JSX} ApiTable of the client's custom APIs
  * routed at /
  */
-const LoansApiTable = (props) => {
+const ApiTable = (props) => {
   // TODO: replace this static id with a dynamic prop
   const companyId = "5f7e1bb2ab26a664b6e950c8";
   // Creates an object for styling. Any className that matches key in the userTableStyles object will have a corresponding styling
@@ -69,7 +68,7 @@ const LoansApiTable = (props) => {
 
   /**
    * Renders only when it is mounted at first
-   * It will fetchUsers whenever LoansApiTable loads
+   * It will fetchUsers whenever ApiTable loads
    */
   useEffect(() => {
     const fetchCompanies = () => {
@@ -282,7 +281,13 @@ const LoansApiTable = (props) => {
   return (
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
-        
+        <div className={userTableClasses.header}>
+          <PageHeader
+            title="Client API Interface"
+            subTitle="Add new API requests or edit and test existing calls"
+            icon={<TelegramIcon fontSize="large" />}
+          />
+        </div>
 
         <HelixTable
           toggleSearch={true}
@@ -309,4 +314,4 @@ const LoansApiTable = (props) => {
   );
 };
 
-export default withRouter(LoansApiTable);
+export default withRouter(ApiTable);

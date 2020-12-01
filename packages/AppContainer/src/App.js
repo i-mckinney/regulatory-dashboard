@@ -16,8 +16,11 @@ const drawerWidth = 240
 
 // Styles used for Container Application
 const containerAppUseStyles = makeStyles((theme) => ({
-  containerUserPageButton: {
+  containerNotificationPageButton: {
     marginLeft: "auto",
+  },
+  containerUserPageButton: {
+    marginLeft: theme.spacing(1),
   },
   topContainerClassesRoot: {
     display: "flex",
