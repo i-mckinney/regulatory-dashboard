@@ -4,7 +4,8 @@ import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import { columnFields, columnLabels } from './config'
 import ReportArchive from './ReportArchive'
 import ReportTemplateCreateTable from './ReportTemplateCreateTable'
-import SelectDropdown from '../utils/SelectDropdown'
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 // Styling used for MaterialUI
 const reportInputFormStyles = makeStyles(() => ({
@@ -35,7 +36,7 @@ const reportInputFormStyles = makeStyles(() => ({
         paddingBottom: "3rem",
         '& p': {
             fontWeight: "bold",
-            paddingBottom: "0.5rem",
+            paddingBottom: "1rem",
             fontSize: "1rem",
             margin: "0",
             textAlign: "center"
@@ -62,13 +63,10 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     // Perform error check for form validatation upon report template data
     const [error] = useState(reportError)
 
-    // Options to be used for dropdown select component
-    const [selectOptions, setSelectOptions] = useState([])
-
-     // Options to be used for dropdown select component
+     // Row data to be passed to next component
     const [rowData, setRowData] = useState([])
 
-    // Options to be used for dropdown select component
+     // Column data to be passed to next component
     const [colData, setColData] = useState([])
 
     // Creates an object for styling. Any className that matches key in the reportInputFormStyles object will have a corresponding styling
@@ -138,22 +136,7 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                 text="Cancel" />
             </>
         )
-    }
-    
-    /**
-     * @param {Array} columns Array of column objects from child component
-     * @return {Array} options - returns array of column objects to be used for dropdown select menu
-     */
-    const extractOptions = (columns) => {
-        let options = []
-        for (let i= 0; i<columns.length; i++) {
-            options[i]= {
-                label: columns[i]['Label'],
-                value: columns[i]['Accessor']
-            } 
-        } 
-        return options
-    }
+    }  
     
     /**
      * @param {Array} rows - Array of row objects from child component
@@ -161,11 +144,9 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
      * Function used to keep row and column hooks in sync with child component and set options for dropdown select
      */
     const extractTableData = (rows,columns) => {
-        const options = extractOptions(columns.slice(2,columns.length-1))
         useEffect(() => {
             setColData(columns)
             setRowData(rows)
-            setSelectOptions(options)
         },[columns,rows])
     }
      
@@ -198,7 +179,13 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
         </form>
         <ReportTemplateCreateTable sendTableData = {extractTableData}  />
         <div className={reportInputFormClasses.selectDropdown}>
-            <SelectDropdown text ="Select Report Field Name Column" options= {selectOptions} />
+            <p> Select Report Field Name Column </p>
+            <Autocomplete
+                id = "ColumnSelection"
+                options = {colData.slice(2,colData.length-1)}
+                getOptionLabel = {(selectOption)=> selectOption.Label}
+                renderInput={(params)=><TextField {...params} label="Select Column" variant = "outlined"/>}
+             />
         </div>
         <div className={reportInputFormClasses.buttonStyle}>
             {renderButtonActions()}
