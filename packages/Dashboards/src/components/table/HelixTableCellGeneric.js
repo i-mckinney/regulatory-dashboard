@@ -152,16 +152,10 @@ const HelixTableCellGeneric = ({
           {displayCustomizedForm()}
         </TableCell>
       )
-    } else if (containActions) {
-      return (
-        <TableCell className={helixTableCellClasses.initialCell}>
-          {displayActions()}
-        </TableCell>
-      )
     } else {
       return (
         <TableCell className={helixTableCellClasses.initialCell}>
-         {displayCurrentStateValue()}
+        {containActions ? displayActions() : displayCurrentStateValue() }
         </TableCell>
       )
     }
