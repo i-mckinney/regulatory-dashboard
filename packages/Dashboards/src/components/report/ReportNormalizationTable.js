@@ -2,9 +2,10 @@ import React, { useMemo, useState, useEffect } from "react"
 import { withRouter } from "react-router-dom"
 import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
-// import EntityCard from "./EntityCard"
+import EntityCard from "../entity/EntityCard"
 // import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
+import { HelixTable, HelixButton } from 'helixmonorepo-lib'
+import HelixTableCell from '../table/HelixTableCell'
 import { columns, rows, data, externalValues } from './ReportNormTableMockData'
 
 // Styling used for MaterialUI
@@ -136,7 +137,7 @@ const ReportNormalizationTable = (props) => {
       const sourceTrueValue = sourceSystem.trueValue ? sourceSystem.trueValue.toString() : "" 
 
       return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={[["Relationship Name", "Abc Cafe", "Ice Cafe", ""], ["Master ID", "123456", "123456", ""]]} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
+        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={externalValues} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
       )
     }
   }
@@ -144,6 +145,11 @@ const ReportNormalizationTable = (props) => {
   const render = () => {
     return (
       <>
+        <EntityCard
+        RecordLabel='Testing #1'
+        BorrowerID='1a'
+        BorrowerName='Rey'
+        />
         <HelixTable
         toggleSearch={false}
         columns={columns} 
