@@ -15,6 +15,7 @@ import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
+import HelixSelectTable from './components/HelixSelectTable/HelixSelectTable'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import {
   StylesProvider,
@@ -92,6 +93,10 @@ function App(history) {
 
             <Route exact path="/report/edit/:id">
               <ReportEdit />
+            </Route>
+
+            <Route exact path="/selecttable">
+              <HelixSelectTable />
             </Route>
 
             <Redirect to="/" />
