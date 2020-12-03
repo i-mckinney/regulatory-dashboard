@@ -112,7 +112,6 @@ function Loan(props) {
   }
 
   const handleModalDeletePopUp = (row) => {
-    console.log(row)
     setConfirmDialog({
       isOpen: true, 
       title: `Do you want to delete this ${row.borrowerName}'s loan?`,
