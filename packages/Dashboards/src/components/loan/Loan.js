@@ -7,9 +7,11 @@ import IconButton from '@material-ui/core/IconButton'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
+import { HelixTableCell } from 'helixmonorepo-lib'
+import HelixTable from '../table/HelixTable'
 import mockData from './MockData'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
+import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 
 const generateClassName = createGenerateClassName({
     productionPrefix: 'loan-',
@@ -36,7 +38,7 @@ const loanStyles = makeStyles(() => ({
         marginRight: '1rem',
         cursor: 'pointer',
     },
-},
+  },
   discrepancyButton: {
     color: 'green'
   },
@@ -83,13 +85,10 @@ function Loan(props) {
     })
   }
 
-  /**
-   * @param {object} loan represent object of loan with particular props
-   * @param {string} accessor represents the accessor which loan with acessor can access the property value
-   */
-  const isoToDate = (loan, accessor) => {
-      const strDate = loan[accessor];
-      loan[accessor] = strDate.substring(0, 10)
+  const customCollapsibleRowRender = (row, rowIndex, columns, customCellRender) => {
+    const innerTableHeadColumns = ["Borrower ID", "Loan Created", "Loan Updated"]
+    const innerTableBodyRows = [row.borrowerID, row.createdAt, row.updatedAt]
+    return <HelixCollapsibleRow key={row._id} row={row} rowIndex={rowIndex} columns={columns} innerTableHeadColumns={innerTableHeadColumns} innerTableBodyRows={innerTableBodyRows} customCellRender={customCellRender} />
   }
 
   /**
@@ -167,7 +166,7 @@ function Loan(props) {
             <div className={loanClasses.header}>
                 <Typography variant="h5">Loan</Typography>
             </div>
-            <HelixTable toggleSearch={true} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
+            <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
           </div>
       </StylesProvider>
     )

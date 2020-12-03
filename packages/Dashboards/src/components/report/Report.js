@@ -219,7 +219,7 @@ function Report(props) {
     return (
         <div className={reportClasses.mediumContainer}>
             <div className={reportClasses.header}>
-                <Typography variant="h5">Choose Your Report</Typography>
+                <Typography variant="h5">Choose Your Report Template</Typography>
             </div>
             <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateReportIcon} />
             <HelixCollectionList 

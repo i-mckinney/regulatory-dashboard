@@ -17,7 +17,7 @@ import PropTypes from "prop-types"
  * @param {bool} toggleSearch bool represents true or false if table should have a search function
  * @returns {JSX} renders a custom table body for table
  */
-const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowKeyProp, order, orderBy, getComparator, stableSort, searchFilter, toggleSearch }) => {
+const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowKeyProp, order, orderBy, getComparator, stableSort, searchFilter, toggleSearch, toggleExpandable, customCollapsibleRowRender }) => {
   
   //If rowsPerPage is always greater than 0, then we sort the rows by indicating column
   //and display rowsPerPage by each page
@@ -30,7 +30,17 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
 
   const dataRows = toggleSearch ? sortedRows : rows
 
-  return (
+  const renderTableBody = () => {
+    if (toggleExpandable) {
+      return (
+        <TableBody>
+          {dataRows.map((row, rowIndex) => {
+            return customCollapsibleRowRender(row, rowIndex, columns, customCellRender)
+          })}
+        </TableBody>
+      )
+    } else {
+      return (
       <TableBody>
         {dataRows.map((row, rowIndex) => {
             return (
@@ -45,6 +55,12 @@ const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, cu
           })
         }
       </TableBody>
+      )
+    }
+  }
+
+  return (
+    renderTableBody()
   )
 }
 
@@ -61,6 +77,7 @@ HelixTableBody.propTypes = {
   stableSort: PropTypes.func.isRequired,
   searchFilter: PropTypes.shape({ search: PropTypes.func.isRequired }).isRequired,
   toggleSearch: PropTypes.bool.isRequired,
+  toggleExpandable: PropTypes.bool.isRequired,
 }
 
 HelixTableBody.defaultProps = {
