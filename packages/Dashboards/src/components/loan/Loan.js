@@ -5,13 +5,14 @@ import AddBoxIcon from '@material-ui/icons/AddBox'
 import SettingsIcon from '@material-ui/icons/Settings'
 import IconButton from '@material-ui/core/IconButton'
 import AssessmentIcon from '@material-ui/icons/Assessment'
-import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTableCell } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
 import mockData from './MockData'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
+import ConfirmDialog from "../utils/ConfirmDialog"
+import Notification from "../utils/Notification"
 
 const generateClassName = createGenerateClassName({
     productionPrefix: 'loan-',
@@ -68,8 +69,33 @@ function Loan(props) {
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], [])
 
+  //Set state of notification in response to a button action
+  const [notification, setNotification] = useState({isOpen: false, message: '', type: ''}) 
+
+  // Sets state of confirm Dialog window used for editing/deleting a request
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '', confirmText: 'Yes', cancelText: 'Cancel'})
+
   if (columns.length === 0) {
     setRows(mockData)
+  }
+
+  /**
+   * @param {string} id row id to be deleted 
+   * Closes dialog box and updates row data 
+   */
+  const handleDelete = id => {
+    const tempData = [...rows]
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+    })
+    const newData = tempData.filter(myRequest => myRequest._id !== id)
+    setRows(newData)
+    setNotification({
+      isOpen: true,
+      message: 'Successfully deleted request',
+      type: 'success'
+    })
   }
 
   if (rows.length !== 0 && columns.length === 0) {
@@ -83,6 +109,17 @@ function Loan(props) {
         })
       }
     })
+  }
+
+  const handleModalDeletePopUp = (row) => {
+    console.log(row)
+    setConfirmDialog({
+      isOpen: true, 
+      title: `Do you want to delete this ${row.borrowerName}'s loan?`,
+      cancelText: 'Cancel',
+      confirmText: 'Yes',
+      onConfirm: ()=>{handleDelete(row._id)}
+      }) 
   }
 
   const customCollapsibleRowRender = (row, rowIndex, columns, customCellRender) => {
@@ -105,7 +142,7 @@ function Loan(props) {
             <IconButton className={loanClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/discrepancy-report`, state: row }))}>
               <AssessmentIcon />
             </IconButton>
-            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/delete/${row._id}`, state: row }))} color="secondary">
+            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (handleModalDeletePopUp(row))} color="secondary">
               <DeleteIcon />
             </IconButton>
             <IconButton aria-label="config" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/configuration/${row._id}`, state: row }))} color="default">
@@ -165,6 +202,8 @@ function Loan(props) {
             </div>
             <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
           </div>
+          <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+          <Notification notification={notification} setNotification={setNotification} />
       </StylesProvider>
     )
 }
