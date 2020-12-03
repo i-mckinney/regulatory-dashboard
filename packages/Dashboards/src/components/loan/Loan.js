@@ -75,6 +75,7 @@ function Loan(props) {
   // Sets state of confirm Dialog window used for editing/deleting a request
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '', confirmText: 'Yes', cancelText: 'Cancel'})
 
+  // On first render (column length is zero), set rows to full set of mock data
   if (columns.length === 0) {
     setRows(mockData)
   }
@@ -111,6 +112,9 @@ function Loan(props) {
     })
   }
 
+  /**
+   * @param {object} row row represents loan object
+   */
   const handleModalDeletePopUp = (row) => {
     setConfirmDialog({
       isOpen: true, 
@@ -121,6 +125,12 @@ function Loan(props) {
       }) 
   }
 
+  /**
+   * @param {object} row row represents loan object
+   * @param {int} rowIndex rowIndex represents the index of the current row object
+   * @param {object} columns columns represents list of columns
+   * @param {func} customCellRender represents HelixTableCell of object properties in that Table row
+   */
   const customCollapsibleRowRender = (row, rowIndex, columns, customCellRender) => {
     const innerTableHeadColumns = ["Borrower ID", "Loan Created", "Loan Updated"]
     const innerTableBodyRows = [row.borrowerID, row.createdAt, row.updatedAt]
