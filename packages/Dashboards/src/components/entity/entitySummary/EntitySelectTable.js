@@ -14,14 +14,23 @@ import {
   Paper,
   Checkbox,
   Switch,
+  IconButton,
+  Collapse,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import SelectTableHead from "./SelectTableComponents/SelectTableHead";
 import SelectTableToolBar from "./SelectTableComponents/SelectTableToolBar";
+import EntitySummaryDialog from "./EntitySummaryDialog";
 import { getComparator, stableSort } from "./HelperFunctions";
+import CloseIcon from '@material-ui/icons/Close';
 
 const useSelectTableStyles = makeStyles((theme) => ({
   selectTableRoot: {
     width: "100%",
+  },
+  successAlert: {
+    marginTop: "10px",
+    marginBottom: "10px",
   },
   selectTablePaper: {
     width: "100%",
@@ -66,11 +75,35 @@ const useSelectTableStyles = makeStyles((theme) => ({
     marginTop: "50px",
     marginLeft: "10px",
   },
+  summaryReceiptRoot: {
+    width: "100%",
+  },
+  summaryReceiptContainer: {
+    maxHeight: 440,
+  },
 }));
 
+/**
+ * @param  props (withRouter)  object of location, state and history
+ * @return Select table used in entity summary page (Can delete rows and save changes)
+ *
+ */
 function EntitySelectTable(props) {
   //used for styling entity select table
   const classes = useSelectTableStyles();
+  const [openSaveSuccess, setOpenSaveSuccess] = useState(false)
+  //State to determine whether modal that contains static receipt of all the propsed changes is open or not
+  const [openSummaryDialog, setOpenSummaryDialog] = useState(false);
+
+  const handleCloseSummaryDialog = () => {
+    setOpenSummaryDialog(false);
+  };
+
+  const handleOpenSummaryDialog = () => {
+    setOpenSummaryDialog(true);
+  };
+
+  const [disabled, setDisabled] = useState(true);
 
   //used for setting orders of rows in select table
   const [order, setOrder] = useState("asc");
@@ -88,6 +121,16 @@ function EntitySelectTable(props) {
 
   //used for pre populating row items in select table
   const [rows, setRows] = useState([]);
+
+  /**when you initially mount savedChanges saves initial data on mount
+   * Because in order to save updated changes, since rows and savedChanges format are different,
+   * if user deletes a row in rows, we would need to filter through savedChagnes and used savedChanges
+   * to make an api request to update our backend.
+   * **/
+  const [savedChanges, setSavedChanges] = useState({});
+
+  /**A list of objects: { externalCallId, fieldName }. We will use to track which cells have been deleted */
+  const [deletedCells, setDeletedCells] = useState([]);
 
   //used for fetching api on mount
   const [mounted, setMounted] = useState(false);
@@ -109,14 +152,19 @@ function EntitySelectTable(props) {
    **/
   const handleDeleteRow = () => {
     let newRows = [];
+    let deleteRows = [];
 
     for (let i = 0; i < rows.length; i++) {
       if (selected.includes(rows[i]["entryNumber"])) {
+        let externalCallId = rows[i]["externalCallId"];
+        let fieldName = rows[i]["fieldName"];
+        deleteRows.push({ externalCallId, fieldName });
         continue;
       }
       newRows.push(rows[i]);
     }
 
+    setDeletedCells(...deletedCells, deleteRows);
     setSelected([]);
     setRows(newRows);
   };
@@ -132,9 +180,30 @@ function EntitySelectTable(props) {
   };
 
   //api request to save changes
-  const handleClickSave = (event) => {
-    console.log(apiRows);
-    console.log(rows);
+  const handleClickSave = async (location) => {
+
+    let finalChanges = { ...savedChanges };
+    if (deletedCells.length > 0) {
+      for (let i = 0; i < deletedCells.length; i++) {
+        let keyId = deletedCells[i].externalCallId;
+        let fieldName = deletedCells[i].fieldName;
+        delete finalChanges["savedChanges"][keyId][fieldName];
+      }
+    }
+
+    try {
+      let result = await entities.put(
+        `discrepancies/${props.location.state.company_id}/report/${props.location.state._id}/summary`,
+        finalChanges
+      );
+      if (result.data.status ===200) {
+        if (location !=="summaryDialog"){
+          setOpenSaveSuccess(true)
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /**
@@ -186,7 +255,7 @@ function EntitySelectTable(props) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  //FetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
+  //fetchSavedChanges calls backend api through get protocol to get all the aggregated source system data
   const fetchSavedChanges = async () => {
     if (props.location.state) {
       try {
@@ -195,12 +264,17 @@ function EntitySelectTable(props) {
         );
 
         if (result) {
+          setSavedChanges(result.data);
+
           let proposedChanges = Object.values(result.data.savedChanges);
+          let listOfExternallCallIds = Object.keys(result.data.savedChanges);
 
           let finalRows = [];
           let entryNumber = 0;
 
           for (let i = 0; i < proposedChanges.length; i++) {
+            let externalCallId = listOfExternallCallIds[i];
+
             /**
              * ex) proposedChanges -> is [{masterId: {currentValue, ExternalSource}}, {mailingState: {currentValue, ExternalSource}}]
              */
@@ -214,6 +288,7 @@ function EntitySelectTable(props) {
 
               finalCellValue.fieldName = fieldName;
               finalCellValue.entryNumber = entryNumber;
+              finalCellValue.externalCallId = externalCallId;
 
               entryNumber++;
               finalRows.push(finalCellValue);
@@ -234,10 +309,34 @@ function EntitySelectTable(props) {
       fetchSavedChanges();
       setMounted(true);
     }
-  });
+    if (rows.length > 0) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [rows]);
 
   return (
     <div className={classes.selectTableRoot}>
+      <Collapse in={openSaveSuccess} className={classes.successAlert}>
+          <Alert
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpenSaveSuccess(false);
+                  window.location.reload();
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            Current Changes have been successfully saved.
+          </Alert>
+        </Collapse>
       <Paper className={classes.selectTablePaper}>
         <SelectTableToolBar
           numSelected={selected.length}
@@ -268,6 +367,10 @@ function EntitySelectTable(props) {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.entryNumber);
                   const labelId = `enhanced-table-checkbox-${index}`;
+                  let ExternalValue = row.ExternalValue;
+                  if (ExternalValue == undefined) {
+                    ExternalValue = "No Returned Value";
+                  }
                   return (
                     <TableRow
                       hover
@@ -293,9 +396,18 @@ function EntitySelectTable(props) {
                         {row.ExternalSource}
                       </TableCell>
                       <TableCell align="left">{row.fieldName}</TableCell>
-                      <TableCell align="left">{row.ExternalValue}</TableCell>
+                      <TableCell align="left">{ExternalValue}</TableCell>
                       <TableCell align="left">{row.CurrentValue}</TableCell>
-                      <TableCell align="left">{`${row.SourceOfTruth}`}</TableCell>
+                      <TableCell
+                        align="left"
+                        style={
+                          row.SourceOfTruth
+                            ? { color: "#2776D2" }
+                            : { color: "#F50057" }
+                        }
+                      >
+                        <b>{`${row.SourceOfTruth}`}</b>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -328,12 +440,13 @@ function EntitySelectTable(props) {
           className={classes.confirmationSendChangesButton}
           variant="contained"
           color="primary"
+          onClick={handleOpenSummaryDialog}
+          disabled={disabled}
         >
           Send Changes
         </Button>
         <Button
           onClick={handleClickSave}
-          disableRipple
           className={classes.confirmationSaveButton}
           variant="contained"
         >
@@ -348,6 +461,14 @@ function EntitySelectTable(props) {
           Cancel
         </Button>
       </div>
+      <EntitySummaryDialog
+        classes={classes}
+        rows={rows}
+        openSummaryDialog={openSummaryDialog}
+        handleCloseSummaryDialog={handleCloseSummaryDialog}
+        savedChanges={savedChanges}
+        handleClickSave={handleClickSave}
+      />
     </div>
   );
 }
