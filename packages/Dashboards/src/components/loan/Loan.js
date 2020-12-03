@@ -105,9 +105,6 @@ function Loan(props) {
             <IconButton className={loanClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/discrepancy-report`, state: row }))}>
               <AssessmentIcon />
             </IconButton>
-            <IconButton aria-label="edit" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/edit/${row._id}`, state: row }))} color="default">
-              <EditIcon />
-            </IconButton>
             <IconButton aria-label="delete" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/delete/${row._id}`, state: row }))} color="secondary">
               <DeleteIcon />
             </IconButton>
