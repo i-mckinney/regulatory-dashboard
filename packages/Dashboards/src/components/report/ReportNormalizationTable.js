@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import EntityCard from "../entity/EntityCard"
 // import { detailedInfo } from "../../MockData/ReconcileDWMockData"
 import { HelixTable, HelixButton } from 'helixmonorepo-lib'
-import HelixTableCell from '../table/HelixTableCell'
+import HelixNormalizationTableCell from '../table/HelixNormalizationTableCell'
 import { columns, rows, data, externalValues } from './ReportNormTableMockData'
 
 // Styling used for MaterialUI
@@ -127,18 +127,23 @@ const ReportNormalizationTable = (props) => {
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
     if (columnIndex === 0 || columnIndex === 1) {
-      return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]}/>
-    }
-    else {
+      return <HelixNormalizationTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]}/>
+    } else {
       const sourceSystem = entityTableData[rowIndex].sourceSystem
 
       const source = sourceSystem.source ? sourceSystem.source.toString() : ""
      
       const sourceTrueValue = sourceSystem.trueValue ? sourceSystem.trueValue.toString() : "" 
 
-      return (
-        <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={externalValues} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
-      )
+      if (columnAccessor === "InputInformation") {
+        return (
+          <HelixNormalizationTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={externalValues} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
+        )
+      } else {
+        return (
+          <HelixNormalizationTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={externalValues} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} selectable={true}/>
+        )
+      }
     }
   }
 

@@ -8,15 +8,16 @@ export const columns = [
 ]
 
 export const rows = [
-    ["H1-1", "Relationship Name", "Abc Cafe", "Ice Cafe", ""],
-    ["H1-2", "Master ID", "123456", "123456", ""],
-    // ["H1-3", "Account Number", "142322-34522", "142322-34522", ""],
+    ["H1-1", "Relationship Name", "Abc Cafe", "Ice Cafe", "Null"],
+    ["H1-2", "Master ID", "123456", "123456", "Null"],
+    ["H1-3", "Account Number", "142322-34522", "142322-34522", "Null"],
     // ["H1-4", "Phone Number", "Null", "Null", ""]
 ]
 
 export const externalValues = [
-    ["Relationship Name", "Abc Cafe", "Ice Cafe", ""],
-    ["Master ID", "123456", "123456", ""]
+    ["Relationship Name", "Abc Cafe", "Ice Cafe", "Null"],
+    ["Master ID", "123456", "123456", "Null"],
+    ["Account Number", "142322-34522", "142322-34522", "Null"]
 ]
 
 export const data = [
@@ -57,8 +58,29 @@ export const data = [
                 matchesSoT: true,
             },
             {
-                externalValue: "123457",
-                matchesSoT: false,
+                externalValue: "123456",
+                matchesSoT: true,
+            }
+        ],
+    },
+    {
+        key_config: {
+            fieldID: "H1-2",
+            display: "Account Number",
+            key: "AccountNumber",
+        },
+        sourceSystem: {
+            source: "2a",
+            trueValue: "142322-34522",
+        },
+        values: [
+            {
+                externalValue: "142322-34522",
+                matchesSoT: true,
+            },
+            {
+                externalValue: "142322-34522",
+                matchesSoT: true,
             }
         ],
     }
