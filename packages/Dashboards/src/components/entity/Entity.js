@@ -178,8 +178,7 @@ function Entity(props) {
           }
           color="default"
         >
-          {/* TODO: uncomment it */}
-          {/* <ContactMail /> */}
+          <ContactMail />
         </IconButton>
       </span>
     );
