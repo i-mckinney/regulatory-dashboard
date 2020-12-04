@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { withRouter } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {HelixButton, Notification, ConfirmDialogModal } from "helixmonorepo-lib";
@@ -65,9 +64,7 @@ const initialColumns = columnLabels.map((col)=>{
 /**  
  * @param {func} setColData sets column data in parent component
  * @param {func} setRowData sets row data in parent component
- * 
  * @return {JSX} Report Template Create Table
- * * routed at /report/create
  */
 const  ReportTemplateCreateTable = ({setColData, setRowData}) => {
   const tableClasses = tableStyles()
@@ -309,4 +306,4 @@ const  ReportTemplateCreateTable = ({setColData, setRowData}) => {
   ) 
  }
  
- export default withRouter(ReportTemplateCreateTable)
+ export default ReportTemplateCreateTable
