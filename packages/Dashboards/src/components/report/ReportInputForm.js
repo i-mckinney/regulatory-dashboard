@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import { columnFields, columnLabels } from './config'
@@ -59,16 +59,12 @@ columnFields.forEach((columnField) => {
 const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     // Set reportTemplate with preset empty data for report template creation
     const [report, setReport] = useState(initialReportTemplate)
-    
     // Perform error check for form validatation upon report template data
     const [error] = useState(reportError)
-
      // Row data to be passed to next component
     const [rowData, setRowData] = useState([])
-
      // Column data to be passed to next component
     const [colData, setColData] = useState([])
-
     // Creates an object for styling. Any className that matches key in the reportInputFormStyles object will have a corresponding styling
     const reportInputFormClasses = reportInputFormStyles()
     
@@ -138,18 +134,6 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
         )
     }  
     
-    /**
-     * @param {Array} rows - Array of row objects from child component
-     * @param {Array} columns Array of column objects from child component
-     * Function used to keep row and column hooks in sync with child component and set options for dropdown select
-     */
-    const extractTableData = (rows,columns) => {
-        useEffect(() => {
-            setColData(columns)
-            setRowData(rows)
-        },[columns,rows])
-    }
-     
     return (
     <div>
         <form className={reportInputFormClasses.reportInputFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
@@ -177,7 +161,7 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                 <Grid className={reportInputFormClasses.hide}> {renderButtonActions()}</Grid> 
             </Grid>
         </form>
-        <ReportTemplateCreateTable sendTableData = {extractTableData}  />
+        <ReportTemplateCreateTable setColData = {setColData} setRowData = {setRowData} />
         <div className={reportInputFormClasses.selectDropdown}>
             <p> Select Report Field Name Column </p>
             <Autocomplete

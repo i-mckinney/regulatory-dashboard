@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { withRouter } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {HelixButton, Notification, ConfirmDialogModal } from "helixmonorepo-lib";
@@ -62,30 +61,34 @@ const initialColumns = columnLabels.map((col)=>{
   })
 })
 
-/** @return {JSX} Report Template Create Table 
- * routed at /report/create
- * @param {func} sendTableData sends table data to parent component
+/**  
+ * @param {func} setColData sets column data in parent component
+ * @param {func} setRowData sets row data in parent component
+ * @return {JSX} Report Template Create Table
  */
-const  ReportTemplateCreateTable = ({sendTableData}) => {
+const  ReportTemplateCreateTable = ({setColData, setRowData}) => {
   const tableClasses = tableStyles()
 
   // Sets state of confirm Dialog window used for editing/deleting a row
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: 'Are you sure you want to delete this row?', subTitle: '', confirmText: 'Yes', cancelText: 'Cancel'})
-
   //Set state of notification in response to a button action
   const [notification, setNotification] = useState({isOpen: false, message: 'Successfully deleted row', type: 'success'}) 
-
   //Set state of header notification in response to a button action
   const [headerNotification, setHeaderNotification] = useState({isOpen: false, message: '', type: ''}) 
-
   // rows will (eventually) store values from GET Method fetch via Rest API
   const [rows, setRows] = useState(mockData);
-
   // columns will store column header that we want to show in the front end
   const [columns, setColumns] = useState(initialColumns);
-
   //Keeps track of new columns added to avoid repeated names
   const [newColumnCount, setNewColumnCount] = useState(1) 
+
+  /**
+   * Renders when row or column data changes
+   */
+  useEffect(() => {
+    setColData(columns)
+    setRowData(rows)
+  }, [rows,columns])
 
   /**
    * @param {string} newAccessor string to be set as new key in row object
@@ -295,7 +298,6 @@ const  ReportTemplateCreateTable = ({sendTableData}) => {
                 saveHeaderData={saveHeaderData}
                 headerNotification={getHeaderNotification}
             />   
-            {sendTableData(rows, columns)}
             <ConfirmDialogModal confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
             <Notification notification={notification} setNotification={setNotification} />
             <Notification notification={headerNotification} setNotification={setHeaderNotification} />
@@ -304,4 +306,4 @@ const  ReportTemplateCreateTable = ({sendTableData}) => {
   ) 
  }
  
- export default withRouter(ReportTemplateCreateTable)
+ export default ReportTemplateCreateTable
