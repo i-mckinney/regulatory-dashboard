@@ -98,6 +98,8 @@ const ReportNormalizationTable = (props) => {
     modifiedSourceSystem["trueValue"] = trueValue
     modifiedSourceSystem["isEdited"] = true
 
+    console.log(modifiedSourceSystem)
+
     const modifiedValues = [ ...modifiedData.values ] 
     
     modifiedValues.forEach((value) => {
@@ -137,7 +139,7 @@ const ReportNormalizationTable = (props) => {
 
       if (columnAccessor === "InputInformation") {
         return (
-          <HelixNormalizationTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={externalValues} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} editable={true}/>
+          <HelixNormalizationTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} externalValues={externalValues} source={source} sourceTrueValue={sourceTrueValue} saveEntityData={saveEntityData} saveRadioData={saveRadioData} value={row[columnIndex]} rowIndex={rowIndex} columnIndex={columnIndex} columns={columns} selectable={true} editable={true}/>
         )
       } else {
         return (
