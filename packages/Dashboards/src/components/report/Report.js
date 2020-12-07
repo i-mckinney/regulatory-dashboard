@@ -5,7 +5,6 @@ import HelixToolBarSearch from '../table/HelixToolBarSearch'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import HelixReportCard from '../utils/HelixReportCard'
 import HelixCollectionList from '../utils/HelixCollectionList'
-import ReportNormalizationTable from './ReportNormalizationTable'
 
 // Styling used for MaterialUI
 const reportStyles = makeStyles(() => ({
@@ -232,7 +231,6 @@ function Report(props) {
             handleEditComponent={handleEditReport} 
             handleDeleteComponent={handleDeleteReport}
             />
-            <ReportNormalizationTable />
         </div>
     )
 }
