@@ -5,6 +5,7 @@ import HelixToolBarSearch from '../table/HelixToolBarSearch'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import HelixReportCard from '../utils/HelixReportCard'
 import HelixCollectionList from '../utils/HelixCollectionList'
+import ReportSummary from './ReportSummary'
 
 // Styling used for MaterialUI
 const reportStyles = makeStyles(() => ({
@@ -221,7 +222,7 @@ function Report(props) {
             <div className={reportClasses.header}>
                 <Typography variant="h5">Choose Your Report Template</Typography>
             </div>
-            <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateReportIcon} />
+            {/* <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateReportIcon} />
             <HelixCollectionList 
             user={localUser} 
             data={reportData} 
@@ -230,7 +231,8 @@ function Report(props) {
             handleComponent={handleReport}
             handleEditComponent={handleEditReport} 
             handleDeleteComponent={handleDeleteReport}
-            />
+            /> */}
+            <ReportSummary />
         </div>
     )
 }
