@@ -5,20 +5,8 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  Checkbox,
 } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
-
-
-//Head cells to determine column for the select table
-const headCells = [
-  { id: "ExternalSource", disablePadding: true, label: "External Source" },
-  { id: "fieldName", disablePadding: false, label: "Field Name" },
-  { id: "ExternalValue", disablePadding: false, label: "External Value" },
-  { id: "CurrentValue", disablePadding: false, label: "Proposed Value" },
-  { id: "SourceOfTruth", disablePadding: false, label: "Source Of Truth" },
-];
+import HelixGreenCheckbox from "../HelixGreenCheckbox";
 
 /**
  *
@@ -29,9 +17,11 @@ const headCells = [
  * @param {number} numSelected number of rows selected
  * @param {number} rowCount number of total rows
  * @param {func} onRequestSort helper function for sorting rows in the table.
- * @return renders table head for select table.
+ * @param {array} columnHeaders a list of headers for columns of the select table
+ * @return renders table head for Helix select table.
  */
-function SelectTableHead(props) {
+
+function HelixSelecTableHead(props) {
   const {
     classes,
     onSelectAllClick,
@@ -40,39 +30,24 @@ function SelectTableHead(props) {
     numSelected,
     rowCount,
     onRequestSort,
+    columnHeaders = [],
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
 
-  const GreenCheckbox = withStyles({
-    root: {
-      color: "default",
-      "&$checked": {
-        color: green[600],
-      },
-    },
-    checked: {},
-  })((props) => <Checkbox color="default" {...props} />);
-
   return (
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <GreenCheckbox
+          <HelixGreenCheckbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{ "aria-label": "select all desserts" }}
           />
-          {/* <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-          /> */}
         </TableCell>
-        {headCells.map((headCell) => (
+        {columnHeaders.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={"left"}
@@ -102,7 +77,7 @@ function SelectTableHead(props) {
   );
 }
 
-SelectTableHead.propTypes = {
+HelixSelecTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
@@ -110,6 +85,7 @@ SelectTableHead.propTypes = {
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
+  columnHeaders: PropTypes.array.isRequired,
 };
 
-export default SelectTableHead;
+export default HelixSelecTableHead;

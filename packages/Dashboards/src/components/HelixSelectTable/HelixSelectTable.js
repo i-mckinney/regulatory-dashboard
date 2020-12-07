@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import entities from "../apis/entities";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableContainer,
@@ -11,13 +9,12 @@ import {
   TablePagination,
   TableRow,
   Paper,
-  Checkbox,
   Switch,
 } from "@material-ui/core";
-import { green } from "@material-ui/core/colors";
-import SelectTableHead from "./SelectTableComponents/SelectTableHead";
-import SelectTableToolBar from "./SelectTableComponents/SelectTableToolBar";
-import { getComparator, stableSort } from "./HelperFunctions";
+import HelixSelectTableHead from "./SelectTableComponents/HelixSelectTableHead";
+import HelixSelectTableToolBar from "./SelectTableComponents/HelixSelectTableToolBar";
+import HelixGreenCheckbox from "./HelixGreenCheckbox";
+import { getComparator, stableSort } from "./HelixHelperFunctions";
 
 const useSelectTableStyles = makeStyles((theme) => ({
   selectTableRoot: {
@@ -52,89 +49,51 @@ const useSelectTableStyles = makeStyles((theme) => ({
   selected: {},
 }));
 
-const rows = [
-  {
-    CurrentValue: "Sawayn - Hermiston",
-    ExternalValue: "portals.mpe (DataError)",
-    ExternalSource: "DataWarehouse",
-    SourceOfTruth: false,
-    fieldName: "relationshipName",
-    externalCallId: "5f9759577eb265114467433e",
-    entryNumber: 0,
-  },
-  {
-    CurrentValue: "23",
-    ExternalValue: "rustic.wav (DataError)",
-    ExternalSource: "DataWarehouse",
-    SourceOfTruth: false,
-    fieldName: "masterId",
-    entryNumber: 1,
-    externalCallId: "5f9759577eb265114467433e",
-  },
-  {
-    CurrentValue: "f7aa46e6-c287-47ed-8ebe-aa9f8baffedf",
-    ExternalValue: "f7aa46e6-c287-47ed-8ebe-aa9f8baffedf",
-    ExternalSource: "DataWarehouse",
-    SourceOfTruth: true,
-    fieldName: "BorrowerId",
-    entryNumber: 2,
-    externalCallId: "5f9759577eb265114467433e",
-  },
-  {
-    CurrentValue: "645-289-7059 x9085",
-    ExternalValue: "plastic_wooden_steel.gif (DataError)",
-    ExternalSource: "DataWarehouse",
-    SourceOfTruth: false,
-    fieldName: "PhoneNumberThree",
-    entryNumber: 3,
-    externalCallId: "5f9759577eb265114467433e",
-  },
-  {
-    CurrentValue: "Donny89@hotmail.com",
-    ExternalValue: "borders_virginia.gif (DataError)",
-    ExternalSource: "DataWarehouse",
-    SourceOfTruth: false,
-    fieldName: "EmailThree",
-    entryNumber: 4,
-    externalCallId: "5f9759577eb265114467433e",
-  },
-];
-
-/**
- * @return Select table used in entity summary page (Can delete rows and save changes)
- *
+/** 
+ * @param {array} selected a list row has been selected in Helix select table
+ * @param {func} setSelected updates the state selected above
+ * @param {func} customRow function to render rows in Helix select table
+ * @param {array} rows Data for rendering rows in Helix select table
+ * @param {bool} singleSelection if true -> user can select a single row else user can select multiple rows
+ * @param {string} selectTableHeaderName heading name for Helix select table
+ * @param {array} columnHeaders determine header of each columns in the Helix select table.
+ * @return Helix Select table (selectable rows)
  */
-function HelixSelectTable(props) {
+
+function HelixSelectTable({
+  selected = [],
+  setSelected,
+  customRow,
+  rows = [],
+  singleSelection = true,
+  selectTableHeaderName,
+  columnHeaders,
+}) {
+
   //used for styling entity select table
   const classes = useSelectTableStyles();
 
-  //used for setting orders of rows in select table
+  //used for setting orders of rows in select table: asc or desc
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("fieldName");
-
-  //used for displaying error when error occurs
-  const [errorMessage, setErrorMessage] = useState(null);
-
-  //specifies which items have been clicked in a select table
-  const [selected, setSelected] = useState([]);
 
   //used for pagination for select table
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  /* Styling Features */
+
+  //toggle between padded or non padded select table.
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
+
   //used for toggling between padded table or non padded table (styling)
   const [dense, setDense] = useState(false);
 
-  /**when sort button is clicked for that column, the table is sorted by that column.
-   * @param {string} property string to represent a column ex) fieldName, externalSource
-  /*ex) click on sort for field name, table sorts its rows according to field names.*/
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+  /* Handles Clicking / Selecting rows */
 
-  //selects all rows in the table.
+  // Selects all rows in the table.
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.entryNumber);
@@ -144,10 +103,9 @@ function HelixSelectTable(props) {
     setSelected([]);
   };
 
-  /**
-   * selects a specific row
-   * @param {number} entryNumber number that represents a row
-   * */
+  /** Selects a specific row
+   *  @param {number} entryNumber number that represents a row */
+
   const handleClick = (event, entryNumber) => {
     const selectedIndex = selected.indexOf(entryNumber);
     let newSelected = [];
@@ -164,14 +122,30 @@ function HelixSelectTable(props) {
         selected.slice(selectedIndex + 1)
       );
     }
-    setSelected(newSelected);
+    if (!singleSelection) {
+      setSelected(newSelected);
+    } else {
+      if (selectedIndex === 0) {
+        setSelected([]);
+      } else {
+        setSelected([entryNumber]);
+      }
+    }
   };
 
-  console.log(selected);
+  /**when sort button is clicked for that column, the table is sorted by that column.
+   * @param {string} property string to represent a column ex) fieldName, externalSource
+  /*ex) click on sort for field name, table sorts its rows according to field names.*/
 
-  /***PAGINATION features
-   * allows user to alternate different pages within the table
-   */
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  /* PAGINATION features */
+
+  // Allows user to alternate different pages within the table
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -181,36 +155,18 @@ function HelixSelectTable(props) {
     setPage(0);
   };
 
-  /***Styling features
-   * toggle between padded or non padded select table.
-   */
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   //Checking if the row exists in selected [].
   const isSelected = (entryNumber) => selected.indexOf(entryNumber) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-  const GreenCheckbox = withStyles({
-    root: {
-      color: "default",
-      "&$checked": {
-        color: green[600],
-      },
-    },
-    checked: {},
-  })((props) => <Checkbox color="default" {...props} />);
-
   return (
     <div className={classes.selectTableRoot}>
       <Paper className={classes.selectTablePaper}>
-        <SelectTableToolBar
+        <HelixSelectTableToolBar
           numSelected={selected.length}
-          selected={selected}
-          rows={rows}
+          selectTableHeaderName={selectTableHeaderName}
         />
         <TableContainer>
           <Table
@@ -219,14 +175,15 @@ function HelixSelectTable(props) {
             size={dense ? "small" : "medium"}
             aria-label="enhanced table"
           >
-            <SelectTableHead
+            <HelixSelectTableHead
               classes={classes}
-              numSelected={selected.length}
+              onSelectAllClick={handleSelectAllClick}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
+              numSelected={selected.length}
               rowCount={rows.length}
+              onRequestSort={handleRequestSort}
+              columnHeaders={columnHeaders}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -234,10 +191,6 @@ function HelixSelectTable(props) {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.entryNumber);
                   const labelId = `enhanced-table-checkbox-${index}`;
-                  let ExternalValue = row.ExternalValue;
-                  if (ExternalValue == undefined) {
-                    ExternalValue = "No Returned Value";
-                  }
                   return (
                     <TableRow
                       hover
@@ -253,32 +206,12 @@ function HelixSelectTable(props) {
                       }}
                     >
                       <TableCell padding="checkbox">
-                        <GreenCheckbox
+                        <HelixGreenCheckbox
                           checked={isItemSelected}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.ExternalSource}
-                      </TableCell>
-                      <TableCell align="left">{row.fieldName}</TableCell>
-                      <TableCell align="left">{ExternalValue}</TableCell>
-                      <TableCell align="left">{row.CurrentValue}</TableCell>
-                      <TableCell
-                        align="left"
-                        style={
-                          row.SourceOfTruth
-                            ? { color: "#2776D2" }
-                            : { color: "#F50057" }
-                        }
-                      >
-                        <b>{`${row.SourceOfTruth}`}</b>
-                      </TableCell>
+                      {customRow(row, labelId)}
                     </TableRow>
                   );
                 })}
@@ -301,8 +234,6 @@ function HelixSelectTable(props) {
         />
       </Paper>
 
-      <div>{errorMessage ? errorMessage : null}</div>
-
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
@@ -312,13 +243,3 @@ function HelixSelectTable(props) {
 }
 
 export default HelixSelectTable;
-
-    // console.log(selected)
-    // console.log(selected.indexOf(entryNumber))
-    // if(selected.indexOf(entryNumber) !== -1){
-    //   console.log("yp")
-    //   setSelected([])
-    //   return
-    // }
-
-    // setSelected([entryNumber])

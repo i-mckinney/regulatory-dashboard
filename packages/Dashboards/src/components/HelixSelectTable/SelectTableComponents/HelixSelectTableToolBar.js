@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { lighten, makeStyles } from "@material-ui/core/styles";
-import { Toolbar, Typography, IconButton, Tooltip } from "@material-ui/core";
-import CheckOutliined from '@material-ui/icons/CheckOutlined';
+import { makeStyles } from "@material-ui/core/styles";
+import { Toolbar, Typography, IconButton } from "@material-ui/core";
+import CheckOutliined from "@material-ui/icons/CheckOutlined";
 
 const useToolbarStyles = makeStyles((theme) => ({
   selectTableToolBarRoot: {
@@ -14,8 +14,8 @@ const useToolbarStyles = makeStyles((theme) => ({
     theme.palette.type === "light"
       ? {
           color: "white",
-          fontWeight:"bold",
-          fontSize:"20px",
+          fontWeight: "bold",
+          fontSize: "20px",
           backgroundColor: theme.palette.success.main,
         }
       : {
@@ -26,17 +26,21 @@ const useToolbarStyles = makeStyles((theme) => ({
     flex: "1 1 100%",
   },
   CheckOutliined: {
-    color: "white"
-  }
+    color: "white",
+  },
 }));
+
 /**
  * @param {num} numSelected number of rows that are selected
- * @param {func} handleDeleteRow function to delete rows that are selected
+ * @param {string} selectTableHeaderName header of select table
  * @return renders a table tool bar that shows selected rows and functionality to delete selected rows
  */
-function SelectTableToolBar(props) {
+function HelixSelectTableToolBar(props) {
   const selectTableToolBarClasses = useToolbarStyles();
-  const { numSelected, handleDeleteRow } = props;
+  const {
+    numSelected,
+    selectTableHeaderName = "Insert your table header name",
+  } = props;
 
   return (
     <Toolbar
@@ -60,27 +64,22 @@ function SelectTableToolBar(props) {
           id="tableTitle"
           component="div"
         >
-          <strong>Discrepancy Table Summary</strong>
+          <strong>{selectTableHeaderName}</strong>
         </Typography>
       )}
 
       {numSelected > 0 ? (
-        // <Tooltip title="Delete">
-          <IconButton
-            // aria-label="delete"
-            // onClick={handleDeleteRow}
-            className={selectTableToolBarClasses.CheckOutliined}
-          >
-            <CheckOutliined />
-          </IconButton>
-        // </Tooltip>
+        <IconButton className={selectTableToolBarClasses.CheckOutliined}>
+          <CheckOutliined />
+        </IconButton>
       ) : null}
     </Toolbar>
   );
 }
 
-SelectTableToolBar.propTypes = {
+HelixSelectTableToolBar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  selectTableHeaderName: PropTypes.string.isRequired,
 };
 
-export default SelectTableToolBar;
+export default HelixSelectTableToolBar;
