@@ -3,7 +3,7 @@ import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
-import { columnFields, columnLabels } from '../../config'
+import { columnFields, columnLabels } from './config'
 
 // Styling used for MaterialUI
 const entityFormStyles = makeStyles(() => ({

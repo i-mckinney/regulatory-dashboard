@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import EntityForm from './EntityForm'
-import { columnFields } from '../../config'
+import { columnFields } from './config'
 import entities from '../apis/entities'
 
 // initialEntity with preset data

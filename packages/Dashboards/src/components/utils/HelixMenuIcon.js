@@ -1,8 +1,6 @@
-import React, {useState, useRef, useEffect }from 'react';
-import { Grow, Paper, Popper, ClickAwayListener, MenuList, MenuItem, ListItemIcon, Typography, IconButton } from '@material-ui/core'
+import React, {useState, useRef, useEffect }from 'react'
+import { Grow, Paper, Popper, ClickAwayListener, MenuList, IconButton } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import EditIcon from '@material-ui/icons/Edit'
-import DeleteIcon from '@material-ui/icons/Delete'
 import PropTypes from 'prop-types'
 
 const HelixMenuIcon = (props) => {
@@ -36,17 +34,17 @@ const HelixMenuIcon = (props) => {
   /**
    * @param {object} event the event object
    */
-  const handleEditReport = (event) => {
+  const handleEditMenuItem = (event) => {
     event.stopPropagation()
-    props.handleEditReport(props.report)
+    props.handleEditMenuItem(props.report)
   }
 
   /**
    * @param {object} event the event object
    */
-  const handleDeleteReport = (event) => {
+  const handleDeleteMenuItem = (event) => {
     event.stopPropagation()
-    props.handleDeleteReport(props.report)
+    props.handleDeleteMenuItem(props.report)
   }
 
   /**
@@ -94,18 +92,7 @@ const HelixMenuIcon = (props) => {
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
               <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                <MenuItem onClick={handleEditReport}>
-                  <ListItemIcon>
-                      <EditIcon fontSize="small" />
-                  </ListItemIcon>
-                  <Typography>Edit</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleDeleteReport}>
-                  <ListItemIcon>
-                      <DeleteIcon fontSize="small" color="secondary" />
-                  </ListItemIcon>
-                  <Typography>Delete</Typography>
-                </MenuItem>
+                {props.renderCustomizedMenuItems(handleEditMenuItem, handleDeleteMenuItem)}
               </MenuList>
             </ClickAwayListener>
           </Paper>
@@ -117,8 +104,9 @@ const HelixMenuIcon = (props) => {
 }
 
 HelixMenuIcon.propTypes = {
-  handleEditReport: PropTypes.func.isRequired,
-  handleDeleteReport: PropTypes.func.isRequired,
+  renderCustomizedMenuItems: PropTypes.func.isRequired,
+  handleEditMenuItem: PropTypes.func.isRequired,
+  handleDeleteMenuItem: PropTypes.func.isRequired,
 }
 
 export default HelixMenuIcon

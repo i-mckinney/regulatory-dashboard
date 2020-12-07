@@ -6,6 +6,9 @@ import Entity from "./components/entity/Entity"
 import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
 import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
 import Loan from "./components/loan/Loan"
+import LoanCreate from "./components/loan/LoanCreate"
+import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
+import LoanConfiguration from "./components/loan/LoanConfiguration"
 import Regulatory from "./components/regulatory/Regulatory"
 import MyRequest from "./components/myrequest/MyRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
@@ -75,6 +78,18 @@ function App(history) {
               <Loan />
             </Route>
 
+            <Route exact path="/loan/new" >
+              <LoanCreate />
+            </Route>
+
+            <Route exact path="/loan/:id/discrepancy-report" >
+              <LoanDiscrepancy />
+            </Route>
+            
+            <Route exact path="/loan/configuration/:id" >
+              <LoanConfiguration />
+            </Route>
+            
             <Route exact path="/regulatory">
               <Regulatory />
             </Route>
