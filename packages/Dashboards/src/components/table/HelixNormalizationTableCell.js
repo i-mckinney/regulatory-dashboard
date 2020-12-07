@@ -246,16 +246,6 @@ const HelixNormalizationTableCell = ({
     return null
   }
 
-  // Display character 'p' when proposed value is introduce by user input from previous discrepancy report submission
-  const proposedWaterMark = () => {
-    if (initialStateValue !== externalValues[rowIndex][columnIndex-1] && initialStateValue !== "NULL") {
-      return (
-        <span className={helixNormalizationTableCellClasses.pWaterMark}>p</span>
-      )
-    }
-    return null
-  }
-
   // If changes are made, display background color for that cell 'orange'
   // otherwise, display regular state of the cell
   const cellState = () => {

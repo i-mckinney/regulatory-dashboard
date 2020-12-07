@@ -1,10 +1,10 @@
-import React, { useMemo, useState, useEffect } from "react"
+import React, { useState } from "react"
 import { withRouter } from "react-router-dom"
 import { makeStyles } from '@material-ui/core'
 import PropTypes from "prop-types"
 import EntityCard from "../entity/EntityCard"
 // import { detailedInfo } from "../../MockData/ReconcileDWMockData"
-import { HelixTable, HelixButton } from 'helixmonorepo-lib'
+import { HelixTable } from 'helixmonorepo-lib'
 import HelixNormalizationTableCell from '../table/HelixNormalizationTableCell'
 import { columns, rows, data, externalValues } from './ReportNormTableMockData'
 
@@ -64,7 +64,7 @@ const ReportNormalizationTable = (props) => {
 //   // rows will store all the row data
 //   const rows = useMemo(() => [], [])
 
-  const [entityTableData, setEntityTableData] = useState(data)
+  const [normalizationTableData, setNormalizationTableData] = useState(data)
   
   /**
    * @param {object} column represent object data regarding the api result  
@@ -90,8 +90,8 @@ const ReportNormalizationTable = (props) => {
    * @param {string} trueValue the trueValue is value of the HelixTableCell selected
    */
   const saveRadioData = (rowIndex, source, trueValue) => {
-    const copySavedEntityTableData = [ ...entityTableData ]
-    const modifiedData = { ...copySavedEntityTableData[rowIndex] }
+    const copySavednormalizationTableData = [ ...normalizationTableData ]
+    const modifiedData = { ...copySavednormalizationTableData[rowIndex] }
     
     const modifiedSourceSystem = { ...modifiedData.sourceSystem }
     modifiedSourceSystem["source"] = source
@@ -114,8 +114,8 @@ const ReportNormalizationTable = (props) => {
 
     modifiedData["sourceSystem"] = modifiedSourceSystem
 
-    copySavedEntityTableData.splice(rowIndex, 1, modifiedData)
-    setEntityTableData([ ...copySavedEntityTableData ])
+    copySavednormalizationTableData.splice(rowIndex, 1, modifiedData)
+    setNormalizationTableData([ ...copySavednormalizationTableData ])
   }
 
 
@@ -131,7 +131,7 @@ const ReportNormalizationTable = (props) => {
     if (columnIndex === 0 || columnIndex === 1) {
       return <HelixNormalizationTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnIndex]}/>
     } else {
-      const sourceSystem = entityTableData[rowIndex].sourceSystem
+      const sourceSystem = normalizationTableData[rowIndex].sourceSystem
 
       const source = sourceSystem.source ? sourceSystem.source.toString() : ""
      
@@ -165,15 +165,6 @@ const ReportNormalizationTable = (props) => {
         customBodyRowKeyProp={customBodyRowKeyProp} 
         customHeadColumnKeyProp={customHeadColumnKeyProp} 
         />
-        <div className={reportNormalizationTableClasses.pageProgression}>
-          <HelixButton
-            className={reportNormalizationTableClasses.cancelButton}
-            text="Back"
-          />
-          <HelixButton 
-          className={reportNormalizationTableClasses.confirmButton} 
-          text="Confirm" />
-        </div>
       </>
     )
   }

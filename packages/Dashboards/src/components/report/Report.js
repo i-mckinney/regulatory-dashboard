@@ -6,7 +6,6 @@ import AddBoxIcon from '@material-ui/icons/AddBox'
 import HelixReportCard from '../utils/HelixReportCard'
 import HelixCollectionList from '../utils/HelixCollectionList'
 import ReportNormalizationTable from './ReportNormalizationTable'
-import HelixProgressBar from '../utils/HelixProgressBar'
 
 // Styling used for MaterialUI
 const reportStyles = makeStyles(() => ({
@@ -233,7 +232,6 @@ function Report(props) {
             handleEditComponent={handleEditReport} 
             handleDeleteComponent={handleDeleteReport}
             />
-            <HelixProgressBar />
             <ReportNormalizationTable />
         </div>
     )
