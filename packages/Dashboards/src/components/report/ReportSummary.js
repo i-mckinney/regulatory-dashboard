@@ -91,7 +91,7 @@ function ReportSummary() {
      */
     const customCellRender = (row, column, rowIndex, columnIndex) => {
       const columnAccessor = column.Accessor
-      return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} />
+      return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} isBold={true}/>
     }
 
     /**
