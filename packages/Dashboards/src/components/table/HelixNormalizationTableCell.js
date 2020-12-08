@@ -246,21 +246,13 @@ const HelixNormalizationTableCell = ({
     return null
   }
 
-  // Display character 'p' when proposed value is introduce by user input from previous discrepancy report submission
-  const proposedWaterMark = () => {
-    if (initialStateValue !== externalValues[rowIndex][columnIndex-1] && initialStateValue !== "NULL") {
-      return (
-        <span className={helixNormalizationTableCellClasses.pWaterMark}>p</span>
-      )
-    }
-    return null
-  }
-
   // If changes are made, display background color for that cell 'orange'
   // otherwise, display regular state of the cell
   const cellState = () => {
     if (saveChanges) {
       return helixNormalizationTableCellClasses.editedCell
+    } else if (editable) {
+      return helixNormalizationTableCellClasses.initialCell
     }
     else if (initialStateValue === "NULL") {
       return helixNormalizationTableCellClasses.greyCell
@@ -275,42 +267,11 @@ const HelixNormalizationTableCell = ({
   const selectedRadio = () => {
     saveRadioData(rowIndex, columns[columnIndex].customApiId, currentStateValue || initialStateValue)
   }
-  console.log(selectable, editable)
+  
+  console.log(currentStateValue, initialStateValue, columns[columnIndex])
   // displayTableCell return jsx object of editable table cell or non-editable table cell
   const displayTableCell = () => {
-    if (editable) {
-      return (
-        <TableCell 
-          className={helixNormalizationTableCellClasses.initialCell}
-          role="row"
-          tabIndex="0"
-          style={{ minWidth: 175 }}
-        >
-          <Grid
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="center"
-            spacing={2}
-          >
-            <Grid>
-              <Radio 
-              className={helixNormalizationTableCellClasses.selectedRadio} 
-              disabled={initialStateValue === "NULL"}
-              size="small" 
-              color="default" 
-              onClick={selectedRadio} 
-              />
-            </Grid>
-            <Grid>
-              {displayInitialStateValue()}
-            </Grid>
-          </Grid>
-          {displayCurrentStateChanges()}
-          {displayCustomizedForm()}
-        </TableCell>
-      )
-    } else if (selectable) {
+    if (selectable) {
       return (
         <TableCell className={cellState()}>
           <Grid
@@ -327,7 +288,7 @@ const HelixNormalizationTableCell = ({
             checked={
               (currentStateValue || initialStateValue) === sourceTrueValue 
               && 
-              columns[columnIndex].customApiId === source
+              (columns[columnIndex].customApiId === source || columns[columnIndex].Accessor === "InputInformation")
             }
             size="small" 
             color="default" 
@@ -338,6 +299,14 @@ const HelixNormalizationTableCell = ({
               {displayInitialStateValue()}
             </Grid>
           </Grid>
+          {editable ? 
+          <>
+            {displayCurrentStateChanges()}
+            {displayCustomizedForm()}
+          </>
+          :
+          null
+          }
         </TableCell>
       )
     } else if (containActions) {
