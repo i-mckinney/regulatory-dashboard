@@ -170,8 +170,8 @@ const HelixTable = ({
       :
       <TableContainer component={Paper}>
         <Table aria-label="table">
-          <HelixTableHead onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
-          <HelixTableBody searchFilter={searchFilter} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
+          <HelixTableHead toggleExpandable={toggleExpandable} onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp}/>
+          <HelixTableBody toggleExpandable={toggleExpandable} customCollapsibleRowRender={customCollapsibleRowRender} searchFilter={searchFilter} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
         </Table>
       </TableContainer>
     }
