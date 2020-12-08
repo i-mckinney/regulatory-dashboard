@@ -6,9 +6,9 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 
 const HelixCollapsibleRowStyles = makeStyles({
     root: {
-      '& > *': {
-        borderBottom: 'unset',
-      },
+      // '& > *': {
+      //   borderBottom: 'unset',
+      // },
     },
     actionsIconStyle: {
         '& button': {
@@ -49,7 +49,7 @@ function HelixCollapsibleRow(props) {
     return (
       <>
         <TableRow className={helixCollapsibleRowclasses.root}>
-          <TableCell>
+          <TableCell style={{ width: '5%' }}>
             <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
@@ -68,14 +68,18 @@ function HelixCollapsibleRow(props) {
                     <TableHead className={helixCollapsibleRowclasses.innerTableHead}>
                       <TableRow>
                         {innerTableHeadColumns.map((column) => {
-                          return <TableCell>{column}</TableCell>
+                          return <TableCell><b>{column}</b></TableCell>
                         })}
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        {innerTableBodyRows.map((row) => {
-                          return <TableCell>{row}</TableCell>
+                        {innerTableBodyRows.map((row, rowIndex) => {
+                          if (rowIndex === 0) {
+                            return <TableCell><b>{row}</b></TableCell>
+                          } else {
+                            return <TableCell>{row}</TableCell>
+                          }
                         })}
                       </TableRow>
                     </TableBody>
