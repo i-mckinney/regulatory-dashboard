@@ -11,6 +11,7 @@ import {
   Paper,
   Switch,
 } from "@material-ui/core";
+import { v4 as uuidv4 } from 'uuid';
 import HelixSelectTableHead from "./SelectTableComponents/HelixSelectTableHead";
 import HelixSelectTableToolBar from "./SelectTableComponents/HelixSelectTableToolBar";
 import HelixGreenCheckbox from "./HelixGreenCheckbox";
@@ -198,7 +199,7 @@ function HelixSelectTable({
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.entryNumber + row.ExternalSource}
+                      key={uuidv4()}
                       selected={isItemSelected}
                       classes={{
                         root: classes.root,
