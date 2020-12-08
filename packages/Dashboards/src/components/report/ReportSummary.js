@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, Paper, Typography } from '@material-ui/core'
-import { HelixTableCell } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
+import HelixTableCell from '../table/HelixTableCell'
 import GenericSummaryTable from './GenericSummaryTable'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 
