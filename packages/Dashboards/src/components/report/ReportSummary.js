@@ -26,6 +26,34 @@ const reportSummaryStyles = makeStyles(() => ({
   }
 }))
 
+const summaryColumns = [
+    {
+      id: "fieldID",
+      label: "Field",
+      minWidth: 170,
+      align: "left",
+    },
+  
+    {
+      id: "fieldName",
+      label: "Field Name",
+      minWidth: 170,
+      align: "left",
+    },
+    {
+      id: "previousValue",
+      label: "Previous Value",
+      minWidth: 170,
+      align: "left",
+    },
+    {
+      id: "currentValue",
+      label: "Proposed Value",
+      minWidth: 170,
+      align: "left",
+    },
+];
+
 const summaryRows = [
     {
         fieldID: "H1-1",
@@ -46,28 +74,78 @@ const rows = [
     {
         _id: "1",
         loanName: "Testing #1",
-        fieldID: "H1-1",
-        fieldName: "Customer ID",
-        previousValue: "123456",
-        currentValue: "654321",
+        data: [
+            {
+                _id: "R1-1",
+                fieldID: "H1-1",
+                fieldName: "Customer ID",
+                previousValue: "123456",
+                currentValue: "654321",
+            },
+            {
+                _id: "R1-2",
+                fieldID: "H1-2",
+                fieldName: "Member ID",
+                previousValue: "123",
+                currentValue: "321",
+            }
+        ]
     },
     {
         _id: "2",
         loanName: "Testing #2",
-        fieldID: "H1-1",
-        fieldName: "Customer ID",
-        previousValue: "354767",
-        currentValue: "254665",
+        data: [
+            {
+                _id: "R2-1",
+                fieldID: "H1-1",
+                fieldName: "Customer ID",
+                previousValue: "354767",
+                currentValue: "254665",
+            }
+        ]
     },
     {
         _id: "3",
         loanName: "Testing #3",
-        fieldID: "H1-1",
-        fieldName: "Customer ID",
-        previousValue: "",
-        currentValue: "598668",
+        data: [
+            {
+                _id: "R3-1",
+                fieldID: "H1-1",
+                fieldName: "Customer ID",
+                previousValue: "",
+                currentValue: "598668",
+            }
+        ]
     },
 ]
+
+const innerColumns = [
+    {
+      id: "fieldID",
+      label: "Field",
+      minWidth: 170,
+      align: "left",
+    },
+    {
+      id: "fieldName",
+      label: "Field Name",
+      minWidth: 170,
+      align: "left",
+    },
+    {
+      id: "previousValue",
+      label: "Previous Value",
+      minWidth: 170,
+      align: "left",
+    },
+    {
+      id: "currentValue",
+      label: "Proposed Value",
+      minWidth: 170,
+      align: "left",
+    },
+  ];
+
 
 /**
  * @param {array} rows a list of obejcts that contains current changes for a cell
@@ -77,9 +155,9 @@ const rows = [
 function ReportSummary() {
 
     const customCollapsibleRowRender = (row, rowIndex, columns, customCellRender) => {
-        const innerTableHeadColumns = ["Field", "Field Name", "Previous Value", "Proposed Value"]
-        const innerTableBodyRows = [row.fieldID, row.fieldName, row.previousValue, row.currentValue]
-        return <HelixCollapsibleRow key={row._id} row={row} rowIndex={rowIndex} columns={columns} innerTableHeadColumns={innerTableHeadColumns} innerTableBodyRows={innerTableBodyRows} customCellRender={customCellRender} />
+        const innerTableHeadColumns = innerColumns
+        const innerTableBodyRows = row.data
+        return <HelixCollapsibleRow key={row._id} row={row} rowIndex={rowIndex} columns={columns} innerTableHeadColumns={innerTableHeadColumns} innerTableBodyRows={innerTableBodyRows} customCellRender={customCellRender} isSummaryTableAllow={true}/>
     }
 
     /**
@@ -131,7 +209,7 @@ function ReportSummary() {
                     <Typography variant="h5">Entity #16</Typography>
                     <Typography variant="caption" display="block" gutterBottom>Entity ID: 384573</Typography>
                 </div>
-                <GenericSummaryTable rows={summaryRows} classes={reportSummaryClasses} />
+                <GenericSummaryTable rows={summaryRows} columns={summaryColumns} classes={reportSummaryClasses} />
             </div>
         </Paper>
         <Paper elevation={5} className={reportSummaryClasses.paperCreation}>
