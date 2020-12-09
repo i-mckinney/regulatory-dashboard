@@ -10,12 +10,13 @@ import LoanCreate from "./components/loan/LoanCreate"
 import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
 import Regulatory from "./components/regulatory/Regulatory"
-import MyRequest from "./components/myrequest/MyRequest"
+import MyRequest from "./components/myrequest/myRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
+import ReportTemplatePage from './components/report-template/ReportTemplatePage'
 import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
@@ -103,6 +104,11 @@ function App(history) {
 
             <Route exact path="/report/new">
               <ReportCreate />
+            </Route>
+
+            {/* DEVELOP */}
+            <Route exact path="/report/new-2">
+              <ReportTemplatePage />
             </Route>
 
             <Route exact path="/report/edit/:id">
