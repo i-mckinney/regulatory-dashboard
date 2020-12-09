@@ -10,7 +10,7 @@ import LoanCreate from "./components/loan/LoanCreate"
 import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
 import Regulatory from "./components/regulatory/Regulatory"
-import MyRequest from "./components/myrequest/MyRequest"
+import MyRequest from "./components/myrequest/myRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
@@ -19,6 +19,8 @@ import Report from './components/report/Report'
 import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
+import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
+
 import {
   StylesProvider,
   createGenerateClassName,
@@ -37,6 +39,12 @@ function App(history) {
         <div>
         <Breadcrumbs />
           <Switch>
+          
+          {/* DEVELOP */}
+            <Route exact path="/">
+              <HelixTableKeysRight />
+            </Route>
+
             <Route exact path="/homepage">
               <Homepage />
             </Route>
