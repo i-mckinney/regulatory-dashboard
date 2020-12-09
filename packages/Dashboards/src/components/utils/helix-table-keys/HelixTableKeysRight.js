@@ -4,6 +4,8 @@ import {Container, Grid, Box, InputAdornment, Select, MenuItem, FormControl, Inp
 import { HelixButton, HelixTextField } from 'helixmonorepo-lib'
 import SearchIcon from '@material-ui/icons/Search'
 import TableKeysCard from './TableKeysCard'
+import FormDialog from '../FormDialog'
+import NewKeyForm from './NewKeyForm'
 
 const useTableKeysStyles = makeStyles((theme) => ({
   formControl: {
@@ -25,6 +27,8 @@ const HelixTableKeysRight = (props) => {
     {key: "accountNumber", value: 4},
     {key: "accountID", value: 5},
   ])
+  // Opens dialog to add new key
+  const [ openDialog, setOpenDialog ] = useState(false)
 
   const handleChange = (e) => {
     setSortMethod(e.target.value);
@@ -49,7 +53,7 @@ const HelixTableKeysRight = (props) => {
                 size="large"
                 text="Add New Key"
                 style={{marginLeft: '2em'}}
-                onClick
+                onClick = {() => setOpenDialog(true)}
               />
             </Box>
           </Box>
@@ -102,6 +106,12 @@ const HelixTableKeysRight = (props) => {
           ))}
       </Grid>
     </Container>
+    <FormDialog
+    title = 'Add/Edit Entities Key Field'
+    openDialog= { openDialog }
+    setOpenDialog = { setOpenDialog }>
+      <NewKeyForm/>
+    </FormDialog>
     </>
   )
 }

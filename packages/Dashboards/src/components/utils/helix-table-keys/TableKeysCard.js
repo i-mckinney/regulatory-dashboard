@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import {Grid, Box, Paper, IconButton} from '@material-ui/core'
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
 
 const TableKeysCard = ({ keyName, value, onEdit, onDelete }) => {
+  const [ openDialog, setOpenDialog ] = useState(false)
+
   return (
     <Box>
       <Grid container>
@@ -15,10 +17,11 @@ const TableKeysCard = ({ keyName, value, onEdit, onDelete }) => {
               </Box>
               <Box p={1}>
                 <IconButton
-                aria-label="delete"
+                aria-label="edit"
                 size="medium"
                 edge="start"
                 color="primary"
+                onClick = {() => setOpenDialog(true)}
                 >
                   <CreateIcon />
                 </IconButton>
