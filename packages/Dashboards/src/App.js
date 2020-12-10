@@ -23,6 +23,8 @@ import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
 import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
+import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
+
 import {
   StylesProvider,
   createGenerateClassName,
@@ -42,6 +44,7 @@ function App(history) {
         <div>
         <Breadcrumbs />
           <Switch>
+
             <Route exact path="/homepage">
               <Homepage />
             </Route>
