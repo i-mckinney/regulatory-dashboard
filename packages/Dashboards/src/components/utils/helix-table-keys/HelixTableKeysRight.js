@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Container, Grid, Box, InputAdornment, Select, MenuItem, FormControl, InputLabel,} from '@material-ui/core'
 import { HelixButton, HelixTextField } from 'helixmonorepo-lib'
 import SearchIcon from '@material-ui/icons/Search'
-import TableKeysCard from './TableKeysCard'
+import TableKeysCard from './HelixTableKeysCard'
 import FormDialog from '../FormDialog'
 import NewKeyForm from './NewKeyForm'
 
@@ -12,14 +12,18 @@ const useTableKeysStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
-
 }))
 
+/**
+ * @return {JSX} Right section of the Helix Table Keys view
+ */
 const HelixTableKeysRight = (props) => {
   const useTableKeysClasses = useTableKeysStyles()
-  // Provides available sort methods for Select menu
+  // Will provide sort methods for Select menu
   const [sortMethod, setSortMethod] = React.useState('')
-  // Provides list of mock data table keys 
+  // Opens dialog to add new key dialog 
+  const [ openDialog, setOpenDialog ] = useState(false)
+  // Provides list of mock key nanme items
   const [ items, setItems] = useState([
     {key: "firstName", value: 1},
     {key: "lastName", value: 2},
@@ -27,11 +31,8 @@ const HelixTableKeysRight = (props) => {
     {key: "accountNumber", value: 4},
     {key: "accountID", value: 5},
   ])
-  // Opens dialog to add new key
-  const [ openDialog, setOpenDialog ] = useState(false)
 
   const handleChange = (e) => {
-    setSortMethod(e.target.value);
   };
 
   return (

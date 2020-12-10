@@ -7,10 +7,12 @@ const useNewKeyFormStyles = makeStyles(theme => ({
     
   },
   cancelButton: {
-
   }
 }))
 
+/**
+ * @return {JSX} form and input for capturing new/updated key nname
+ */
 const NewKeyForm = (props) => {
   const newKeyFormClasses = useNewKeyFormStyles()
 

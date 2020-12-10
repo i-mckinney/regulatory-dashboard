@@ -4,7 +4,14 @@ import {Grid, Box, Paper, IconButton} from '@material-ui/core'
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
 
+/**
+ * @param {string} keyName the key passed down from the parent component
+ * @param {function} onEdit updates matching keyName property 
+ * @param {function} onDelete removes matching keyName property
+ * @return {JSX} a dynamically generated card component displaying key name property
+ */
 const TableKeysCard = ({ keyName, value, onEdit, onDelete }) => {
+  // Handles edit dialog open and close 
   const [ openDialog, setOpenDialog ] = useState(false)
 
   return (
