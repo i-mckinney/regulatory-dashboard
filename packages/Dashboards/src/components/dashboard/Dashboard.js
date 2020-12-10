@@ -61,7 +61,7 @@ function Dashboard() {
 
   return (
     <div>
-      <h4 className="mt-1 ml-4">Dashboard</h4>
+      <h4 className="mt-1 ml-4">Reports</h4>
       <Styles>
         <AdminDashboard
           columns={columns}

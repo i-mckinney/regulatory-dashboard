@@ -109,7 +109,9 @@ var HelixTable = function HelixTable(_ref) {
       customBodyRowKeyProp = _ref.customBodyRowKeyProp,
       initialOrderBy = _ref.initialOrderBy,
       toggleSearch = _ref.toggleSearch,
-      displayCreateIcon = _ref.displayCreateIcon;
+      toggleExpandable = _ref.toggleExpandable,
+      displayCreateIcon = _ref.displayCreateIcon,
+      customCollapsibleRowRender = _ref.customCollapsibleRowRender;
   // Creates an object for styling. Any className that matches key in the helixTableStyles object will have a corresponding styling
   var helixTableClasses = helixTableStyles(); // Page is needed for pagination to determine the process of what page it is at
 
@@ -218,6 +220,7 @@ var HelixTable = function HelixTable(_ref) {
     "aria-label": "table"
   }, /*#__PURE__*/_react["default"].createElement(_index["default"], {
     toggleSearch: toggleSearch,
+    toggleExpandable: toggleExpandable,
     order: order,
     orderBy: orderBy,
     onSort: onSort,
@@ -225,6 +228,8 @@ var HelixTable = function HelixTable(_ref) {
     customHeadColumnKeyProp: customHeadColumnKeyProp
   }), /*#__PURE__*/_react["default"].createElement(_index2["default"], {
     toggleSearch: toggleSearch,
+    toggleExpandable: toggleExpandable,
+    customCollapsibleRowRender: customCollapsibleRowRender,
     searchFilter: searchFilter,
     order: order,
     orderBy: orderBy,
@@ -237,6 +242,7 @@ var HelixTable = function HelixTable(_ref) {
     customCellRender: customCellRender,
     customBodyRowKeyProp: customBodyRowKeyProp
   }), /*#__PURE__*/_react["default"].createElement(_index3["default"], {
+    toggleExpandable: toggleExpandable,
     rows: rows,
     colSpan: columns.length,
     rowsPerPage: rowsPerPage,
@@ -270,11 +276,14 @@ HelixTable.propTypes = {
   customBodyRowKeyProp: _propTypes["default"].func.isRequired,
   initialOrderBy: _propTypes["default"].string.isRequired,
   toggleSearch: _propTypes["default"].bool.isRequired,
-  displayCreateIcon: _propTypes["default"].func.isRequired
+  toggleExpandable: _propTypes["default"].bool.isRequired,
+  displayCreateIcon: _propTypes["default"].func.isRequired,
+  customCollapsibleRowRender: _propTypes["default"].func.isRequired
 };
 HelixTable.defaultProps = {
   initialOrderBy: '',
   toggleSearch: false,
+  toggleExpandable: false,
   displayCreateIcon: function displayCreateIcon() {
     return null;
   }

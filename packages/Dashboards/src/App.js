@@ -10,7 +10,11 @@ import LoanCreate from "./components/loan/LoanCreate"
 import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
 import Regulatory from "./components/regulatory/Regulatory"
-import MyRequest from "./components/myrequest/myRequest"
+import GenerateReport from "./components/generateReport/GenerateReport"
+import ReportEntitySelection from "./components/generateReport/ReportEntitySelection"
+import ReportLoanSelection from "./components/generateReport/ReportLoanSelection"
+import ReportNormalizationTable from "./components/generateReport/ReportNormalizationTable"
+import MyRequest from "./components/myrequest/MyRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
@@ -19,11 +23,15 @@ import Report from './components/report/Report'
 import ReportTemplatePage from './components/report-template/ReportTemplatePage'
 import ReportCreate from './components/report/ReportCreate'
 import ReportEdit from './components/report/ReportEdit'
+import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
+import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
+
 import {
   StylesProvider,
   createGenerateClassName,
 } from "@material-ui/core/styles";
+import HelixNormalizationTableCell from "./components/table/HelixNormalizationTableCell"
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "dashbored-",
@@ -38,12 +46,9 @@ function App(history) {
         <div>
         <Breadcrumbs />
           <Switch>
+
             <Route exact path="/homepage">
               <Homepage />
-            </Route>
-
-            <Route exact path="/dashboard">
-              <Dashboard />
             </Route>
 
             <Route exact path="/entity">
@@ -90,17 +95,18 @@ function App(history) {
               <LoanConfiguration />
             </Route>
             
-            <Route exact path="/regulatory">
-              <Regulatory />
+            <Route exact path="/reporttemplates">
+              <Report />
             </Route>
 
             <Route exact path="/myrequest">
               <MyRequest />
             </Route>
-
+            
+            {/* 
             <Route exact path="/report">
               <Report />
-            </Route>
+            </Route> */}
 
             <Route exact path="/report/new">
               <ReportCreate />
@@ -112,6 +118,32 @@ function App(history) {
 
             <Route exact path="/report/edit/:id">
               <ReportEdit />
+            </Route>
+
+            <Route exact path="/report/:reportid/generate">
+              <GenerateReport />
+            </Route>
+
+            <Route exact path="/report/generate/entityselection/step1">
+              <ReportEntitySelection />
+            </Route>
+
+            <Route exact path="/report/generate/loanselection/step2">
+              <ReportLoanSelection />
+            </Route>
+
+            <Route exact path="/report/generate/normalizationTable/step3">
+              <ReportNormalizationTable />
+            </Route>
+
+            <Route exact path="/report/generate/summary/step4">
+              <h1>
+                Report Summary Page
+              </h1>
+            </Route>
+
+            <Route exact path="/selecttable">
+              <HelixSelectTableSetUp />
             </Route>
 
             <Redirect to="/" />

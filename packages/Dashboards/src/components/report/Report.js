@@ -201,7 +201,8 @@ function Report(props) {
 
     // handleReport transition to report page
     const handleReport = () => {
-        props.history.push('/homepage')
+        //Once we work on the backend format might be /report/entityid/borrowerid/reportid/#ofstep 
+        props.history.push('/report/testreport/generate')
     }
 
     const renderCustomizedReport = (user, component, handleComponent, handleEditComponent, handleDeleteComponent) => {

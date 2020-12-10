@@ -5,7 +5,8 @@ import { StylesProvider, createGenerateClassName } from '@material-ui/core/style
 import Breadcrumbs from './utils/Breadcrumbs'
 
 const generateClassName = createGenerateClassName({
-  productionPrefix: 'companyapp-',
+  productionPrefix: 'custapi-',
+  seed: 'custapi-'
 });
 
 function App() {

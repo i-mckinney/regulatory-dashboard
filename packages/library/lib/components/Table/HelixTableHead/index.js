@@ -39,6 +39,7 @@ var helixTableHeadStyles = (0, _core.makeStyles)(function () {
  * @param {string} orderBy string represents which column should it order by
  * @param {func} onSort func that sort the table by column either ascending or descending order
  * @param {bool} toggleSearch bool represents true or false if table should have a search function
+ * @param {bool} toggleExpandable bool represents true or false if table should have a expandable row
  * @returns {JSX} renders a custom table head for table
  */
 
@@ -48,7 +49,8 @@ var HelixTableHead = function HelixTableHead(_ref) {
       order = _ref.order,
       orderBy = _ref.orderBy,
       onSort = _ref.onSort,
-      toggleSearch = _ref.toggleSearch;
+      toggleSearch = _ref.toggleSearch,
+      toggleExpandable = _ref.toggleExpandable;
   // Creates an object for styling. Any className that matches key in the helixTableHeadStyles object will have a corresponding styling
   var helixTableHeadClasses = helixTableHeadStyles();
   /**
@@ -95,11 +97,15 @@ var HelixTableHead = function HelixTableHead(_ref) {
     }, order === 'desc' ? 'sorted descending' : 'sorted ascending') : null) : column.Label;
   };
 
-  return /*#__PURE__*/_react["default"].createElement(_core.TableHead, null, /*#__PURE__*/_react["default"].createElement(_core.TableRow, null, columns.map(function (column) {
-    return /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
+  return /*#__PURE__*/_react["default"].createElement(_core.TableHead, null, /*#__PURE__*/_react["default"].createElement(_core.TableRow, null, columns.map(function (column, columnIndex) {
+    return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, {
+      key: columnIndex
+    }, columnIndex === 0 && toggleExpandable ? /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
+      key: columnIndex
+    }) : null, /*#__PURE__*/_react["default"].createElement(_core.TableCell, {
       key: customHeadColumnKeyProp(column),
       sortDirection: orderBy === customHeadColumnKeyProp(column) ? order : false
-    }, toggleSearch ? renderTableSortLabel(column) : column.Label);
+    }, toggleSearch ? renderTableSortLabel(column) : column.Label));
   })));
 };
 
@@ -109,7 +115,8 @@ HelixTableHead.propTypes = {
   order: _propTypes["default"].oneOf(['asc', 'desc', '']).isRequired,
   orderBy: _propTypes["default"].string.isRequired,
   onSort: _propTypes["default"].func.isRequired,
-  toggleSearch: _propTypes["default"].bool.isRequired
+  toggleSearch: _propTypes["default"].bool.isRequired,
+  toggleExpandable: _propTypes["default"].bool.isRequired
 };
 HelixTableHead.defaultProps = {
   order: '',

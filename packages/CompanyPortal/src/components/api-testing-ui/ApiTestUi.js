@@ -23,7 +23,7 @@ const ApiTestUiStyles = makeStyles({
 */
 const createNewField = () => ({ id: uuidv4(), key: '', value: '' });
 
-export default function ApiTestUi({ data, onSave }) {
+export default function ApiTestUi({ data, onSave, collections }) {
   const cardClasses = ApiTestUiStyles();
   // The custom request name from the name input
   const [name, setName] = useState('')
@@ -98,6 +98,7 @@ export default function ApiTestUi({ data, onSave }) {
         setMapping={setMapping}
         headers={headers}
         setHeaders={setHeaders}
+        collections={collections}
       />
       <Controls.Button text='SAVE' onClick={handleSave}></Controls.Button>
       <h3>Mapped Response</h3>
