@@ -162,6 +162,7 @@ const ReportNormalizationTable = (props) => {
             rowIndex={rowIndex}
             columnIndex={columnIndex}
             columns={columns}
+            selectable={true}
             editable={true}
           />
         );

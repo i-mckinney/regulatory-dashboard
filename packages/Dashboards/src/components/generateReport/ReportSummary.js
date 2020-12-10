@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { makeStyles, Paper, Button, Typography } from "@material-ui/core";
 import HelixTable from "../table/HelixTable";
 import HelixTableCell from "../table/HelixTableCell";
-import GenericSummaryTable from "./GenericSummaryTable";
+import GenericSummaryTable from "../report/GenericSummaryTable";
 import HelixCollapsibleRow from "../utils/HelixCollapsibleRow";
 import { HelixButton } from "helixmonorepo-lib";
 
@@ -68,6 +68,35 @@ const reportSummaryStyles = makeStyles((theme) => ({
   },
 }));
 
+// Mock columns data for summary table
+const summaryColumns = [
+  {
+    id: "fieldID",
+    label: "Field",
+    minWidth: 170,
+    align: "left",
+  },
+
+  {
+    id: "fieldName",
+    label: "Field Name",
+    minWidth: 170,
+    align: "left",
+  },
+  {
+    id: "previousValue",
+    label: "Previous Value",
+    minWidth: 170,
+    align: "left",
+  },
+  {
+    id: "currentValue",
+    label: "Proposed Value",
+    minWidth: 170,
+    align: "left",
+  },
+];
+
 const summaryRows = [
   {
     fieldID: "H1-1",
@@ -84,30 +113,81 @@ const columns = [
   },
 ];
 
+// Mock row data for expandable table
 const rows = [
   {
     _id: "1",
     loanName: "Testing #1",
-    fieldID: "H1-1",
-    fieldName: "Customer ID",
-    previousValue: "123456",
-    currentValue: "654321",
+    data: [
+      {
+        _id: "R1-1",
+        fieldID: "H1-1",
+        fieldName: "Customer ID",
+        previousValue: "123456",
+        currentValue: "654321",
+      },
+      {
+        _id: "R1-2",
+        fieldID: "H1-2",
+        fieldName: "Member ID",
+        previousValue: "123",
+        currentValue: "321",
+      },
+    ],
   },
   {
     _id: "2",
     loanName: "Testing #2",
-    fieldID: "H1-1",
-    fieldName: "Customer ID",
-    previousValue: "354767",
-    currentValue: "254665",
+    data: [
+      {
+        _id: "R2-1",
+        fieldID: "H1-1",
+        fieldName: "Customer ID",
+        previousValue: "354767",
+        currentValue: "254665",
+      },
+    ],
   },
   {
     _id: "3",
     loanName: "Testing #3",
-    fieldID: "H1-1",
-    fieldName: "Customer ID",
-    previousValue: "",
-    currentValue: "598668",
+    data: [
+      {
+        _id: "R3-1",
+        fieldID: "H1-1",
+        fieldName: "Customer ID",
+        previousValue: "",
+        currentValue: "598668",
+      },
+    ],
+  },
+];
+
+// Mock innerColumns data for expandable row table
+const innerColumns = [
+  {
+    id: "fieldID",
+    label: "Field",
+    minWidth: 170,
+    align: "left",
+  },
+  {
+    id: "fieldName",
+    label: "Field Name",
+    minWidth: 170,
+    align: "left",
+  },
+  {
+    id: "previousValue",
+    label: "Previous Value",
+    minWidth: 170,
+    align: "left",
+  },
+  {
+    id: "currentValue",
+    label: "Proposed Value",
+    minWidth: 170,
+    align: "left",
   },
 ];
 
@@ -117,24 +197,20 @@ const rows = [
  * @return summary table
  */
 function ReportSummary(props) {
+  /**
+   * @param {object} row the row is an object of data
+   * @param {int} rowIndex the rowIndex represents index of the row
+   * @param {arry} columns the columns is array of column objects
+   * @param {func} customCellRender the customCellRender is func that return jsx of HelixTableCell data
+   */
   const customCollapsibleRowRender = (
     row,
     rowIndex,
     columns,
     customCellRender
   ) => {
-    const innerTableHeadColumns = [
-      "Field",
-      "Field Name",
-      "Previous Value",
-      "Proposed Value",
-    ];
-    const innerTableBodyRows = [
-      row.fieldID,
-      row.fieldName,
-      row.previousValue,
-      row.currentValue,
-    ];
+    const innerTableHeadColumns = innerColumns;
+    const innerTableBodyRows = row.data;
     return (
       <HelixCollapsibleRow
         key={row._id}
@@ -144,6 +220,7 @@ function ReportSummary(props) {
         innerTableHeadColumns={innerTableHeadColumns}
         innerTableBodyRows={innerTableBodyRows}
         customCellRender={customCellRender}
+        isSummaryTableAllow={true}
       />
     );
   };
@@ -161,6 +238,7 @@ function ReportSummary(props) {
       <HelixTableCell
         key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
         value={row[columnAccessor]}
+        isBold={true}
       />
     );
   };
@@ -184,6 +262,7 @@ function ReportSummary(props) {
   // Initially, we can start the table to order by Loan Name or etc in ascending order
   const initialOrderBy = "loanName";
 
+  // Creates an object for styling. Any className that matches key in the reportSummaryStyles object will have a corresponding styling
   const reportSummaryClasses = reportSummaryStyles();
 
   const handleConfirm = () => {
@@ -200,9 +279,7 @@ function ReportSummary(props) {
     props.setActiveStep(prevStep);
   };
 
-  const handleEdit = () => {
-    
-  }
+  const handleEdit = () => {};
   const handleCancel = () => {
     props.history.push("/reporttemplates");
   };
@@ -211,33 +288,32 @@ function ReportSummary(props) {
       <Paper elevation={5} className={reportSummaryClasses.paperCreation}>
         <div className={reportSummaryClasses.section}>
           <div className={reportSummaryClasses.header}>
-            <Button color="primary" variant="contained" onClick={handleEdit} style={{float:"right"}}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleEdit}
+              style={{ float: "right" }}
+            >
               Edit
             </Button>
-            <Typography variant="h4">CCAR Report #7</Typography>
-            <div>
-              <div variant="h5" style={{ marginTop: "20px", fontSize: "20px" }}>
-                Reported Created at: 12/07/2020
-              </div>
-            </div>
+            <Typography variant="h5">CCAR Report #7</Typography>
+            <Typography variant="caption" display="block">
+              Reported Created at: 12/07/2020
+            </Typography>
           </div>
         </div>
       </Paper>
       <Paper elevation={5} className={reportSummaryClasses.paperCreation}>
         <div className={reportSummaryClasses.section}>
           <div className={reportSummaryClasses.header}>
-            <Typography variant="h4">Entity #16 Coca Cola Inc</Typography>
-            <div
-              style={{ marginTop: "20px", fontSize: "20px" }}
-              variant="h5"
-              display="block"
-              gutterBottom
-            >
+            <Typography variant="h5">Entity #16</Typography>
+            <Typography variant="caption" display="block" gutterBottom>
               Entity ID: 384573
-            </div>
+            </Typography>
           </div>
           <GenericSummaryTable
             rows={summaryRows}
+            columns={summaryColumns}
             classes={reportSummaryClasses}
           />
         </div>
@@ -245,7 +321,7 @@ function ReportSummary(props) {
       <Paper elevation={5} className={reportSummaryClasses.paperCreation}>
         <div className={reportSummaryClasses.section}>
           <div className={reportSummaryClasses.header}>
-            <Typography variant="h4">Selected Loans</Typography>
+            <Typography variant="h5">Selected Loans</Typography>
           </div>
           <HelixTable
             toggleExpandable={true}
@@ -259,6 +335,7 @@ function ReportSummary(props) {
           />
         </div>
       </Paper>
+
       <div className={reportSummaryClasses.buttonContainer}>
         <HelixButton
           className={reportSummaryClasses.backButton}
