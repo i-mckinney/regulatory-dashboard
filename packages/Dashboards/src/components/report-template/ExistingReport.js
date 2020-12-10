@@ -47,8 +47,8 @@ const radioItems = [
 
 const ExistingReport = (props) => {
   const existingReportClasses = useExistingReportClasses();
-  const [template, setTemplate] = React.useState('');
   const { value } = props;
+  const [template, setTemplate] = React.useState('');
   const [radioVal, setRadioVal] = useState("yes")
   const [tableRows, setTableRows] = useState([])
  
@@ -120,7 +120,7 @@ const ExistingReport = (props) => {
       </IconButton>
       </Grid>
        <Grid item xs={12}>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} elevation={6}>
       <Table>
         <TableHead>
           <TableRow>

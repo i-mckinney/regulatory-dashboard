@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import  axios from "axios";
-import { Grid, FormControl, FormLabel, IconButton, InputLabel, RadioGroup as MuiRadioGroup, Button as MuiButton, Select, Switch, MenuItem, FormHelperText, FormControlLabel, Radio } from '@material-ui/core';
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead,TableRow, Paper,FormControl, FormLabel, IconButton, InputLabel, RadioGroup as MuiRadioGroup, Button as MuiButton, Select, Switch, MenuItem, FormHelperText, FormControlLabel, Radio } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
-import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -43,175 +41,103 @@ const useEntitiesPreferencesClasses = makeStyles((theme) => ({
 }));
 
 const EntitiesPreferences = (props) => {
-  const existingReportClasses = useEntitiesPreferencesClasses();
-  const [toggleValue, setToggleValue] = React.useState(true)
-  const [toggleState, setToggleState] = React.useState({
-    checkedA: true,
-    checkedB: true,
-  });
+  const entitiesPreferencesClasses = useEntitiesPreferencesClasses();
   const [template, setTemplate] = React.useState('');
-
-  // USED TO FETCH PLACEHOLDER DATA
-  const companyId = "5f7e1bb2ab26a664b6e950c8";
-  const [companyData, setCompanyData] = useState([]);
-  const customApiUrl = `${API_HOST}/companies/${companyId}/customapi`;
-
-  // FETCHING PLACEHOLDER DATA
-  useEffect(() => {
-    const fetchCompanies = () => {
-      axios
-        .get(customApiUrl, {
-          headers: { "Access-Control-Allow-Origin": "*" },
-        })
-        .then((res) => {
-          // setRows(res.data[0].CustomApiRequests);
-          setCompanyData(res.data);
-        });
-    };
-
-    fetchCompanies();
-  }, [customApiUrl]);
-
-  let columns = [];
-
-  columns = columnMetadata.map(({ key }) => ({
-    Accessor: key,
-    Sortable: sortableExcludes.includes(key) ? false : true,
-  }));
-  columns.push({
-    Accessor: "Actions",
-    Sortable: false,
-  });
- 
-  const handleDeleteRow = async (_id) => {
-    try {
-      await axios.delete(`${customApiUrl}/${_id}`, {
-        headers: { "Access-Control-Allow-Origin": "*" },
-      });
-      setCompanyData(companyData.filter((d) => d._id !== _id));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  /**
-   * @param {object} row the row is an object of data
-   * @param {object} column the column is an object of the header with accessor and label props
-   * @param {int} rowIndex the rowIndex represents index of the row
-   * @param {int} columnIndex the columnIndex represents index of the column
-   * @return {JSX} HelixTableCell of object properties in that Table row
-   */
-  const customCellRender = (row, column, rowIndex, columnIndex) => {
-    const columnAccessor = column.Accessor;
-    const displayActions = () => (
-      <div className={existingReportClasses.actionTableCell}>
-        <IconButton
-          aria-label="delete"
-          size="small"
-          edge="start"
-          onClick={() => handleDeleteRow(row._id)}
-          color="secondary"
-        >
-          <DeleteIcon />
-        </IconButton>
-      </div>
-    );
-    if (columnAccessor === "Actions") {
-      return (
-        <HelixTableCell
-          key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
-          containActions={true}
-          displayActions={displayActions}
-        />
-      );
-    } else {
-      return (
-        <HelixTableCell
-          key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
-          value={row[columnAccessor]}
-        />
-      );
-    }
-  };
-
-  /**
-   * @param {object} column represent object data regarding the api result
-   * @return {string} provide table row with unique key props (required)
-   */
-  const customHeadColumnKeyProp = (column) => {
-    return column.Accessor;
-  };
-
-  /**
-   * @param {object} row represent object data regarding the api result
-   * @return {string} provide table row with unique key props (required)
-   */
-  const customBodyRowKeyProp = (row) => {
-    return row._id;
-  };
+  const [toggleValue, setToggleValue] = React.useState(true)
+  const [tableRows, setTableRows] = useState([])
 
 
- 
-
-  const getExistingReports = () => [
+  const getReportTemplatePreferences = () => [
   { id: '1', title: 'GET Test#1_FIS' },
   { id: '2', title: 'GET Test#4_DataWarehouse' },
   { id: '3', title: 'POST Test#6_Temenos' },
 ];
 
  const handleChange = (e) => {
-    setToggleValue(e.target.checked)
-    setToggleState({ ...toggleState, [e.target.name]: e.target.checked });
+    setTemplate(e.target.value);
   };
 
+const handleToggleChange = e => {
+    setToggleValue(e.target.value)
+    setToggleValue(e.target.checked)
+
+  }
+
+  const handleAddToTable = () => {
+    setTableRows([{ name: template }])
+  }
+
+  const handleDeleteRow = (e) => {};
+
+  
   return (
     <>
     <FormControl>
-            <FormLabel>Entities</FormLabel>
-            <Switch
+      <FormLabel>Entities</FormLabel>
+        <Switch
           checked={toggleValue}
-          onChange={handleChange}
+          onChange={handleToggleChange}
           name='checkedA'
           inputProps={{ 'aria-label': 'secondary checkbox' }}
         />
     </FormControl>
     {toggleValue === true ? (<Grid container spacing={4}>
-      <Grid item xs={11}>
-        <FormControl variant='outlined'
- fullWidth className={existingReportClasses.formControl}>
-          <InputLabel ></InputLabel>
-            <Select
-              value={template}
-              onChange={handleChange}
-              displayEmpty
-              className={existingReportClasses.selectEmpty}
-              inputProps={{ 'aria-label': 'Without label' }}
-              options={getExistingReports()}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={1}>GET Test#1_FIS</MenuItem>
-              <MenuItem value={2}>POST Test#6_Temenos</MenuItem>
-              <MenuItem value={3}>GET Test#4_DataWarehouse</MenuItem>
-            </Select>
-          <FormHelperText>Please select your API</FormHelperText>
-        </FormControl>
-      </Grid>
+    <Grid item xs={11}>
+      <FormControl 
+        variant='outlined'
+        fullWidth 
+        className={entitiesPreferencesClasses.formControl}>
+        <InputLabel ></InputLabel>
+          <Select
+            value={template}
+            onChange={handleChange}
+            displayEmpty
+            className={entitiesPreferencesClasses.selectEmpty}
+            inputProps={{ 'aria-label': 'Without label' }}
+            options={getReportTemplatePreferences()}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={1}>GET Test#1_FIS</MenuItem>
+            <MenuItem value={2}>POST Test#6_Temenos</MenuItem>
+            <MenuItem value={3}>GET Test#4_DataWarehouse</MenuItem>
+          </Select>
+        <FormHelperText>Please select your API</FormHelperText>
+      </FormControl>
+    </Grid>
       <Grid item xs={1} alignContent='flex-start'>
-      <IconButton variant='contained' color='primary' size='medium'>
-        <AddBoxIcon />
-      </IconButton>
+        <IconButton variant='contained' color='primary' size='medium' onClick={handleAddToTable}>
+          <AddBoxIcon />
+        </IconButton>
       </Grid>
-       <Grid item xs={12}>
-        <HelixTable
-          columns={columns}
-          rows={companyData}
-          customCellRender={customCellRender}
-          customHeadColumnKeyProp={customHeadColumnKeyProp}
-          customBodyRowKeyProp={customBodyRowKeyProp}
-        />
-      </Grid>
+      <Grid item xs={12}>
+        <TableContainer component={Paper} elevation={6}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Selected Custom API Request</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableRows.map((row) => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton variant='contained' color='primary' size='medium' onClick={() => setTableRows([])}>
+                      <DeleteIcon  />
+                    </IconButton>
+                  </TableCell>
+                  
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+    </Grid>
       <Grid item xs={12}>
         <Grid container direction='row-reverse' spacing={1}>
           <Grid item> 

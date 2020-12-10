@@ -106,8 +106,7 @@ function App(history) {
               <ReportCreate />
             </Route>
 
-            {/* DEVELOP */}
-            <Route exact path="/report/new-2">
+            <Route exact path="/report/new-pref">
               <ReportTemplatePage />
             </Route>
 
