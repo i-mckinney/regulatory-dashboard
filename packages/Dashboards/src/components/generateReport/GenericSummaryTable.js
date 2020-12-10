@@ -9,40 +9,13 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { v4 as uuidv4 } from "uuid";
 
-const columns = [
-  {
-    id: "fieldID",
-    label: "Field",
-    minWidth: 170,
-    align: "left",
-  },
-
-  {
-    id: "fieldName",
-    label: "Field Name",
-    minWidth: 170,
-    align: "left",
-  },
-  {
-    id: "previousValue",
-    label: "Previous Value",
-    minWidth: 170,
-    align: "left",
-  },
-  {
-    id: "currentValue",
-    label: "Proposed Value",
-    minWidth: 170,
-    align: "left",
-  },
-];
 /**
  * @param {array} rows a list of obejcts that contains current changes for a cell
  * @param {object} classes object for styling
  * @return static table for changes user made to a discrepancy table
  */
 function EntityReceiptTable(props) {
-  const { rows, classes } = props;
+  const { rows, columns, classes } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
