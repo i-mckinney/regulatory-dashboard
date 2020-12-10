@@ -14,6 +14,7 @@ import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
 import PerformTestPage from "../perform-test-page/PerformTestPage";
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
+import mockCollectionData from '../utils/MockCollectionData'
 
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
@@ -97,7 +98,7 @@ const ApiTable = (props) => {
         _id: new Date().getTime(),
         requestName: "",
         requestType: "",
-        requestURL: "",
+        requestUrl: ""
       });
     }
     setOpenEditModal(true);
@@ -308,8 +309,8 @@ const ApiTable = (props) => {
         onUpdate={handleEditRow}
         onCreate={handleCreateRow}
         modalAction={modalAction}
+        collections={mockCollectionData}
       />
-
     </StylesProvider>
   );
 };
