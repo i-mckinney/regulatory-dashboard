@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
-import StepButton from "@material-ui/core/StepButton";
 import StepLabel from "@material-ui/core/StepLabel";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  container: {
     width: "100%",
+  },
+  stepperRoot: {
+    backgroundColor: "rgb(250,250,250)",
   },
   button: {
     marginRight: theme.spacing(1),
@@ -41,40 +39,12 @@ const useStyles = makeStyles((theme) => ({
   completedIcon: {},
 }));
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return "Entities";
-    case 1:
-      return "Loan";
-    case 2:
-      return "Normalization Table";
-    case 3:
-      return "Summary";
-    default:
-      return "Unknown step";
-  }
-}
 
-const HelixGreenStep = withStyles({
-  root: {
-    "&$completed": {
-      color: "lightgreen",
-    },
-    "&$active": {
-      color: "pink",
-    },
-    "&$disabled": {
-      color: "red",
-    },
-  },
-  alternativeLabel: {},
-  active: {}, //needed so that the &$active tag works
-  completed: {},
-  disabled: {},
-})((props) => <Step {...props} />);
-
-function HelixProgressBar({ steps = [], activeStep, setActiveStep }) {
+function HelixProgressBar({
+  steps = [],
+  activeStep,
+  setActiveStep,
+}) {
   const helixProgressBarClasses = useStyles();
   const [completed] = useState({});
 
@@ -116,6 +86,7 @@ function HelixProgressBar({ steps = [], activeStep, setActiveStep }) {
 
   //open is boolean that allow menu list to open
   const [open, setOpen] = useState(false);
+  const [check, setCheck] = useState(false);
 
   // anchorRef is a reference of StepperButton
   const anchorRef = useRef(null);
@@ -123,18 +94,9 @@ function HelixProgressBar({ steps = [], activeStep, setActiveStep }) {
   // openMenu is a boolean tells us the current state when we can open the menu
   const [openMenu, setOpenMenu] = useState(true);
 
-  // handleToggle toggles opening of the menu list
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
   // handleAdditionalOptions checks for openMenu is the current step to click for additional menu list
   const handleAdditionalOptions = () => {
-    console.log('hie')
-    setOpen(!open)
-    // if (openMenu) {
-    //   handleToggle();
-    // }
+    setOpen(!open);
   };
 
   /**
@@ -158,9 +120,6 @@ function HelixProgressBar({ steps = [], activeStep, setActiveStep }) {
     }
   }
 
-  const handleStep = (step) => () => {
-    setActiveStep(step);
-  };
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);
   useEffect(() => {
@@ -172,92 +131,54 @@ function HelixProgressBar({ steps = [], activeStep, setActiveStep }) {
   }, [open]);
 
   return (
-    <div className={helixProgressBarClasses.root}>
-      <Stepper nonLinear={false} activeStep={activeStep}>
-        {steps.map((label, index) => {
-          if(index ===2){
-            console.log("yoyo")
-          }
-          return (
-            <Step key={label}>
-              {index === 2 ? (
-                <StepLabel
-                  onClick={handleAdditionalOptions}
-                  ref={anchorRef}
-                  aria-controls={open ? "menu-list-grow" : undefined}
-                  aria-haspopup="true"
-                >
-                  {label}
-                </StepLabel>
-              ) : (
-                <StepLabel
-                  StepIconProps={{
-                    classes: {
-                      root: helixProgressBarClasses.icon,
-                      active: helixProgressBarClasses.activeIcon,
-                      completed: helixProgressBarClasses.completedIcon,
-                    },
-                  }}
-                  onClick={handleStep(index)}
-                >
-                  {label}
-                </StepLabel>
-              )}
-            </Step>
-          );
-        })}
-      </Stepper>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="menu-list-grow"
-                  onKeyDown={handleListKeyDown}
-                >
-                  <MenuItem onClick={handleClose}>
-                    #5 Normalization Table
-                  </MenuItem>
-                  <MenuItem onClick={handleClose}>
-                    #10 Normalization Table
-                  </MenuItem>
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-      {/* <div>
-          <div>
-            <Typography className={helixProgressBarClasses.instructions}>{getStepContent(activeStep)}</Typography>
-            <div>
-              <Button disabled={activeStep === 0} onClick={handleBack} className={helixProgressBarClasses.button}>
-                Back
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={helixProgressBarClasses.button}
-              >
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </div>
-          </div>
-        </div> */}
+    <div className={helixProgressBarClasses.container}>
+      <div>
+        <Stepper
+          nonLinear={false}
+          activeStep={activeStep}
+          classes={{
+            root: helixProgressBarClasses.stepperRoot,
+          }}
+        >
+          {steps.map((step, index) => {
+            const label = step.label;
+
+            return (
+              <Step key={step.label + step.status}>
+                {label === "Normalization Table" ? (
+                  <StepLabel
+                    StepIconProps={{
+                      classes: {
+                        root: helixProgressBarClasses.icon,
+                        active: helixProgressBarClasses.activeIcon,
+                        completed: helixProgressBarClasses.completedIcon,
+                      },
+                    }}
+                    onClick={handleAdditionalOptions}
+                    ref={anchorRef}
+                    aria-controls={open ? "menu-list-grow" : undefined}
+                    aria-haspopup="true"
+                  >
+                    Normalization Table
+                  </StepLabel>
+                ) : (
+                  <StepLabel
+                    StepIconProps={{
+                      classes: {
+                        root: helixProgressBarClasses.icon,
+                        active: helixProgressBarClasses.activeIcon,
+                        completed: helixProgressBarClasses.completedIcon,
+                      },
+                    }}
+                  >
+                    {label}
+                  </StepLabel>
+                )}
+              </Step>
+            );
+          })}
+        </Stepper>
+      </div>
     </div>
   );
 }
