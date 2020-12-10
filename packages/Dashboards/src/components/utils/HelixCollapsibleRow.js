@@ -63,56 +63,72 @@ const HelixCollapsibleRowStyles = makeStyles({
     }
 })
 
+/**
+ * @param {*} props contains state variable
+ */
 function HelixCollapsibleRow(props) {
-    const { row, rowIndex, columns, innerTableHeadColumns, innerTableBodyRows, customCellRender, isSummaryTableAllow } = props;
-    const [open, setOpen] = useState(false)
-    const helixCollapsibleRowclasses = HelixCollapsibleRowStyles()
+  /**
+   * row (object) the row is an object of data
+   * rowIndex (int) the rowIndex represents index of the row
+   * columns (array) contains list of column objects
+   * innerTableHeadColumns (array) contains list of string or list of objects of data
+   * innerTableBodyRows (array) contains list of string or list of objects of data
+   * customCellRender (func) returns a jsx of HelixTableCell
+   * isSummaryTableAllow (bool) represents whether this collapsible row will contains additional summary table
+   */
+  const { row, rowIndex, columns, innerTableHeadColumns, innerTableBodyRows, customCellRender, isSummaryTableAllow } = props;
   
-    return (
-      <>
-        <TableRow className={helixCollapsibleRowclasses.root}>
-          <TableCell style={{ width: '5%' }}>
-            <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
+  // open is boolean variable that keep track of whether to show additional data regarding that row.
+  const [open, setOpen] = useState(false)
+  
+  // Creates an object for styling. Any className that matches key in the HelixCollapsibleRowStyles object will have a corresponding styling
+  const helixCollapsibleRowclasses = HelixCollapsibleRowStyles()
+
+  return (
+    <>
+      <TableRow className={helixCollapsibleRowclasses.root}>
+        <TableCell style={{ width: '5%' }}>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        {columns.map((column, columnIndex) => {
+          return (
+            customCellRender(row, column, rowIndex, columnIndex)
+          )
+        })}
+      </TableRow>
+      <TableRow className={helixCollapsibleRowclasses.rowInnerTable}>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns.length+1}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box margin={1} className={helixCollapsibleRowclasses.innerContainer}>
+                {isSummaryTableAllow ?
+                <GenericSummaryTable rows={innerTableBodyRows} columns={innerTableHeadColumns} classes={helixCollapsibleRowclasses} />
+                :
+                <Table className={helixCollapsibleRowclasses.innerTable}>
+                  <TableHead className={helixCollapsibleRowclasses.innerTableHead}>
+                    <TableRow>
+                      {innerTableHeadColumns.map((column, columnIndex) => {
+                        return <TableCell key={columnIndex}><b>{column}</b></TableCell>
+                      })}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      {innerTableBodyRows.map((row, rowIndex) => {
+                        return <TableCell key={rowIndex}>{row}</TableCell>
+                      })}
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                }
+              </Box>
+            </Collapse>
           </TableCell>
-          {columns.map((column, columnIndex) => {
-            return (
-              customCellRender(row, column, rowIndex, columnIndex)
-            )
-          })}
         </TableRow>
-        <TableRow className={helixCollapsibleRowclasses.rowInnerTable}>
-            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columns.length+1}>
-              <Collapse in={open} timeout="auto" unmountOnExit>
-                <Box margin={1} className={helixCollapsibleRowclasses.innerContainer}>
-                  {isSummaryTableAllow ?
-                  <GenericSummaryTable rows={innerTableBodyRows} columns={innerTableHeadColumns} classes={helixCollapsibleRowclasses} />
-                  :
-                  <Table className={helixCollapsibleRowclasses.innerTable}>
-                    <TableHead className={helixCollapsibleRowclasses.innerTableHead}>
-                      <TableRow>
-                        {innerTableHeadColumns.map((column, columnIndex) => {
-                          return <TableCell key={columnIndex}><b>{column}</b></TableCell>
-                        })}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        {innerTableBodyRows.map((row, rowIndex) => {
-                          return <TableCell key={rowIndex}>{row}</TableCell>
-                        })}
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                  }
-                </Box>
-              </Collapse>
-            </TableCell>
-          </TableRow>
-      </>
-    );
-  }
+    </>
+  );
+}
   
 HelixCollapsibleRow.propTypes = {
   row: PropTypes.instanceOf(Object).isRequired,

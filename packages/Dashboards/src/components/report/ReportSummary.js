@@ -5,7 +5,7 @@ import HelixTableCell from '../table/HelixTableCell'
 import GenericSummaryTable from './GenericSummaryTable'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 
-
+// Styling used for MaterialUI
 const reportSummaryStyles = makeStyles(() => ({
     summaryReceiptRoot: {
         width: "100%",
@@ -26,6 +26,7 @@ const reportSummaryStyles = makeStyles(() => ({
   }
 }))
 
+// Mock columns data for summary table
 const summaryColumns = [
     {
       id: "fieldID",
@@ -54,6 +55,7 @@ const summaryColumns = [
     },
 ];
 
+// Mock row data for summary table
 const summaryRows = [
     {
         fieldID: "H1-1",
@@ -63,6 +65,7 @@ const summaryRows = [
     }
 ]
 
+// Mock columns data for expandable table
 const columns = [
     {
         Label: "Loan Name",
@@ -70,6 +73,7 @@ const columns = [
     }
 ]
 
+// Mock row data for expandable table
 const rows = [
     {
         _id: "1",
@@ -119,6 +123,7 @@ const rows = [
     },
 ]
 
+// Mock innerColumns data for expandable row table
 const innerColumns = [
     {
       id: "fieldID",
@@ -144,16 +149,21 @@ const innerColumns = [
       minWidth: 170,
       align: "left",
     },
-  ];
-
+];
 
 /**
  * @param {array} rows a list of obejcts that contains current changes for a cell
  * @param {object} classes object for styling
- * @return summary table
+ * @return {JSX} Return Summary Table
  */
 function ReportSummary() {
 
+    /**
+     * @param {object} row the row is an object of data
+     * @param {int} rowIndex the rowIndex represents index of the row
+     * @param {arry} columns the columns is array of column objects
+     * @param {func} customCellRender the customCellRender is func that return jsx of HelixTableCell data
+     */
     const customCollapsibleRowRender = (row, rowIndex, columns, customCellRender) => {
         const innerTableHeadColumns = innerColumns
         const innerTableBodyRows = row.data
@@ -191,7 +201,7 @@ function ReportSummary() {
     // Initially, we can start the table to order by Loan Name or etc in ascending order
     const initialOrderBy = "loanName"
 
-
+    // Creates an object for styling. Any className that matches key in the reportSummaryStyles object will have a corresponding styling
     const reportSummaryClasses = reportSummaryStyles()
     return (
         <>
