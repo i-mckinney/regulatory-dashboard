@@ -39,11 +39,6 @@ function App(history) {
         <div>
         <Breadcrumbs />
           <Switch>
-          
-          {/* DEVELOP */}
-            <Route exact path="/">
-              <HelixTableKeysRight />
-            </Route>
 
             <Route exact path="/homepage">
               <Homepage />
