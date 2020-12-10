@@ -10,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/DeleteOutline';
  * @param {function} onDelete removes matching keyName property
  * @return {JSX} a dynamically generated card component displaying key name property
  */
+ 
 const TableKeysCard = ({ keyName, value, onEdit, onDelete }) => {
   // Handles edit dialog open and close 
   const [ openDialog, setOpenDialog ] = useState(false)
