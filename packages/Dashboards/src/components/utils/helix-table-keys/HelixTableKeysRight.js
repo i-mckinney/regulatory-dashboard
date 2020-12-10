@@ -4,8 +4,7 @@ import {Container, Grid, Box, InputAdornment, Select, MenuItem, FormControl, Inp
 import { HelixButton, HelixTextField } from 'helixmonorepo-lib'
 import SearchIcon from '@material-ui/icons/Search'
 import TableKeysCard from './HelixTableKeysCard'
-import FormDialog from '../FormDialog'
-import NewKeyForm from './NewKeyForm'
+import FormDialog from './FormDialog'
 
 const useTableKeysStyles = makeStyles((theme) => ({
   formControl: {
@@ -19,8 +18,6 @@ const useTableKeysStyles = makeStyles((theme) => ({
  */
 const HelixTableKeysRight = (props) => {
   const useTableKeysClasses = useTableKeysStyles()
-  // Will provide sort methods for Select menu
-  const [sortMethod, setSortMethod] = React.useState('')
   // Opens dialog to add new key dialog 
   const [ openDialog, setOpenDialog ] = useState(false)
   // Provides list of mock key nanme items
@@ -31,9 +28,63 @@ const HelixTableKeysRight = (props) => {
     {key: "accountNumber", value: 4},
     {key: "accountID", value: 5},
   ])
+  // New key item value captured by form input
+  const [keyItemValue, setKeyItemValue] = useState('')
+
+   // Updates items state array with added key item object  
+   const handleAddKeyItem = () => {
+      const newItemList = [ ... items, keyItemValue]
+      setItems(newItemList)
+  }
 
   const handleChange = (e) => {
   };
+
+  // Renders form input and button controls for adding/updating keys
+  const renderNewKeyForm = () => {
+  return (
+    <Container>
+      <Grid container 
+      spacing={4}
+      justify='center'
+      alignItems='center'
+      direction='column'>
+        <Grid item md={12}>
+          <HelixTextField
+          fullWidth
+          name = 'newKey'
+          label = 'Add Key'
+          onChange={(e) => setKeyItemValue(e.target.value)}
+          />
+        </Grid>
+      </Grid>
+      <Grid 
+      container
+      direction='column'
+      justify='center'
+      alignItems='center'
+      spacing={6}
+      >
+        <Grid item md={12}>
+          <HelixButton
+          color='primary'
+          size='large'
+          variant='contained'
+          text='Add'
+          style={{width: '8em'}}
+          onClick={() => {setOpenDialog(false); handleAddKeyItem()}}/>
+          <HelixButton
+          color='secondary'
+          size='large'
+          variant='contained'
+          text='Cancel'
+          style={{width: '8em'}}
+          onClick={() => {setOpenDialog(false)}}/>
+        </Grid>
+      </Grid>
+    </Container>
+  )
+}
 
   return (
     <>
@@ -80,7 +131,6 @@ const HelixTableKeysRight = (props) => {
                 <Select
                   labelId="demo-simple-select-filled-label"
                   id="demo-simple-select-filled"
-                  value={sortMethod}
                   onChange={handleChange}
                 >
                   <MenuItem value="">
@@ -111,7 +161,7 @@ const HelixTableKeysRight = (props) => {
     title = 'Add/Edit Entities Key Field'
     openDialog= { openDialog }
     setOpenDialog = { setOpenDialog }>
-      <NewKeyForm/>
+      {renderNewKeyForm()}
     </FormDialog>
     </>
   )

@@ -1,5 +1,5 @@
-import React from 'react'
-import { makeStyles, Typography, Grid, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
+import React, { useState } from 'react'
+import { makeStyles, Container, Typography, Grid, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import { HelixButton, HelixTextField } from 'helixmonorepo-lib'
 
 const useFormDialogStyles = makeStyles(theme =>({
@@ -9,6 +9,7 @@ const useFormDialogStyles = makeStyles(theme =>({
   dialogTitle: {
   }
 }))
+
 const FormDialog = (props) => {
   const formDialogClasses = useFormDialogStyles()
   const {title, children, openDialog, setOpenDialog} = props
@@ -25,29 +26,6 @@ const FormDialog = (props) => {
       <DialogContent dividers>
         {children}
       </DialogContent>
-      <Grid 
-      container
-      direction='column'
-      justify='center'
-      alignItems='center'
-      >
-        <Grid item md={12}>
-          <HelixButton
-          color='primary'
-          size='large'
-          variant='contained'
-          text='Add'
-          style={{width: '8em'}}
-          onClick={() => {setOpenDialog(false)}}/>
-          <HelixButton
-          color='secondary'
-          size='large'
-          variant='contained'
-          text='Cancel'
-          style={{width: '8em'}}
-          onClick={() => {setOpenDialog(false)}}/>
-        </Grid>
-      </Grid>
     </Dialog>
   )
 }
