@@ -16,14 +16,16 @@ const verticalTabsStyles = makeStyles((theme) => ({
     minHeight: '35px',
     borderRadius: '4px',
   },
+  myTabs: {
+    marginTop: '1rem',
+  },
   divider: {
-    marginLeft: '1rem',
-    width: '5px',
+    marginLeft: '1.5rem',
     height: '100vh',
   }
 }))
 
-function VerticalTabs() {
+function VerticalTabs(props) {
   const verticalTabsClasses = verticalTabsStyles();
   const [value, setValue] = useState(1);
 
@@ -46,15 +48,7 @@ function VerticalTabs() {
         <Tab label="Reports"/>
       </Tabs>
       <Divider orientation="vertical" className={verticalTabsClasses.divider} />
-      <HelixTabPanel value={value} index={1}>
-        Entities Content
-      </HelixTabPanel>
-      <HelixTabPanel value={value} index={2}>
-        Loans Content
-      </HelixTabPanel>
-      <HelixTabPanel value={value} index={3}>
-        Reports Content
-      </HelixTabPanel>
+      {props.renderHelixPanelTabs(value)}
     </div>
   )
 }
