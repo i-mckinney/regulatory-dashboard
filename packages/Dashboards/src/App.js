@@ -49,10 +49,6 @@ function App(history) {
               <Homepage />
             </Route>
 
-            <Route exact path="/dashboard">
-              <Dashboard />
-            </Route>
-
             <Route exact path="/entity">
               <Entity />
             </Route>
