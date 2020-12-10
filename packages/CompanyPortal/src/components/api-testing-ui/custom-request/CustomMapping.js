@@ -131,6 +131,7 @@ export default function CustomMapping({ fields, onChange, initialCollections }) 
             width={true}
             value={collectionId}
             onChange={(e) => setCollectionId(e.target.value)}
+            hideNone
           />
          </Grid>
        </Grid>
@@ -185,7 +186,7 @@ export default function CustomMapping({ fields, onChange, initialCollections }) 
         })}
       </div>
       <Controls.SelectValuePopup
-        options = {getCollectionById().keys}
+        options = {getCollectionById().keys.sort((a,b)=> a.toLowerCase().localeCompare(b.toLowerCase()))}
         addCollectionKey = {addCollectionKey}
         id={valueIdToChange}
         open={openPopup}

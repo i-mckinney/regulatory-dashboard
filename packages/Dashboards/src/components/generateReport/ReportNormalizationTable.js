@@ -12,18 +12,6 @@ import { DragHandle } from "@material-ui/icons";
 
 // Styling used for MaterialUI
 const reportNormalizationTableStyles = makeStyles((theme) => ({
-  entityCard: {
-    marginTop: theme.spacing(4),
-  },
-  // medium: {
-  //   width: "80%",
-  //   margin: "auto",
-  //   marginTop: "3rem",
-  //   paddingBottom: "3rem",
-  //   "& table": {
-  //     borderCollapse: "separate",
-  //   },
-  // },
   backButton: {
     backgroundColor: "#42a5f5",
     color: "white",
@@ -60,6 +48,11 @@ const reportNormalizationTableStyles = makeStyles((theme) => ({
   },
   alert: {
     marginBottom: "1rem",
+  },
+  buttonContainer: {
+    marginTop: theme.spacing(4),
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -169,6 +162,7 @@ const ReportNormalizationTable = (props) => {
             rowIndex={rowIndex}
             columnIndex={columnIndex}
             columns={columns}
+            selectable={true}
             editable={true}
           />
         );
@@ -192,35 +186,12 @@ const ReportNormalizationTable = (props) => {
     }
   };
 
-  const [activeStep, setActiveStep] = useState(2);
-
-  const handleConfirm = () => {
-    props.history.push("/report/generate/summary/step4");
-  };
-
-  const handleBack = () => {
-    let nextStep = props.activeStep  -1
-    props.setActiveStep(nextStep);
-
-    // props.history.push("/report/generate/loanselection/step2");
-  };
-  
-  const handleCancel = () => {
-    props.history.push("/reporttemplates");
-  };
   const render = () => {
     return (
       <>
-        {/* <div>
-          <HelixProgressBar
-            steps={steps}
-            setActiveStep={setActiveStep}
-            activeStep={activeStep}
-          />
-        </div> */}
         <div className={reportNormalizationTableClasses.entityCard}>
           <EntityCard
-            RecordLabel="Testing #1"
+            RecordLabel={props.header}
             BorrowerID="1a"
             BorrowerName="Rey"
           />
@@ -232,23 +203,6 @@ const ReportNormalizationTable = (props) => {
             customBodyRowKeyProp={customBodyRowKeyProp}
             customHeadColumnKeyProp={customHeadColumnKeyProp}
           />
-          <div className={reportNormalizationTableClasses.pageProgression}>
-            <HelixButton
-              className={reportNormalizationTableClasses.backButton}
-              text="Back"
-              onClick={handleBack}
-            />
-            <HelixButton
-              className={reportNormalizationTableClasses.confirmButton}
-              text="Confirm"
-              onClick={handleConfirm}
-            />
-            <HelixButton
-              className={reportNormalizationTableClasses.cancelButton}
-              onClick={handleCancel}
-              text="Cancel"
-            />
-          </div>
         </div>
       </>
     );

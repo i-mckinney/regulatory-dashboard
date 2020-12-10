@@ -26,6 +26,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * @param {func} stableSort func that uses getComparator to sort it in order
  * @param {object} searchFilter object that contains a function for filtering search query
  * @param {bool} toggleSearch bool represents true or false if table should have a search function
+ * @param {bool} toggleExpandable bool represents true or false if table should have a expandable rows
+ * @param {func} customCollapsibleRowRender func represent custom func that return jsx of expandable table row
  * @returns {JSX} renders a custom table body for table
  */
 var HelixTableBody = function HelixTableBody(_ref) {
@@ -40,19 +42,32 @@ var HelixTableBody = function HelixTableBody(_ref) {
       getComparator = _ref.getComparator,
       stableSort = _ref.stableSort,
       searchFilter = _ref.searchFilter,
-      toggleSearch = _ref.toggleSearch;
+      toggleSearch = _ref.toggleSearch,
+      toggleExpandable = _ref.toggleExpandable,
+      customCollapsibleRowRender = _ref.customCollapsibleRowRender;
   //If rowsPerPage is always greater than 0, then we sort the rows by indicating column
   //and display rowsPerPage by each page
   //Else display all the sorted rows order by indicating columns
   var sortedRows = rowsPerPage > 0 ? stableSort(searchFilter.search(rows, columns), getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : stableSort(searchFilter.search(rows, columns), getComparator(order, orderBy));
   var dataRows = toggleSearch ? sortedRows : rows;
-  return /*#__PURE__*/_react["default"].createElement(_core.TableBody, null, dataRows.map(function (row, rowIndex) {
-    return /*#__PURE__*/_react["default"].createElement(_core.TableRow, {
-      key: customBodyRowKeyProp(row)
-    }, columns.map(function (column, columnIndex) {
-      return customCellRender(row, column, rowIndex, columnIndex);
-    }));
-  }));
+
+  var renderTableBody = function renderTableBody() {
+    if (toggleExpandable) {
+      return /*#__PURE__*/_react["default"].createElement(_core.TableBody, null, dataRows.map(function (row, rowIndex) {
+        return customCollapsibleRowRender(row, rowIndex, columns, customCellRender);
+      }));
+    } else {
+      return /*#__PURE__*/_react["default"].createElement(_core.TableBody, null, dataRows.map(function (row, rowIndex) {
+        return /*#__PURE__*/_react["default"].createElement(_core.TableRow, {
+          key: customBodyRowKeyProp(row)
+        }, columns.map(function (column, columnIndex) {
+          return customCellRender(row, column, rowIndex, columnIndex);
+        }));
+      }));
+    }
+  };
+
+  return renderTableBody();
 };
 
 HelixTableBody.propTypes = {
@@ -69,7 +84,8 @@ HelixTableBody.propTypes = {
   searchFilter: _propTypes["default"].shape({
     search: _propTypes["default"].func.isRequired
   }).isRequired,
-  toggleSearch: _propTypes["default"].bool.isRequired
+  toggleSearch: _propTypes["default"].bool.isRequired,
+  toggleExpandable: _propTypes["default"].bool.isRequired
 };
 HelixTableBody.defaultProps = {
   rowsPerPage: 0,
