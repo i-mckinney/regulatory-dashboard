@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { makeStyles, Typography, IconButton } from '@material-ui/core'
 import HelixToolBarSearch from '../table/HelixToolBarSearch'
 import AddBoxIcon from '@material-ui/icons/AddBox'
+import HelixReportCard from '../utils/HelixReportCard'
 import HelixCollectionList from '../utils/HelixCollectionList'
 
 // Styling used for MaterialUI
@@ -200,22 +201,36 @@ function Report(props) {
 
     // handleReport transition to report page
     const handleReport = () => {
-        props.history.push('/homepage')
+        //Once we work on the backend format might be /report/entityid/borrowerid/reportid/#ofstep 
+        props.history.push('/report/testreport/generate')
+    }
+
+    const renderCustomizedReport = (user, component, handleComponent, handleEditComponent, handleDeleteComponent) => {
+        return (
+            <HelixReportCard 
+            user={user}
+            report={component}
+            handleReport={handleComponent}
+            handleEditReport={handleEditComponent}
+            handleDeleteReport={handleDeleteComponent}
+            />
+        )
     }
 
     return (
         <div className={reportClasses.mediumContainer}>
             <div className={reportClasses.header}>
-                <Typography variant="h5">Choose Your Report</Typography>
+                <Typography variant="h5">Choose Your Report Template</Typography>
             </div>
             <HelixToolBarSearch onSearch={onSearch} displayCreateIcon={displayCreateReportIcon} />
             <HelixCollectionList 
             user={localUser} 
-            reportData={reportData} 
+            data={reportData} 
             searchFilter={searchFilter}
-            handleReport={handleReport}
-            handleEditReport={handleEditReport} 
-            handleDeleteReport={handleDeleteReport}
+            renderCustomizedComponent={renderCustomizedReport}
+            handleComponent={handleReport}
+            handleEditComponent={handleEditReport} 
+            handleDeleteComponent={handleDeleteReport}
             />
         </div>
     )

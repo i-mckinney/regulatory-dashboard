@@ -16,8 +16,11 @@ const drawerWidth = 240
 
 // Styles used for Container Application
 const containerAppUseStyles = makeStyles((theme) => ({
-  containerUserPageButton: {
+  containerNotificationPageButton: {
     marginLeft: "auto",
+  },
+  containerUserPageButton: {
+    marginLeft: theme.spacing(1),
   },
   topContainerClassesRoot: {
     display: "flex",
@@ -139,26 +142,33 @@ const App = () => {
             <Switch>
               <Route exact path="/" component={LoginView} />
               <Route exact path="/homepage" component={Dashboard} />
-              {/* <Route exact path="/dashboard" component={Dashboard} /> */}
+              <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/company" component={CompanyView} />
               <Route exact path="/entity" component={Dashboard} />
               <Route exact path="/entity/new" component={Dashboard} />
               <Route exact path="/entity/configuration" component={Dashboard} />
-              <Route exact path="/entity/:id/discrepancy-report" component={Dashboard} />
+              <Route exact path="/entity/:id/discrepancy-report/summary" component={Dashboard}/>
+              <Route exact path="/entity/:id/discrepancy-report" component={Dashboard}/>
               <Route exact path="/entity/edit/:id" component={Dashboard} />
               <Route exact path="/entity/delete/:id" component={Dashboard} />
               <Route exact path="/report" component={Dashboard} />
+              <Route exact path="/report/generate/entityselection/step1" component={Dashboard} />
+              <Route exact path="/report/generate/loanselection/step2" component={Dashboard} />
+              <Route exact path="/report/generate/normalizationTable/step3" component={Dashboard} />
+              <Route exact path="/report/generate/summary/step4" component={Dashboard} />
+              <Route exact path="/report/:reportid/generate" component={Dashboard} />
               <Route exact path="/report/new" component={Dashboard} />
               <Route exact path="/report/edit/:id" component={Dashboard} />
               <Route exact path="/report/delete/:id" component={Dashboard} />
               <Route exact path="/loan" component={Dashboard} />
-              <Route exact path="/regulatory" component={Dashboard} />
+              <Route exact path="/reporttemplates" component={Dashboard} />
               <Route exact path="/myrequest" component={Dashboard} />
               <Route exact path="/users" component={User} />
               <Route exact path="/users/new" component={User} />
               <Route exact path="/users/edit/:id" component={User} />
               <Route exact path="/users/delete/:id" component={User} />
               <Route exact path="/api-table" component={CompanyView} />
+              <Route exact path="/selecttable"  component={Dashboard}/>
             </Switch>
           </main>
         </div>

@@ -31,7 +31,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component={'div'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -67,6 +67,7 @@ export default function SimpleTabs({
   setHeaders,
   onSubmitRequest,
   onSave,
+  collections
 }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -99,7 +100,7 @@ export default function SimpleTabs({
         <CustomBody />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <CustomMapping fields={mapping} onChange={setMapping} />
+        <CustomMapping fields={mapping} onChange={setMapping} initialCollections={collections} />
       </TabPanel>
     </div>
   );

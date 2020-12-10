@@ -27,9 +27,10 @@ const helixTableHeadStyles = makeStyles(() => ({
  * @param {string} orderBy string represents which column should it order by
  * @param {func} onSort func that sort the table by column either ascending or descending order
  * @param {bool} toggleSearch bool represents true or false if table should have a search function
+ * @param {bool} toggleExpandable bool represents true or false if table should have a expandable row
  * @returns {JSX} renders a custom table head for table
  */
-const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSort, toggleSearch }) => {
+const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSort, toggleSearch, toggleExpandable }) => {
   // Creates an object for styling. Any className that matches key in the helixTableHeadStyles object will have a corresponding styling
   const helixTableHeadClasses = helixTableHeadStyles()
 
@@ -82,13 +83,18 @@ const HelixTableHead = ({ columns, customHeadColumnKeyProp, order, orderBy, onSo
   return (
     <TableHead>
       <TableRow>
-        {columns.map((column) => (
-            <TableCell 
-            key={customHeadColumnKeyProp(column)}
-            sortDirection={orderBy === customHeadColumnKeyProp(column) ? order : false}>
-              {toggleSearch ? renderTableSortLabel(column) : column.Label}
-            </TableCell>
-          ))}
+        {columns.map((column, columnIndex) => {
+          return (
+            <React.Fragment key={columnIndex}>
+              {(columnIndex === 0 && toggleExpandable) ? <TableCell key={columnIndex} />  : null}
+              <TableCell 
+              key={customHeadColumnKeyProp(column)}
+              sortDirection={orderBy === customHeadColumnKeyProp(column) ? order : false}>
+                {toggleSearch ? renderTableSortLabel(column) : column.Label}
+              </TableCell>
+            </React.Fragment>
+          )
+          })}
       </TableRow>
     </TableHead>
   )
@@ -101,6 +107,7 @@ HelixTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
   onSort: PropTypes.func.isRequired,
   toggleSearch: PropTypes.bool.isRequired,
+  toggleExpandable: PropTypes.bool.isRequired,
 }
 
 HelixTableHead.defaultProps = {

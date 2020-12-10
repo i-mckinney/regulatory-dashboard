@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ApiTable from './api-table/ApiTable';
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
+import Breadcrumbs from './utils/Breadcrumbs'
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'custapi-',
@@ -14,6 +15,7 @@ function App() {
       <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
           <div>
+           <Breadcrumbs />
             <Switch>
               <Route path='/api-table' exact component={ApiTable} />
             </Switch>
