@@ -5,6 +5,10 @@ import HelixTabPanel from '../utils/HelixTabPanel'
 import HelixTableKeysRight from '../utils/helix-table-keys/HelixTableKeysRight'
 
 const reportGlobalTableKeyStyles = makeStyles(() => ({
+    container: {
+        width: '75%',
+        margin: 'auto',
+    },
     header: {
       marginBottom: '48px',
     },
@@ -29,19 +33,20 @@ const ReportGlobalTableKey = () => {
         )
     }
 
-
     return (
         <>
-            <div className={reportGlobalTableKeyClasses.header}>
-                <Typography variant='h5'>
-                    <b>Helix Table Keys</b>
-                </Typography>
-                <Typography variant='subtitle2'>
-                    Create a global list of normalized that are allowed to be used in the system
-                </Typography>
+            <div className={reportGlobalTableKeyClasses.container}>
+                <div className={reportGlobalTableKeyClasses.header}>
+                    <Typography variant='h5'>
+                        <b>Helix Table Keys</b>
+                    </Typography>
+                    <Typography variant='subtitle2'>
+                        Create a global list of normalized that are allowed to be used in the system
+                    </Typography>
+                </div>
+                <Divider />
+                <HelixVerticalTab renderHelixPanelTabs={renderHelixPanelTabs}/>
             </div>
-            <Divider />
-            <HelixVerticalTab renderHelixPanelTabs={renderHelixPanelTabs}/>
         </>
     )
 }
