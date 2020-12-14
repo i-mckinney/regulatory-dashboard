@@ -33,7 +33,7 @@ const reportStyles = makeStyles(() => ({
   }))
 
 /** @return {JSX} Report site
- * routed at /Report
+ * routed at /reporttemplates
  */
 function Report(props) {
     // Creates an object for styling. Any className that matches key in the reportStyles object will have a corresponding styling
@@ -167,7 +167,7 @@ function Report(props) {
           <span className={reportClasses.createIconStyle}>
             <IconButton
             color="primary"
-            onClick={() => (props.history.push("/report/new"))}>
+            onClick={() => (props.history.push("/reporttemplates/new"))}>
                 <AddBoxIcon fontSize="large" />
             </IconButton>
           </span>

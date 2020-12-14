@@ -29,6 +29,22 @@ const reportInputFormStyles = makeStyles(() => ({
         justifyContent: 'center',
         display:'flex'
     },
+    nextButton: {
+        backgroundColor: "#1976d2",
+        color: "white",
+        "&:hover": {
+          backgroundColor: "#1565c0",
+          color: "white",
+        }, 
+    },
+    cancelButton: {
+        backgroundColor: "#F50057",
+        color: "white",
+        "&:hover": {
+            backgroundColor: "#DF0350",
+            color: "white",
+        },
+    },
     selectDropdown: {
         width: "30%",
         margin: "auto",
@@ -56,7 +72,7 @@ columnFields.forEach((columnField) => {
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
  * @return {JSX} ReportInputForm site with input form to fill in
  */
-const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
+const ReportInputForm = ({ initialReportTemplate, header, onSubmit, activeStep, setActiveStep, setFields}) => {
     // Set reportTemplate with preset empty data for report template creation
     const [report, setReport] = useState(initialReportTemplate)
     // Perform error check for form validatation upon report template data
@@ -65,9 +81,12 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     const [rowData, setRowData] = useState([])
      // Column data to be passed to next component
     const [colData, setColData] = useState([])
+    // Selected column to grab field keys from in table
+    const [selectedColumn, setSelectedColumn] = useState(null)
     // Creates an object for styling. Any className that matches key in the reportInputFormStyles object will have a corresponding styling
+   
     const reportInputFormClasses = reportInputFormStyles()
-    
+
     /**
      * @param {Object} event the event object
      * name: the name property on the target text field element
@@ -111,6 +130,22 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
         )
     }
 
+    const generateReportFieldKeys = () => {
+        const reportKeys = rowData.map((row) => (    
+            {   
+                id: row._id,
+                fieldKey: row[selectedColumn.Accessor],
+                tableKey: ""
+            }
+        ))
+        return reportKeys
+    }
+
+    const handleNext = () => {
+        setFields(generateReportFieldKeys())
+        let nextStep = activeStep+2
+        setActiveStep(nextStep)
+    }
     /**
      * @return {jsx} return a jsx object of HelixButtons 
      */
@@ -118,12 +153,17 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
         return (
             <>
                 <HelixButton 
+                className={reportInputFormClasses.nextButton}
                 color="primary" 
                 variant="contained" 
-                type="submit" 
+                // type="submit" 
+                type='button'
                 size="small"
+                disabled = {selectedColumn === null}
+                onClick = {handleNext}
                 text="Next" />
                 <HelixButton
+                className={reportInputFormClasses.cancelButton}
                 color="default"
                 variant="contained"
                 type="cancel"
@@ -136,7 +176,8 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     
     return (
     <div>
-        <form className={reportInputFormClasses.reportInputFormStyle} autoComplete="off" onSubmit={onSubmitForm}>
+        <form autoComplete="off" onSubmit={onSubmitForm}>
+            <div className={reportInputFormClasses.reportInputFormStyle}> 
             <Grid container
                 direction="row"
                 justify="flex-end"
@@ -160,12 +201,14 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                 })}
                 <Grid className={reportInputFormClasses.hide}> {renderButtonActions()}</Grid> 
             </Grid>
-        </form>
+        </div>
         <ReportTemplateCreateTable setColData = {setColData} setRowData = {setRowData} />
         <div className={reportInputFormClasses.selectDropdown}>
             <p> Select Report Field Name Column </p>
             <Autocomplete
                 id = "ColumnSelection"
+                value={selectedColumn}
+                onChange= {(event, newValue) => { setSelectedColumn(newValue)}}
                 options = {colData.slice(2,colData.length-1)}
                 getOptionLabel = {(selectOption)=> selectOption.Label}
                 renderInput={(params)=><TextField {...params} label="Select Column" variant = "outlined"/>}
@@ -174,6 +217,7 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
         <div className={reportInputFormClasses.buttonStyle}>
             {renderButtonActions()}
         </div>
+        </form>
     </div>
     )
 }

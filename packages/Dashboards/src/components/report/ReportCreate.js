@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { withRouter } from 'react-router-dom'
 import ReportInputForm from './ReportInputForm'
 import { columnFields } from './config'
+import ReportCreateMapping from './ReportCreateMapping'
 
 // initialReportTemplate with preset data
 const initialReportTemplate = {}
@@ -20,16 +21,52 @@ columnFields.forEach((columnField) => {
  * routed at /report/new
  */
 const ReportCreate = (props) => {
+    const [activeStep, setActiveStep] = useState(0)
+    const [fields, setFields] = useState([])
     /**
      * @param {object} reportTemplate represent entity object with props values that it will create 
      */
     const createReportTemplate = async (reportTemplate) => {
-        props.history.push("/report")
+        console.log('props.history:', props.history)
+        props.history.push("/reporttemplates")
+    }
+    let body;
+    switch (activeStep) {
+        case 0:
+            body = (
+                <ReportInputForm
+                 header= "Create Report Template" 
+                initialReportTemplate={initialReportTemplate}
+                onSubmit={createReportTemplate} 
+                activeStep = {activeStep}
+                setActiveStep={setActiveStep} 
+                setFields={setFields}
+                />
+            );
+            break;
+        case 1:
+            body = (
+                //put step 2 page file here
+                <div> put step 2 page file here</div>
+            );
+            break
+        case 2: 
+            body = (
+                <ReportCreateMapping 
+                fields={fields}
+                setFields={setFields}
+                activeStep = {activeStep}
+                setActiveStep={setActiveStep}
+                />
+            );
+            break;
+            default:
+                return;
     }
 
     return (
     <div>
-        <ReportInputForm header="Create Report Template" initialReportTemplate={initialReportTemplate} onSubmit={createReportTemplate} />
+        {body}
     </div>
     )
 }
