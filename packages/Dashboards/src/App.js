@@ -20,6 +20,7 @@ import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportCreate from './components/report/ReportCreate'
+import ReportCreateMapping from './components/report/ReportCreateMapping'
 import ReportEdit from './components/report/ReportEdit'
 import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
@@ -107,8 +108,12 @@ function App(history) {
               <Report />
             </Route> */}
 
-            <Route exact path="/report/new">
+            <Route exact path="/reporttemplates/new">
               <ReportCreate />
+            </Route>
+
+            <Route exact path= "/reporttemplates/new/mapping">
+              <ReportCreateMapping />
             </Route>
 
             <Route exact path="/report/edit/:id">
