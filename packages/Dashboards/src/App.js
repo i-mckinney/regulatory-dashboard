@@ -14,7 +14,7 @@ import GenerateReport from "./components/generateReport/GenerateReport"
 import ReportEntitySelection from "./components/generateReport/ReportEntitySelection"
 import ReportLoanSelection from "./components/generateReport/ReportLoanSelection"
 import ReportNormalizationTable from "./components/generateReport/ReportNormalizationTable"
-import MyRequest from "./components/myrequest/MyRequest"
+import MyRequest from "./components/myrequest/myRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
@@ -48,7 +48,7 @@ function App(history) {
           <Switch>
 
             <Route exact path="/homepage">
-              <Homepage />
+              <HelixTableKeysRight />
             </Route>
 
             <Route exact path="/entity">
