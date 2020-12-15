@@ -157,7 +157,6 @@ const App = () => {
               <Route exact path="/report/generate/summary/step4" component={Dashboard} />
               <Route exact path="/report/:reportid/generate" component={Dashboard} />
               <Route exact path="/reporttemplates/new" component={Dashboard} />
-              <Route exact path="/reporttemplates/new/mapping" component={Dashboard} />
               <Route exact path="/report/edit/:id" component={Dashboard} />
               <Route exact path="/report/delete/:id" component={Dashboard} />
               <Route exact path="/loan" component={Dashboard} />
