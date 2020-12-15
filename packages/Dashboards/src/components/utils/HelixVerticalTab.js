@@ -30,6 +30,7 @@ function VerticalTabs(props) {
   const [value, setValue] = useState(1);
 
   const handleChange = (event, newValue) => {
+    console.log(newValue)
     setValue(newValue);
   }
 
@@ -42,10 +43,11 @@ function VerticalTabs(props) {
         aria-label="vertical tabs"
         className={verticalTabsClasses.myTabs}
       >
-        <Tab label="Add Collection" className={verticalTabsClasses.collection} />
+        {props.renderTabs()}
+        {/* <Tab label="Add Collection" className={verticalTabsClasses.collection} />
         <Tab label="Entities"/>
         <Tab label="Loans"/>
-        <Tab label="Reports"/>
+        <Tab label="Reports"/> */}
       </Tabs>
       <Divider orientation="vertical" className={verticalTabsClasses.divider} />
       {props.renderHelixPanelTabs(value)}

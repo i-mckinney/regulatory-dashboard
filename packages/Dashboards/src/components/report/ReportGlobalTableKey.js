@@ -1,13 +1,21 @@
 import React from 'react'
-import { Divider, makeStyles, Typography } from '@material-ui/core'
+import { Divider, makeStyles, Typography, Tab } from '@material-ui/core'
 import HelixVerticalTab from '../utils/HelixVerticalTab'
 import HelixTabPanel from '../utils/HelixTabPanel'
 import HelixTableKeysRight from '../utils/helix-table-keys/HelixTableKeysRight'
 
 const reportGlobalTableKeyStyles = makeStyles(() => ({
     container: {
-        width: '75%',
+        marginTop: '1rem',
+        width: '90%',
         margin: 'auto',
+    },
+    collection: {
+        backgroundColor: '#3f51b5',
+        fontSize: '.8125rem',
+        opacity: '1',
+        minHeight: '35px',
+        borderRadius: '4px',
     },
     header: {
       marginBottom: '48px',
@@ -16,6 +24,16 @@ const reportGlobalTableKeyStyles = makeStyles(() => ({
 
 const ReportGlobalTableKey = () => {
     const reportGlobalTableKeyClasses = reportGlobalTableKeyStyles()
+
+    const renderTabs = () => {
+        const tabs = [
+            <Tab key={0} label="Add Collection" className={reportGlobalTableKeyClasses.collection} />,
+            <Tab key={1} label="Entities"/>,
+            <Tab key={2} label="Loans"/>,
+            <Tab key={3} label="Reports"/>,
+        ]
+        return tabs
+    }
 
     const renderHelixPanelTabs = (value) => {
         return (
@@ -45,7 +63,7 @@ const ReportGlobalTableKey = () => {
                     </Typography>
                 </div>
                 <Divider />
-                <HelixVerticalTab renderHelixPanelTabs={renderHelixPanelTabs}/>
+                <HelixVerticalTab renderTabs={renderTabs} renderHelixPanelTabs={renderHelixPanelTabs}/>
             </div>
         </>
     )
