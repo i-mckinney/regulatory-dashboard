@@ -73,9 +73,9 @@ columnFields.forEach((columnField) => {
  * @param {Func} setFields - function passed from parent component to update field key objects
  * @param {Int} activeStep - state hook passed from parent component to keep track of step within report template creation
  * @param {Func} setActiveStep state hook function to control activeStep hook
- * @return {JSX} ReportInputForm site with input form to fill in
+ * @return {JSX} ReportTemplateInputForm site with input form to fill in
  */
-const ReportInputForm = ({ initialReportTemplate, header, onSubmit, activeStep, setActiveStep, setFields}) => {
+const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, activeStep, setActiveStep, setFields}) => {
     // Set reportTemplate with preset empty data for report template creation
     const [report, setReport] = useState(initialReportTemplate)
     // Perform error check for form validatation upon report template data
@@ -229,4 +229,4 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit, activeStep, 
     )
 }
 
-export default ReportInputForm
+export default ReportTemplateInputForm
