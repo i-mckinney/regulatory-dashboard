@@ -107,7 +107,7 @@ const LoanPreferences = (props) => {
           <FormHelperText>Please select your API</FormHelperText>
         </FormControl>
       </Grid>
-      <Grid item xs={1} alignContent='flex-start'>
+      <Grid container item xs={1} alignContent='flex-start'>
       <IconButton onClick={handleAddToTable} variant='contained' color='primary' size='medium'>
         <AddBoxIcon />
       </IconButton>
@@ -148,25 +148,6 @@ const LoanPreferences = (props) => {
           </Grid>
           <Grid item>   
             <MuiButton color='secondary' variant='contained' startIcon={<CancelIcon />}
-            >Cancel
-            </MuiButton>
-          </Grid>
-     </Grid>
-    </Grid>
-    <Grid item xs={12}>
-        <Grid container direction='row' justify='center' alignItems='flex-end' spacing={2}>
-          <Grid item> 
-            <MuiButton className={loansPreferencesClasses.buttonSize} color='primary' variant='contained' size='large'
-            >Back
-            </MuiButton>
-          </Grid>
-          <Grid item>   
-            <MuiButton className={loansPreferencesClasses.buttonSize} color='default' variant='contained' size='large' 
-            >Next
-            </MuiButton>
-          </Grid>
-          <Grid item>   
-            <MuiButton className={loansPreferencesClasses.buttonSize} color='secondary' variant='contained' size='large'
             >Cancel
             </MuiButton>
           </Grid>
