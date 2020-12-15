@@ -1,4 +1,4 @@
-import React from 'react'
+import React , { useState } from 'react'
 import { Divider, makeStyles, Typography, Tab } from '@material-ui/core'
 import HelixVerticalTab from '../utils/HelixVerticalTab'
 import HelixTabPanel from '../utils/HelixTabPanel'
@@ -23,32 +23,29 @@ const reportGlobalTableKeyStyles = makeStyles(() => ({
 }));
 
 const ReportGlobalTableKey = () => {
+
+    const [listOfTabs, setListOfTabs] = useState(["Entity #12", "Loan #16", "Report #20"])
+    
+    const [listOfPanelTabs, setListOfPanelTabs] = useState([<HelixTableKeysRight />, "Loans Global Table Key", "Report Global Table Key"])
+
     const reportGlobalTableKeyClasses = reportGlobalTableKeyStyles()
 
     const renderTabs = () => {
-        const tabs = [
-            <Tab key={0} label="Add Collection" className={reportGlobalTableKeyClasses.collection} />,
-            <Tab key={1} label="Entities"/>,
-            <Tab key={2} label="Loans"/>,
-            <Tab key={3} label="Reports"/>,
-        ]
-        return tabs
+        return listOfTabs.map((tab, tabIndex) => {
+            return (
+                <Tab key={tabIndex} label={tab} />
+            )
+        })
     }
 
     const renderHelixPanelTabs = (value) => {
-        return (
-            <>
-                <HelixTabPanel value={value} index={1}>
-                    <HelixTableKeysRight />
+        return listOfPanelTabs.map((panelTab, panelTabIndex) => {
+            return (
+                <HelixTabPanel value={value} index={panelTabIndex}>
+                    {panelTab}
                 </HelixTabPanel>
-                <HelixTabPanel value={value} index={2}>
-                    Loans Content
-                </HelixTabPanel>
-                <HelixTabPanel value={value} index={3}>
-                    Reports Content
-                </HelixTabPanel>
-            </>
-        )
+            )
+        })
     }
 
     return (
