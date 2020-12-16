@@ -6,7 +6,8 @@ import HelixTabPanel from '../utils/HelixTabPanel'
 import HelixTableKeysRight from '../utils/helix-table-keys/HelixTableKeysRight'
 import FormDialog from '../utils/helix-table-keys/FormDialog'
 
-const reportGlobalTableKeyStyles = makeStyles((theme) => ({
+// Styling used for MaterialUI
+const globalTableKeyStyles = makeStyles((theme) => ({
     container: {
         marginTop: '1rem',
         width: '90%',
@@ -20,7 +21,7 @@ const reportGlobalTableKeyStyles = makeStyles((theme) => ({
     },
 }));
 
-const ReportGlobalTableKey = () => {
+const GlobalTableKey = () => {
 
     // Opens dialog to add new key dialog 
     const [ openDialog, setOpenDialog ] = useState(false)
@@ -28,12 +29,16 @@ const ReportGlobalTableKey = () => {
     // New key item value captured by form input
     const [collection, setCollection] = useState('')
 
+    // Mock data of list of tabs
     const [listOfTabs, setListOfTabs] = useState(["Entity #12", "Loan #16", "Report #20", "Loan #101"])
     
+    // Mock data of list of panel tabs
     const [listOfPanelTabs, setListOfPanelTabs] = useState([<HelixTableKeysRight />, "Loans Global Table Key", "Report Global Table Key", "Loans #101"])
 
-    const reportGlobalTableKeyClasses = reportGlobalTableKeyStyles()
+    // Creates an object for styling. Any className that matches key in the globalTableKeyStyles object will have a corresponding styling
+    const globalTableKeyClasses = globalTableKeyStyles()
 
+    // renderTabs return a list of Tab jsx object
     const renderTabs = () => {
         return listOfTabs.map((tab, tabIndex) => {
             return (
@@ -42,6 +47,7 @@ const ReportGlobalTableKey = () => {
         })
     }
 
+    // renderHelixPanelTabs return a list of HelixTabPanel jsx object
     const renderHelixPanelTabs = (value) => {
         return listOfPanelTabs.map((panelTab, panelTabIndex) => {
             return (
@@ -52,14 +58,16 @@ const ReportGlobalTableKey = () => {
         })
     }
 
+    // renderAddCollection return a HelixButton jsx object
     const renderAddCollection = () => {
         return (
-            <div className={reportGlobalTableKeyClasses.flexContainer}>
-                <HelixButton text="Add Collections" color="primary" className={reportGlobalTableKeyClasses.addCollectionButton} onClick = {() => setOpenDialog(true)} />
+            <div className={globalTableKeyClasses.flexContainer}>
+                <HelixButton text="Add Collections" color="primary" className={globalTableKeyClasses.addCollectionButton} onClick = {() => setOpenDialog(true)} />
             </div>
         )
     }
 
+    // Dynamically add collection to list of collections and panel tab
     const handleAddCollection = () => {
         setListOfTabs([...listOfTabs, collection])
         setListOfPanelTabs([...listOfPanelTabs, <HelixTableKeysRight />])
@@ -106,8 +114,8 @@ const ReportGlobalTableKey = () => {
 
     return (
         <>
-            <div className={reportGlobalTableKeyClasses.container}>
-                <div className={reportGlobalTableKeyClasses.header}>
+            <div className={globalTableKeyClasses.container}>
+                <div className={globalTableKeyClasses.header}>
                     <Typography variant='h5'>
                         <b>Helix Table Keys</b>
                     </Typography>
@@ -128,4 +136,4 @@ const ReportGlobalTableKey = () => {
     )
 }
 
-export default ReportGlobalTableKey
+export default GlobalTableKey
