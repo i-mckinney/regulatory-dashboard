@@ -60,8 +60,14 @@ const ReportGlobalTableKey = () => {
         )
     }
 
-    // Renders form input and button controls for adding/updating keys
-  const handleAddCollection = () => {
+    const handleAddCollection = () => {
+        setListOfTabs([...listOfTabs, collection])
+        setListOfPanelTabs([...listOfPanelTabs, <HelixTableKeysRight />])
+        setOpenDialog(false)
+    }
+
+    // Renders form input and button controls for adding collection name
+    const handleCollectionForm = () => {
       return (
         <Container>
             <Grid container 
@@ -84,7 +90,7 @@ const ReportGlobalTableKey = () => {
                     variant='contained'
                     text='Add'
                     style={{width: '8em'}}
-                    onClick={() => {setOpenDialog(false)}}/>
+                    onClick={() => handleAddCollection()}/>
                     <HelixButton
                     color='secondary'
                     size='large'
@@ -115,7 +121,7 @@ const ReportGlobalTableKey = () => {
                 title = 'Add New Global Table Keys Collection'
                 openDialog= { openDialog }
                 setOpenDialog = { setOpenDialog }>
-                    {handleAddCollection()}
+                    {handleCollectionForm()}
                 </FormDialog>
             </div>
         </>
