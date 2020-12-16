@@ -20,7 +20,7 @@ const helixVerticalTabsStyles = makeStyles((theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
     position: 'sticky',
     left: '0',
-    top: '0',
+    top: '56px',
   },
 }))
 

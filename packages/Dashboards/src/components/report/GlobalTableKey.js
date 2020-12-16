@@ -51,7 +51,7 @@ const GlobalTableKey = () => {
     const renderHelixPanelTabs = (value) => {
         return listOfPanelTabs.map((panelTab, panelTabIndex) => {
             return (
-                <HelixTabPanel value={value} index={panelTabIndex}>
+                <HelixTabPanel key={panelTabIndex} value={value} index={panelTabIndex}>
                     {panelTab}
                 </HelixTabPanel>
             )
