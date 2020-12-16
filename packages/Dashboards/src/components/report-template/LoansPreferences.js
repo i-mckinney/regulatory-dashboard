@@ -37,10 +37,6 @@ const useLoansPreferencesClasses = makeStyles((theme) => ({
   actionTableCell: {
     display: "flex",
     justifyContent: "space-evenly"
-  },
-  buttonSize:{
-    width: 150,
-    marginTop: 100
   }
 }));
 

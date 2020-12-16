@@ -69,19 +69,6 @@ cancelButton: {
 },
 }))
 
-/**
-* CUSTOM MAPPING Component 
-* UI that allows the user to set a mapping during report template creation
-*/
-
-/**
-* @param {Array} fields -Array of objects containing  Key Value mappings 
-* @param {Array} intialCollections - Array of objects containing collection data (currently using mockData file, not backend)
-* @param {Func} setFields - function passed from parent component to update field key objects
-* @param {Int} activeStep - state hook passed from parent component to keep track of step within report template creation
-* @param {Func} setActiveStep state hook function to control activeStep hook
-* @returns {Object} Returns a new field object with a generated unique ID, key and value pair. 
-*/
 const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=mockCollectionData, setFields, activeStep, setActiveStep}) => {
   const mappingClasses = createMappingStyles()
 
@@ -228,6 +215,7 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
           className={mappingClasses.backButton}
           color="secondary" 
           variant="contained" 
+          // type="submit" 
           type='button'
           size="small"
           onClick = {handleBackButton}

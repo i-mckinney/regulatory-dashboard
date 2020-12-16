@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import ReportTemplateInputForm from './ReportTemplateInputForm'
 import { columnFields } from './config'
 import ReportTemplateCreateMapping from './ReportTemplateCreateMapping'
-import ReportTemplatePage from  './ReportTemplatePage'
+import ReportTemplatePage from './ReportTemplatePage'
 
 // initialReportTemplate with preset data
 const initialReportTemplate = {}
@@ -21,7 +21,7 @@ columnFields.forEach((columnField) => {
  * @return {JSX} ReportCreate site with ReportInputForm provided for report creation
  * routed at /report/new
  */
-const ReportTemplateCreate = (props) => {
+const ReportCreate = (props) => {
     const [activeStep, setActiveStep] = useState(0)
     const [fields, setFields] = useState([])
     /**
@@ -47,7 +47,7 @@ const ReportTemplateCreate = (props) => {
             break;
         case 1:
             body = (
-               <ReportTemplatePage
+                <ReportTemplatePage
                 activeStep = {activeStep}
                 setActiveStep={setActiveStep}
                 />
@@ -74,4 +74,4 @@ const ReportTemplateCreate = (props) => {
     )
 }
 
-export default withRouter(ReportTemplateCreate)
+export default withRouter(ReportCreate)

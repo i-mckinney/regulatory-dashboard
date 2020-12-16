@@ -2,7 +2,7 @@ import React, { useState} from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
 import { columnFields, columnLabels } from './config'
-import ReportArchive from './ReportArchive'
+import ReportArchive from '../report/ReportArchive'
 import ReportTemplateCreateTable from './ReportTemplateCreateTable'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -70,10 +70,7 @@ columnFields.forEach((columnField) => {
  * @param {object} initialReportTemplate represent preset empty report template data object
  * @param {string} header represent the header title of this form
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
- * @param {Func} setFields - function passed from parent component to update field key objects
- * @param {Int} activeStep - state hook passed from parent component to keep track of step within report template creation
- * @param {Func} setActiveStep state hook function to control activeStep hook
- * @return {JSX} ReportTemplateInputForm site with input form to fill in
+ * @return {JSX} ReportInputForm site with input form to fill in
  */
 const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, activeStep, setActiveStep, setFields}) => {
     // Set reportTemplate with preset empty data for report template creation
@@ -133,9 +130,6 @@ const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, acti
         )
     }
 
-    /**
-     * @return {Array} reportKeys - returns array of objects containing report keys
-     */
     const generateReportFieldKeys = () => {
         const reportKeys = rowData.map((row) => (    
             {   
@@ -152,7 +146,6 @@ const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, acti
         let nextStep = activeStep+1
         setActiveStep(nextStep)
     }
-    
     /**
      * @return {jsx} return a jsx object of HelixButtons 
      */
@@ -175,7 +168,7 @@ const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, acti
                 variant="contained"
                 type="cancel"
                 size="small"
-                href="/reporttemplates"
+                href="/report"
                 text="Cancel" />
             </>
         )
