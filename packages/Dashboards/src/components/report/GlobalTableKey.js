@@ -15,7 +15,10 @@ const globalTableKeyStyles = makeStyles((theme) => ({
         marginBottom: '24px',
     },
     addCollectionButton: {
-        marginLeft: '24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // marginLeft: '24px',
     },
 }));
 
@@ -59,8 +62,8 @@ const GlobalTableKey = () => {
     // renderAddCollection return a HelixButton jsx object
     const renderAddCollection = () => {
         return (
-            <div className={globalTableKeyClasses.flexContainer}>
-                <HelixButton text="Add Collections" color="primary" className={globalTableKeyClasses.addCollectionButton} onClick = {() => setOpenDialog(true)} />
+            <div className={globalTableKeyClasses.addCollectionButton}>
+                <HelixButton text="Add Collections" color="primary" onClick = {() => setOpenDialog(true)} />
             </div>
         )
     }
