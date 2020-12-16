@@ -1,33 +1,31 @@
 import React, { useState } from 'react'
-import { makeStyles, Tabs, Tab, Divider } from '@material-ui/core'
-import HelixTabPanel from './HelixTabPanel'
+import { makeStyles, Box, Tabs } from '@material-ui/core'
 
 const verticalTabsStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+  container: {
     backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: 224,
+    padding: theme.spacing(1),
+    gridTemplateColumns: 'minmax(125px, 15%) 1fr',
+    display: 'grid',
+    width: '100%',
+    justifyContent: 'space-between',
   },
-  collection: {
-    backgroundColor: '#3f51b5',
-    fontSize: '.8125rem',
-    opacity: '1',
-    minHeight: '35px',
-    borderRadius: '4px',
+  tabContainer: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  myTabs: {
-    marginTop: '1rem',
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    position: 'sticky',
+    left: '0',
+    top: '0',
   },
-  divider: {
-    marginLeft: '1.5rem',
-    height: '100vh',
-  }
 }))
 
 function VerticalTabs(props) {
   const verticalTabsClasses = verticalTabsStyles();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     console.log(newValue)
@@ -35,23 +33,24 @@ function VerticalTabs(props) {
   }
 
   return (
-    <div className={verticalTabsClasses.root}>
-      <Tabs
-        orientation="vertical"
-        value={value}
-        onChange={handleChange}
-        aria-label="vertical tabs"
-        className={verticalTabsClasses.myTabs}
-      >
-        {props.renderTabs()}
-        {/* <Tab label="Add Collection" className={verticalTabsClasses.collection} />
-        <Tab label="Entities"/>
-        <Tab label="Loans"/>
-        <Tab label="Reports"/> */}
-      </Tabs>
-      <Divider orientation="vertical" className={verticalTabsClasses.divider} />
-      {props.renderHelixPanelTabs(value)}
-    </div>
+    <Box className={verticalTabsClasses.container}>
+      <div className={verticalTabsClasses.tabContainer}>
+        {props.renderAddCollection()}
+        <Tabs
+          orientation="vertical"
+          variant="standard"
+          value={value}
+          onChange={handleChange}
+          aria-label="vertical tabs"
+          className={verticalTabsClasses.tabs}
+          indicatorColor="primary"
+          textColor="primary"
+        >
+          {props.renderTabs()}
+        </Tabs>
+      </div>
+        {props.renderHelixPanelTabs(value)}
+    </Box>
   )
 }
 
