@@ -5,7 +5,6 @@ import { makeStyles, Box } from '@material-ui/core'
 // Styling used for MaterialUI
 const helixTabPanelStyles = makeStyles((theme) => ({
   canvas: {
-    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(1),
   },
 }))

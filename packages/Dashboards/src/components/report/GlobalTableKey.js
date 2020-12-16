@@ -14,7 +14,7 @@ const globalTableKeyStyles = makeStyles((theme) => ({
         margin: 'auto',
     },
     header: {
-        marginBottom: '48px',
+        marginBottom: '24px',
     },
     addCollectionButton: {
         marginLeft: '24px',

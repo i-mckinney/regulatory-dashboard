@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 // Styling used for MaterialUI
 const helixVerticalTabsStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(1),
     gridTemplateColumns: 'minmax(125px, 15%) 1fr',
     display: 'grid',
