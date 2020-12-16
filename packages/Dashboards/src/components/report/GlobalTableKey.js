@@ -10,8 +10,6 @@ import FormDialog from '../utils/helix-table-keys/FormDialog'
 const globalTableKeyStyles = makeStyles((theme) => ({
     container: {
         marginTop: '1rem',
-        width: '90%',
-        margin: 'auto',
     },
     header: {
         marginBottom: '24px',
