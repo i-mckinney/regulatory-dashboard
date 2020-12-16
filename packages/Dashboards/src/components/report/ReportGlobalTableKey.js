@@ -21,9 +21,9 @@ const reportGlobalTableKeyStyles = makeStyles((theme) => ({
 
 const ReportGlobalTableKey = () => {
 
-    const [listOfTabs, setListOfTabs] = useState(["Entity #12", "Loan #16", "Report #20"])
+    const [listOfTabs, setListOfTabs] = useState(["Entity #12", "Loan #16", "Report #20", "Loan #101"])
     
-    const [listOfPanelTabs, setListOfPanelTabs] = useState([<HelixTableKeysRight />, "Loans Global Table Key", "Report Global Table Key"])
+    const [listOfPanelTabs, setListOfPanelTabs] = useState([<HelixTableKeysRight />, "Loans Global Table Key", "Report Global Table Key", "Loans #101"])
 
     const reportGlobalTableKeyClasses = reportGlobalTableKeyStyles()
 

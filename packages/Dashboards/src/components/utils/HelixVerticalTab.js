@@ -38,7 +38,7 @@ function VerticalTabs(props) {
         {props.renderAddCollection()}
         <Tabs
           orientation="vertical"
-          variant="standard"
+          variant="scrollable"
           value={value}
           onChange={handleChange}
           aria-label="vertical tabs"
