@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import HelixSelectTable from "../HelixSelectTable/HelixSelectTable";
 import { TableCell } from "@material-ui/core";
 import { EntitySelectionMockData } from "./mockData/EntitySelectionMockData";
-import HelixProgressBar from "../utils/HelixProgressBar";
 import { HelixButton } from "helixmonorepo-lib";
 
 const selectEntityStyles = makeStyles((theme) => ({
@@ -85,23 +84,22 @@ function ReportEntitySelection(props) {
       </>
     );
   };
-  // const [activeStep, setActiveStep] = useState(0);
 
   const hanldeReportGenerateNext = () => {
     let nextStep = props.activeStep + 1;
-    console.log(nextStep);
     props.setActiveStep(nextStep);
-    // props.history.push("report/testreport/generate");
   };
 
   const handleCancel = () => {
     props.history.push("/reporttemplates");
   };
 
-  const steps = ["Entities", "Loan", "Normalization Table", "Summary"];
+  const handleBack = () => {
+    let prevStep = props.activeStep - 1;
+    props.setActiveStep(prevStep);  };
+
   return (
     <div>
-      {/* <HelixProgressBar steps={steps} activeStep={activeStep} /> */}
       <div className={entitySelectionTableStyles.selectTableRoot}>
         <HelixSelectTable
           columnHeaders={columnHeaders}
@@ -116,7 +114,7 @@ function ReportEntitySelection(props) {
           <HelixButton
             className={entitySelectionTableStyles.backButton}
             text="Back"
-            disabled
+            onClick={handleBack}
           />
           <HelixButton
             disabled={selected.length > 0? false : true}
@@ -129,25 +127,6 @@ function ReportEntitySelection(props) {
             onClick={handleCancel}
             text="Cancel"
           /> 
-          {/* <Button
-            disabled
-            variant="contained"
-            className={entitySelectionTableStyles.backButton}
-          >
-            Back
-          </Button>
-          <Button
-            disabled={selected.length > 0? false : true}
-            variant="contained"
-            className={entitySelectionTableStyles.nextButton}
-            color="primary"
-            onClick={hanldeReportGenerateNext}
-          >
-            Next
-          </Button>
-          <Button variant="contained" color="secondary" onClick={handleCancel}>
-            Cancel
-          </Button> */}
         </div>
       </div>
     </div>

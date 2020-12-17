@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import HelixSelectTable from "../HelixSelectTable/HelixSelectTable";
-import { TableCell, Button } from "@material-ui/core";
+import { TableCell } from "@material-ui/core";
 import { LoanSelectionMockData } from "./mockData/LoanSelectionMockData";
-import HelixProgressBar from "../utils/HelixProgressBar";
 import { HelixButton } from "helixmonorepo-lib";
 
 const selectEntityStyles = makeStyles((theme) => ({
@@ -43,33 +42,6 @@ const selectEntityStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
-  // selectTablePaper: {
-  //   width: "100%",
-  //   marginBottom: theme.spacing(2),
-  // },
-  // selectTable: {
-  //   minWidth: 750,
-  // },
-  // visuallyHidden: {
-  //   border: 0,
-  //   clip: "rect(0 0 0 0)",
-  //   height: 1,
-  //   margin: -1,
-  //   overflow: "hidden",
-  //   padding: 0,
-  //   position: "absolute",
-  //   top: 20,
-  //   width: 1,
-  // },
-  // root: {
-  //   "&$selected": {
-  //     backgroundColor: "#d9eeda",
-  //     "&:hover": {
-  //       backgroundColor: "#d9eeda",
-  //     },
-  //   },
-  // },
-  // selected: {},
 }));
 
 function ReportLoanSelection(props) {
@@ -111,7 +83,6 @@ function ReportLoanSelection(props) {
       </>
     );
   };
-  // const [activeStep, setActiveStep] = useState(1);
 
   const hanldeReportGenerateNext = () => {
     let nextStep = props.activeStep + 1;
@@ -121,17 +92,14 @@ function ReportLoanSelection(props) {
   const hanldeReportGenerateBack = () => {
     let nextStep = props.activeStep - 1;
     props.setActiveStep(nextStep);
-    // props.history.push("/report/generate/entityselection/step1");
   };
 
   const handleCancel = () => {
     props.history.push("/reporttemplates");
   };
 
-  const steps = ["Entities", "Loan", "Normalization Table", "Summary"];
   return (
     <div>
-      {/* <HelixProgressBar steps={steps} activeStep={activeStep} /> */}
       <div className={entitySelectionTableStyles.selectTableRoot}>
         <HelixSelectTable
           columnHeaders={columnHeaders}

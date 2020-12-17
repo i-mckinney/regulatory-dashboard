@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import ReportInputForm from './ReportInputForm'
+import ReportTemplateInputForm from '../report-template/ReportTemplateInputForm'
 
 /**
  * @param {Object} props Using the history property to route next component with data state and location for state object
