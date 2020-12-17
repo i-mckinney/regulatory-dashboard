@@ -10,6 +10,7 @@ import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import mockData from "./MockRequestData"
 import ConfirmDialog from "../utils/ConfirmDialog"
 import Notification from "../utils/Notification"
+import DownloadReport from "./DownloadReport"
 
 // Styling used for MaterialUI
 const requestTableStyles = makeStyles(() => ({
@@ -162,6 +163,7 @@ const MyRequest = () => {
             <HelixTable toggleSearch={true} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
             <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
             <Notification notification={notification} setNotification={setNotification} />
+            <DownloadReport />
         </div>
     </StylesProvider>
   ) 
