@@ -268,7 +268,6 @@ const HelixNormalizationTableCell = ({
     saveRadioData(rowIndex, columns[columnIndex].customApiId, currentStateValue || initialStateValue)
   }
   
-  console.log(currentStateValue, initialStateValue, columns[columnIndex])
   // displayTableCell return jsx object of editable table cell or non-editable table cell
   const displayTableCell = () => {
     if (selectable) {
