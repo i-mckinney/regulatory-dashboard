@@ -106,7 +106,7 @@ const handleToggleChange = e => {
         <FormHelperText>Please select your API</FormHelperText>
       </FormControl>
     </Grid>
-      <Grid item xs={1} alignContent='flex-start'>
+      <Grid container item xs={1} alignContent='flex-start'>
         <IconButton variant='contained' color='primary' size='medium' onClick={handleAddToTable}>
           <AddBoxIcon />
         </IconButton>

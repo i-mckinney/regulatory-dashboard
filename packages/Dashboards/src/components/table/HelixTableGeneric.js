@@ -63,6 +63,7 @@ const helixTableStyles = makeStyles(() => ({
  * @param {func} displayCreateIcon func displays jsx object of create icon into toolbar
  * @param {func} saveHeaderData func that allows header data to be saved and pass to next component
  * @param {func} headerNotification func that allows header notification data to be saved and pass to next component
+ * @param {boolean} toggleExpandable boolean to passed to HelixTableBody to set expandable settting
 
  * @returns {JSX} renders a custom table
  */
@@ -76,7 +77,8 @@ const HelixTableGeneric = ({
   toggleSearch,
   displayCreateIcon,
   saveHeaderData,
-  headerNotification
+  headerNotification,
+  toggleExpandable = false,
   }) => {
   // Creates an object for styling. Any className that matches key in the helixTableStyles object will have a corresponding styling
   const helixTableClasses = helixTableStyles()
@@ -166,7 +168,7 @@ const HelixTableGeneric = ({
       <TableContainer component={Paper}>
         <Table aria-label="table">
           <HelixTableHeadGeneric toggleSearch={toggleSearch} order={order} orderBy={orderBy} onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp} saveHeaderData={saveHeaderData} saveNotificationData={headerNotification}/>
-          <HelixTableBody toggleSearch={toggleSearch} searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
+          <HelixTableBody toggleSearch={toggleSearch} searchFilter={searchFilter} order={order} orderBy={orderBy} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} rowsPerPage={rowsPerPage} page={page} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp} toggleExpandable={toggleExpandable}/>
           <HelixTableFooter rows={rows} colSpan={columns.length} rowsPerPage={rowsPerPage} page={page} handleChangePage={handleChangePage} handleChangeRowsPerPage={handleChangeRowsPerPage} />
         </Table>
       </TableContainer>
@@ -175,7 +177,7 @@ const HelixTableGeneric = ({
       <TableContainer component={Paper}>
         <Table aria-label="table">
           <HelixTableHeadGeneric onSort={onSort} columns={columns} customHeadColumnKeyProp={customHeadColumnKeyProp} saveHeaderData={saveHeaderData} saveNotificationData={headerNotification}/>
-          <HelixTableBody searchFilter={searchFilter} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp}/>
+          <HelixTableBody searchFilter={searchFilter} getComparator={getComparator} stableSort={stableSort} columns={columns} rows={rows} customCellRender={customCellRender} customBodyRowKeyProp={customBodyRowKeyProp} toggleExpandable={toggleExpandable} />
         </Table>
       </TableContainer>
     }
