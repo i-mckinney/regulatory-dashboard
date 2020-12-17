@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 // Styling used for MaterialUI
 const helixVerticalTabsStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(1),
     gridTemplateColumns: 'minmax(125px, 15%) 1fr',
     display: 'grid',
@@ -21,7 +20,7 @@ const helixVerticalTabsStyles = makeStyles((theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
     position: 'sticky',
     left: '0',
-    top: '0',
+    top: '56px',
   },
 }))
 

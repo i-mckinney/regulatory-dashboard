@@ -168,6 +168,7 @@ const App = () => {
               <Route exact path="/users/edit/:id" component={User} />
               <Route exact path="/users/delete/:id" component={User} />
               <Route exact path="/api-table" component={CompanyView} />
+              <Route exact path="/global-table-key" component={Dashboard} />
               <Route exact path="/selecttable"  component={Dashboard}/>
             </Switch>
           </main>

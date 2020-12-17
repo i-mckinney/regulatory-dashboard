@@ -10,14 +10,15 @@ import FormDialog from '../utils/helix-table-keys/FormDialog'
 const globalTableKeyStyles = makeStyles((theme) => ({
     container: {
         marginTop: '1rem',
-        width: '90%',
-        margin: 'auto',
     },
     header: {
-        marginBottom: '48px',
+        marginBottom: '24px',
     },
     addCollectionButton: {
-        marginLeft: '24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // marginLeft: '24px',
     },
 }));
 
@@ -51,7 +52,7 @@ const GlobalTableKey = () => {
     const renderHelixPanelTabs = (value) => {
         return listOfPanelTabs.map((panelTab, panelTabIndex) => {
             return (
-                <HelixTabPanel value={value} index={panelTabIndex}>
+                <HelixTabPanel key={panelTabIndex} value={value} index={panelTabIndex}>
                     {panelTab}
                 </HelixTabPanel>
             )
@@ -61,8 +62,8 @@ const GlobalTableKey = () => {
     // renderAddCollection return a HelixButton jsx object
     const renderAddCollection = () => {
         return (
-            <div className={globalTableKeyClasses.flexContainer}>
-                <HelixButton text="Add Collections" color="primary" className={globalTableKeyClasses.addCollectionButton} onClick = {() => setOpenDialog(true)} />
+            <div className={globalTableKeyClasses.addCollectionButton}>
+                <HelixButton text="Add Collections" color="primary" onClick = {() => setOpenDialog(true)} />
             </div>
         )
     }
