@@ -26,6 +26,7 @@ import ReportEdit from './components/report/ReportEdit'
 import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
+import GlobalTableKey from './components/report/GlobalTableKey'
 
 import {
   StylesProvider,
@@ -140,6 +141,10 @@ function App(history) {
               <h1>
                 Report Summary Page
               </h1>
+            </Route>
+
+            <Route exact path="/global-table-key">
+              <GlobalTableKey />
             </Route>
 
             <Route exact path="/selecttable">

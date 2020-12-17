@@ -22,7 +22,7 @@ const ReportEdit = (props) => {
 
     return (
     <div>
-        <ReportInputForm header="Edit Report Template" initialReportTemplate={reportTemplate} onSubmit={editReportTemplate} />
+        {/* <ReportInputForm header="Edit Report Template" initialReportTemplate={reportTemplate} onSubmit={editReportTemplate} /> */}
     </div>
     )
 }

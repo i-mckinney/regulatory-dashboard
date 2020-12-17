@@ -1,25 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Typography } from '@material-ui/core'
+import { makeStyles, Box } from '@material-ui/core'
+
+// Styling used for MaterialUI
+const helixTabPanelStyles = makeStyles((theme) => ({
+  canvas: {
+    padding: theme.spacing(1),
+  },
+}))
 
 function HelixTabPanel(props) {
-    const { children, value, index, ...other } = props
+  // Creates an object for styling. Any className that matches key in the helixTabPanelStyles object will have a corresponding styling
+  const helixTabPanelClasses = helixTabPanelStyles()
   
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`vertical-tabpanel-${index}`}
-        aria-labelledby={`vertical-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box p={3}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    )
+  // Destruct props data into individual variables
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={1} className={helixTabPanelClasses.canvas}>
+          {children}
+        </Box>
+      )}
+    </div>
+  )
 }
   
 HelixTabPanel.propTypes = {
