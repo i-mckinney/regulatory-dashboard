@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles, Box, Tabs } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
@@ -27,18 +27,6 @@ const helixVerticalTabsStyles = makeStyles((theme) => ({
 function HelixVerticalTabs(props) {
   // Creates an object for styling. Any className that matches key in the verticalTabsStyles object will have a corresponding styling
   const helixVerticalTabsClasses = helixVerticalTabsStyles();
-  
-  // // value uses 0 - 9 indexing to access tabs
-  // const [value, setValue] = useState(props.value);
-
-  /**
-   * @param {object} event the event object
-   * @param {int} newValue the value the tab is selected
-   */
-  // const handleChange = (event, newValue) => {
-  //   console.log(newValue)
-  //   setValue(newValue);
-  // }
 
   return (
     <Box className={helixVerticalTabsClasses.container}>
