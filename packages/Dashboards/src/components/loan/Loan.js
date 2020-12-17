@@ -25,10 +25,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import DraftsIcon from '@material-ui/icons/Drafts'
-import SendIcon from '@material-ui/icons/Send'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'loan-',
@@ -101,7 +98,7 @@ function LoanMenu(props) {
     cancelText: 'Cancel',
   })
 
-  // Handles menu anchor location
+  // Sets state of dropdown menu location
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   // On first render (column length is zero), set rows to full set of mock data
@@ -156,16 +153,17 @@ function LoanMenu(props) {
     })
   }
 
-  // Handle menu click event
+  // Handles opening of the action button dropdown menu
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
-  // Handle menu close
+  // Handles closing of the action button dropdown menu
   const handleClose = () => {
     setAnchorEl(null)
   }
 
+  // Toggle-able dropdown menu that displays on action button click event
   const ActionMenu = withStyles({
     paper: {
       border: '1px solid #d3d4d5',
@@ -186,6 +184,7 @@ function LoanMenu(props) {
     />
   ))
 
+  // Dropdown menu list items and styling
   const ActionMenuItem = withStyles((theme) => ({
     root: {
       '&:focus': {
@@ -240,16 +239,16 @@ function LoanMenu(props) {
     const displayActions = () => (
       <span className={loanClasses.actionsIconStyle}>
         <Button
-          aria-controls='customized-menu'
+          aria-controls='action-menu'
           aria-haspopup='true'
           variant='contained'
           color='primary'
           onClick={handleClick}
         >
-          Actions <ArrowDropDownIcon style={{ paddingLeft: '0.5em' }} />
+          Actions<ExpandMoreIcon style={{ paddingLeft: '0.5em' }} />
         </Button>
         <ActionMenu
-          id='customized-menu'
+          id='action-menu'
           anchorEl={anchorEl}
           keepMounted
           open={Boolean(anchorEl)}
