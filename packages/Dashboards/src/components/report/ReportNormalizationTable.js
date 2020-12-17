@@ -153,7 +153,7 @@ const ReportNormalizationTable = (props) => {
     return (
       <>
         <EntityCard
-        RecordLabel='Testing #1'
+        RecordLabel={props.header}
         BorrowerID='1a'
         BorrowerName='Rey'
         />

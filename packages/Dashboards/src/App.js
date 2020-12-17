@@ -104,10 +104,9 @@ function App(history) {
               <MyRequest />
             </Route>
             
-            {/* 
             <Route exact path="/report">
               <Report />
-            </Route> */}
+            </Route>
 
             <Route exact path="/reporttemplates/new">
               <ReportTemplateCreate />
