@@ -46,6 +46,10 @@ function HelixVerticalTabs(props) {
         </Tabs>
       </div>
       {props.renderHelixPanelTabs(props.value)}
+      <br />
+      {props.renderButtonContainer()}
+      
+
     </Box>
   )
 }
@@ -54,10 +58,12 @@ HelixVerticalTabs.propTypes = {
   renderAddCollection: PropTypes.func.isRequired,
   renderHelixTabs: PropTypes.func.isRequired,
   renderHelixPanelTabs: PropTypes.func.isRequired,
+  renderButtonContainer: PropTypes.func.isRequired,
 }
 
 HelixVerticalTabs.defaultProps = {
-  renderAddCollection: () => null
+  renderAddCollection: () => null,
+  renderButtonContainer: () => null
 }
 
 

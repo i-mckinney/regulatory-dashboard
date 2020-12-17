@@ -150,11 +150,8 @@ function ReportNormalizationTableDashboard({
     })
   }
 
-  return (
-    <div>
-      <div className={normalizationTableClasses.tableAndTabsContainer}>
-        <HelixVerticalTab handleChange={handleChange} value={value} renderHelixTabs={renderHelixTabs} renderHelixPanelTabs={renderHelixPanelTabs}/>
-      </div>
+  const renderButtonContainer = () => {
+    return (
       <div className={normalizationTableClasses.buttonContainer}>
         <HelixButton
         className={normalizationTableClasses.backButton}
@@ -172,6 +169,14 @@ function ReportNormalizationTableDashboard({
         onClick={handleCancel}
         text="Cancel"
         />
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <div className={normalizationTableClasses.tableAndTabsContainer}>
+        <HelixVerticalTab renderButtonContainer={renderButtonContainer} handleChange={handleChange} value={value} renderHelixTabs={renderHelixTabs} renderHelixPanelTabs={renderHelixPanelTabs}/>
       </div>
     </div>
   );
