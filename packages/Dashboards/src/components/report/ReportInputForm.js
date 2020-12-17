@@ -1,11 +1,41 @@
 import React, { useState} from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
+import { v4 as uuidv4 } from 'uuid';
 import { columnFields, columnLabels } from './config'
 import ReportArchive from './ReportArchive'
 import ReportTemplateCreateTable from './ReportTemplateCreateTable'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import HelixTableGenericTEST from '../table/HelixTableGenericTEST'
+
+const initialMockRows =[ 
+    {
+        _id: uuidv4(),
+        Row: "1",
+        FieldCode:'H1',
+        FieldName:'',
+        Actions:''
+    },
+    {
+        _id: uuidv4(),
+        Row: '2',
+        FieldCode:'H2',
+        FieldName:'MasterID',
+        Actions:''
+    },
+  ]
+  const mockColumnLabels = ["_id", "Row", "Field Code", "Field Name", "Actions"]
+//   const mockColumnLabels = ["_id", "Row", "Field Code", "Field Name"]
+
+  const initialMockColumns = mockColumnLabels.map((col)=>{
+  return ({ 
+    Label: col,
+    Accessor: col.replace(/\s+/g, ''),
+    Sortable: true
+  })
+  })
+
 
 // Styling used for MaterialUI
 const reportInputFormStyles = makeStyles(() => ({
@@ -61,10 +91,16 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
     const [report, setReport] = useState(initialReportTemplate)
     // Perform error check for form validatation upon report template data
     const [error] = useState(reportError)
+
      // Row data to be passed to next component
-    const [rowData, setRowData] = useState([])
+    const [rowData, setRowData] = useState(initialMockRows)
      // Column data to be passed to next component
-    const [colData, setColData] = useState([])
+    const [colData, setColData] = useState(initialMockColumns)
+    // Row data to be passed to next component
+    const [rows, setRows] = useState(initialMockRows)
+    // Column data to be passed to next component
+    const [columns, setColumns] = useState(initialMockColumns)
+
     // Creates an object for styling. Any className that matches key in the reportInputFormStyles object will have a corresponding styling
     const reportInputFormClasses = reportInputFormStyles()
     
@@ -161,19 +197,35 @@ const ReportInputForm = ({ initialReportTemplate, header, onSubmit}) => {
                 <Grid className={reportInputFormClasses.hide}> {renderButtonActions()}</Grid> 
             </Grid>
         </form>
-        <ReportTemplateCreateTable setColData = {setColData} setRowData = {setRowData} />
+        {/* <ReportTemplateCreateTable setColData = {setColData} setRowData = {setRowData} /> */}
+        <div> Testing new table....</div>
+        <HelixTableGenericTEST
+            columns = {columns}
+            rows= {rows}
+            setColumns = {setColumns} 
+            setRows = {setRows}
+            toggleSearch={true}
+            showAddRow = {true}
+            showAddColumn = {true}
+            deleteColumnOption = {true}
+            editColumnOption = {false}
+            />
+
         <div className={reportInputFormClasses.selectDropdown}>
             <p> Select Report Field Name Column </p>
-            <Autocomplete
+            {/* <Autocomplete
                 id = "ColumnSelection"
                 options = {colData.slice(2,colData.length-1)}
                 getOptionLabel = {(selectOption)=> selectOption.Label}
                 renderInput={(params)=><TextField {...params} label="Select Column" variant = "outlined"/>}
-             />
+             /> */}
         </div>
         <div className={reportInputFormClasses.buttonStyle}>
             {renderButtonActions()}
         </div>
+        {console.log('rows,',rows)}
+        {console.log('columns,',columns)}
+
     </div>
     )
 }

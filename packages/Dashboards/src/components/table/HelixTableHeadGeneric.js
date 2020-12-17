@@ -68,19 +68,27 @@ const helixTableHeadStyles = makeStyles(() => ({
  * @param {func} saveNotificationData func that allows header notification data to be passed up to parent
  * @returns {JSX} renders a custom table head for table
  */
-const HelixTableHeadGeneric = ({ columns, customHeadColumnKeyProp, order, orderBy, onSort, toggleSearch, saveHeaderData, saveNotificationData }) => {
+const HelixTableHeadGeneric = ({ 
+  columns, 
+  customHeadColumnKeyProp, 
+  order, 
+  orderBy, 
+  onSort, 
+  toggleSearch, 
+  saveHeaderData, 
+  saveNotificationData,
+  deleteColumnOption,
+  editColumnOption
+ }) => {
+
 // isDivHidden is a boolean to check whether div is hidden or not
   const [isDivHidden, setIsDivHidden] = useState(true)
-
   // Sets state of input text field value (used for editing column names)
   const [value, setValue] = useState('')
-
   // columns/headers to be used in Table Head
   const [stateColumns, setStateColumns] = useState(columns)
- 
   // State hook to keep track of which column is being edited
   const [columnToChange, setColumnToChange] = useState('')
-
   // Sets state of confirm Dialog window used for editing/deleting a request
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: 'Are you sure you want to delete this column?', subTitle: '', confirmText: 'Yes', cancelText: 'Cancel'})
 
@@ -219,42 +227,51 @@ const HelixTableHeadGeneric = ({ columns, customHeadColumnKeyProp, order, orderB
     )
   }
 
+  const RenderColumnActions = (column) => {
+    return (
+      <>
+      {deleteColumnOption ? 
+        <IconButton className={helixTableHeadClasses.matHeaderIcon} aria-label="edit" size="small" edge="start" 
+          onClick={()=>{
+            setConfirmDialog({
+            ...confirmDialog,
+            isOpen: true,
+            onConfirm: ()=>{handleDelete(column)}
+            })
+          }}
+        > 
+          <DeleteIcon/>
+        </IconButton>
+        : null
+       }
+       {editColumnOption ?  
+          <IconButton className={helixTableHeadClasses.matHeaderIcon} aria-label="edit" size="small" edge="start" onClick={()=>handleDivChange(column)}> 
+            <EditIcon/>
+          </IconButton>
+          : null
+        }
+        {displayCustomizedForm(column)}
+      </>
+    )
+  }
+
   return (
     <>
-        <TableHead>
+      <TableHead>
         <TableRow>
           {stateColumns.map((column) => (
-          ((column.Label !=='Actions') && (column.Label !== 'Row')) ?
             <TableCell 
               className={helixTableHeadClasses.headerText}
               key={customHeadColumnKeyProp(column)}
-              sortDirection={orderBy === customHeadColumnKeyProp(column) ? order : false}>
+              sortDirection={orderBy === customHeadColumnKeyProp(column) ? order : false}
+              >
               {toggleSearch ? renderTableSortLabel(column) : column.Label}
-              <IconButton className={helixTableHeadClasses.matHeaderIcon} aria-label="edit" size="small" edge="start" 
-                  onClick={()=>{
-                    setConfirmDialog({
-                    ...confirmDialog,
-                    isOpen: true,
-                    onConfirm: ()=>{handleDelete(column)}
-                    })
-                  }}> 
-                  <DeleteIcon/>
-              </IconButton>
-              <IconButton className={helixTableHeadClasses.matHeaderIcon} aria-label="edit" size="small" edge="start" onClick={()=>handleDivChange(column)}> 
-                  <EditIcon/>
-              </IconButton>
-              {displayCustomizedForm(column)}
+             { ((column.Label !=='Actions') && (column.Label !== 'Row')) ? RenderColumnActions(column) : null}
               </TableCell>
-              : <TableCell
-              className={helixTableHeadClasses.headerText}
-              key={customHeadColumnKeyProp(column)}
-              sortDirection={orderBy === customHeadColumnKeyProp(column) ? order : false}>
-              {toggleSearch ? renderTableSortLabel(column) : column.Label}
-            </TableCell>
           ))}
         </TableRow>
-        </TableHead>
-        <ConfirmDialogModal confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      </TableHead>
+      <ConfirmDialogModal confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
     </>
   )
 }

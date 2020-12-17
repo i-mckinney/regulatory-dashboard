@@ -15,26 +15,30 @@ const helixToolBarSearchStyles = makeStyles(() => ({
  * @param {func} onSearch the onSearch function handle the user query input
  * @param {func} displayCreateIcon the displayCreateIcon displays textfield with search icon jsx 
  */
-const HelixToolBarSearch = ({ onSearch, displayCreateIcon }) => {
+const HelixToolBarSearch = ({ toggleSearch, onSearch, displayCreateIcon }) => {
   // Creates an object for styling. Any className that matches key in the helixTableSearchStyles object will have a corresponding styling
   const helixToolBarSearchClasses = helixToolBarSearchStyles()
 
     return (
-      <Toolbar disableGutters>
-        <HelixTextField
-        className={helixToolBarSearchClasses.searchStyles}
-        label="Search"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <SearchIcon />
-            </InputAdornment>
-          )
-        }}
-        onChange={onSearch}
-        />
+      <> 
+        {toggleSearch ? 
+        <Toolbar disableGutters>
+          <HelixTextField
+          className={helixToolBarSearchClasses.searchStyles}
+          label="Search"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <SearchIcon />
+              </InputAdornment>
+            )
+          }}
+          onChange={onSearch}
+          /> 
         {displayCreateIcon()}
-      </Toolbar>
+      </Toolbar> 
+      :  <Toolbar disableGutters> {displayCreateIcon()} </Toolbar> }
+      </>
     )
 }
 
