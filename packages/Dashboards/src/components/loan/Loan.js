@@ -1,6 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import { withRouter } from 'react-router-dom'
-import { StylesProvider, createGenerateClassName, makeStyles, Typography } from '@material-ui/core'
+import {
+  StylesProvider,
+  createGenerateClassName,
+  makeStyles,
+  withStyles,
+  Typography,
+} from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import SettingsIcon from '@material-ui/icons/Settings'
 import IconButton from '@material-ui/core/IconButton'
@@ -11,37 +17,47 @@ import HelixTable from '../table/HelixTable'
 import mockData from './MockData'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
-import ConfirmDialog from "../utils/ConfirmDialog"
-import Notification from "../utils/Notification"
+import ConfirmDialog from '../utils/ConfirmDialog'
+import Notification from '../utils/Notification'
+
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import InboxIcon from '@material-ui/icons/MoveToInbox'
+import DraftsIcon from '@material-ui/icons/Drafts'
+import SendIcon from '@material-ui/icons/Send'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
 
 const generateClassName = createGenerateClassName({
-    productionPrefix: 'loan-',
+  productionPrefix: 'loan-',
 })
 
 // Styling used for MaterialUI
 const loanStyles = makeStyles(() => ({
   mediumContainer: {
-      width: '80%',
-      margin: 'auto',
-      marginTop: '3rem',
-      paddingBottom: '3rem',
+    width: '80%',
+    margin: 'auto',
+    marginTop: '3rem',
+    paddingBottom: '3rem',
   },
   createIconStyle: {
-      float: 'right',
-      cursor: 'pointer',
-      marginLeft: "auto",
+    float: 'right',
+    cursor: 'pointer',
+    marginLeft: 'auto',
   },
   header: {
-      paddingBottom: '2rem',
+    paddingBottom: '2rem',
   },
   actionsIconStyle: {
     '& button': {
-        marginRight: '1rem',
-        cursor: 'pointer',
+      marginRight: '1rem',
+      cursor: 'pointer',
     },
   },
   discrepancyButton: {
-    color: 'green'
+    color: 'green',
   },
 }))
 
@@ -49,7 +65,7 @@ const loanStyles = makeStyles(() => ({
  * routed at /loan
  */
 
-function Loan(props) {
+function LoanMenu(props) {
   // Creates an object for styling. Any className that matches key in the loanStyles object will have a corresponding styling
   const loanClasses = loanStyles()
 
@@ -70,10 +86,23 @@ function Loan(props) {
   const columns = useMemo(() => [], [])
 
   //Set state of notification in response to a button action
-  const [notification, setNotification] = useState({isOpen: false, message: '', type: ''}) 
+  const [notification, setNotification] = useState({
+    isOpen: false,
+    message: '',
+    type: '',
+  })
 
   // Sets state of confirm Dialog window used for editing/deleting a request
-  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '', confirmText: 'Yes', cancelText: 'Cancel'})
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+    confirmText: 'Yes',
+    cancelText: 'Cancel',
+  })
+
+  // Handles menu anchor location
+  const [anchorEl, setAnchorEl] = React.useState(null)
 
   // On first render (column length is zero), set rows to full set of mock data
   if (columns.length === 0) {
@@ -81,21 +110,21 @@ function Loan(props) {
   }
 
   /**
-   * @param {string} id row id to be deleted 
-   * Closes dialog box and updates row data 
+   * @param {string} id row id to be deleted
+   * Closes dialog box and updates row data
    */
-  const handleDelete = id => {
+  const handleDelete = (id) => {
     const tempData = [...rows]
     setConfirmDialog({
       ...confirmDialog,
-      isOpen: false
+      isOpen: false,
     })
-    const newData = tempData.filter(myRequest => myRequest._id !== id)
+    const newData = tempData.filter((myRequest) => myRequest._id !== id)
     setRows(newData)
     setNotification({
       isOpen: true,
       message: 'Successfully deleted request',
-      type: 'success'
+      type: 'success',
     })
   }
 
@@ -104,9 +133,9 @@ function Loan(props) {
     headerColumns.forEach((key, index) => {
       if (!columnExcludes.includes(key)) {
         columns.push({
-        Label: columnLabels[index],
-        Accessor: key,
-        Sortable: sortableExcludes.includes(key) ? false : true,
+          Label: columnLabels[index],
+          Accessor: key,
+          Sortable: sortableExcludes.includes(key) ? false : true,
         })
       }
     })
@@ -117,13 +146,56 @@ function Loan(props) {
    */
   const handleModalDeletePopUp = (row) => {
     setConfirmDialog({
-      isOpen: true, 
+      isOpen: true,
       title: `Do you want to delete this ${row.borrowerName}'s loan?`,
       cancelText: 'Cancel',
       confirmText: 'Yes',
-      onConfirm: ()=>{handleDelete(row._id)}
-      }) 
+      onConfirm: () => {
+        handleDelete(row._id)
+      },
+    })
   }
+
+  // Handle menu click event
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  // Handle menu close
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const ActionMenu = withStyles({
+    paper: {
+      border: '1px solid #d3d4d5',
+    },
+  })((props) => (
+    <Menu
+      elevation={10}
+      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      {...props}
+    />
+  ))
+
+  const ActionMenuItem = withStyles((theme) => ({
+    root: {
+      '&:focus': {
+        backgroundColor: theme.palette.primary.main,
+        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+          color: theme.palette.common.white,
+        },
+      },
+    },
+  }))(MenuItem)
 
   /**
    * @param {object} row row represents loan object
@@ -131,10 +203,29 @@ function Loan(props) {
    * @param {object} columns columns represents list of columns
    * @param {func} customCellRender represents HelixTableCell of object properties in that Table row
    */
-  const customCollapsibleRowRender = (row, rowIndex, columns, customCellRender) => {
-    const innerTableHeadColumns = ["Borrower ID", "Loan Created", "Loan Updated"]
+  const customCollapsibleRowRender = (
+    row,
+    rowIndex,
+    columns,
+    customCellRender
+  ) => {
+    const innerTableHeadColumns = [
+      'Borrower ID',
+      'Loan Created',
+      'Loan Updated',
+    ]
     const innerTableBodyRows = [row.borrowerID, row.createdAt, row.updatedAt]
-    return <HelixCollapsibleRow key={row._id} row={row} rowIndex={rowIndex} columns={columns} innerTableHeadColumns={innerTableHeadColumns} innerTableBodyRows={innerTableBodyRows} customCellRender={customCellRender} />
+    return (
+      <HelixCollapsibleRow
+        key={row._id}
+        row={row}
+        rowIndex={rowIndex}
+        columns={columns}
+        innerTableHeadColumns={innerTableHeadColumns}
+        innerTableBodyRows={innerTableBodyRows}
+        customCellRender={customCellRender}
+      />
+    )
   }
 
   /**
@@ -145,76 +236,158 @@ function Loan(props) {
    * @return {JSX} HelixTableCell of object properties in that Table row
    */
   const customCellRender = (row, column, rowIndex, columnIndex) => {
-      const columnAccessor = column.Accessor
-      const displayActions = () => (
-        <span className={loanClasses.actionsIconStyle}>
-            <IconButton className={loanClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/discrepancy-report`, state: row }))}>
+    const columnAccessor = column.Accessor
+    const displayActions = () => (
+      <span className={loanClasses.actionsIconStyle}>
+        <Button
+          aria-controls='customized-menu'
+          aria-haspopup='true'
+          variant='contained'
+          color='primary'
+          onClick={handleClick}
+        >
+          Actions <ArrowDropDownIcon style={{ paddingLeft: '0.5em' }} />
+        </Button>
+        <ActionMenu
+          id='customized-menu'
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <ActionMenuItem
+            onClick={() =>
+              props.history.push({
+                pathname: `/loan/${row._id}/discrepancy-report`,
+                state: row,
+              })
+            }
+          >
+            <IconButton
+              className={loanClasses.discrepancyButton}
+              aria-label='discrepancy'
+              size='small'
+              edge='start'
+            >
               <AssessmentIcon />
             </IconButton>
-            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (handleModalDeletePopUp(row))} color="secondary">
-              <DeleteIcon />
-            </IconButton>
-            <IconButton aria-label="config" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/configuration/${row._id}`, state: row }))} color="default">
+            <ListItemText primary='Discrepancies' />
+          </ActionMenuItem>
+          <ActionMenuItem
+            onClick={() =>
+              props.history.push({
+                pathname: `/loan/configuration/${row._id}`,
+                state: row,
+              })
+            }
+          >
+            <IconButton
+              aria-label='config'
+              size='small'
+              edge='start'
+              color='default'
+            >
               <SettingsIcon />
             </IconButton>
-        </span>)
-
-      if (columnAccessor === "Actions") {
-        return (
-            <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} containActions={true} displayActions={displayActions} />
-        )
-      }
-      else {
-        return <HelixTableCell key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`} value={row[columnAccessor]} />
-      }
-    }
-
-    /**
-     * @param {object} column represent object data regarding the api result
-     * @return {string} provide table row with unique key props (required)
-     */
-    const customHeadColumnKeyProp = (column) => {
-        return column.Accessor
-    }
-
-    /**
-     * @param {object} row represent object data regarding the api result
-     * @return {string} provide table row with unique key props (required)
-     */
-    const customBodyRowKeyProp = (row) => {
-        return row._id
-    }
-
-    // Initially, we can start the table to order by Loan Name or etc in ascending order
-    const initialOrderBy = "loanName"
-
-    /**
-     * @return jsx object of create icon in child component's toolbar
-     */
-    const displayCreateLoanIcon = () => {
-        return (
-          <span className={loanClasses.createIconStyle}>
+            <ListItemText primary='Configure' />
+          </ActionMenuItem>
+          <ActionMenuItem onClick={() => handleModalDeletePopUp(row)}>
             <IconButton
-            color="primary"
-            onClick={() => (props.history.push("/loan/new"))}>
-                <AddBoxIcon fontSize="large" />
+              aria-label='delete'
+              size='small'
+              edge='start'
+              color='secondary'
+            >
+              <DeleteIcon />
             </IconButton>
-          </span>
-        )
-    }
-
-    return (
-      <StylesProvider generateClassName={generateClassName}>
-          <div className={loanClasses.mediumContainer}>
-            <div className={loanClasses.header}>
-                <Typography variant="h5">Loan</Typography>
-            </div>
-            <HelixTable toggleSearch={true} toggleExpandable={true} customCollapsibleRowRender={customCollapsibleRowRender} displayCreateIcon={displayCreateLoanIcon} initialOrderBy={initialOrderBy} columns={columns.slice(1)} rows={rows} customCellRender={customCellRender} customHeadColumnKeyProp={customHeadColumnKeyProp} customBodyRowKeyProp={customBodyRowKeyProp} />
-          </div>
-          <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
-          <Notification notification={notification} setNotification={setNotification} />
-      </StylesProvider>
+            <ListItemText primary='Delete' />
+          </ActionMenuItem>
+        </ActionMenu>
+      </span>
     )
+
+    if (columnAccessor === 'Actions') {
+      return (
+        <HelixTableCell
+          key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
+          containActions={true}
+          displayActions={displayActions}
+        />
+      )
+    } else {
+      return (
+        <HelixTableCell
+          key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
+          value={row[columnAccessor]}
+        />
+      )
+    }
+  }
+
+  /**
+   * @param {object} column represent object data regarding the api result
+   * @return {string} provide table row with unique key props (required)
+   */
+  const customHeadColumnKeyProp = (column) => {
+    return column.Accessor
+  }
+
+  /**
+   * @param {object} row represent object data regarding the api result
+   * @return {string} provide table row with unique key props (required)
+   */
+  const customBodyRowKeyProp = (row) => {
+    return row._id
+  }
+
+  // Initially, we can start the table to order by Loan Name or etc in ascending order
+  const initialOrderBy = 'loanName'
+
+  /**
+   * @return jsx object of create icon in child component's toolbar
+   */
+  const displayCreateLoanIcon = () => {
+    return (
+      <span className={loanClasses.createIconStyle}>
+        <IconButton
+          color='primary'
+          onClick={() => props.history.push('/loan/new')}
+        >
+          <AddBoxIcon fontSize='large' />
+        </IconButton>
+      </span>
+    )
+  }
+
+  return (
+    <StylesProvider generateClassName={generateClassName}>
+      <div className={loanClasses.mediumContainer}>
+        <div className={loanClasses.header}>
+          <Typography variant='h5'>Loan</Typography>
+        </div>
+        <HelixTable
+          toggleSearch={true}
+          toggleExpandable={true}
+          customCollapsibleRowRender={customCollapsibleRowRender}
+          displayCreateIcon={displayCreateLoanIcon}
+          initialOrderBy={initialOrderBy}
+          columns={columns.slice(1)}
+          rows={rows}
+          customCellRender={customCellRender}
+          customHeadColumnKeyProp={customHeadColumnKeyProp}
+          customBodyRowKeyProp={customBodyRowKeyProp}
+        />
+      </div>
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
+      <Notification
+        notification={notification}
+        setNotification={setNotification}
+      />
+    </StylesProvider>
+  )
 }
 
-export default withRouter(Loan)
+export default withRouter(LoanMenu)
