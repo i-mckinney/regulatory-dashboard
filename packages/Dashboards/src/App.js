@@ -49,7 +49,7 @@ function App(history) {
           <Switch>
 
             <Route exact path="/homepage">
-              <Homepage />
+              <HelixTableKeysRight />
             </Route>
 
             <Route exact path="/entity">
