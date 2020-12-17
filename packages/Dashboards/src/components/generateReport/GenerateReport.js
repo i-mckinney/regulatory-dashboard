@@ -8,6 +8,8 @@ import ReportNormalizationTableDashboard from "./ReportNormalizationTableDashboa
 import ReportSummary from "./ReportSummary";
 import ReportBasicInfo from "./ReportBasicInfo";
 
+import ReportNormalizationDashboard from "../report/ReportNormalizationDashboard"
+
 const generateReportStyles = makeStyles((theme) => ({
   progressbarContainer: {
     marginTop: theme.spacing(5),
@@ -93,7 +95,7 @@ function GenerateReport(props) {
 
         if (steps[i].type === "table") {
           tempBody.push(
-            <ReportNormalizationTableDashboard
+            <ReportNormalizationDashboard
               header={`Test Normalization Table #${i + 1}`}
               activeStep={i}
               setActiveStep={setActiveStep}

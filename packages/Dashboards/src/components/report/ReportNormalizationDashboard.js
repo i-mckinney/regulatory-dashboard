@@ -6,7 +6,8 @@ import { HelixButton } from "helixmonorepo-lib";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import { makeStyles } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
-import HelixVerticalTab from '../utils/HelixVerticalTab';
+import HelixVerticalTab from "../utils/HelixVerticalTab";
+import HelixTabPanel from "../utils/HelixTabPanel"
 
 const useStyles = makeStyles((theme) => ({
   tableAndTabsContainer: {
@@ -115,62 +116,62 @@ function ReportNormalizationTableDashboard({
   
   const listOfNormalizationPanelReports = ["Entitiy #1 Normalization Table", "Loan #1 Normalization Table", "Loan #2 Normalization Table"]
 
-    // renderHelixTabs return a list of Helix Tab jsx object
-    const renderHelixTabs = () => {
-        return listOfNormalizationReportTabs.map((tab, tabIndex) => {
-            return (
-                <Tab 
-                key={tabIndex} 
-                label={tab}
-                icon={
-                    completedSteps.includes(tabIndex) ? (
-                      <AssignmentTurnedInIcon style={{ color: green[600] }} />
-                    ) : null
-                }
-                classes={{
-                    root: normalizationTableClasses.singleTab,
-                    labelIcon: normalizationTableClasses.singleTabIcon,
-                }}
-                />
-            )
-        })
-    }
+  // renderHelixTabs return a list of Helix Tab jsx object
+  const renderHelixTabs = () => {
+    return listOfNormalizationReportTabs.map((tab, tabIndex) => {
+      return (
+          <Tab 
+          key={tabIndex} 
+          label={tab}
+          icon={
+              completedSteps.includes(tabIndex) ? (
+                <AssignmentTurnedInIcon style={{ color: green[600] }} />
+              ) : null
+          }
+          classes={{
+              root: normalizationTableClasses.singleTab,
+              labelIcon: normalizationTableClasses.singleTabIcon,
+          }}
+          />
+      )
+    })
+  }
 
-    // renderHelixPanelTabs return a list of HelixTabPanel jsx object
-    const renderHelixPanelTabs = (value) => {
-        return listOfNormalizationPanelReports.map((panelTab, panelTabIndex) => {
-            return (
-                <HelixTabPanel className={normalizationTableClasses.tabPanelContainer} key={panelTabIndex} value={value} index={panelTabIndex}>
-                    <ReportNormalizationTable
-                    header={panelTab}
-                    />
-                </HelixTabPanel>
-            )
-        })
-    }
+  // renderHelixPanelTabs return a list of HelixTabPanel jsx object
+  const renderHelixPanelTabs = (newValue) => {
+    return listOfNormalizationPanelReports.map((panelTab, panelTabIndex) => {
+        return (
+          <HelixTabPanel className={normalizationTableClasses.tabPanelContainer} key={panelTabIndex} value={newValue} index={panelTabIndex}>
+              <ReportNormalizationTable
+              header={panelTab}
+              />
+          </HelixTabPanel>
+        )
+    })
+  }
 
   return (
     <div>
       <div className={normalizationTableClasses.tableAndTabsContainer}>
-        <HelixVerticalTab renderTabs={renderHelixTabs} renderHelixPanelTabs={renderHelixPanelTabs}/>
+        <HelixVerticalTab handleChange={handleChange} value={value} renderHelixTabs={renderHelixTabs} renderHelixPanelTabs={renderHelixPanelTabs}/>
       </div>
       <div className={normalizationTableClasses.buttonContainer}>
-          <HelixButton
-          className={normalizationTableClasses.backButton}
-          text="Back"
-          disabled={value === 0 ? true : false}
-          onClick={handleBack}
-          />
-          <HelixButton
-          className={normalizationTableClasses.nextButton}
-          text={value === 2 ? "Complete" : "Next"}
-          onClick={value === 2 ? handleFinal : handleNext}
-          />
-          <HelixButton
-          className={normalizationTableClasses.cancelButton}
-          onClick={handleCancel}
-          text="Cancel"
-          />
+        <HelixButton
+        className={normalizationTableClasses.backButton}
+        text="Back"
+        disabled={value === 0 ? true : false}
+        onClick={handleBack}
+        />
+        <HelixButton
+        className={normalizationTableClasses.nextButton}
+        text={value === 2 ? "Complete" : "Next"}
+        onClick={value === 2 ? handleFinal : handleNext}
+        />
+        <HelixButton
+        className={normalizationTableClasses.cancelButton}
+        onClick={handleCancel}
+        text="Cancel"
+        />
       </div>
     </div>
   );
