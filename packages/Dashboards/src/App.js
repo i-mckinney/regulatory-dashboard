@@ -11,7 +11,7 @@ import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
 import Regulatory from "./components/regulatory/Regulatory"
 import GenerateReport from "./components/generateReport/GenerateReport"
-import ReportEntitySelection from "./components/generateReport/ReportEntitySelection"
+import StepTwoReportEntitySelection from "./components/generateReport/StepTwoReportEntitySelection"
 import ReportLoanSelection from "./components/generateReport/ReportLoanSelection"
 import ReportNormalizationTable from "./components/generateReport/ReportNormalizationTable"
 import MyRequest from "./components/myrequest/MyRequest"
@@ -119,9 +119,10 @@ function App(history) {
               <ReportEdit />
             </Route>
 
-            <Route exact path="/report/:reportid/generate">
+            <Route exact path="/report/:reportId/generate">
               <GenerateReport />
             </Route>
+<<<<<<< HEAD
 
             <Route exact path="/report/generate/entityselection/step1">
               <ReportEntitySelection />
@@ -139,6 +140,11 @@ function App(history) {
               <h1>
                 Report Summary Page
               </h1>
+=======
+            
+            <Route exact path="/global-table-key">
+              <GlobalTableKey />
+>>>>>>> develop
             </Route>
 
             <Route exact path="/selecttable">

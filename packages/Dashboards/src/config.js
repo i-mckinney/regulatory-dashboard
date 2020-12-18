@@ -41,3 +41,4 @@ export const columnMetadata = [
 export const dateTypeFields = ['DateOfBirth'];
 
 export const API_HOST = process.env.REACT_APP_API_GATEWAY_HOST
+export const BACKEND_ENTITIES_HOST = process.env.REACT_APP_ENTITIES_HOST
