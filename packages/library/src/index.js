@@ -9,6 +9,7 @@ export {default as HelixCollectionList} from "./components/HelixCollectionList"
 export {default as HelixLinearProgress} from "./components/HelixLinearProgress"
 export {default as Notification} from "./components/Notification"
 export {default as ConfirmDialogModal} from "./components/ConfirmDialogModal"
+export {default as HelixTableGeneric} from "./components/Table/TableGeneric/HelixTableGeneric"
 export {default as dark} from "./themes/dark";
 export {default as tropical} from "./themes/testTheme"
 
