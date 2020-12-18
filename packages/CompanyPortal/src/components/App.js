@@ -19,7 +19,7 @@ function App() {
            <Breadcrumbs />
             <Switch>
               <Route path='/api-table' exact component={ApiTable} />
-              <Route path="/global-table-key" exact component={GlobalTableKey} />
+              <Route path="/api-table/global-table-key" exact component={GlobalTableKey} />
             </Switch>
           </div>
         </BrowserRouter>

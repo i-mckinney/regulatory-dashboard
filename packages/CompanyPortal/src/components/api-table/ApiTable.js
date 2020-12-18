@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { StylesProvider, makeStyles } from '@material-ui/core';
+import { StylesProvider, makeStyles, Card } from '@material-ui/core';
 import PageHeader from '../../layout/PageHeader';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import SettingsIcon from '@material-ui/icons/Settings'
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
 import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
@@ -17,7 +18,7 @@ import axios from 'axios';
 import mockCollectionData from '../utils/MockCollectionData'
 
 // Styling used for MaterialUI
-const userTableStyles = makeStyles(() => ({
+const userTableStyles = makeStyles((theme) => ({
   mediumContainer: {
     width: "80%",
     margin: "auto",
@@ -38,8 +39,16 @@ const userTableStyles = makeStyles(() => ({
   actionTableCell: {
     display: "flex",
     justifyContent: "space-evenly"
-  }
-
+  },
+  pageIcon: {
+    display: 'inline-block',
+    padding: theme.spacing(2),
+    color: '#3c44b1',
+  },
+  settingIcon: {
+    // paddingLeft: theme.spacing(4)
+    order: 3
+  },
 }));
 
 /**
@@ -279,6 +288,23 @@ const ApiTable = (props) => {
     )
   };
 
+  const settingButton = () => {
+    return (
+      <IconButton
+      aria-label='config'
+      size='small'
+      edge='start'
+      color='default'
+      className={userTableClasses.settingIcon}
+      onClick={() => props.history.push("api-table/global-table-key")}
+      >
+        <Card className={userTableClasses.pageIcon}>
+          <SettingsIcon fontSize="large" />
+        </Card>
+      </IconButton>
+    )
+  }
+
   return (
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
@@ -287,7 +313,9 @@ const ApiTable = (props) => {
             title="Client API Interface"
             subTitle="Add new API requests or edit and test existing calls"
             icon={<TelegramIcon fontSize="large" />}
+            settingButton={settingButton}
           />
+          
         </div>
 
         <HelixTable
