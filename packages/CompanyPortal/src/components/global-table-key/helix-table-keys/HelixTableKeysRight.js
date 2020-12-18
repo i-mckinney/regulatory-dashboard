@@ -36,13 +36,13 @@ const HelixTableKeysRight = (props) => {
 
    // Updates items state array with added key item object  
    const handleAddKeyItem = () => {
-      const newItemList = [ ... items, keyItemValue]
+      const newItemList = [ ...items, keyItemValue]
       setItems(newItemList)
       console.log('newItemList:', newItemList)
   }
 
   const onEditSave = () => {
-    setItems(items.map((k) => k == currentKey ? keyItemValue : k))
+    setItems(items.map((k) => k === currentKey ? keyItemValue : k))
   }
 
   const handleEditKey = (key) => {
@@ -57,9 +57,6 @@ const HelixTableKeysRight = (props) => {
     setDialogAction("C");
     setKeyItemValue("")
   }
-
-  const handleChange = (e) => {
-  };
 
   // Renders form input and button controls for adding/updating keys
   const renderNewKeyForm = () => {
@@ -108,7 +105,7 @@ const HelixTableKeysRight = (props) => {
   )
 }
 
-  const sortedItems = React.useMemo(() => sortType == "A" ? items.sort() : items.sort().reverse(), [items, sortType])
+  const sortedItems = React.useMemo(() => sortType === "A" ? items.sort() : items.sort().reverse(), [items, sortType])
   const filteredItems = sortedItems.filter(i => !searchTerm || i.includes(searchTerm))
 
 
@@ -177,7 +174,7 @@ const HelixTableKeysRight = (props) => {
           <TableKeysCard
             keyName={key}
             onEdit={() => handleEditKey(key)}
-            onDelete={() => setItems(items.filter((k) => k != key))}
+            onDelete={() => setItems(items.filter((k) => k !== key))}
             />
         </Grid>
           ))}

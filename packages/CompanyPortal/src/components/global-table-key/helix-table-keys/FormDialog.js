@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { makeStyles, Container, Typography, Grid, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
-import { HelixButton, HelixTextField } from 'helixmonorepo-lib'
+import React from 'react'
+import { makeStyles, Typography, Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 
 const useFormDialogStyles = makeStyles(theme =>({
   dialogWrapper: {
@@ -12,7 +11,7 @@ const useFormDialogStyles = makeStyles(theme =>({
 
 const FormDialog = (props) => {
   const formDialogClasses = useFormDialogStyles()
-  const {title, children, openDialog, setOpenDialog} = props
+  const {title, children, openDialog} = props
 
   return (
     <Dialog open={openDialog} classes={{ paper : formDialogClasses.dialogWrapper}}>
