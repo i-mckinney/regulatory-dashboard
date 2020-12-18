@@ -122,10 +122,6 @@ function App(history) {
             <Route exact path="/report/:reportId/generate">
               <GenerateReport />
             </Route>
-            
-            <Route exact path="/global-table-key">
-              <GlobalTableKey />
-            </Route>
 
             <Route exact path="/selecttable">
               <HelixSelectTableSetUp />
