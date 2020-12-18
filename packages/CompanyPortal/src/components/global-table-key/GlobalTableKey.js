@@ -24,6 +24,9 @@ const globalTableKeyStyles = makeStyles((theme) => ({
 
 const GlobalTableKey = () => {
 
+    // value is used for indexing to get certain tabs
+    const [ value, setValue ] = useState(0)
+    
     // Opens dialog to add new key dialog 
     const [ openDialog, setOpenDialog ] = useState(false)
 
@@ -39,8 +42,16 @@ const GlobalTableKey = () => {
     // Creates an object for styling. Any className that matches key in the globalTableKeyStyles object will have a corresponding styling
     const globalTableKeyClasses = globalTableKeyStyles()
 
-    // renderTabs return a list of Tab jsx object
-    const renderTabs = () => {
+    /**
+     * @param {object} event the event object
+     * @param {int} newValue index value
+     */
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    }
+
+    // renderHelixTabs return a list of Tab jsx object
+    const renderHelixTabs = () => {
         return listOfTabs.map((tab, tabIndex) => {
             return (
                 <Tab key={tabIndex} label={tab} />
@@ -125,7 +136,7 @@ const GlobalTableKey = () => {
                     </Typography>
                 </div>
                 <Divider />
-                <HelixVerticalTab renderAddCollection={renderAddCollection} renderTabs={renderTabs} renderHelixPanelTabs={renderHelixPanelTabs}/>
+                <HelixVerticalTab handleChange={handleChange} value={value} renderAddCollection={renderAddCollection} renderHelixTabs={renderHelixTabs} renderHelixPanelTabs={renderHelixPanelTabs}/>
                 <FormDialog
                 title = 'Add New Global Table Keys Collection'
                 openDialog= { openDialog }
