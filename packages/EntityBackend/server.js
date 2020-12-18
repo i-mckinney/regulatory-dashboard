@@ -6,6 +6,7 @@ const configurationRouter = require("./routes/configurationRouter");
 const discrepanciesRouter = require("./routes/discrepanciesRouter");
 const entitySummaryRouter = require("./routes/entitySummaryRouter");
 const reportRouter = require("./routes/report/reportRouter");
+const reportTemplateRouter = require("./routes/reportTemplate/reportTemplateRouter");
 
 const express = require("express");
 const cors = require("cors");
@@ -33,6 +34,7 @@ server.use("/discrepancies", discrepanciesRouter);
 server.use("/config", configurationRouter);
 server.use("/entitysummary", entitySummaryRouter);
 server.use("/report", reportRouter);
+server.use("/reporttemplate", reportTemplateRouter);
 
 server.listen(port, () => {
   console.log(`Server listening at ${port}`);
