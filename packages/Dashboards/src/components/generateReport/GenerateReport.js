@@ -8,7 +8,6 @@ import ReportNormalizationTableDashboard from "./ReportNormalizationTableDashboa
 import ReportSummary from "./ReportSummary";
 import ReportBasicInfo from "./ReportBasicInfo";
 
-
 const generateReportStyles = makeStyles((theme) => ({
   progressbarContainer: {
     marginTop: theme.spacing(5),
