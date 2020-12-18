@@ -17,7 +17,7 @@ const helixTableCellStyles = makeStyles(() => ({
     color: 'green',
   },
   initialCell: {
-    textAlign: 'left',
+    textAlign: 'center',
     outline: 'none',
     '& input:focus': {
       outline: 'none',
