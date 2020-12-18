@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { withRouter, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import HelixSelectTable from "../HelixSelectTable/HelixSelectTable";
 import { TableCell } from "@material-ui/core";
-import { EntitySelectionMockData } from "./mockData/EntitySelectionMockData";
+import { BACKEND_ENTITIES_HOST } from "../../config";
+import entities from "../apis/entities";
 import { HelixButton } from "helixmonorepo-lib";
+import axios from "axios";
 
 const selectEntityStyles = makeStyles((theme) => ({
   selectTableRoot: {
@@ -45,8 +47,10 @@ const selectEntityStyles = makeStyles((theme) => ({
   },
 }));
 
-function ReportEntitySelection(props) {
+function StepTwoReportEntitySelection(props) {
   const entitySelectionTableStyles = selectEntityStyles();
+
+  let { reportId } = useParams();
 
   //columnHeaders determine header of each columns in the Helix select table.
   const columnHeaders = [
@@ -57,7 +61,7 @@ function ReportEntitySelection(props) {
     },
     { id: "BorrowerName", disablePadding: false, label: "Borrower Name" },
     { id: "BorrowerID", disablePadding: false, label: "Borrower ID" },
-    { id: "EntityCreated", disablePadding: false, label: "Entity Updated" },
+    { id: "EntityCreated", disablePadding: false, label: "Entity Created" },
     { id: "EntityUpdated", disablePadding: false, label: "Entity Updated" },
   ];
 
@@ -65,7 +69,7 @@ function ReportEntitySelection(props) {
   const [selected, setSelected] = useState([]);
 
   // Data for rendering rows in Helix select table
-  const rows = EntitySelectionMockData;
+  const [rows, setRows] = useState([]);
 
   // Helix select table name or a header for the table itself
   const selectTableHeaderName = "Select Entity";
@@ -75,20 +79,78 @@ function ReportEntitySelection(props) {
     return (
       <>
         <TableCell component="th" id={labelId} scope="row" padding="none">
-          {row.RelationshipName}
+          {row.relationshipName}
         </TableCell>
-        <TableCell align="left">{row.BorrowerName}</TableCell>
-        <TableCell align="left">{row.BorrowerID}</TableCell>
-        <TableCell align="left">{row.EntityCreated}</TableCell>
-        <TableCell align="left">{row.EntityUpdated}</TableCell>
+        <TableCell align="left">{row.borrowerName}</TableCell>
+        <TableCell align="left">{row.borrowerID}</TableCell>
+        <TableCell align="left">{row.entityCreated}</TableCell>
+        <TableCell align="left">{row.entityUpdated}</TableCell>
       </>
     );
   };
 
-  const hanldeReportGenerateNext = () => {
-    let nextStep = props.activeStep + 1;
-    props.setActiveStep(nextStep);
-  };
+  useEffect(() => {
+    /**
+     * fetchEntities calls backend api through get protocol to get all the entities
+     */
+    const fetchEntities = async () => {
+      const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entities");
+
+      if (response) {
+        let rowsArray = response.data;
+
+        let responseRows = [];
+
+        for (let i = 0; i < rowsArray.length; i++) {
+          let {
+            relationshipName,
+            borrowerName,
+            borrowerID,
+            _id,
+            createdAt,
+            updatedAt,
+          } = rowsArray[i];
+
+          let row = {
+            relationshipName,
+            borrowerName,
+            borrowerID,
+            entityId: _id,
+            entityCreated: createdAt,
+            entityUpdated: updatedAt,
+            entryNumber: i,
+          };
+
+          responseRows.push(row);
+        }
+
+        setRows(responseRows);
+      }
+    };
+
+    fetchEntities();
+  }, []);
+
+  const hanldeReportGenerateNext = async (event) => {
+    event.preventDefault();
+
+      let nextStep = props.activeStep + 1;
+
+      let selectedBorrowerId = rows[selected].borrowerID
+      let selectedEntityId = rows[selected].entityId
+
+      let reqBody = {selectedBorrowerId, selectedEntityId, selectionType:"Entity"}
+
+      let res = await axios.patch(
+        `${BACKEND_ENTITIES_HOST}/report/${reportId}/selection`,
+        reqBody
+      );
+
+      if (res.data.status === 200) {
+        props.setActiveStep(nextStep);
+      }
+
+  }
 
   const handleCancel = () => {
     props.history.push("/reporttemplates");
@@ -96,7 +158,8 @@ function ReportEntitySelection(props) {
 
   const handleBack = () => {
     let prevStep = props.activeStep - 1;
-    props.setActiveStep(prevStep);  };
+    props.setActiveStep(prevStep);
+  };
 
   return (
     <div>
@@ -117,7 +180,7 @@ function ReportEntitySelection(props) {
             onClick={handleBack}
           />
           <HelixButton
-            disabled={selected.length > 0? false : true}
+            disabled={selected.length > 0 ? false : true}
             className={entitySelectionTableStyles.nextButton}
             text="Next"
             onClick={hanldeReportGenerateNext}
@@ -126,11 +189,11 @@ function ReportEntitySelection(props) {
             className={entitySelectionTableStyles.cancelButton}
             onClick={handleCancel}
             text="Cancel"
-          /> 
+          />
         </div>
       </div>
     </div>
   );
 }
 
-export default withRouter(ReportEntitySelection);
+export default withRouter(StepTwoReportEntitySelection);
