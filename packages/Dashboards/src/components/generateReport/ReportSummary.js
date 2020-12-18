@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { withRouter } from "react-router-dom";
-import { makeStyles, Paper, Button, Typography } from "@material-ui/core";
+import { makeStyles, Paper, Button, Typography,TextField, MenuItem} from "@material-ui/core";
 import HelixTable from "../table/HelixTable";
 import HelixTableCell from "../table/HelixTableCell";
 import GenericSummaryTable from "../report/GenericSummaryTable";
 import HelixCollapsibleRow from "../utils/HelixCollapsibleRow";
-import { HelixButton } from "helixmonorepo-lib";
+import { HelixButton, HelixTextField, ConfirmDialogModal } from "helixmonorepo-lib";
+import IconButton from '@material-ui/core/IconButton'
+import SaveIcon from '@material-ui/icons/Save'
+import ClearIcon from '@material-ui/icons/Clear'
+import {ApproversMockData} from './mockData/ApproversMockData'
 
 const reportSummaryStyles = makeStyles((theme) => ({
   summaryReceiptRoot: {
@@ -66,6 +70,31 @@ const reportSummaryStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  helixInput: {
+    marginTop: '16px',
+  },
+  matButton: {
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+    },
+    '&:focus': {
+      outline: 'none',
+    },
+  },
+  matIcon: {
+    fill: 'black',
+    '& button': {
+      marginRight: 'unset'
+    }
+  },
+  matIconSpan: {
+    display: 'block',
+    float: 'right',
+  },
+  menuItem: {
+    justifyContent: 'center',
+    minHeight: '1.5rem'
+  }
 }));
 
 // Mock columns data for summary table
@@ -203,6 +232,28 @@ function ReportSummary(props) {
    * @param {arry} columns the columns is array of column objects
    * @param {func} customCellRender the customCellRender is func that return jsx of HelixTableCell data
    */
+
+  // Editable report title 
+  const [title, setTitle] = useState('CCAR Report #7')
+  //  Editable report description
+   const [description, setDescription] = useState('Enter report description here')
+   // Hides/displays div to update title and description
+   const [isDivHidden, setIsDivHidden] = useState(true)
+   // Final Description displayed on page
+   const [displayedDescription, setDisplayedDescription] = useState(description)
+   // Final Title displayed on page
+   const [displayedTitle, setDisplayedTitle] = useState(title)
+  //state for selected approver in select field
+  const [selectedApprover, setSelectedApprover] = useState("");
+  // state of confrim dialog popup modal
+  const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: '', subtitle: '', confirmText: 'Send', cancelText: 'Cancel'})
+
+  const approvers = ApproversMockData;
+  
+  const handleSelectApprover = (event) => {
+    setSelectedApprover(event.target.value);
+  };
+
   const customCollapsibleRowRender = (
     row,
     rowIndex,
@@ -269,6 +320,17 @@ function ReportSummary(props) {
     props.history.push("/myrequest");
   };
 
+  // opens confirmation dialoge when 'Send to Approver' button is clicked
+  const handleSend = () => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: true,
+      title: `Send report summary to ${selectedApprover.firstName} ${selectedApprover.lastName}?`,
+      subtitle: 'Approver will receive an email with the report.',
+      onConfirm: () => setConfirmDialog({...confirmDialog, isOpen: false}),
+    })
+  }
+
   const handleBack = () => {
     let prevStep = props.activeStep - 1;
     props.setActiveStep(prevStep);
@@ -279,10 +341,49 @@ function ReportSummary(props) {
     props.setActiveStep(prevStep);
   };
 
-  const handleEdit = () => {};
+  const handleEdit = () => setIsDivHidden(false);
+
   const handleCancel = () => {
     props.history.push("/reporttemplates");
   };
+
+  // Hides all identifier tags (e.g. button, div, span) when cancel button triggers
+  const handleCancelChange = (e) => {
+    e.stopPropagation()
+    setDescription(displayedDescription)
+    setTitle(displayedTitle)
+    setIsDivHidden(true)
+  }
+
+  // Saves the text input, displays current state edited text input, hide rest of the identifier tags
+  const handleSaveChange = (e) => {
+    e.stopPropagation()
+    setDisplayedTitle(title)
+    setDisplayedDescription(description)
+    setIsDivHidden(true)
+  }
+
+  // Display the customized form for changing title and description with input text box and save/cancel button 
+  const displayCustomizedForm = () => {
+    if (!isDivHidden) {
+      return (
+        <div>
+            <HelixTextField className={reportSummaryClasses.helixInput} value={title} onChange={(e)=>{setTitle(e.target.value)}} label="Title" fullWidth/>
+            <HelixTextField className={reportSummaryClasses.helixInput} value={description} onChange={(e)=>{setDescription(e.target.value)}} label="Description" fullWidth/>
+          <span className={reportSummaryClasses.matIconSpan}>
+            <IconButton className={reportSummaryClasses.matButton} aria-label="save" type="button" onClick={handleSaveChange}>
+              <SaveIcon className={reportSummaryClasses.matIcon} />
+            </IconButton>
+            <IconButton className={reportSummaryClasses.matButton} aria-label="clear" type="button" onClick={handleCancelChange}>
+              <ClearIcon className={reportSummaryClasses.matIcon}/>
+            </IconButton>
+          </span>
+        </div>
+      )
+    }
+    return null
+  }
+
   return (
     <>
       <Paper elevation={5} className={reportSummaryClasses.paperCreation}>
@@ -296,7 +397,9 @@ function ReportSummary(props) {
             >
               Edit
             </Button>
-            <Typography variant="h5">CCAR Report #7</Typography>
+            <Typography variant="h5">{displayedTitle}</Typography>
+            <Typography variant ="subtitle1">{displayedDescription}</Typography>
+            {displayCustomizedForm()}
             <Typography variant="caption" display="block">
               Reported Created at: 12/07/2020
             </Typography>
@@ -335,6 +438,26 @@ function ReportSummary(props) {
           />
         </div>
       </Paper>
+      <div style={{ textAlign: "center" }}>
+            <TextField
+              id="selectApproverId"
+              label="Select Approver"
+              select
+              value= {selectedApprover}
+              onChange={handleSelectApprover}
+              variant="outlined"
+              style={{ width: "50%", marginTop: "50px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            > 
+             {approvers.map(approver => {
+               return(
+                  <MenuItem className={reportSummaryClasses.menuItem} value={approver} key={approver.id}> {approver.firstName} {approver.lastName}</MenuItem>         
+                )})
+              }
+            </TextField>
+          </div>
 
       <div className={reportSummaryClasses.buttonContainer}>
         <HelixButton
@@ -349,14 +472,16 @@ function ReportSummary(props) {
         />
         <HelixButton
           className={reportSummaryClasses.approveButton}
-          text="Send For Approver"
-          disabled
+          text="Send To Approver"
+          disabled = {selectedApprover === ""}
+          onClick={handleSend}
         />
         <HelixButton
           className={reportSummaryClasses.cancelButton}
           onClick={handleCancel}
           text="Cancel"
         />
+        <ConfirmDialogModal confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
       </div>
     </>
   );

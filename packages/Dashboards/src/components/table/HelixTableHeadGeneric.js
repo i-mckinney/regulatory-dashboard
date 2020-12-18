@@ -52,8 +52,11 @@ const helixTableHeadStyles = makeStyles(() => ({
       marginRight: 'unset'
     },
   },
-  headerText: {
-    textAlign: 'center',
+  headerCell: {
+    textAlign: 'left',
+  },
+  headerCellActions: {
+    textAlign: 'center'
   }
 }))
 
@@ -229,7 +232,7 @@ const HelixTableHeadGeneric = ({
 
   const RenderColumnActions = (column) => {
     return (
-      <>
+      <span>
       {deleteColumnOption ? 
         <IconButton className={helixTableHeadClasses.matHeaderIcon} aria-label="edit" size="small" edge="start" 
           onClick={()=>{
@@ -251,7 +254,7 @@ const HelixTableHeadGeneric = ({
           : null
         }
         {displayCustomizedForm(column)}
-      </>
+        </span>
     )
   }
 
@@ -261,11 +264,13 @@ const HelixTableHeadGeneric = ({
         <TableRow>
           {stateColumns.map((column) => (
             <TableCell 
-              className={helixTableHeadClasses.headerText}
+              className={column.Label !=='Actions' ? helixTableHeadClasses.headerCell: helixTableHeadClasses.headerCellActions}
               key={customHeadColumnKeyProp(column)}
               sortDirection={orderBy === customHeadColumnKeyProp(column) ? order : false}
-              >
+              > 
+              {/* <span className={helixTableHeadClasses.columnLabel}> */}
               {toggleSearch ? renderTableSortLabel(column) : column.Label}
+              {/* </span> */}
              { ((column.Label !=='Actions') && (column.Label !== 'Row')) ? RenderColumnActions(column) : null}
               </TableCell>
           ))}

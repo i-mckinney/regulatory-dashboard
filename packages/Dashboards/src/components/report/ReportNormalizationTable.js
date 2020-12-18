@@ -10,15 +10,6 @@ import { columns, rows, data, externalValues } from './ReportNormTableMockData'
 
 // Styling used for MaterialUI
 const reportNormalizationTableStyles = makeStyles(() => ({
-  medium: {
-    width: '80%',
-    margin: 'auto',
-    marginTop: '3rem',
-    paddingBottom: '3rem',
-    '& table': {
-      borderCollapse: 'separate',
-    },
-  },
   cancelButton: {
     backgroundColor: "#42a5f5",
     color: "white",
@@ -153,7 +144,7 @@ const ReportNormalizationTable = (props) => {
     return (
       <>
         <EntityCard
-        RecordLabel='Testing #1'
+        RecordLabel={props.header}
         BorrowerID='1a'
         BorrowerName='Rey'
         />
@@ -170,7 +161,7 @@ const ReportNormalizationTable = (props) => {
   }
 
   return (
-    <div className={`container ${reportNormalizationTableClasses.medium}`}>
+    <div className={`container`}>
         {render()}
     </div>
   )

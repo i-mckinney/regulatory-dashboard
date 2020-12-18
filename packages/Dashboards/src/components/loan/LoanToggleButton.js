@@ -4,7 +4,6 @@ import {
   StylesProvider,
   createGenerateClassName,
   makeStyles,
-  withStyles,
   Typography,
 } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
@@ -19,13 +18,15 @@ import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 import ConfirmDialog from '../utils/ConfirmDialog'
 import Notification from '../utils/Notification'
-
 import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Grow from '@material-ui/core/Grow'
+import Paper from '@material-ui/core/Paper'
+import Popper from '@material-ui/core/Popper'
 import MenuItem from '@material-ui/core/MenuItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import MenuList from '@material-ui/core/MenuList'
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'loan-',
@@ -62,7 +63,7 @@ const loanStyles = makeStyles(() => ({
  * routed at /loan
  */
 
-function LoanMenu(props) {
+function Loan(props) {
   // Creates an object for styling. Any className that matches key in the loanStyles object will have a corresponding styling
   const loanClasses = loanStyles()
 
@@ -98,8 +99,14 @@ function LoanMenu(props) {
     cancelText: 'Cancel',
   })
 
-  // Sets state of dropdown menu location
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  //
+  const [open, setOpen] = React.useState(false)
+
+  //
+  const anchorRef = React.useRef(null)
+
+  //
+  const [selectedIndex, setSelectedIndex] = React.useState(1)
 
   // On first render (column length is zero), set rows to full set of mock data
   if (columns.length === 0) {
@@ -153,55 +160,13 @@ function LoanMenu(props) {
     })
   }
 
-  // Handles opening of the action button dropdown menu
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  // Handles closing of the action button dropdown menu
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  // Toggle-able dropdown menu that displays on action button click event
-  const ActionMenu = withStyles({
-    paper: {
-      border: '1px solid #d3d4d5',
-    },
-  })((props) => (
-    <Menu
-      elevation={10}
-      getContentAnchorEl={null}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
-      }}
-      {...props}
-    />
-  ))
-
-  // Dropdown menu list items and styling
-  const ActionMenuItem = withStyles((theme) => ({
-    root: {
-      '&:focus': {
-        backgroundColor: theme.palette.primary.main,
-        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-          color: theme.palette.common.white,
-        },
-      },
-    },
-  }))(MenuItem)
-
   /**
    * @param {object} row row represents loan object
    * @param {int} rowIndex rowIndex represents the index of the current row object
    * @param {object} columns columns represents list of columns
    * @param {func} customCellRender represents HelixTableCell of object properties in that Table row
    */
+
   const customCollapsibleRowRender = (
     row,
     rowIndex,
@@ -227,6 +192,35 @@ function LoanMenu(props) {
     )
   }
 
+  // SPILT BUTTON MENU
+
+  const splitButtonOptions = [
+    'Create a merge commit',
+    'Squash and merge',
+    'Rebase and merge',
+  ]
+
+  const handleClick = () => {
+    console.info(`You clicked ${splitButtonOptions[selectedIndex]}`)
+  }
+
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index)
+    setOpen(false)
+  }
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen)
+  }
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return
+    }
+
+    setOpen(false)
+  }
+
   /**
    * @param {object} row the row is an object of data
    * @param {object} column the column is an object of the header with accessor and label props
@@ -238,70 +232,71 @@ function LoanMenu(props) {
     const columnAccessor = column.Accessor
     const displayActions = () => (
       <span className={loanClasses.actionsIconStyle}>
-        <Button
-          aria-controls='action-menu'
-          aria-haspopup='true'
+        <ButtonGroup
           variant='contained'
           color='primary'
-          onClick={handleClick}
+          ref={anchorRef}
+          aria-label='split button'
         >
-          Actions<ExpandMoreIcon style={{ paddingLeft: '0.5em' }} />
-        </Button>
-        <ActionMenu
-          id='action-menu'
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <ActionMenuItem
-            onClick={() =>
-              props.history.push({
-                pathname: `/loan/${row._id}/discrepancy-report`,
-                state: row,
-              })
-            }
+          <Button onClick={handleClick}>
+            {splitButtonOptions[selectedIndex]}
+          </Button>
+          <Button
+            color='primary'
+            size='small'
+            aria-controls={open ? 'split-button-menu' : undefined}
+            aria-expanded={open ? 'true' : undefined}
+            aria-label='select merge strategy'
+            aria-haspopup='menu'
+            onClick={handleToggle}
           >
-            <IconButton
-              className={loanClasses.discrepancyButton}
-              aria-label='discrepancy'
-              size='small'
-              edge='start'
+            <ArrowDropDownIcon />
+          </Button>
+        </ButtonGroup>
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === 'bottom' ? 'center top' : 'center bottom',
+              }}
             >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList id='split-button-menu'>
+                    {splitButtonOptions.map((option, index) => (
+                      <MenuItem
+                        key={option}
+                        disabled={index === 2}
+                        selected={index === selectedIndex}
+                        onClick={(event) => handleMenuItemClick(event, index)}
+                      >
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+
+        {/* <IconButton className={loanClasses.discrepancyButton} aria-label="discrepancy" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/${row._id}/discrepancy-report`, state: row }))}>
               <AssessmentIcon />
             </IconButton>
-            <ListItemText primary='Discrepancies' />
-          </ActionMenuItem>
-          <ActionMenuItem
-            onClick={() =>
-              props.history.push({
-                pathname: `/loan/configuration/${row._id}`,
-                state: row,
-              })
-            }
-          >
-            <IconButton
-              aria-label='config'
-              size='small'
-              edge='start'
-              color='default'
-            >
-              <SettingsIcon />
-            </IconButton>
-            <ListItemText primary='Configure' />
-          </ActionMenuItem>
-          <ActionMenuItem onClick={() => handleModalDeletePopUp(row)}>
-            <IconButton
-              aria-label='delete'
-              size='small'
-              edge='start'
-              color='secondary'
-            >
+            <IconButton aria-label="delete" size="small" edge="start" onClick={() => (handleModalDeletePopUp(row))} color="secondary">
               <DeleteIcon />
             </IconButton>
-            <ListItemText primary='Delete' />
-          </ActionMenuItem>
-        </ActionMenu>
+            <IconButton aria-label="config" size="small" edge="start" onClick={() => (props.history.push({ pathname: `/loan/configuration/${row._id}`, state: row }))} color="default">
+              <SettingsIcon />
+            </IconButton> */}
       </span>
     )
 
@@ -389,4 +384,4 @@ function LoanMenu(props) {
   )
 }
 
-export default withRouter(LoanMenu)
+export default withRouter(Loan)

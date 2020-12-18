@@ -22,19 +22,40 @@ const HelixTableKeysRight = (props) => {
   const [ openDialog, setOpenDialog ] = useState(false)
   // Provides list of mock key nanme items
   const [ items, setItems] = useState([
-    {key: "firstName", value: 1},
-    {key: "lastName", value: 2},
-    {key: "relationshipName", value: 3},
-    {key: "accountNumber", value: 4},
-    {key: "accountID", value: 5},
+    "firstName",
+    "lastName",
+    "middleName"
   ])
   // New key item value captured by form input
   const [keyItemValue, setKeyItemValue] = useState('')
+  const [dialogAction, setDialogAction] = useState("C")
+  const [currentKey, setCurrentKey] = useState("")
+  const [searchTerm, setSearchTerm] = useState("")
+  const [sortType, setSortType] = useState("A")
+
 
    // Updates items state array with added key item object  
    const handleAddKeyItem = () => {
       const newItemList = [ ... items, keyItemValue]
       setItems(newItemList)
+      console.log('newItemList:', newItemList)
+  }
+
+  const onEditSave = () => {
+    setItems(items.map((k) => k == currentKey ? keyItemValue : k))
+  }
+
+  const handleEditKey = (key) => {
+    setOpenDialog(true)
+    setDialogAction("E");
+    setCurrentKey(key)
+    setKeyItemValue(key)
+  }
+
+  const handleAddKey = () => {
+    setOpenDialog(true);
+    setDialogAction("C");
+    setKeyItemValue("")
   }
 
   const handleChange = (e) => {
@@ -54,6 +75,7 @@ const HelixTableKeysRight = (props) => {
           fullWidth
           name = 'newKey'
           label = 'Add Key'
+          value={keyItemValue}
           onChange={(e) => setKeyItemValue(e.target.value)}
           />
         </Grid>
@@ -70,9 +92,9 @@ const HelixTableKeysRight = (props) => {
           color='primary'
           size='large'
           variant='contained'
-          text='Add'
+          text={dialogAction === "C" ? "Add" : "Edit"}
           style={{width: '8em'}}
-          onClick={() => {setOpenDialog(false); handleAddKeyItem()}}/>
+          onClick={() => { setOpenDialog(false); dialogAction === "C" ? handleAddKeyItem() : onEditSave()}}/>
           <HelixButton
           color='secondary'
           size='large'
@@ -85,6 +107,11 @@ const HelixTableKeysRight = (props) => {
     </Container>
   )
 }
+
+  const sortedItems = React.useMemo(() => sortType == "A" ? items.sort() : items.sort().reverse(), [items, sortType])
+  const filteredItems = sortedItems.filter(i => !searchTerm || i.includes(searchTerm))
+
+
 
   return (
     <>
@@ -105,7 +132,7 @@ const HelixTableKeysRight = (props) => {
                 size="large"
                 text="Add New Key"
                 style={{marginLeft: '2em'}}
-                onClick = {() => setOpenDialog(true)}
+                onClick = {handleAddKey}
               />
             </Box>
           </Box>
@@ -116,6 +143,8 @@ const HelixTableKeysRight = (props) => {
               <HelixTextField
                 style={{width: '25em'}}  
                 label="Search" 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -131,13 +160,11 @@ const HelixTableKeysRight = (props) => {
                 <Select
                   labelId="demo-simple-select-filled-label"
                   id="demo-simple-select-filled"
-                  onChange={handleChange}
+                  value={sortType}
+                  onChange={(e) => setSortType(e.target.value)}
                 >
-                  <MenuItem value="">
-                  <em>Recently Added</em>
-                  </MenuItem>
-                  <MenuItem value={'Key Name'}>Key Name</MenuItem>
-                  <MenuItem value={'Key Value'}>Key Value</MenuItem>
+                  <MenuItem value="A">Ascending</MenuItem>
+                  <MenuItem value="D">Descending</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -145,13 +172,12 @@ const HelixTableKeysRight = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={3}>
-        {items.map(({ key, value }) => (
+        {filteredItems.map((key) => (
         <Grid key={key} item md={12}>
           <TableKeysCard
             keyName={key}
-            value={value}
-            onEdit={(newKey) => setItems(items.map(({ key: k, value: v }) => k == key ? { key: newKey, value: v } : { key: k, value: v } ))}
-            onDelete={() => setItems(items.filter(({ key: k }) => k != key))}
+            onEdit={() => handleEditKey(key)}
+            onDelete={() => setItems(items.filter((k) => k != key))}
             />
         </Grid>
           ))}
