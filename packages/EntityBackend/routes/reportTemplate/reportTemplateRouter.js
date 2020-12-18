@@ -110,7 +110,7 @@ router.delete("/:companyId/:reportTemplateId", async (req, res) => {
   const companyId = req.params.companyId;
   const reportTemplateId = req.params.reportTemplateId;
 
-  console.log("Delete entity with id: ", reportTemplateId);
+  console.log("Delete report template with id: ", reportTemplateId);
 
   try {
     const dbCollection = await DbConnection.getCollection("ReportTemplates");
@@ -135,7 +135,7 @@ router.delete("/:companyId/:reportTemplateId", async (req, res) => {
 
       // return success message
       res.json({
-        Success: `Report Template ${entityId} successfully deleted`,
+        Success: `Report Template ${reportTemplateId} successfully deleted`,
       });
     }
   } catch (error) {
