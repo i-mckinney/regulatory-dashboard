@@ -40,15 +40,6 @@ const userTableStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-evenly"
   },
-  pageIcon: {
-    display: 'inline-block',
-    padding: theme.spacing(2),
-    color: '#3c44b1',
-  },
-  settingIcon: {
-    // paddingLeft: theme.spacing(4)
-    order: 3
-  },
 }));
 
 /**
@@ -292,15 +283,11 @@ const ApiTable = (props) => {
     return (
       <IconButton
       aria-label='config'
-      size='small'
-      edge='start'
       color='default'
       className={userTableClasses.settingIcon}
       onClick={() => props.history.push("api-table/global-table-key")}
       >
-        <Card className={userTableClasses.pageIcon}>
-          <SettingsIcon fontSize="large" />
-        </Card>
+        <SettingsIcon fontSize="large" />
       </IconButton>
     )
   }
