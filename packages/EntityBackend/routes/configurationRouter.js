@@ -6,7 +6,6 @@ const dateTimeHelper = require("../utils/dateTimeHelper");
 
 // db setup
 const DbConnection = require("../db");
-const { company } = require("faker");
 
 // GET configuration with custom api innformation connected to a company
 router.get("/:companyId", async (req, res) => {

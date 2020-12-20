@@ -1,5 +1,6 @@
 // server.js
 const config = require("./config");
+const loanRouter = require("./routes/loans/loanRouter");
 const entityRouter = require("./routes/entityRouter");
 const externalSourceRouter = require("./routes/externalSourceRouter");
 const configurationRouter = require("./routes/configurationRouter");
@@ -29,6 +30,7 @@ const port = config.port || 4005;
 
 server.use(cors());
 server.use("/", entityRouter);
+server.use("/loans", loanRouter);
 server.use("/external", externalSourceRouter);
 server.use("/discrepancies", discrepanciesRouter);
 server.use("/config", configurationRouter);
