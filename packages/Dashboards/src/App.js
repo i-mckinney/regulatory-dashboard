@@ -6,20 +6,33 @@ import Entity from "./components/entity/Entity"
 import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
 import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
 import Loan from "./components/loan/Loan"
+import LoanCreateSelectEntity from "./components/loan/LoanCreateSelectEntity"
+import LoanCreateSelectLoan from "./components/loan/LoanCreateSelectLoan"
+import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
+import LoanConfiguration from "./components/loan/LoanConfiguration"
 import Regulatory from "./components/regulatory/Regulatory"
+import GenerateReport from "./components/generateReport/GenerateReport"
+import StepTwoReportEntitySelection from "./components/generateReport/StepTwoReportEntitySelection"
+import ReportLoanSelection from "./components/generateReport/ReportLoanSelection"
+import ReportNormalizationTable from "./components/generateReport/ReportNormalizationTable"
 import MyRequest from "./components/myrequest/MyRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
 import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
-import ReportCreate from './components/report/ReportCreate'
+import ReportTemplatePage from './components/report-template/ReportTemplatePage'
+import ReportTemplateCreate from './components/report-template/ReportTemplateCreate'
 import ReportEdit from './components/report/ReportEdit'
+import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
+import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
+
 import {
   StylesProvider,
   createGenerateClassName,
 } from "@material-ui/core/styles";
+import HelixNormalizationTableCell from "./components/table/HelixNormalizationTableCell"
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "dashbored-",
@@ -34,12 +47,9 @@ function App(history) {
         <div>
         <Breadcrumbs />
           <Switch>
-            <Route exact path="/homepage">
-              <Homepage />
-            </Route>
 
-            <Route exact path="/dashboard">
-              <Dashboard />
+            <Route exact path="/homepage">
+              <HelixTableKeysRight />
             </Route>
 
             <Route exact path="/entity">
@@ -74,24 +84,52 @@ function App(history) {
               <Loan />
             </Route>
 
-            <Route exact path="/regulatory">
-              <Regulatory />
+            <Route exact path="/loan/new/selectentity" >
+              <LoanCreateSelectEntity />
+            </Route>
+
+            <Route exact path="/loan/new/selectloan" >
+              <LoanCreateSelectLoan />
+            </Route>
+
+            <Route exact path="/loan/:id/discrepancy-report" >
+              <LoanDiscrepancy />
+            </Route>
+            
+            <Route exact path="/loan/configuration/:id" >
+              <LoanConfiguration />
+            </Route>
+            
+            <Route exact path="/reporttemplates">
+              <Report />
             </Route>
 
             <Route exact path="/myrequest">
               <MyRequest />
             </Route>
-
+            
             <Route exact path="/report">
               <Report />
             </Route>
 
-            <Route exact path="/report/new">
-              <ReportCreate />
+            <Route exact path="/reporttemplates/new">
+              <ReportTemplateCreate />
+            </Route>
+
+            <Route exact path="/report/new-pref">
+              <ReportTemplatePage />
             </Route>
 
             <Route exact path="/report/edit/:id">
               <ReportEdit />
+            </Route>
+
+            <Route exact path="/report/:reportId/generate">
+              <GenerateReport />
+            </Route>
+
+            <Route exact path="/selecttable">
+              <HelixSelectTableSetUp />
             </Route>
 
             <Redirect to="/" />

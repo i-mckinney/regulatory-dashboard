@@ -11,6 +11,7 @@ const EditCustomApiRequestDialog = ({
   onUpdate,
   onCreate,
   modalAction,
+  collections
 }) => {
   let handleClick, title;
 
@@ -28,7 +29,7 @@ const EditCustomApiRequestDialog = ({
 
   return (
     <DialogModalTemplate onClose={onClose} title={title} open={open}>
-      <ApiTestUi data={data} onSave={handleClick} />
+      <ApiTestUi data={data} onSave={handleClick} collections={collections}/>
     </DialogModalTemplate>
   );
 };

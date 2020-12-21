@@ -142,7 +142,7 @@ const App = () => {
             <Switch>
               <Route exact path="/" component={LoginView} />
               <Route exact path="/homepage" component={Dashboard} />
-              {/* <Route exact path="/dashboard" component={Dashboard} /> */}
+              <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/company" component={CompanyView} />
               <Route exact path="/entity" component={Dashboard} />
               <Route exact path="/entity/new" component={Dashboard} />
@@ -151,18 +151,23 @@ const App = () => {
               <Route exact path="/entity/:id/discrepancy-report" component={Dashboard}/>
               <Route exact path="/entity/edit/:id" component={Dashboard} />
               <Route exact path="/entity/delete/:id" component={Dashboard} />
-              <Route exact path="/report" component={Dashboard} />
-              <Route exact path="/report/new" component={Dashboard} />
+              <Route exact path="/report/:reportId/generate" component={Dashboard} />
+              <Route exact path="/reporttemplates/new" component={Dashboard} />
               <Route exact path="/report/edit/:id" component={Dashboard} />
               <Route exact path="/report/delete/:id" component={Dashboard} />
               <Route exact path="/loan" component={Dashboard} />
-              <Route exact path="/regulatory" component={Dashboard} />
+              <Route exact path="/loan/new/selectentity" component={Dashboard} />
+              <Route exact path="/loan/new/selectloan" component={Dashboard} />
+              <Route exact path="/reporttemplates" component={Dashboard} />
               <Route exact path="/myrequest" component={Dashboard} />
               <Route exact path="/users" component={User} />
               <Route exact path="/users/new" component={User} />
               <Route exact path="/users/edit/:id" component={User} />
               <Route exact path="/users/delete/:id" component={User} />
               <Route exact path="/api-table" component={CompanyView} />
+              <Route exact path="/api-table/global-table-key" component={CompanyView} />
+              <Route exact path="/global-table-key" component={Dashboard} />
+              <Route exact path="/selecttable"  component={Dashboard}/>
             </Switch>
           </main>
         </div>

@@ -8,8 +8,8 @@ import {
 } from "@material-ui/core/styles";
 
 const generateClassName = createGenerateClassName({
-  productionPrefix: "loginApp-",
-  seed:"login"
+  productionPrefix: "login-",
+  seed:"login-"
 });
 
 function App() {

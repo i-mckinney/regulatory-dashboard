@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import SettingsIcon from '@material-ui/icons/Settings'
 import { HelixTable, HelixTableCell } from 'helixmonorepo-lib';
 import { sortableExcludes, columnMetadata, API_HOST } from '../../config';
 import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
@@ -14,9 +15,10 @@ import EditCustomApiRequestDialog from './EditCustomApiRequestDialog';
 import PerformTestPage from "../perform-test-page/PerformTestPage";
 import { Button as MuiButton } from '@material-ui/core';
 import axios from 'axios';
+import mockCollectionData from '../utils/MockCollectionData'
 
 // Styling used for MaterialUI
-const userTableStyles = makeStyles(() => ({
+const userTableStyles = makeStyles((theme) => ({
   mediumContainer: {
     width: "80%",
     margin: "auto",
@@ -37,8 +39,7 @@ const userTableStyles = makeStyles(() => ({
   actionTableCell: {
     display: "flex",
     justifyContent: "space-evenly"
-  }
-
+  },
 }));
 
 /**
@@ -97,7 +98,7 @@ const ApiTable = (props) => {
         _id: new Date().getTime(),
         requestName: "",
         requestType: "",
-        requestURL: "",
+        requestUrl: ""
       });
     }
     setOpenEditModal(true);
@@ -278,6 +279,19 @@ const ApiTable = (props) => {
     )
   };
 
+  const settingButton = () => {
+    return (
+      <IconButton
+      aria-label='config'
+      color='default'
+      className={userTableClasses.settingIcon}
+      onClick={() => props.history.push("api-table/global-table-key")}
+      >
+        <SettingsIcon fontSize="large" />
+      </IconButton>
+    )
+  }
+
   return (
     <StylesProvider injectFirst>
       <div className={userTableClasses.mediumContainer}>
@@ -286,7 +300,9 @@ const ApiTable = (props) => {
             title="Client API Interface"
             subTitle="Add new API requests or edit and test existing calls"
             icon={<TelegramIcon fontSize="large" />}
+            settingButton={settingButton}
           />
+          
         </div>
 
         <HelixTable
@@ -308,8 +324,8 @@ const ApiTable = (props) => {
         onUpdate={handleEditRow}
         onCreate={handleCreateRow}
         modalAction={modalAction}
+        collections={mockCollectionData}
       />
-
     </StylesProvider>
   );
 };

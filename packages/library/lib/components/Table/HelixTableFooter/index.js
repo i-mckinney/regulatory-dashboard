@@ -30,8 +30,9 @@ var HelixTableFooter = function HelixTableFooter(_ref) {
       rowsPerPage = _ref.rowsPerPage,
       page = _ref.page,
       handleChangePage = _ref.handleChangePage,
-      handleChangeRowsPerPage = _ref.handleChangeRowsPerPage;
-  return /*#__PURE__*/_react["default"].createElement(_core.TableFooter, null, /*#__PURE__*/_react["default"].createElement(_core.TableRow, null, /*#__PURE__*/_react["default"].createElement(_index["default"], {
+      handleChangeRowsPerPage = _ref.handleChangeRowsPerPage,
+      toggleExpandable = _ref.toggleExpandable;
+  return /*#__PURE__*/_react["default"].createElement(_core.TableFooter, null, /*#__PURE__*/_react["default"].createElement(_core.TableRow, null, toggleExpandable ? /*#__PURE__*/_react["default"].createElement(TableCell, null) : null, /*#__PURE__*/_react["default"].createElement(_index["default"], {
     rows: rows,
     colSpan: colSpan,
     rowsPerPage: rowsPerPage,
@@ -47,7 +48,11 @@ HelixTableFooter.propTypes = {
   rowsPerPage: _propTypes["default"].number.isRequired,
   page: _propTypes["default"].number.isRequired,
   handleChangePage: _propTypes["default"].func.isRequired,
-  handleChangeRowsPerPage: _propTypes["default"].func.isRequired
+  handleChangeRowsPerPage: _propTypes["default"].func.isRequired,
+  toggleExpandable: _propTypes["default"].bool.isRequired
+};
+HelixTableFooter.defaultProps = {
+  toggleExpandable: false
 };
 var _default = HelixTableFooter;
 exports["default"] = _default;
