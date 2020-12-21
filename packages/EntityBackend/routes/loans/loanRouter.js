@@ -2,26 +2,20 @@
 const express = require("express");
 const router = express.Router();
 const { ObjectId } = require("mongodb");
-const dateTimeHelper = require("../utils/dateTimeHelper");
+const dateTimeHelper = require("../../utils/dateTimeHelper");
 
 // db setup
-const DbConnection = require("../db");
+const DbConnection = require("../../db");
 
-/**************************************************************************************************************************************************** */
+// /**************************************************************************************************************************************************** */
 
-// GET base route
-router.get("/", async (req, res) => {
-
-  res.json({ServerName: "entityBackend"})
-});
-// GET all entities connected to a company
-router.get("/:companyId/entities", async (req, res) => {
+// GET all loans in a loan dashboard
+router.get("/:companyId", async (req, res) => {
   const companyId = req.params.companyId;
-
   try {
-    const dbCollection = await DbConnection.getCollection("Entities");
-    const entities = await dbCollection
-      .find({ company_id: ObjectId(companyId) })
+    const dbCollection = await DbConnection.getCollection("Loans");
+    const loans = await dbCollection
+      .find({ companyId: ObjectId(companyId) })
       .toArray((err, result) => {
         if (err) throw new Error(err);
         res.json(result);
@@ -33,53 +27,23 @@ router.get("/:companyId/entities", async (req, res) => {
   }
 });
 
-// POST (create) a new Entity
-router.post("/:companyId/entities", async (req, res) => {
+// GET one specific loan
+router.get("/:companyId/:loanId", async (req, res) => {
   try {
     const companyId = req.params.companyId;
-    const newEntity = req.body;
-
-    if (newEntity["_id"] || newEntity["company_id"])
-      throw Error(
-        "Not allowed to manually give _id to new entity or company_id"
-      );
-
-    const dbCollection = await DbConnection.getCollection("Entities");
-
-    await dbCollection.insertOne({
-      ...newEntity,
-      company_id: ObjectId(companyId),
-      createdAt: dateTimeHelper.getTimeStamp(),
+    const loanId = req.params.loanId;
+    const dbCollection = await DbConnection.getCollection("Loans");
+    const loan = await dbCollection.findOne({
+      $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
     });
 
-    // return added entity
-    let entities = await dbCollection
-      .find({ company_id: ObjectId(companyId) })
-      .toArray();
-    const entityJustAdded = entities[entities.length - 1];
-    res.json(entityJustAdded);
-  } catch (error) {
-    res.json({ Error: error.message });
-  }
-});
-
-// GET one specific entity from a company
-router.get("/:companyId/entities/:entityId", async (req, res) => {
-  try {
-    const companyId = req.params.companyId;
-    const entityId = req.params.entityId;
-    const dbCollection = await DbConnection.getCollection("Entities");
-    const entity = await dbCollection.findOne({
-      $and: [{ company_id: ObjectId(companyId) }, { _id: ObjectId(entityId) }],
-    });
-
-    if (!entity) {
+    if (!loan) {
       res.json({
-        error: "Entity with given id doesn't exist",
+        error: "Loan with given id doesn't exist",
       });
     }
 
-    res.json(entity);
+    res.json(loan);
   } catch (e) {
     res.json({
       ErrorStatus: e.status,
@@ -88,84 +52,84 @@ router.get("/:companyId/entities/:entityId", async (req, res) => {
   }
 });
 
-// PUT (update) a entity
-router.put("/:companyId/entities/:entityId", async (req, res) => {
+// POST (create) a new loan
+router.post("/:companyId", async (req, res) => {
   try {
     const companyId = req.params.companyId;
-    const entityId = req.params.entityId;
-    const updatedEntity = req.body;
+    const {
+      commitmentAmount,
+      createdAt,
+      guarantorBID,
+      guarantorName,
+      loanId,
+      loanName,
+      maturityDate,
+      primaryBorrowerName,
+      primaryBorrowerTIN,
+      associatedEntityId,
+    } = req.body;
 
-    if (updatedEntity["_id"] || updatedEntity["company_id"])
-      throw Error(
-        "Not allowed to manually update _id of a company or a entity"
-      );
+    const dbCollection = await DbConnection.getCollection("Loans");
 
-    const dbCollection = await DbConnection.getCollection("Entities");
-    const entity = await dbCollection.findOne({
-      $and: [{ company_id: ObjectId(companyId) }, { _id: ObjectId(entityId) }],
+    let exist = await dbCollection.findOne({
+      $and: [
+        { company_id: ObjectId(companyId) },
+        { loanId: loanId },
+        { associatedEntityId: associatedEntityId },
+      ],
     });
 
-    if (!entity) {
-      res.json({
-        error: "Entity with given id doesn't exist",
+    if (!exist) {
+      let response = await dbCollection.insertOne({
+        commitmentAmount,
+        createdAt,
+        guarantorBID,
+        guarantorName,
+        loanId,
+        loanName,
+        maturityDate,
+        primaryBorrowerName,
+        primaryBorrowerTIN,
+        associatedEntityId,
+        companyId: ObjectId(companyId),
+        loanApiConfigurations: [],
       });
+      if(response) res.json({ status: 200, message: "Loan Added to a loan dashboard" });
+    } else {
+      res.json({ status: 400, message: "Error in adding a new loan" });
     }
-
-    updatedEntity.updatedAt = dateTimeHelper.getTimeStamp();
-    await dbCollection.updateOne(
-      {
-        $and: [
-          { company_id: ObjectId(companyId) },
-          { _id: ObjectId(entityId) },
-        ],
-      },
-      { $set: updatedEntity }
-    );
-
-    // return updated Entity
-    const updatedEntityInDb = await dbCollection.findOne({
-      $and: [{ company_id: ObjectId(companyId) }, { _id: ObjectId(entityId) }],
-    });
-    res.json(updatedEntityInDb);
   } catch (error) {
     res.json({ Error: error.message });
   }
 });
 
-// DELETE a entity
-router.delete("/:companyId/entities/:entityId", async (req, res) => {
-  const companyId = req.params.companyId;
-  const entityId = req.params.entityId;
+// DELETE a loan
+router.delete("/:companyId/:loanId", async (req, res) => {
+  const companyId = req.params.id;
+  const loanId = req.params.loanId;
 
-  console.log("Delete entity with id: ", entityId);
+  console.log("Delete a loan with id: ", loanId);
 
   try {
-    const dbCollection = await DbConnection.getCollection("Entities");
-    const entity = await dbCollection.findOne({
-      $and: [{ company_id: ObjectId(companyId) }, { _id: ObjectId(entityId) }],
+    const dbCollection = await DbConnection.getCollection("Loans");
+
+    let result = await dbCollection.deleteOne({
+      $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
     });
 
-    if (!entity) {
+    if (result) {
       res.json({
-        error: "Ebtuty with given id doesn't exist",
+        status: 200,
+        message: "loan successfully deleted",
       });
     } else {
-      await dbCollection.deleteOne({
-        $and: [
-          { company_id: ObjectId(companyId) },
-          { _id: ObjectId(entityId) },
-        ],
-      });
-
-      // return success message
       res.json({
-        Success: `Entity ${entityId} successfully deleted`,
+        status: 400,
+        message: "Error in deleting a loan",
       });
     }
   } catch (error) {
-    res.json({
-      Error: error.message,
-    });
+    res.json({ status: error.status, message: error.message });
   }
 });
 

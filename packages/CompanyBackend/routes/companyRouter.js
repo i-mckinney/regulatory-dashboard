@@ -12,6 +12,7 @@ const DbConnection = require("../db");
 router.get("/", async (req, res) => {
   res.json({ServerName: "Company Backend"});
 });
+
 // GET all companies
 router.get("/companies", async (req, res) => {
   const dbCollection = await DbConnection.getCollection("Company_Portal");

@@ -7,7 +7,7 @@ const dateTimeHelper = require("../utils/dateTimeHelper");
 // db setup
 const DbConnection = require("../db");
 
-// GET configuration with custom api innformation connected to a company
+// GET entity configuration with custom api innformation connected to a company
 router.get("/:companyId", async (req, res) => {
   const companyId = req.params.companyId;
 
@@ -101,6 +101,94 @@ router.post("/:companyId", async (req, res) => {
       .toArray();
     const entityJustAdded = entityConfiguration[entityConfiguration.length - 1];
     res.json(entityJustAdded);
+  } catch (error) {
+    res.json({ Error: error.message });
+  }
+});
+
+// GET API configuration for a single loan
+router.get("/:companyId/:loanId", async (req, res) => {
+  const companyId = req.params.companyId;
+  const loanId = req.params.loanId;
+
+  try {
+    //Setting up loan configurations
+    const LoanAPIconfiguration = await DbConnection.getCollection(
+      "LoanAPIconfiguration"
+    );
+    const loanConfig = await LoanAPIconfiguration.findOne({
+      $and: [{ company_id: ObjectId(companyId) }, { loanId: loanId }],
+    });
+
+    let loanConfiguartion = loanConfig.loanConfiguartion;
+
+    //Using loan configurations to look up custom apis that exist in our db
+    const customApiCollection = await DbConnection.getCollection(
+      "CustomApiRequests"
+    );
+
+    let customApis = [];
+
+    if (!loanConfiguartion) {
+      res.json({ Error: "Loan configuration does not exist" });
+    } else {
+      for (let i = 0; i < loanConfiguartion.length; i++) {
+        let customApiId = loanConfiguartion[i];
+
+        let singleCustomApi = await customApiCollection.findOne({
+          $and: [
+            { company_id: ObjectId(companyId) },
+            { _id: ObjectId(customApiId) },
+          ],
+        });
+
+        if (singleCustomApi) {
+          customApis.push(singleCustomApi);
+        } else {
+          customApis.push(null);
+        }
+      }
+    }
+
+    res.json(customApis);
+  } catch (e) {
+    res.json({
+      Error: e.message + "Error in grabbing configuration settings",
+    });
+  }
+});
+
+// POST (create) a new Loan configuration
+router.post("/:companyId/:loanId", async (req, res) => {
+  try {
+    const companyId = req.params.companyId;
+    const loanId = req.params.loanId;
+    const newLoanConfiguration = req.body;
+
+    if (newLoanConfiguration["_id"] || newLoanConfiguration["company_id"])
+      throw Error("Not allowed to manually give _id to new loan or company_id");
+
+    const dbCollection = await DbConnection.getCollection(
+      "LoanAPIconfiguration"
+    );
+
+    let loanConfiguartion = await dbCollection.findOne({
+      $and:[{ company_id: ObjectId(companyId)}, {loanId: loanId }],
+    });
+
+    /** Each loan should have one configuration setting for entity dashboard.
+    So we are resetting and adding a new updated configuration setting.**/
+
+    if (loanConfiguartion) {
+      await dbCollection.deleteOne({    $and:[{ company_id: ObjectId(companyId)}, {loanId: loanId }], });
+    }
+    await dbCollection.insertOne({
+      ...newLoanConfiguration,
+      company_id: ObjectId(companyId),
+      createdAt: dateTimeHelper.getTimeStamp(),
+    });
+    
+    res.json({message:"Loan Configuration Added"});
   } catch (error) {
     res.json({ Error: error.message });
   }
