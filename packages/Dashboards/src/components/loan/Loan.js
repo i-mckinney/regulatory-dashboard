@@ -339,7 +339,6 @@ function LoanMenu(props) {
     return row._id
   }
 
-<<<<<<< HEAD
     /**
      * @return jsx object of create icon in child component's toolbar
      */
@@ -354,10 +353,8 @@ function LoanMenu(props) {
           </span>
         )
     }
-=======
   // Initially, we can start the table to order by Loan Name or etc in ascending order
   const initialOrderBy = 'loanName'
->>>>>>> develop
 
   /**
    * @return jsx object of create icon in child component's toolbar
