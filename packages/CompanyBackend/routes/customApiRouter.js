@@ -8,7 +8,30 @@ const customApiRequestTest = require("../helpers/customApiRequestTest");
 // db setup
 const DbConnection = require("../db");
 
-// GET all the custom api requests for a company
+// GET all the custom API requests for a company in a specific group
+
+router.get("/companies/:id/customapi/:group", async (req, res) => {
+  try {
+    const companyId = req.params.id;
+    const requestGroup = req.params.group;
+
+    const dbCollection = await DbConnection.getCollection("CustomApiRequests");
+    const customAPIs = await dbCollection
+      .find( {$and: [
+        { company_id: ObjectId(companyId) },
+        { requestGroup },
+      ]})
+      .toArray((err, result) => {
+        if (err) throw err;
+        res.json(result);
+      });
+  } catch (err) {
+    throw new Error("Db Call error: " + err.message);
+  }
+});
+
+
+// GET all the custom API requests for a company
 router.get("/companies/:id/customapi", async (req, res) => {
   try {
     const companyId = req.params.id;
@@ -23,6 +46,7 @@ router.get("/companies/:id/customapi", async (req, res) => {
     throw new Error("Db Call error: " + err.message);
   }
 });
+
 
 // GET one specific custom api request from a company
 router.get("/companies/:id/customapi/:customApiId", async (req, res) => {

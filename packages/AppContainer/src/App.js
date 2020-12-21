@@ -156,6 +156,8 @@ const App = () => {
               <Route exact path="/report/edit/:id" component={Dashboard} />
               <Route exact path="/report/delete/:id" component={Dashboard} />
               <Route exact path="/loan" component={Dashboard} />
+              <Route exact path="/loan/new/selectentity" component={Dashboard} />
+              <Route exact path="/loan/new/selectloan" component={Dashboard} />
               <Route exact path="/reporttemplates" component={Dashboard} />
               <Route exact path="/myrequest" component={Dashboard} />
               <Route exact path="/users" component={User} />
