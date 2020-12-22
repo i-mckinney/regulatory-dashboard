@@ -80,6 +80,7 @@ router.post("/:companyId", async (req, res) => {
     });
 
     if (!exist) {
+      console.log(exist)
       let response = await dbCollection.insertOne({
         commitmentAmount,
         createdAt,

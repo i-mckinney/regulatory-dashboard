@@ -356,21 +356,21 @@ function LoanMenu(props) {
   // Initially, we can start the table to order by Loan Name or etc in ascending order
   const initialOrderBy = 'loanName'
 
-  /**
-   * @return jsx object of create icon in child component's toolbar
-   */
-  const displayCreateLoanIcon = () => {
-    return (
-      <span className={loanClasses.createIconStyle}>
-        <IconButton
-          color='primary'
-          onClick={() => props.history.push('/loan/new')}
-        >
-          <AddBoxIcon fontSize='large' />
-        </IconButton>
-      </span>
-    )
-  }
+  // /**
+  //  * @return jsx object of create icon in child component's toolbar
+  //  */
+  // const displayCreateLoanIcon = () => {
+  //   return (
+  //     <span className={loanClasses.createIconStyle}>
+  //       <IconButton
+  //         color='primary'
+  //         onClick={() => props.history.push('/loan/new')}
+  //       >
+  //         <AddBoxIcon fontSize='large' />
+  //       </IconButton>
+  //     </span>
+  //   )
+  // }
 
   return (
     <StylesProvider generateClassName={generateClassName}>

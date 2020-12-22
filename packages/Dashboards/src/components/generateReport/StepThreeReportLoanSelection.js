@@ -44,7 +44,7 @@ const selectEntityStyles = makeStyles((theme) => ({
   },
 }));
 
-function ReportLoanSelection(props) {
+function StepThreeReportLoanSelection(props) {
   const entitySelectionTableStyles = selectEntityStyles();
 
   //columnHeaders determine header of each columns in the Helix select table.
@@ -133,4 +133,4 @@ function ReportLoanSelection(props) {
   );
 }
 
-export default withRouter(ReportLoanSelection);
+export default withRouter(StepThreeReportLoanSelection);
