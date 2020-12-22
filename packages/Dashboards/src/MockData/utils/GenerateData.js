@@ -20,36 +20,36 @@ const GenerateData = async () => {
 
       var PrimaryBorrowerName = faker.name.findName();
       var CoBorrowerName1 = faker.name.findName();
-      var CoBorrowerName2 = "";
-      var CoBorrowerName3 = "";
-      var CoBorrowerName4 = "";
-      var CoBorrowerName5 = "";
+      var CoBorrowerName2 = faker.name.findName();;
+      var CoBorrowerName3 = faker.name.findName();;
+      var CoBorrowerName4 = faker.name.findName();;
+      var CoBorrowerName5 = faker.name.findName();;
       var GuarantorName1 = faker.name.findName();;
-      var GuarantorName2 = "";
-      var GuarantorName3 = "";
-      var GuarantorName4 = "";
-      var GuarantorName5 = "";
+      var GuarantorName2 = faker.name.findName();;
+      var GuarantorName3 = faker.name.findName();;
+      var GuarantorName4 = faker.name.findName();;
+      var GuarantorName5 = faker.name.findName();;
 
       var PrimaryBorrowerBID = uuidv4();
       var CoBorrowerBID1 = uuidv4();
-      var CoBorrowerBID2 = "";
-      var CoBorrowerBID3 = "";
-      var CoBorrowerBID4 = "";
-      var CoBorrowerBID5 = "";
+      var CoBorrowerBID2 = uuidv4();
+      var CoBorrowerBID3 = uuidv4();
+      var CoBorrowerBID4 = uuidv4();
+      var CoBorrowerBID5 = uuidv4();
       var GuarantorBID1 = uuidv4();
-      var GuarantorBID2 = "";
-      var GuarantorBID3 = "";
-      var GuarantorBID4 = "";
-      var GuarantorBID5 = "";
+      var GuarantorBID2 = uuidv4();
+      var GuarantorBID3 = uuidv4();
+      var GuarantorBID4 = uuidv4();
+      var GuarantorBID5 = uuidv4();
 
       var GuarantorType1 = "";
 
       var PrimaryBorrowerTINSSN1 = faker.finance.account();
       var CoBorrowerTINSSN1 = faker.finance.account();
-      var CoBorrowerTINSSN2 = "";
-      var CoBorrowerTINSSN3 = "";
-      var CoBorrowerTINSSN4 = "";
-      var CoBorrowerTINSSN5 = "";
+      var CoBorrowerTINSSN2 = faker.finance.account();
+      var CoBorrowerTINSSN3 = faker.finance.account();
+      var CoBorrowerTINSSN4 = faker.finance.account();
+      var CoBorrowerTINSSN5 = faker.finance.account();
 
       var LoanID = uuidv4();
       var possibleLoanType = ["Auto", "Mortgage", "Student"];
@@ -70,20 +70,20 @@ const GenerateData = async () => {
       var possibleInterestRateType = ["Fixed", "Variable", "Discount"];
       var pIRTindex = Math.floor(Math.random() * 3);
       var InterestRateType1 = possibleInterestRateType[pIRTindex];
-      var InterestRateType2 = "";
-      var InterestRateType3 = "";
-      var InterestRateType4 = "";
-      var InterestRateType5 = "";
+      var InterestRateType2 = possibleInterestRateType[pIRTindex];
+      var InterestRateType3 = possibleInterestRateType[pIRTindex];
+      var InterestRateType4 = possibleInterestRateType[pIRTindex];
+      var InterestRateType5 = possibleInterestRateType[pIRTindex];
       var possibleInterestRate = ["3%", "2.25%", "1.25%"];
       var pIRIndex = Math.floor(Math.random() * 3);
       var InterestRate1 = possibleInterestRate[pIRIndex];
-      var InterestRate2 = "";
-      var InterestRate3 = "";
-      var InterestRate4 = "";
-      var InterestRate5 = "";
+      var InterestRate2 = possibleInterestRate[pIRIndex];
+      var InterestRate3 = possibleInterestRate[pIRIndex];
+      var InterestRate4 = possibleInterestRate[pIRIndex];
+      var InterestRate5 = possibleInterestRate[pIRIndex];
 
-      var InterestRateCeiling = "";
-      var InterestRateFloor = "";
+      var InterestRateCeiling = "1.99%";
+      var InterestRateFloor = "0.99%";
 
       var FeeType1 = "";
       var FeeType2 = "";
