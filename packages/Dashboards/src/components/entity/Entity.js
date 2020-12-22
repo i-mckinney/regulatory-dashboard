@@ -108,6 +108,7 @@ function Entity(props) {
           isoToDate(entity, "updatedAt");
         }
       });
+      console.log(response.data)
       setRows(response.data);
     };
 
