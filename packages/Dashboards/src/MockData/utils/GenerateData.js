@@ -16,7 +16,6 @@ const GenerateData = async () => {
 
     // i limit would detertmine number of entities for fake data
     for (let i = 0; i < 5; i++) {
-      // var BorrowerId = uuidv4();
 
       var PrimaryBorrowerName = faker.name.findName();
       var CoBorrowerName1 = faker.name.findName();
@@ -121,37 +120,37 @@ const GenerateData = async () => {
       var NumberofDaysPrincialorInterestPastDue = "";
       var NonAccrualDays = "";
       var IDOfPrimaryObligorForRepayment = "";
-      var DateOfFinancials = "";
-      var DateOfLastAudit = "";
-      var NetSalesCurrent = "";
-      var NetSalesPriorYear = "";
-      var OperatingIncome = "";
-      var DepreciationAndAmortization = "";
-      var InterestExpense = "";
-      var NetIncomeCurrent = "";
+      var DateOfFinancials = faker.date.future();
+      var DateOfLastAudit = faker.date.past();
+      var NetSalesCurrent = faker.finance.amount();;
+      var NetSalesPriorYear = faker.finance.amount();;
+      var OperatingIncome = faker.finance.amount();;
+      var DepreciationAndAmortization = faker.finance.amount();;
+      var InterestExpense = faker.finance.amount();;
+      var NetIncomeCurrent = faker.finance.amount();;
       var NetIncomePrioryYear = "";
       var CashAndMarketableSecurities = "";
-      var AccountsReceivableCurrent = "";
-      var AccountsReceivablePriorYear = "";
+      var AccountsReceivableCurrent = faker.finance.amount();;
+      var AccountsReceivablePriorYear = faker.finance.amount();;
       var InventoryCurrent = "";
       var InventoryPriorYear = "";
-      var CurrentAssetsCurrent = "";
-      var CurrentAssetsPriorYear = "";
-      var TangibleAssets = "";
-      var FixedAssets = "";
-      var TotalAssetsCurrent = "";
-      var TotalAssetsPriorYear = "";
-      var AccountsPayableCurrent = "";
-      var AccountsPayablePriorYear = "";
-      var ShortTermDebt = "";
-      var CurrentMaturitiesOfLongTermDebt = "";
-      var CurrentLiabilitiesCurrent = "";
-      var CurrentLiabilitiesPriorYear = "";
-      var LongTermDebt = "";
-      var MinorityInterest = "";
-      var TotalLiabilities = "";
-      var RetainedEarnings = "";
-      var CapitalExpenditures = "";
+      var CurrentAssetsCurrent = faker.finance.amount();;
+      var CurrentAssetsPriorYear = faker.finance.amount();;
+      var TangibleAssets = faker.finance.amount();;
+      var FixedAssets = faker.finance.amount();;
+      var TotalAssetsCurrent = faker.finance.amount();;
+      var TotalAssetsPriorYear = faker.finance.amount();;
+      var AccountsPayableCurrent = faker.finance.amount();;
+      var AccountsPayablePriorYear = faker.finance.amount();;
+      var ShortTermDebt = faker.finance.amount();;
+      var CurrentMaturitiesOfLongTermDebt = faker.finance.amount();;
+      var CurrentLiabilitiesCurrent = faker.finance.amount();;
+      var CurrentLiabilitiesPriorYear = faker.finance.amount();;
+      var LongTermDebt = faker.finance.amount();;
+      var MinorityInterest = faker.finance.amount();;
+      var TotalLiabilities = faker.finance.amount();;
+      var RetainedEarnings = faker.finance.amount();;
+      var CapitalExpenditures = faker.finance.amount();;
       var SpecialPurposeEntityFlag = "";
       var FairValueAdjustmentCommittedExposure = "";
       var FairValueAdjustmentDrawn = "";
@@ -160,9 +159,9 @@ const GenerateData = async () => {
       var ProbabilityOfDefault = "";
       var LossGivenDefault = "";
       var ExposureAtDefault = "";
-      var RenewalDate = "";
+      var RenewalDate = faker.database.future();
       var CreditFacilityCurrency = "";
-      var EstimatedValue = "";
+      var EstimatedValue = faker.finance.amount();;
       var PrepaymentPenalty = "";
       var PSRIndustryCode = "";
       var ShareOfTotalCommitment = "";
@@ -181,7 +180,7 @@ const GenerateData = async () => {
       var PrepaymentPenaltyFlag = "";
       var LeveragedLoanFlag = "";
       var TroubledDebtRestructuring = "";
-      var AcquiredLoan = "";
+      var AcquiredLoan = faker.finance.amount();;
       var Recourse = "";
       var ParicipationFlag = "";
       var IndustryCodeType = "";
@@ -190,63 +189,6 @@ const GenerateData = async () => {
       var LineReportedOnFRY9C = "";
       var InterestIncomeTaxStatus = "";
       var SyndicatedLoanFlag = "";
-
-      // var RelationshipName = faker.company.companyName();
-      // var BorrowerName = RelationshipName;
-      // var DepositorName = RelationshipName;
-
-      // var HQStreetAddress = faker.address.streetAddress();
-      // var HQCity = faker.address.city();
-      // var HQState = faker.address.state();
-      // var HQPostalCode = faker.address.zipCode();
-      // var HQCountry = faker.address.country();
-      // var MailingAddress = faker.address.streetAddress();
-      // var MailingCity = faker.address.city();
-      // var MailingState = faker.address.state();
-      // var MailingPostalCode = faker.address.zipCode();
-      // var MailingAddressCountry = faker.address.country();
-
-      // var PhoneNumberOne = faker.phone.phoneNumber();
-      // var PhoneNumberTwo = faker.phone.phoneNumber();
-      // var PhoneNumberThree = faker.phone.phoneNumber();
-
-      // var phoneTypes = ["Office", "Mobile", "Home"];
-      // var randomPhoneType = Math.floor(Math.random() * 3);
-      // var PhoneTypeOne = phoneTypes[randomPhoneType];
-      // var PhoneTypeTwo = phoneTypes[randomPhoneType];
-      // var PhoneTypeThree = phoneTypes[randomPhoneType];
-
-      // var EmailOne = faker.internet.email();
-      // var EmailTwo = faker.internet.email();
-      // var EmailThree = faker.internet.email();
-
-      // var EmailOne = faker.internet.email();
-      // var EmailTwo = faker.internet.email();
-      // var EmailThree = faker.internet.email();
-
-      // var MasterID = faker.finance.account();
-      // var DepositorID = faker.finance.account();
-      // var AccountOne = faker.finance.account();
-      // var AccountTwo = faker.finance.account();
-      // var AccountThree = faker.finance.account();
-      // var TIN = faker.finance.account();
-      // var NACISCode = faker.finance.account();
-
-      // var entityTypes = ["S-Corp", "C-Corp", "LLC", "Sole Prop"];
-      // var randomType = Math.floor(Math.random() * 4);
-      // var EntityType = entityTypes[randomType];
-
-      // var CostCenter;
-      // do {
-      //   CostCenter = Math.floor(Math.random() * 999);
-      // } while (CostCenter < 100);
-
-      // var RelationshipManager =
-      //   faker.name.firstName() + "" + faker.name.lastName();
-      // var PrimaryContact = faker.name.firstName() + "" + faker.name.lastName();
-
-      // var BorrowerRiskRating = Math.floor(Math.random() * 10);
-      // var GuarantorRiskRating = Math.floor(Math.random() * 10);
 
       const singleEntity = {
         Warehouse: "FIS",
@@ -397,44 +339,6 @@ const GenerateData = async () => {
         LineReportedOnFRY9C,
         InterestIncomeTaxStatus,
         SyndicatedLoanFlag,
-
-        // ExternalSource: "FIS",
-        // BorrowerId,
-        // RelationshipName,
-        // BorrowerName,
-        // DepositorName,
-        // HQStreetAddress,
-        // HQCity,
-        // HQState,
-        // HQPostalCode,
-        // HQCountry,
-        // MailingAddress,
-        // MailingCity,
-        // MailingState,
-        // MailingPostalCode,
-        // MailingAddressCountry,
-        // PhoneNumberOne,
-        // PhoneNumberTwo,
-        // PhoneNumberThree,
-        // PhoneTypeOne,
-        // PhoneTypeTwo,
-        // PhoneTypeThree,
-        // EmailOne,
-        // EmailTwo,
-        // EmailThree,
-        // MasterID,
-        // DepositorID,
-        // AccountOne,
-        // AccountTwo,
-        // AccountThree,
-        // TIN,
-        // EntityType,
-        // CostCenter,
-        // NACISCode,
-        // RelationshipManager,
-        // PrimaryContact,
-        // BorrowerRiskRating,
-        // GuarantorRiskRating,
       };
       FISEntities.push(singleEntity);
     }
@@ -464,7 +368,5 @@ const GenerateData = async () => {
     throw new Error(e);
   }
 };
-
-GenerateData();
 
 // module.exports = GenerateData;
