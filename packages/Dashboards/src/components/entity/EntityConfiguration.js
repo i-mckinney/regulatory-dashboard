@@ -128,7 +128,7 @@ const EntityConfiguration = (props) => {
        * fetchCustomApis calls backend api through get protocol to get all custom apis
        */
       const fetchCustomApis = async () => {
-        const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
+        const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi/entity")
         showSelection(response.data)
         setCustomApis(response.data)
       }
