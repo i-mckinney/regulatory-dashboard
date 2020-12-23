@@ -117,7 +117,7 @@ const EntityConfiguration = (props) => {
        * fetchEntitiesConfiguration calls backend api through get protocol to get all the selected custom apis
        */
       const fetchEntitiesConfiguration = async () => {
-        const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8")
+        const response = await entities.get("/entityConfig/5f7e1bb2ab26a664b6e950c8")
         response.data.forEach((row) => {
           tempRows.push(row)
         })
@@ -180,7 +180,7 @@ const EntityConfiguration = (props) => {
     const handleSaveEntityConfiguration = async () => {
       const config = { entityConfiguration: [] }
       rows.forEach((row) => config.entityConfiguration.push(row._id))
-      await entities.post("/config/5f7e1bb2ab26a664b6e950c8/", config)
+      await entities.post("/entityConfig/5f7e1bb2ab26a664b6e950c8/", config)
       props.history.push("/entity")
     }
 
