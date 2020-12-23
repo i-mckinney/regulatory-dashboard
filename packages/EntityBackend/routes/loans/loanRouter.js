@@ -1,21 +1,23 @@
 // import modules
 const express = require("express");
+const { company } = require("faker");
 const router = express.Router();
 const { ObjectId } = require("mongodb");
-const dateTimeHelper = require("../../utils/dateTimeHelper");
 
 // db setup
 const DbConnection = require("../../db");
 
 // /**************************************************************************************************************************************************** */
 
-// GET all loans in a loan dashboard
+// GET ALL loans that exist in our loan database
 router.get("/:companyId", async (req, res) => {
   const companyId = req.params.companyId;
   try {
     const dbCollection = await DbConnection.getCollection("Loans");
     const loans = await dbCollection
-      .find({ companyId: ObjectId(companyId) })
+      .find({
+        companyId: ObjectId(companyId),
+      })
       .toArray((err, result) => {
         if (err) throw new Error(err);
         res.json(result);
@@ -27,7 +29,40 @@ router.get("/:companyId", async (req, res) => {
   }
 });
 
-// GET one specific loan
+/**
+ * GET all loans associated with an entity and that does not exist on loan dashboard
+ * (This is used in the loan selection page when creating a new loan)
+ * -> Exists in Databse 
+ * -> associated with an entity
+ * -> not on the LOAN DASHBOARD
+ *  */ 
+
+router.get("/:companyId/entity/:entityId", async (req, res) => {
+  const companyId = req.params.companyId;
+  const entityId = req.params.entityId;
+
+  try {
+    const dbCollection = await DbConnection.getCollection("Loans");
+    const loans = await dbCollection
+      .find({
+        $and: [
+          { companyId: ObjectId(companyId) },
+          { associatedEntityId: entityId },
+          { onDashboard: false },
+        ],
+      })
+      .toArray((err, result) => {
+        if (err) throw new Error(err);
+        res.json(result);
+      });
+  } catch (e) {
+    res.json({
+      Error: e.message + "Error in grabbing data from an external source",
+    });
+  }
+});
+
+// GET one specific loan in the database
 router.get("/:companyId/:loanId", async (req, res) => {
   try {
     const companyId = req.params.companyId;
@@ -52,7 +87,7 @@ router.get("/:companyId/:loanId", async (req, res) => {
   }
 });
 
-// POST (create) a new loan
+// POST (create) a new loan in the databse (Not in the dashboard)
 router.post("/:companyId", async (req, res) => {
   try {
     const companyId = req.params.companyId;
@@ -73,14 +108,13 @@ router.post("/:companyId", async (req, res) => {
 
     let exist = await dbCollection.findOne({
       $and: [
-        { company_id: ObjectId(companyId) },
+        { companyId: ObjectId(companyId) },
         { loanId: loanId },
         { associatedEntityId: associatedEntityId },
       ],
     });
 
     if (!exist) {
-      console.log(exist)
       let response = await dbCollection.insertOne({
         commitmentAmount,
         createdAt,
@@ -94,8 +128,10 @@ router.post("/:companyId", async (req, res) => {
         associatedEntityId,
         companyId: ObjectId(companyId),
         loanApiConfigurations: [],
+        onDashboard: false,
       });
-      if(response) res.json({ status: 200, message: "Loan Added to a loan dashboard" });
+      if (response)
+        res.json({ status: 200, message: "Loan Added to a loan database" });
     } else {
       res.json({ status: 400, message: "Error in adding a new loan" });
     }
@@ -104,13 +140,41 @@ router.post("/:companyId", async (req, res) => {
   }
 });
 
+// PATCH used to update an existing loan (primarily for transferring loan in database to the loan dashboard)
+router.patch("/:companyId", async (req, res) => {
+  try {
+    const companyId = req.params.companyId;
+    const { loanId, onDashboard } = req.body;
+
+    const dbCollection = await DbConnection.getCollection("Loans");
+
+    let doesloanExist = await dbCollection.findOne({
+      $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
+    });
+
+    if (doesloanExist) {
+      let updatedDashboardLoan = await dbCollection.updateOne(
+        {
+          loanId,
+        },
+        { $set: { onDashboard: onDashboard } }
+      );
+
+      if (response)
+        res.json({ status: 200, message: "Loan successfully updated" });
+    } else {
+      res.json({ status: 400, message: "Failed to update the loan" });
+    }
+  } catch (error) {
+    res.json({ Error: error.message });
+  }
+});
+
 // DELETE a loan
 router.delete("/:companyId/:loanId", async (req, res) => {
-  const companyId = req.params.id;
+  const companyId = req.params.companyId;
   const loanId = req.params.loanId;
-
-  console.log("Delete a loan with id: ", loanId);
-
+  
   try {
     const dbCollection = await DbConnection.getCollection("Loans");
 

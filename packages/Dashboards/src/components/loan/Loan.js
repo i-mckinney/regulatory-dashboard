@@ -339,38 +339,23 @@ function LoanMenu(props) {
     return row._id
   }
 
-    /**
-     * @return jsx object of create icon in child component's toolbar
-     */
-    const displayCreateLoanIcon = () => {
-        return (
-          <span className={loanClasses.createIconStyle}>
-            <IconButton
-            color="primary"
-            onClick={() => (props.history.push("/loan/new/selectentity"))}>
-                <AddBoxIcon fontSize="large" />
-            </IconButton>
-          </span>
-        )
-    }
   // Initially, we can start the table to order by Loan Name or etc in ascending order
   const initialOrderBy = 'loanName'
 
-  // /**
-  //  * @return jsx object of create icon in child component's toolbar
-  //  */
-  // const displayCreateLoanIcon = () => {
-  //   return (
-  //     <span className={loanClasses.createIconStyle}>
-  //       <IconButton
-  //         color='primary'
-  //         onClick={() => props.history.push('/loan/new')}
-  //       >
-  //         <AddBoxIcon fontSize='large' />
-  //       </IconButton>
-  //     </span>
-  //   )
-  // }
+  /**
+   * @return jsx object of create icon in child component's toolbar
+   */
+  const displayCreateLoanIcon = () => {
+    return (
+      <span className={loanClasses.createIconStyle}>
+        <IconButton
+        color="primary"
+        onClick={() => (props.history.push("/loan/new/selectentity"))}>
+            <AddBoxIcon fontSize="large" />
+        </IconButton>
+      </span>
+    )
+  }
 
   return (
     <StylesProvider generateClassName={generateClassName}>
