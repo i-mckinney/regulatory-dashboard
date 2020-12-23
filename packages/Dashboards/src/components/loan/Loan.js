@@ -384,10 +384,9 @@ function Loan(props) {
     return (
       <span className={loanClasses.createIconStyle}>
         <IconButton
-          color='primary'
-          onClick={() => props.history.push('/loan/new')}
-        >
-          <AddBoxIcon fontSize='large' />
+        color="primary"
+        onClick={() => (props.history.push("/loan/new/selectentity"))}>
+            <AddBoxIcon fontSize="large" />
         </IconButton>
       </span>
     )
