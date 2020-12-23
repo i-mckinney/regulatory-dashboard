@@ -171,6 +171,8 @@ function Loan(props) {
     fetchLoans();
   }, [columns, notification]);
 
+  console.log(rows)
+
   /**
    * @param {object} row row represents loan object
    */
@@ -349,6 +351,7 @@ function Loan(props) {
         />
       )
     } else {
+      console.log(row[columnAccessor], columnAccessor)
       return (
         <HelixTableCell
           key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
