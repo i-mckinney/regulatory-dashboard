@@ -110,14 +110,13 @@ function Loan(props) {
    * @param {string} id row id to be deleted
    * Closes dialog box and updates row data
    */
-  const handleDelete = (id) => {
-    const tempData = [...rows]
+  const handleDelete = async (id) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     })
-    const newData = tempData.filter((myRequest) => myRequest._id !== id)
-    setRows(newData)
+    await entities.delete(`/loans/5f7e1bb2ab26a664b6e950c8/${id}`)
+
     setNotification({
       isOpen: true,
       message: 'Successfully deleted request',
