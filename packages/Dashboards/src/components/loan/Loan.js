@@ -99,21 +99,16 @@ function Loan(props) {
   // Sets state of dropdown menu location
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  // // On first render (column length is zero), set rows to full set of mock data
-  // if (columns.length === 0) {
-  //   setRows(mockData)
-  // }
-
   /**
    * @param {string} id row id to be deleted
    * Closes dialog box and updates row data
    */
-  const handleDelete = async (id) => {
+  const handleDelete = async (loanId) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     })
-    await entities.delete(`/loans/5f7e1bb2ab26a664b6e950c8/${id}`)
+    await entities.delete(`/loans/5f7e1bb2ab26a664b6e950c8/${loanId}`)
 
     setNotification({
       isOpen: true,
@@ -124,23 +119,23 @@ function Loan(props) {
 
   if (rows.length !== 0) {
     const headerColumns = Object.keys(rows[0])
-    headerColumns.forEach((key, index) => {
-      if (!columnExcludes.includes(key)) {
-        columns.push({
-          Label: columnLabels[index],
-          Accessor: key,
-          Sortable: sortableExcludes.includes(key) ? false : true,
-        })
-      }
-    })
-    columns.push({
-      Label: "Actions",
-      Accessor: "Actions",
-      Sortable: sortableExcludes.includes("Actions") ? false : true,
-    })
+    if (columns.length === 0) {
+      headerColumns.forEach((key, index) => {
+        if (!columnExcludes.includes(key)) {
+          columns.push({
+            Label: columnLabels[index],
+            Accessor: key,
+            Sortable: sortableExcludes.includes(key) ? false : true,
+          })
+        }
+      })
+      columns.push({
+        Label: "Actions",
+        Accessor: "Actions",
+        Sortable: sortableExcludes.includes("Actions") ? false : true,
+      })
+    }
   }
-
-  console.log(columns)
 
   /**
    * @param {object} entity represent object of entity with particular props
@@ -174,7 +169,7 @@ function Loan(props) {
     };
 
     fetchLoans();
-  }, [columns]);
+  }, [columns, notification]);
 
   /**
    * @param {object} row row represents loan object
@@ -182,11 +177,11 @@ function Loan(props) {
   const handleModalDeletePopUp = (row) => {
     setConfirmDialog({
       isOpen: true,
-      title: `Do you want to delete this ${row.borrowerName}'s loan?`,
+      title: `Do you want to delete this ${row.primaryBorrowerName}'s loan?`,
       cancelText: 'Cancel',
       confirmText: 'Yes',
       onConfirm: () => {
-        handleDelete(row._id)
+        handleDelete(row.loanId)
       },
     })
   }
@@ -330,7 +325,7 @@ function Loan(props) {
             </IconButton>
             <ListItemText primary='Configure' />
           </ActionMenuItem>
-          <ActionMenuItem onClick={() => handleModalDeletePopUp(row)}>
+          <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
             <IconButton
               aria-label='delete'
               size='small'
