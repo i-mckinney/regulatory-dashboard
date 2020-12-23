@@ -73,7 +73,7 @@ router.post("/:companyId", async (req, res) => {
 
     let exist = await dbCollection.findOne({
       $and: [
-        { company_id: ObjectId(companyId) },
+        { companyId: ObjectId(companyId) },
         { loanId: loanId },
         { associatedEntityId: associatedEntityId },
       ],

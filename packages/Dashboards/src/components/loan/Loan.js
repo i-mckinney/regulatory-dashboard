@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import {
   StylesProvider,
@@ -19,13 +19,13 @@ import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 import ConfirmDialog from '../utils/ConfirmDialog'
 import Notification from '../utils/Notification'
-
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import entities from '../apis/entities'
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'loan-',
@@ -62,7 +62,7 @@ const loanStyles = makeStyles(() => ({
  * routed at /loan
  */
 
-function LoanMenu(props) {
+function Loan(props) {
   // Creates an object for styling. Any className that matches key in the loanStyles object will have a corresponding styling
   const loanClasses = loanStyles()
 
@@ -101,10 +101,10 @@ function LoanMenu(props) {
   // Sets state of dropdown menu location
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  // On first render (column length is zero), set rows to full set of mock data
-  if (columns.length === 0) {
-    setRows(mockData)
-  }
+  // // On first render (column length is zero), set rows to full set of mock data
+  // if (columns.length === 0) {
+  //   setRows(mockData)
+  // }
 
   /**
    * @param {string} id row id to be deleted
@@ -125,10 +125,12 @@ function LoanMenu(props) {
     })
   }
 
-  if (rows.length !== 0 && columns.length === 0) {
+  if (rows.length !== 0) {
     const headerColumns = Object.keys(rows[0])
     headerColumns.forEach((key, index) => {
       if (!columnExcludes.includes(key)) {
+        console.log(key)
+        console.log(columnLabels[index])
         columns.push({
           Label: columnLabels[index],
           Accessor: key,
@@ -137,6 +139,40 @@ function LoanMenu(props) {
       }
     })
   }
+
+    /**
+   * @param {object} entity represent object of entity with particular props
+   * @param {string} accessor represents the accessor which entity with acessor can access the property value
+   */
+  const isoToDate = (entity, accessor) => {
+    const strDate = entity[accessor];
+    entity[accessor] = strDate.substring(0, 10);
+  };
+
+  /**
+   * Renders only when it is mounted at first
+   * It will fetchLoans whenever Loan loads
+   */
+  useEffect(() => {
+    /**
+     * fetchLoans calls backend api through get protocol to get all the loans
+     */
+    const fetchLoans = async () => {
+      const response = await entities.get("loans/5f7e1bb2ab26a664b6e950c8/");
+
+      response.data.forEach((entity) => {
+        if (entity["createdAt"] !== undefined) {
+          isoToDate(entity, "createdAt");
+        }
+        if (entity["updatedAt"] !== undefined) {
+          isoToDate(entity, "updatedAt");
+        }
+      });
+      setRows(response.data);
+    };
+
+    fetchLoans();
+  }, [columns]);
 
   /**
    * @param {object} row row represents loan object
@@ -389,4 +425,4 @@ function LoanMenu(props) {
   )
 }
 
-export default withRouter(LoanMenu)
+export default withRouter(Loan)
