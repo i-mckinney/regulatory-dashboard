@@ -14,7 +14,6 @@ import AssessmentIcon from '@material-ui/icons/Assessment'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTableCell } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
-import mockData from './MockData'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 import ConfirmDialog from '../utils/ConfirmDialog'
@@ -24,7 +23,6 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import entities from '../apis/entities'
 
 const generateClassName = createGenerateClassName({
@@ -128,8 +126,6 @@ function Loan(props) {
     const headerColumns = Object.keys(rows[0])
     headerColumns.forEach((key, index) => {
       if (!columnExcludes.includes(key)) {
-        console.log(key)
-        console.log(columnLabels[index])
         columns.push({
           Label: columnLabels[index],
           Accessor: key,
@@ -137,9 +133,16 @@ function Loan(props) {
         })
       }
     })
+    columns.push({
+      Label: "Actions",
+      Accessor: "Actions",
+      Sortable: sortableExcludes.includes("Actions") ? false : true,
+    })
   }
 
-    /**
+  console.log(columns)
+
+  /**
    * @param {object} entity represent object of entity with particular props
    * @param {string} accessor represents the accessor which entity with acessor can access the property value
    */
@@ -157,7 +160,7 @@ function Loan(props) {
      * fetchLoans calls backend api through get protocol to get all the loans
      */
     const fetchLoans = async () => {
-      const response = await entities.get("loans/5f7e1bb2ab26a664b6e950c8/");
+      const response = await entities.get("loans/5f7e1bb2ab26a664b6e950c8");
 
       response.data.forEach((entity) => {
         if (entity["createdAt"] !== undefined) {
@@ -244,11 +247,13 @@ function Loan(props) {
     customCellRender
   ) => {
     const innerTableHeadColumns = [
-      'Borrower ID',
+      'Loan ID',
+      'Primary BorrowerTIN',
+      'Guarantor ID',
       'Loan Created',
       'Loan Updated',
     ]
-    const innerTableBodyRows = [row.borrowerID, row.createdAt, row.updatedAt]
+    const innerTableBodyRows = [row.loanId, row.primaryBorrowerTIN, row.guarantorBID, row.createdAt, row.updatedAt]
     return (
       <HelixCollapsibleRow
         key={row._id}

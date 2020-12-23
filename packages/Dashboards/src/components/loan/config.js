@@ -2,7 +2,7 @@
 export const sortableExcludes = ["_id", "Actions"]
 
 // columnExcludes is array of identifier that we do not want to display in the table
-export const columnExcludes = ["loanId", "primaryBorrowerTIN", "guarantorBID", "companyId", "associatedEntityId", "createdAt", "updatedAt"]
+export const columnExcludes = ["loanId", "primaryBorrowerTIN", "guarantorBID", "companyId", "associatedEntityId", "loanApiConfigurations","createdAt", "updatedAt"]
 
 // innerColumnIncludes is array of identifier that we want to display for additional information in the table
 export const innerColumnIncludes = ["loanId", "primaryBorrowerTIN", "guarantorBID", "createdAt", "updatedAt"]

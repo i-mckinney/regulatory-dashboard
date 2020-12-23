@@ -105,7 +105,7 @@ router.post("/:companyId", async (req, res) => {
 
 // DELETE a loan
 router.delete("/:companyId/:loanId", async (req, res) => {
-  const companyId = req.params.id;
+  const companyId = req.params.companyId;
   const loanId = req.params.loanId;
 
   console.log("Delete a loan with id: ", loanId);
