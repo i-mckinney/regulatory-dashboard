@@ -155,7 +155,7 @@ function Loan(props) {
      * fetchLoans calls backend api through get protocol to get all the loans
      */
     const fetchLoans = async () => {
-      const response = await entities.get("loans/5f7e1bb2ab26a664b6e950c8");
+      const response = await entities.get("loans/5f7e1bb2ab26a664b6e950c8/loandashboard");
 
       response.data.forEach((entity) => {
         if (entity["createdAt"] !== undefined) {
@@ -170,8 +170,6 @@ function Loan(props) {
 
     fetchLoans();
   }, [columns, notification]);
-
-  console.log(rows)
 
   /**
    * @param {object} row row represents loan object

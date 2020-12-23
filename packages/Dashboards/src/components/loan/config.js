@@ -16,7 +16,7 @@ export const columnFields = ["loanName", "primaryBorrowerName", "guarantorName",
 // (1) User Created ( refers to "createdAt" (mongodb semantics) )
 // (2) User Updated ( refers to replaces "updatedAt" (mongodb semantics) )
 // (3) Actions
-export const columnLabels = ["_id", "Commitment Amount", "Loan Created", "Guarantor BID", "Guarantor Name", "Loan ID", "Loan Name", "Maturity Date", "Primary Borrower Name", "Primary Borrower TIN", "Associated Entity ID", "Company ID", "Actions"]
+export const columnLabels = ["_id", "Commitment Amount", "Loan Created", "Guarantor BID", "Guarantor Name", "Loan ID", "Loan Name", "Maturity Date", "Primary Borrower Name", "Primary Borrower TIN", "Associated Entity ID", "Company ID", "Loan Type", "Actions"]
 
 // ---"_id": "5fe0bffc2000e93a5eb991d1",
 // ---"commitmentAmount": "$31,000,000",
