@@ -281,13 +281,13 @@ router.patch("/:companyId", async (req, res) => {
     const dbCollection = await DbConnection.getCollection("Loans");
 
     let doesloanExist = await dbCollection.findOne({
-      $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
+      $and: [{ companyId: ObjectId(companyId) }, { loanID: loanId }],
     });
-
+    console.log(req.body)
     if (doesloanExist) {
       let updatedDashboardLoan = await dbCollection.updateOne(
         {
-          loanId,
+          loanID: loanId,
         },
         { $set: { onDashboard: onDashboard } }
       );

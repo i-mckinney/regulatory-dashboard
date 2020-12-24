@@ -2,7 +2,7 @@
 export const sortableExcludes = ["_id", "Actions"]
 
 // columnExcludes is array of identifier that we do not want to display in the table
-export const columnExcludes = ["onDashboard", "loanId", "primaryBorrowerTIN", "guarantorBID", "companyId", "associatedEntityId", "loanApiConfigurations","createdAt", "updatedAt"]
+export const columnExcludes = ["ExternalSource", "onDashboard", "loanId", "loanType", "primaryBorrowerTIN", "primaryBorrowerBID", "guarantorBID", "companyId", "companyId", "associatedEntityId", "loanApiConfigurations","createdAt", "updatedAt"]
 
 // innerColumnIncludes is array of identifier that we want to display for additional information in the table
 export const innerColumnIncludes = ["loanId", "primaryBorrowerTIN", "guarantorBID", "createdAt", "updatedAt"]
@@ -16,7 +16,9 @@ export const columnFields = ["loanName", "primaryBorrowerName", "guarantorName",
 // (1) User Created ( refers to "createdAt" (mongodb semantics) )
 // (2) User Updated ( refers to replaces "updatedAt" (mongodb semantics) )
 // (3) Actions
-export const columnLabels = ["_id", "Commitment Amount", "Loan Created", "Guarantor BID", "Guarantor Name", "Loan ID", "Loan Name", "Maturity Date", "Primary Borrower Name", "Primary Borrower TIN", "Associated Entity ID", "Company ID", "Loan Type", "Actions"]
+export const columnLabels = ["_id", "ExternalSource", "onDashboard", "Primary Borrower Name", "Guarantor Name", "Primary Borrower BID", "Guarantor BID", "Primary Borrower TIN",
+"Loan ID", "Loan Type", "Commitment Amount", "Maturity Date", "Associated EntityId", "Company Id", "createdAt", "Actions"]
+// export const columnLabels = ["_id", "External Source", "Associated Entity ID", "Commitment Amount", "Company ID", "Loan Created", "Guarantor BID", "Guarantor Name", "Loan ID", "Loan Type", "Maturity Date", "on Dasboard", "Primary Borrower BID","Primary Borrower Name", "Primary Borrower TIN", "Actions"]
 
 // ---"_id": "5fe0bffc2000e93a5eb991d1",
 // ---"commitmentAmount": "$31,000,000",

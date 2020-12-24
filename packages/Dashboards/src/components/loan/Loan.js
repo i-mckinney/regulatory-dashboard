@@ -103,12 +103,12 @@ function Loan(props) {
    * @param {string} id row id to be deleted
    * Closes dialog box and updates row data
    */
-  const handleDelete = async (loanId) => {
+  const handleDelete = async (loanID) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     })
-    const reqBody = { loanId: loanId, onDashboard: false }
+    const reqBody = { loanId: loanID, onDashboard: false }
     await entities.patch(`/loans/5f7e1bb2ab26a664b6e950c8`, reqBody)
 
     setNotification({
@@ -130,11 +130,6 @@ function Loan(props) {
           })
         }
       })
-      columns.push({
-        Label: "Actions",
-        Accessor: "Actions",
-        Sortable: sortableExcludes.includes("Actions") ? false : true,
-      })
     }
   }
 
@@ -142,9 +137,9 @@ function Loan(props) {
    * @param {object} entity represent object of entity with particular props
    * @param {string} accessor represents the accessor which entity with acessor can access the property value
    */
-  const isoToDate = (entity, accessor) => {
-    const strDate = entity[accessor];
-    entity[accessor] = strDate.substring(0, 10);
+  const isoToDate = (loan, accessor) => {
+    const strDate = loan[accessor];
+    loan[accessor] = strDate.substring(0, 10);
   };
 
   /**
@@ -158,19 +153,26 @@ function Loan(props) {
     const fetchLoans = async () => {
       const response = await entities.get("loans/5f7e1bb2ab26a664b6e950c8/loandashboard");
 
-      response.data.forEach((entity) => {
-        if (entity["createdAt"] !== undefined) {
-          isoToDate(entity, "createdAt");
+      response.data.forEach((loan) => {
+        if (loan["createdAt"] !== undefined) {
+          isoToDate(loan, "createdAt");
         }
-        if (entity["updatedAt"] !== undefined) {
-          isoToDate(entity, "updatedAt");
+        if (loan["updatedAt"] !== undefined) {
+          isoToDate(loan, "updatedAt");
+        }
+        if (loan["maturityDate"] !== undefined) {
+          isoToDate(loan, "maturityDate");
+        }
+        if (loan["Actions"] === undefined) {
+          loan["Actions"] = "";
         }
       });
+      console.log(response.data)
       setRows(response.data);
     };
 
     fetchLoans();
-  }, [columns, notification]);
+  }, [notification]);
 
   /**
    * @param {object} row row represents loan object
@@ -182,7 +184,7 @@ function Loan(props) {
       cancelText: 'Cancel',
       confirmText: 'Yes',
       onConfirm: () => {
-        handleDelete(row.loanId)
+        handleDelete(row.loanID)
       },
     })
   }
@@ -272,74 +274,119 @@ function Loan(props) {
    */
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
+    // const displayActions = () => (
+    //   <span className={loanClasses.actionsIconStyle}>
+    //     <Button
+    //       aria-controls='action-menu'
+    //       aria-haspopup='true'
+    //       variant='contained'
+    //       color='primary'
+    //       onClick={handleClick}
+    //     >
+    //       Actions<ExpandMoreIcon style={{ paddingLeft: '0.5em' }} />
+    //     </Button>
+    //     <ActionMenu
+    //       id='action-menu'
+    //       anchorEl={anchorEl}
+    //       keepMounted
+    //       open={Boolean(anchorEl)}
+    //       onClose={handleClose}
+    //     >
+    //       <ActionMenuItem
+    //         onClick={() =>
+    //           props.history.push({
+    //             pathname: `/loan/${row._id}/discrepancy-report`,
+    //             state: row,
+    //           })
+    //         }
+    //       >
+    //         <IconButton
+    //           className={loanClasses.discrepancyButton}
+    //           aria-label='discrepancy'
+    //           size='small'
+    //           edge='start'
+    //         >
+    //           <AssessmentIcon />
+    //         </IconButton>
+    //         <ListItemText primary={`Discrepancies - ${row.primaryBorrowerName}`} />
+    //       </ActionMenuItem>
+    //       <ActionMenuItem
+    //         onClick={() =>
+    //           props.history.push({
+    //             pathname: `/loan/configuration/${row._id}`,
+    //             state: row,
+    //           })
+    //         }
+    //       >
+    //         <IconButton
+    //           aria-label='config'
+    //           size='small'
+    //           edge='start'
+    //           color='default'
+    //         >
+    //           <SettingsIcon />
+    //         </IconButton>
+    //         <ListItemText primary={`Configure - ${row.primaryBorrowerName}`}  />
+    //       </ActionMenuItem>
+    //       <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
+    //         <IconButton
+    //           aria-label='delete'
+    //           size='small'
+    //           edge='start'
+    //           color='secondary'
+    //         >
+    //           <DeleteIcon />
+    //         </IconButton>
+    //         <ListItemText primary='Delete' />
+    //       </ActionMenuItem>
+    //     </ActionMenu>
+    //   </span>
+    // )
+
+
     const displayActions = () => (
       <span className={loanClasses.actionsIconStyle}>
-        <Button
-          aria-controls='action-menu'
-          aria-haspopup='true'
-          variant='contained'
-          color='primary'
-          onClick={handleClick}
+        <IconButton
+          className={loanClasses.discrepancyButton}
+          aria-label="discrepancy"
+          size="small"
+          edge="start"
+          onClick={() =>
+            props.history.push({
+              pathname: `/loan/${row._id}/discrepancy-report`,
+              state: row,
+            })
+          }
         >
-          Actions<ExpandMoreIcon style={{ paddingLeft: '0.5em' }} />
-        </Button>
-        <ActionMenu
-          id='action-menu'
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
+          <AssessmentIcon />
+        </IconButton>
+        <IconButton     
+          aria-label="configure"
+          size="small"
+          edge="start"
+          onClick={() =>
+          props.history.push({
+          pathname: `/loan/configuration/${row._id}`,
+          state: row,
+        })
+        }>
+          <SettingsIcon fontSize="large" />
+        </IconButton>
+        <IconButton
+          aria-label="delete"
+          size="small"
+          edge="start"
+          onClick={() => {handleModalDeletePopUp(row); handleClose();}}
+          color="secondary"
         >
-          <ActionMenuItem
-            onClick={() =>
-              props.history.push({
-                pathname: `/loan/${row._id}/discrepancy-report`,
-                state: row,
-              })
-            }
-          >
-            <IconButton
-              className={loanClasses.discrepancyButton}
-              aria-label='discrepancy'
-              size='small'
-              edge='start'
-            >
-              <AssessmentIcon />
-            </IconButton>
-            <ListItemText primary='Discrepancies' />
-          </ActionMenuItem>
-          <ActionMenuItem
-            onClick={() =>
-              props.history.push({
-                pathname: `/loan/configuration/${row.loanId}`,
-                state: row,
-              })
-            }
-          >
-            <IconButton
-              aria-label='config'
-              size='small'
-              edge='start'
-              color='default'
-            >
-              <SettingsIcon />
-            </IconButton>
-            <ListItemText primary={`${row.loanId}`}  />
-          </ActionMenuItem>
-          <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
-            <IconButton
-              aria-label='delete'
-              size='small'
-              edge='start'
-              color='secondary'
-            >
-              <DeleteIcon />
-            </IconButton>
-            <ListItemText primary='Delete' />
-          </ActionMenuItem>
-        </ActionMenu>
+          <DeleteIcon />
+        </IconButton>
       </span>
-    )
+    );
+
+
+
+
 
     if (columnAccessor === 'Actions') {
       return (
@@ -353,7 +400,7 @@ function Loan(props) {
       return (
         <HelixTableCell
           key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
-          value={row[columnAccessor]}
+          value={row[columnAccessor].toString()}
         />
       )
     }
