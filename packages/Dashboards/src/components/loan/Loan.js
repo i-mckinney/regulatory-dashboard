@@ -130,11 +130,6 @@ function Loan(props) {
           })
         }
       })
-      columns.push({
-        Label: "Actions",
-        Accessor: "Actions",
-        Sortable: sortableExcludes.includes("Actions") ? false : true,
-      })
     }
   }
 
@@ -142,9 +137,9 @@ function Loan(props) {
    * @param {object} entity represent object of entity with particular props
    * @param {string} accessor represents the accessor which entity with acessor can access the property value
    */
-  const isoToDate = (entity, accessor) => {
-    const strDate = entity[accessor];
-    entity[accessor] = strDate.substring(0, 10);
+  const isoToDate = (loan, accessor) => {
+    const strDate = loan[accessor];
+    loan[accessor] = strDate.substring(0, 10);
   };
 
   /**
@@ -158,12 +153,15 @@ function Loan(props) {
     const fetchLoans = async () => {
       const response = await entities.get("loans/5f7e1bb2ab26a664b6e950c8/loandashboard");
 
-      response.data.forEach((entity) => {
-        if (entity["createdAt"] !== undefined) {
-          isoToDate(entity, "createdAt");
+      response.data.forEach((loan) => {
+        if (loan["createdAt"] !== undefined) {
+          isoToDate(loan, "createdAt");
         }
-        if (entity["updatedAt"] !== undefined) {
-          isoToDate(entity, "updatedAt");
+        if (loan["updatedAt"] !== undefined) {
+          isoToDate(loan, "updatedAt");
+        }
+        if (loan["Actions"] === undefined) {
+          loan["Actions"] = "";
         }
       });
       setRows(response.data);
