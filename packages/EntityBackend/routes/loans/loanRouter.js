@@ -3,12 +3,26 @@ const express = require("express");
 const { company } = require("faker");
 const router = express.Router();
 const { ObjectId } = require("mongodb");
+const GenerateData = require("./loanMockData/GenerateData")
 
 // db setup
 const DbConnection = require("../../db");
+const { generatePath } = require("react-router-dom");
 
 // /**************************************************************************************************************************************************** */
 
+//Loan fake
+router.get("/yo", async (req, res) => {
+  const companyId = req.params.companyId;
+  try {
+    GenerateData()
+    res.json({ messagee: "Yes" });
+  } catch (e) {
+    res.json({
+      Error: e.message + "Error in grabbing data from an external source",
+    });
+  }
+});
 // GET ALL loans that exist in our loan database
 router.get("/:companyId", async (req, res) => {
   const companyId = req.params.companyId;
@@ -29,13 +43,32 @@ router.get("/:companyId", async (req, res) => {
   }
 });
 
+// GET ALL loans that exist in our loan dashboard
+router.get("/:companyId/loandashboard", async (req, res) => {
+  const companyId = req.params.companyId;
+  try {
+    const dbCollection = await DbConnection.getCollection("Loans");
+    const loans = await dbCollection
+      .find({
+        $and: [{ companyId: ObjectId(companyId) }, { onDashboard: true }],
+      })
+      .toArray((err, result) => {
+        if (err) throw new Error(err);
+        res.json(result);
+      });
+  } catch (e) {
+    res.json({
+      Error: e.message + "Error in grabbing data from an external source",
+    });
+  }
+});
 /**
  * GET all loans associated with an entity and that does not exist on loan dashboard
  * (This is used in the loan selection page when creating a new loan)
- * -> Exists in Databse 
+ * -> Exists in Databse
  * -> associated with an entity
  * -> not on the LOAN DASHBOARD
- *  */ 
+ *  */
 
 router.get("/:companyId/entity/:entityId", async (req, res) => {
   const companyId = req.params.companyId;
@@ -127,7 +160,6 @@ router.post("/:companyId", async (req, res) => {
         primaryBorrowerTIN,
         associatedEntityId,
         companyId: ObjectId(companyId),
-        loanApiConfigurations: [],
         onDashboard: false,
       });
       if (response)
@@ -174,7 +206,7 @@ router.patch("/:companyId", async (req, res) => {
 router.delete("/:companyId/:loanId", async (req, res) => {
   const companyId = req.params.companyId;
   const loanId = req.params.loanId;
-  
+
   try {
     const dbCollection = await DbConnection.getCollection("Loans");
 
