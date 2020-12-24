@@ -6,7 +6,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import {API_HOST} from '../../config'
 
 const useLoansPreferencesClasses = makeStyles((theme) => ({
   root: {
@@ -40,42 +40,79 @@ const useLoansPreferencesClasses = makeStyles((theme) => ({
   }
 }));
 
-const LoanPreferences = (props) => {
+const LoanPreferences = ({reportTemplate, setReportTemplate}) => {
   const loansPreferencesClasses = useLoansPreferencesClasses();
-  const [template, setTemplate] = React.useState('');
-  const [toggleValue, setToggleValue] = React.useState(true)
-  const [tableRows, setTableRows] = useState([])
 
-  const getReportTemplatePreferences = () => [
-  { id: '1', title: 'GET Test#1_FIS' },
-  { id: '2', title: 'GET Test#4_DataWarehouse' },
-  { id: '3', title: 'POST Test#6_Temenos' },
-];
+  const [loanRequests, setLoanRequests] = useState([])
+  const [template, setTemplate] = useState({});
+  //const [template, setTemplate] = useState('');
+  const [toggleValue, setToggleValue] = useState(true)
+  //const [tableRows, setTableRows] = useState(reportTemplate.selectedLoanApiRequests)
+  
+  const [tableRows, setTableRows] = useState(reportTemplate.selectedLoanApiRequests)
+  const [tableRowsDisplay, setTableRowsDisplay] = useState(reportTemplate.selectedLoanApiRequestsDisplay)
+
+  let companyId = "5f7e1bb2ab26a664b6e950c8"
+  let loanApiURL = `${API_HOST}/companies/${companyId}/customapi/loan`
+
+  useEffect(()=> {
+    setReportTemplate({
+      ...reportTemplate,
+      enableLoans: toggleValue,
+      selectedLoanApiRequests: toggleValue !== false ? tableRows : [],
+      selectedLoanApiRequestsDisplay: toggleValue !== false ? tableRowsDisplay: []
+    })
+    const fetchLoanRequests = async () =>{
+      const response = await axios.get(loanApiURL)
+      setLoanRequests(response.data)
+    }
+    fetchLoanRequests()
+   }, [toggleValue,tableRows])
+
+
+  console.log('loanRequests', loanRequests)
+  console.log('reportTemplate inside step 2',reportTemplate)
+  console.log('template', template)
+  console.log('table rows,',tableRows)
+  console.log('table rows display,',tableRowsDisplay)
 
   const handleChange = (e) => {
     setTemplate(e.target.value);
-    // setToggleValue(e.target.checked)
-    // setToggleState({ ...toggleState, [e.target.name]: e.target.checked });
-    // console.log(e.target.checked)
   };
 
   const handleToggleChange = e => {
     setToggleValue(e.target.value)
     setToggleValue(e.target.checked)
+    setTableRows([])
+    setTableRowsDisplay([])
   }
 
   const handleAddToTable = () => {
-    setTableRows([{ name: template }])
-  }
+    if(template.requestName){
+     // setTableRows([...tableRows, template.requestName])
+      setTableRows([...tableRows, template._id])
+      setTableRowsDisplay([...tableRowsDisplay, template.requestName])
+     // setTableRows({...tableRows, rowName: template.requestName, requestId: template._id })
+      setTemplate({})
+    } else {
+      return null
+    }
+   }
 
-  const handleDeleteRow = (e) => {};
+  const handleDeleteRow = (rowTodelete) => {
+    const newTableRows = tableRows.filter((row)=> row !== rowTodelete )
+    setTableRows(newTableRows)
+
+    const newTableRowsDisplay = tableRowsDisplay.filter((row)=> row !== rowTodelete )
+    setTableRowsDisplay(newTableRowsDisplay)
+  };
 
   return (
     <>
     <FormControl>
      <FormLabel>Loans</FormLabel>
       <Switch
-          checked={toggleValue}
+        checked={toggleValue}
         onChange={handleToggleChange}
         name='checkedA'
         inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -86,19 +123,37 @@ const LoanPreferences = (props) => {
         <FormControl variant='outlined' fullWidth className={loansPreferencesClasses.formControl}>
           <InputLabel ></InputLabel>
             <Select
-              value={template}
+              //value={template}
+              //value=''
+              defaultValue =''
               onChange={handleChange}
-              displayEmpty
               className={loansPreferencesClasses.selectEmpty}
               inputProps={{ 'aria-label': 'Without label' }}
-              options={getReportTemplatePreferences()}
+             // options={loanRequests}
             >
-              <MenuItem value="">
-                <em>None</em>
+              {/* <MenuItem value=""> <em>None</em> </MenuItem> */}
+              {/* {getLoanTemplatePreferences().map((loan) => {
+              return <MenuItem 
+                value={loan.title}
+                key={loan.id}
+                style={{display:(tableRows.includes(loan.title) ? 'none': '')}}
+              >
+                {loan.title}
               </MenuItem>
-              <MenuItem value={1}>GET Test#1_FIS</MenuItem>
-              <MenuItem value={2}>POST Test#6_Temenos</MenuItem>
-              <MenuItem value={3}>GET Test#4_DataWarehouse</MenuItem>
+              })
+            } */}
+            {loanRequests.map((loan) => {
+              return <MenuItem 
+                value={loan}
+                key={loan._id}
+              //  style={{display:(tableRows.includes(loan.requestName) ? 'none': '')}}
+                style={{display:(tableRowsDisplay.includes(loan.requestName) ? 'none': '')}}
+               // style={{display:(tableRows.rowName.includes(loan.requestName) ? 'none': '')}}
+              >
+                {loan.requestName}
+              </MenuItem>
+              })
+            }
             </Select>
           <FormHelperText>Please select your API</FormHelperText>
         </FormControl>
@@ -118,37 +173,35 @@ const LoanPreferences = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tableRows.map((row) => (
-                <TableRow key={row.name}>
+              {/* {tableRows.map((row) => (
+                <TableRow key={row}>
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row}
                   </TableCell>
                   <TableCell>
-                    <IconButton variant='contained' color='primary' size='medium' onClick={() => setTableRows([])}>
+                    <IconButton variant='contained' color='primary' size='medium' onClick={()=>handleDeleteRow(row)}>
                       <DeleteIcon  />
                     </IconButton>
                   </TableCell>
-                  
+                </TableRow>
+              ))} */}
+
+              {tableRowsDisplay.map((row) => (
+                <TableRow key={row}>
+                  <TableCell component="th" scope="row">
+                    {row}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton variant='contained' color='primary' size='medium' onClick={()=>handleDeleteRow(row)}>
+                      <DeleteIcon  />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container direction='row-reverse' spacing={1}>
-          <Grid item> 
-            <MuiButton color='primary' variant='contained' startIcon={<SaveIcon />}
-            >Save
-            </MuiButton>
-          </Grid>
-          <Grid item>   
-            <MuiButton color='secondary' variant='contained' startIcon={<CancelIcon />}
-            >Cancel
-            </MuiButton>
-          </Grid>
-     </Grid>
-    </Grid>
     </Grid>
      ) : <div><h3>Use the toggle button to add Entity Report Template preferences</h3></div>}
     </>

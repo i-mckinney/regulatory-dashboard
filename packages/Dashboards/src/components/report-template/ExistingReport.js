@@ -6,7 +6,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import {API_HOST} from '../../config'
 
 const useExistingReportClasses = makeStyles((theme) => ({
   root: {
@@ -41,17 +41,35 @@ const useExistingReportClasses = makeStyles((theme) => ({
 }));
 
 const radioItems = [
-    { id: 'yes', title: 'Yes' },
-    { id: 'on', title: 'No' },
+    { id: 'yes', title: 'Yes', templateValue: true },
+    { id: 'no', title: 'No', templateValue: false },
 ]
 
-const ExistingReport = (props) => {
+const ExistingReport = ({reportTemplate, setReportTemplate}) => {
   const existingReportClasses = useExistingReportClasses();
-  const { value } = props;
-  const [template, setTemplate] = React.useState('');
-  const [radioVal, setRadioVal] = useState("yes")
-  const [tableRows, setTableRows] = useState([])
- 
+  const [template, setTemplate] = useState('');
+  //const [radioVal, setRadioVal] = useState('no')
+  const [radioVal, setRadioVal] = useState(reportTemplate.doesReportExist? 'yes' : 'no')
+  const [tableRows, setTableRows] = useState(reportTemplate.doesReportExist ? reportTemplate.selectedReportApiRequests: [])
+  const [tableRowsDisplay, setTableRowsDisplay] = useState(reportTemplate.doesReportExist ? reportTemplate.selectedReportApiRequestsDisplay: [])
+  const [reportRequests, setReportRequests] = useState([])
+
+  let companyId = "5f7e1bb2ab26a664b6e950c8"
+  let reportApiURL = `${API_HOST}/companies/${companyId}/customapi/report`
+
+ useEffect(()=> {
+  setReportTemplate({
+    ...reportTemplate,
+    doesReportExist: radioVal==='no' ? false : true,
+    selectedReportApiRequests: radioVal !=='no' ? tableRows : [] ,
+    selectedReportApiRequestsDisplay: radioVal !=='no' ? tableRowsDisplay : [] 
+  })
+  const fetchReportRequests = async () =>{
+    const response = await axios.get(reportApiURL)
+    setReportRequests(response.data)
+  }
+  fetchReportRequests()
+ }, [radioVal,tableRows])
 
   // Populates Select dropdown menu
   const getExistingReports = () => [
@@ -65,13 +83,32 @@ const ExistingReport = (props) => {
   };
 
   const handleAddToTable = () => {
-    setTableRows([{ name: template }])
+    // if(template!==''){
+    //   setTableRows([template])
+    //   setTemplate('')
+    // } else {
+    //   return null
+    // }
+    if(template.requestName){
+      // setTableRows([...tableRows, template.requestName])
+       setTableRows([template._id])
+       setTableRowsDisplay([template.requestName])
+      // setTableRows({...tableRows, rowName: template.requestName, requestId: template._id })
+       setTemplate({})
+     } else {
+       return null
+     }
   }
 
-  const handleDeleteRow = (e) => {};
+  const handleDeleteRow = () => {
+    setTableRows([])
+    setTableRowsDisplay([])
+  };
 
   const handleRadioChange = e => {
     setRadioVal(e.target.value)
+    setTableRowsDisplay([])
+    setTableRows([])
   }
 
   return (
@@ -79,13 +116,14 @@ const ExistingReport = (props) => {
     <FormControl>
             <FormLabel>Does Report Exist?</FormLabel>
             <MuiRadioGroup row
-                name='radioItems'
-                value={value}
-                items={radioItems}>
+                name='reportExists'
+                value={radioVal}
+                onChange={handleRadioChange}
+                >
                 {
                     radioItems.map(
                         item => (
-                            <FormControlLabel onChange={handleRadioChange} key={item.id} value={item.id} control={<Radio />} label={item.title} />
+                            <FormControlLabel key={item.id} value={item.id} control={<Radio />} label={item.title} />
                         )
                     )
                 }
@@ -97,19 +135,35 @@ const ExistingReport = (props) => {
       <Grid item xs={11}>
         <FormControl variant='outlined' fullWidth className={existingReportClasses.formControl}>
             <Select
-              value={template}
+             // value={template}
               onChange={handleChange}
-              displayEmpty
+              defaultValue = ''
+             // displayEmpty
               className={existingReportClasses.selectEmpty}
               inputProps={{ 'aria-label': 'Without label' }}
-              options={getExistingReports()}
+             // options={getExistingReports()}
             >
-              <MenuItem value="">
-                <em>None</em>
+              {/* <MenuItem value=""><em>None</em></MenuItem> */}
+              {/* {getExistingReports().map((report) => {
+             return <MenuItem 
+                value={report.title}
+                key={report.id}
+                style={{display:(tableRows.includes(report.title) ? 'none': '')}}
+              >
+                {report.title}
               </MenuItem>
-              <MenuItem value={"GET Test#1_FIS"}>GET Test#1_FIS</MenuItem>
-              <MenuItem value={"POST Test#6_Temenos"}>POST Test#6_Temenos</MenuItem>
-              <MenuItem value={"GET Test#4_DataWarehouse"}>GET Test#4_DataWarehouse</MenuItem>
+              })
+            } */}
+            {reportRequests.map((report) => {
+              return <MenuItem 
+                value={report}
+                key={report._id}
+                style={{display:(tableRowsDisplay.includes(report.requestName) ? 'none': '')}}
+              >
+                {report.requestName}
+              </MenuItem>
+              })
+            }
             </Select>
           <FormHelperText>Please select your API</FormHelperText>
         </FormControl>
@@ -129,39 +183,24 @@ const ExistingReport = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableRows.map((row) => (
-            <TableRow key={row.name}>
+          {tableRowsDisplay.map((row) => (
+            <TableRow key={row}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row}
               </TableCell>
               <TableCell>
-                <IconButton variant='contained' color='primary' size='medium' onClick={() => setTableRows([])}>
+                <IconButton variant='contained' color='primary' size='medium' onClick={handleDeleteRow}>
                   <DeleteIcon  />
                 </IconButton>
               </TableCell>
-              
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-        </Grid>
-        <Grid item xs={12}>
-        <Grid container direction='row-reverse' spacing={1}>
-          <Grid item> 
-            <MuiButton color='primary' variant='contained' startIcon={<SaveIcon />}
-            >Save
-            </MuiButton>
-          </Grid>
-          <Grid item>   
-            <MuiButton color='secondary' variant='contained' startIcon={<CancelIcon />}
-            >Cancel
-            </MuiButton>
-          </Grid>
-     </Grid>
     </Grid>
     </Grid>
-       </div>) : <div><h3>If Report already exist, select YES above and pick a report for your template</h3></div>
+       </div>) : <div><h3>If Report already exists, select YES above and pick a report for your template</h3></div>
 }
     </>
   )
