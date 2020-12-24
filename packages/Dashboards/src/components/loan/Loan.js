@@ -304,12 +304,12 @@ function Loan(props) {
             >
               <AssessmentIcon />
             </IconButton>
-            <ListItemText primary='Discrepancies' />
+            <ListItemText primary={`Discrepancies - ${row.loanId}`} />
           </ActionMenuItem>
           <ActionMenuItem
             onClick={() =>
               props.history.push({
-                pathname: `/loan/configuration/${row.loanId}`,
+                pathname: `/loan/configuration/${row._id}`,
                 state: row,
               })
             }
@@ -322,7 +322,7 @@ function Loan(props) {
             >
               <SettingsIcon />
             </IconButton>
-            <ListItemText primary={`${row.loanId}`}  />
+            <ListItemText primary={`Configure - ${row.loanId}`}  />
           </ActionMenuItem>
           <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
             <IconButton
