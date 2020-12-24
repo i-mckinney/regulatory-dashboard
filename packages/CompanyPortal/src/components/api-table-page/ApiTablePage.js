@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { makeStyles, Grid } from '@material-ui/core'
 
+import PageHeader from '../../layout/PageHeader'
 import EntityApiTable from './entity-api-table/EntityApiTable'
 import LoansApiTable from './loan-api-table/LoanApiTable'
-import PageHeader from '../../layout/PageHeader'
+import ReportApiTable from './report-api-table/ReportApiTable'
 import TelegramIcon from '@material-ui/icons/Telegram'
 import IconButton from '@material-ui/core/IconButton'
 import SettingsIcon from '@material-ui/icons/Settings'
@@ -32,6 +33,8 @@ export default function CustomApiPage(props) {
   const [displayEntitiesApiTable, setDisplayEntitiesApiTable] = useState(false)
   // displayLoansApiTable and setDisplayLoansApiTable used to conditionally render the Entities API table on click
   const [displayLoansApiTable, setDisplayLoansApiTable] = useState(false)
+  // displayLoansApiTable and setDisplayLoansApiTable used to conditionally render the Entities API table on click
+  const [displayReportApiTable, setDisplayReportApiTable] = useState(false)
 
   /**
    * @return {jsx} returns a HelixButton with an onClick event to toggle any custom api table rendering
@@ -49,9 +52,9 @@ export default function CustomApiPage(props) {
             setDisplayEntitiesApiTable(!displayEntitiesApiTable)
           }}
           endIcon={<ExpandMoreIcon />} // Need conditional that renders ExpandLessIcon based on state
-          text='Entities Custom API Table'
+          text='Entity Custom API Table'
         />
-        {displayEntitiesApiTable && <EntityApiTable />}
+        {displayEntitiesApiTable && <EntityApiTable requestGroup="entity" />}
       </>
     )
   }
@@ -72,9 +75,32 @@ export default function CustomApiPage(props) {
             setDisplayLoansApiTable(!displayLoansApiTable)
           }}
           endIcon={<ExpandMoreIcon />} // Need conditional that renders ExpandLessIcon based on state
-          text='Loans Custom API Table'
+          text='Loan Custom API Table'
         />
-        {displayLoansApiTable && <LoansApiTable />}
+        {displayLoansApiTable && <EntityApiTable requestGroup="loan" />}
+      </>
+    )
+  }
+
+  /**
+   * @return {jsx} returns a HelixButton with an onClick event to toggle any custom api table rendering
+   */
+  const renderReportsApiTableButton = () => {
+    return (
+      <>
+        <HelixButton
+          className={customApiPageClasses.showLoansButton}
+          color='default'
+          variant='contained'
+          type='submit'
+          size='large'
+          onClick={() => {
+            setDisplayReportApiTable(!displayReportApiTable)
+          }}
+          endIcon={<ExpandMoreIcon />} // Need conditional that renders ExpandLessIcon based on state
+          text='Report Custom API Table'
+        />
+        {displayReportApiTable && <EntityApiTable requestGroup="report"/>}
       </>
     )
   }
@@ -106,6 +132,9 @@ export default function CustomApiPage(props) {
         </Grid>
         <Grid item xs='12'>
           {renderLoansApiTableButton()}
+        </Grid>
+        <Grid item xs='12'>
+          {renderReportsApiTableButton()}
         </Grid>
       </Grid>
     </div>

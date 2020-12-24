@@ -18,7 +18,7 @@ import axios from 'axios'
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
   mediumContainer: {
-    width: '80%',
+    width: '100%',
     margin: 'auto',
     marginTop: '5rem',
     paddingBottom: '5rem',

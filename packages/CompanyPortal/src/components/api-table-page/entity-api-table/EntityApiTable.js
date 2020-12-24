@@ -16,7 +16,7 @@ import axios from 'axios'
 // Styling used for MaterialUI
 const userTableStyles = makeStyles(() => ({
   mediumContainer: {
-    width: '80%',
+    width: '100%',
     margin: 'auto',
     marginTop: '5rem',
     paddingBottom: '5rem',
@@ -75,7 +75,7 @@ const EntityApiTable = (props) => {
         })
         .then((res) => {
           // setRows(res.data[0].CustomApiRequests);
-          setCompanyData(res.data)
+          setCompanyData(res.data.filter(x => x.requestGroup === props.requestGroup))
         })
     }
 
@@ -95,6 +95,7 @@ const EntityApiTable = (props) => {
         requestName: '',
         requestType: '',
         requestURL: '',
+        requestGroup: props.requestGroup
       })
     }
     setOpenEditModal(true)
