@@ -68,8 +68,10 @@ router.post("/new", async (req, res) => {
       enableLoans,
       selectedEntitiyApiRequests,
       selectedLoanApiRequests,
-      responseMappedEntiity,
+      selectedReportApiRequests,
+      responseMappedEntity,
       responseMappedLoans,
+      responseMappedReport,
     } = req.body;
 
 
@@ -87,8 +89,10 @@ router.post("/new", async (req, res) => {
       enableLoans,
       selectedEntitiyApiRequests,
       selectedLoanApiRequests,
-      responseMappedEntiity,
+      selectedReportApiRequests,
+      responseMappedEntity,
       responseMappedLoans,
+      responseMappedReport,
     });
 
     // return added report template
