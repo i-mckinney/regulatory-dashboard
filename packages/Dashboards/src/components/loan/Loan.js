@@ -108,7 +108,8 @@ function Loan(props) {
       ...confirmDialog,
       isOpen: false,
     })
-    await entities.delete(`/loans/5f7e1bb2ab26a664b6e950c8/${loanId}`)
+    const reqBody = { loanId: loanId, onDashboard: false }
+    await entities.patch(`/loans/5f7e1bb2ab26a664b6e950c8`, reqBody)
 
     setNotification({
       isOpen: true,
@@ -310,7 +311,7 @@ function Loan(props) {
           <ActionMenuItem
             onClick={() =>
               props.history.push({
-                pathname: `/loan/configuration/${row._id}`,
+                pathname: `/loan/configuration/${row.loanId}`,
                 state: row,
               })
             }
@@ -323,7 +324,7 @@ function Loan(props) {
             >
               <SettingsIcon />
             </IconButton>
-            <ListItemText primary='Configure' />
+            <ListItemText primary={`${row.loanId}`}  />
           </ActionMenuItem>
           <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
             <IconButton
@@ -349,7 +350,6 @@ function Loan(props) {
         />
       )
     } else {
-      console.log(row[columnAccessor], columnAccessor)
       return (
         <HelixTableCell
           key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
