@@ -78,7 +78,7 @@ export default function SimpleTabs({
 
   return (
     <div className={classes.root}>
-      <AppBar position='static' style={{ backgroundColor: 'black' }}>
+      <AppBar position='static' style={{ backgroundColor: 'black', color: 'white' }}>
         <Tabs
           value={value}
           onChange={handleChange}
