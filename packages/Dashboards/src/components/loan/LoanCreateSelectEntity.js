@@ -91,7 +91,6 @@ function LoanCreateSelectEntity(props) {
      */
     const fetchEntities = async () => {
       const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entities");
-      console.log(response)
       if (response) {
         let rowsArray = response.data;
 

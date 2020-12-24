@@ -9,6 +9,30 @@ const DbConnection = require("../../db");
 
 // /**************************************************************************************************************************************************** */
 
+// GET ALL loans that exist in our loan dashboard
+router.get("/:companyId/loandashboard", async (req, res) => {
+  const companyId = req.params.companyId;
+  try {
+    const dbCollection = await DbConnection.getCollection("Loans");
+    const loans = await dbCollection
+      .find({
+        $and: [
+          { companyId: ObjectId(companyId) },
+          { onDashboard: true },
+        ],
+      })
+      .toArray((err, result) => {
+        if (err) throw new Error(err);
+        res.json(result);
+      });
+  } catch (e) {
+    res.json({
+      Error: e.message + "Error in grabbing data from an external source",
+    });
+  }
+}); 
+
+
 // GET ALL loans that exist in our loan database
 router.get("/:companyId", async (req, res) => {
   const companyId = req.params.companyId;
