@@ -32,7 +32,8 @@
     "react-scripts": "^3.4.3",
     "react-table": "^7.5.0",
     "reactstrap": "^8.5.1",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
