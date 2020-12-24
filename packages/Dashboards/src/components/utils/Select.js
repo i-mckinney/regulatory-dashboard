@@ -17,7 +17,7 @@ export default function Select(props) {
    onChange: the function called on form control change
    options: an array of objects containing the select menu options
   */
-  const { name, label, value, onChange, options, width, hideNone } = props;
+  const { name, label, value, onChange, options, width, hideNone, propForMenu } = props;
   return (
     <FormControl variant='outlined' style={{width: width && "100%"}}>
       <InputLabel> {label}</InputLabel>
@@ -25,7 +25,7 @@ export default function Select(props) {
         {hideNone ? null : <MenuItem value=''>None</MenuItem>}
         {options.map((item) => (
           <MenuItem key={item.id} value={item.id}>
-            {item.title}
+            {propForMenu ? item[propForMenu] :item.title}
           </MenuItem>
         ))}
       </MuiSelect>

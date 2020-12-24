@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 import { v4 as uuidv4 } from 'uuid';
-
+import mockCollectionData from '../../utils/MockCollectionData'
 import Controls from '../../controls/Controls';
 
 /**
@@ -13,6 +13,7 @@ import Controls from '../../controls/Controls';
 * Intended to be displayed as a tab panel and is a child of the Custom Request tab group component
 */
 
+const mockData = mockCollectionData
 /**
 * Method generates an object used to store custom params, headers, and mappings set by the user when interacting with the custom request interface
 * @param {Array} fields -Array of objects containing  Key Value mappings 
@@ -22,8 +23,9 @@ import Controls from '../../controls/Controls';
 */
 const createNewField = () => ({ id: uuidv4(), key: '', value: '' });
 
-export default function CustomMapping({ fields, onChange, initialCollections }) {
+export default function CustomMapping({ fields, onChange, initialCollections=mockData }) {
   // Keeps track of selected collection from the select dropdown via it's id
+  console.log('mockCollectionData',mockData)
   const [collectionId, setCollectionId]=useState(initialCollections[0].id)
   // State of SelectValuePopup (i.e. open or closed)
   const [openPopup, setOpenPopup] = useState(false)

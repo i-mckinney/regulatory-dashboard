@@ -1,25 +1,19 @@
 import React, { useState} from 'react'
 import { makeStyles, Grid, Typography }  from '@material-ui/core'
 import { HelixTextField, HelixButton } from 'helixmonorepo-lib'
-import { columnFields, columnLabels } from './config'
-import ReportArchive from '../report/ReportArchive'
+import ReportTemplateRequiredFields from './ReportTemplateRequiredFields'
 import ReportTemplateCreateTable from './ReportTemplateCreateTable'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
 // Styling used for MaterialUI
 const reportInputFormStyles = makeStyles(() => ({
-    reportInputFormStyle: {
-        marginTop: '2rem',
-        marginLeft: '4rem',
-        width: '50%',
+    divContainer: {
+        width: '80%',
         margin: 'auto',
-        boxShadow: '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)',
-        transition: 'box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1)',
-        display: 'block',
-        position: 'relative',
-        padding: '30px',
-        borderRadius: '4px',
+        marginTop: '3rem',
+        paddingBottom: '3rem',
+        boxShadow: '2px 2px 2px -2px rgba(0, 0, 0, 0.2), 2px 2px 2px 2px rgba(0, 0, 0, 0.14), 2px 2px 2px 2px rgba(0, 0, 0, 0.12)',
     },
     hide: { 
         display: 'none',
@@ -60,31 +54,28 @@ const reportInputFormStyles = makeStyles(() => ({
     }
 }));
 
-//Used to perform error checks for validation
-const reportError = {}
-columnFields.forEach((columnField) => {
-    reportError[[columnField]] = ""
-})
-
 /**
  * @param {object} initialReportTemplate represent preset empty report template data object
  * @param {string} header represent the header title of this form
  * @param {func} onSubmit represent a func from parent component pass down to child component to retrieve input form information
  * @return {JSX} ReportInputForm site with input form to fill in
  */
-const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, activeStep, setActiveStep, setFields}) => {
-    // Set reportTemplate with preset empty data for report template creation
-    const [report, setReport] = useState(initialReportTemplate)
-    // Perform error check for form validatation upon report template data
-    const [error] = useState(reportError)
+const ReportTemplateInputForm = ({ 
+    header, 
+    activeStep, 
+    setActiveStep, 
+    setFields, 
+    reportTemplate,
+    setReportTemplate
+    }) => {
      // Row data to be passed to next component
     const [rowData, setRowData] = useState([])
      // Column data to be passed to next component
     const [colData, setColData] = useState([])
-    // Selected column to grab field keys from in table
-    const [selectedColumn, setSelectedColumn] = useState(null)
+    // // Selected column to grab field keys from in table
+    const [selectedReportColumn, setSelectedReportColumn] = useState(null)
+
     // Creates an object for styling. Any className that matches key in the reportInputFormStyles object will have a corresponding styling
-   
     const reportInputFormClasses = reportInputFormStyles()
 
     /**
@@ -93,59 +84,39 @@ const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, acti
      * value: the value property on the target text field element as report template input text
      */
     const handleInputChange = (event) => {
-        const { name, value } = event.target
-        setReport({ ...report, [name]: value })
-    }
-
-    /**
-     * @param {Object} event the event object 
-     * Send the created report template back to parent component
-     */
-    const onSubmitForm = (event) => {
-        event.preventDefault()
-        onSubmit(report);
-    }
-    
-    /**
-     * @param {string} name the form control name 
-     * @param {string} label the form control label
-     * @param {string} placeholder a text in the textfield with default value as a placeholder
-     * @param {bool} required the required toggles the required state to fill in the textfield
-     * @return {jsx} return a jsx object of HelixTextField
-     */
-    const setHelixTextField = (name, label, placeholder = "", required = false) => {
-        return (
-            <HelixTextField
-            error={error[[name]].length > 0}
-            description={label}
-            name={name}
-            label={label}
-            value={report[[name]]}
-            placeholder={placeholder}
-            helperText={error[[name]]}
-            required={required}
-            fullWidth 
-            onChange={handleInputChange}
-            />
-        )
+        const {value } = event.target
+        setReportTemplate({...reportTemplate, reportTemplateName: value})
     }
 
     const generateReportFieldKeys = () => {
         const reportKeys = rowData.map((row) => (    
             {   
                 id: row._id,
-                fieldKey: row[selectedColumn.Accessor],
+                fieldKey: row[selectedReportColumn.Accessor],
                 tableKey: ""
             }
         ))
         return reportKeys
     }
 
+    const generateReportTemplateFields = () => {
+        const reportFields = rowData.map(({_id,Row,Actions, ...rest})=> rest)
+    return reportFields
+    }
+
     const handleNext = () => {
+        const columnOrder = colData.map((column)=>column.Accessor).slice(2,colData.length-1)
         setFields(generateReportFieldKeys())
+        setReportTemplate({
+            ...reportTemplate,
+             selectedReportColumn: selectedReportColumn.Accessor,
+              columnOrder: columnOrder,
+              reportTemplateFields: generateReportTemplateFields()
+            })
         let nextStep = activeStep+1
         setActiveStep(nextStep)
     }
+
     /**
      * @return {jsx} return a jsx object of HelixButtons 
      */
@@ -156,10 +127,9 @@ const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, acti
                 className={reportInputFormClasses.nextButton}
                 color="primary" 
                 variant="contained" 
-                // type="submit" 
                 type='button'
-                size="small"
-                disabled = {selectedColumn === null}
+                size="medium"
+                disabled = {selectedReportColumn === null}
                 onClick = {handleNext}
                 text="Next" />
                 <HelixButton
@@ -167,8 +137,8 @@ const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, acti
                 color="default"
                 variant="contained"
                 type="cancel"
-                size="small"
-                href="/report"
+                size="medium"
+                href="/reporttemplates"
                 text="Cancel" />
             </>
         )
@@ -176,30 +146,26 @@ const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, acti
     
     return (
     <div>
-        <form autoComplete="off" onSubmit={onSubmitForm}>
-            <div className={reportInputFormClasses.reportInputFormStyle}> 
+        <div className={reportInputFormClasses.divContainer}> 
             <Grid container
+                item xs ={8}
                 direction="row"
-                justify="flex-end"
-                alignItems="center"
+                style ={{paddingLeft: '1rem'}}
                 spacing={4}>
                 <Grid item xs={12}> <Typography variant="h5">{header} </Typography> </Grid>
-                {columnFields.map((fields, index) => {
-                 if (fields === 'archive') {
-                        return (
-                            <Grid item xs={12} key={`${index} ${fields}`}>
-                                <ReportArchive />
-                            </Grid>
-                        )
-                    } else {
-                        return (
-                            <Grid item xs={12} key={`${index} ${fields}`}>
-                                {setHelixTextField(fields, columnLabels[index+1], "", false)}
-                            </Grid>
-                        )
-                    }
-                })}
-                <Grid className={reportInputFormClasses.hide}> {renderButtonActions()}</Grid> 
+                <Grid item xs={12}>
+                    <HelixTextField 
+                    name='Report Name'
+                    label='Report Name' 
+                    placeholder='' 
+                    fullWidth 
+                    onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item xs={12} >
+                    <ReportTemplateRequiredFields />
+                </Grid>
+                <Grid className={reportInputFormClasses.hide}> <HelixButton /> kept in b/c of a weird bug w/ helix button Styling </Grid> 
             </Grid>
         </div>
         <ReportTemplateCreateTable setColData = {setColData} setRowData = {setRowData} />
@@ -207,17 +173,16 @@ const ReportTemplateInputForm = ({ initialReportTemplate, header, onSubmit, acti
             <p> Select Report Field Name Column </p>
             <Autocomplete
                 id = "ColumnSelection"
-                value={selectedColumn}
-                onChange= {(event, newValue) => { setSelectedColumn(newValue)}}
+                value={selectedReportColumn}
+                onChange= {(event, newValue) => { setSelectedReportColumn(newValue)}}
                 options = {colData.slice(2,colData.length-1)}
                 getOptionLabel = {(selectOption)=> selectOption.Label}
                 renderInput={(params)=><TextField {...params} label="Select Column" variant = "outlined"/>}
-             />
+            />
         </div>
         <div className={reportInputFormClasses.buttonStyle}>
             {renderButtonActions()}
         </div>
-        </form>
     </div>
     )
 }
