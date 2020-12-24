@@ -42,16 +42,23 @@ const mockData =[
         _id: uuidv4(),
         Row: "1",
         FieldCode:'H1',
-        FieldName:'',
+        FieldName:'h1',
         Actions:''
     },
     {
         _id: uuidv4(),
         Row: '2',
         FieldCode:'H2',
-        FieldName:'MasterID',
+        FieldName:'h2',
         Actions:''
     },
+    {
+      _id: uuidv4(),
+      Row: '3',
+      FieldCode:'H3',
+      FieldName:'h3',
+      Actions:''
+  },
 ]
 const columnLabels = ["_id", "Row", "Field Code", "Field Name", "Actions"]
 const initialColumns = columnLabels.map((col)=>{

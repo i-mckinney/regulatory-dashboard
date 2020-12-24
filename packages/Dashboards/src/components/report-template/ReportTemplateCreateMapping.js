@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
-import { makeStyles, Grid, Typography, Divider, Paper }  from '@material-ui/core'
+import React, {useState, useEffect} from 'react';
+import { makeStyles, Grid, Typography, Divider, Paper, Tab }  from '@material-ui/core'
 import { HelixButton } from 'helixmonorepo-lib'
 import { withRouter } from 'react-router-dom'
 import SelectValuePopup from '../utils/SelectValuePopup'
 import Select from '../utils/Select'
 import MockCollectionData from '../../MockData/MockCollectionData'
+// import HelixVerticalTab from '../utils/HelixVerticalTab'
+import HelixVerticalTab from '../utils/HelixVerticalTabV2'
+import axios from "axios";
+import { API_HOST } from "../../config";
 
 const mockFields = [
   {id: "223bbac3-1569-4265-9ce5-92cf532534f9", fieldKey: "FirstName", tableKey: "firstname"},
@@ -66,10 +70,31 @@ cancelButton: {
       backgroundColor: "#DF0350",
       color: "white",
   },
+addCollectionButton: {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  // marginLeft: '24px',
+  },
+  singleTab: {
+    display: "flex",
+  },
+  singleTabIcon: {
+    flexGrow: "2",
+  },
 },
 }))
 
-const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=mockCollectionData, setFields, activeStep, setActiveStep}) => {
+const ReportTemplateCreateMapping = ({ 
+  fields = mockFields, 
+  initialCollections=mockCollectionData, 
+  setFields, 
+  activeStep, 
+  setActiveStep,
+  reportTemplate,
+  setReportTemplate,
+  handleSubmit
+}) => {
   const mappingClasses = createMappingStyles()
 
   // State of SelectValuePopup (i.e. open or closed)
@@ -80,18 +105,104 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
   const [fieldIdToChange ,setFieldIdToChange,]= useState('')
   // Keeps track of selected collection from the select dropdown via it's id
   const [collectionId, setCollectionId]=useState(initialCollections[0].id)
+  //const [collectionId, setCollectionId]=useState('')
+
   // Array of objects containing collection data
   const [collectionsData, setCollectionsData] = useState(initialCollections)
+  //const [collectionsData, setCollectionsData] = useState([])
+
+  const [fieldIdxToChange, setFieldIdxToChange] = useState(0)
+
+  const [value, setValue] = useState(0);
+
+  const companyId = '5f7e1bb2ab26a664b6e950c8'
+  let collectionsURL = `${API_HOST}/companies/${companyId}/globalkeys` 
+  // useEffect(() => {
+  //   const fetchCollections = async () => {
+  //     const response = await axios.get(collectionsURL)
+  //     console.log('response.data', response.data)
+  //     setCollectionsData(response.data)
+  //     setCollectionId(response.data[0]._id)
+  //   }
+  //   fetchCollections()
+  //   }, [collectionsURL])
+
+  const generateListOfTabs = () => {
+    //const reportTabs =reportTemplate.selectedReportApiRequests.length !== 0 ?  [`Report API: ${Object.keys(reportTemplate.responseMappedReport)}`] : []
+    //const entityTabs = reportTemplate.selectedEntityApiRequests.length !== 0 ? [`Entity API: ${Object.keys(reportTemplate.responseMappedEntity)}`] : []
+   // const loanTabs = reportTemplate.selectedLoanApiRequests.length !== 0 ? Object.keys(reportTemplate.responseMappedLoans).map((api)=>( `Loan API: ${api}`)) : []
+    
+   // const reportTabs =reportTemplate.selectedReportApiRequests.length !== 0 ?  [`Report API: ${Object.keys(reportTemplate.responseMappedReport)}`] : []
+    // const entityTabs = reportTemplate.selectedEntityApiRequestsDisplay.length !== 0 ? [`Entity API: ${Object.keys(reportTemplate.responseMappedEntity)}`] : []
+    const reportTabs = reportTemplate.selectedReportApiRequestsDisplay.length !== 0 ? [`Report API: ${reportTemplate.selectedReportApiRequestsDisplay}`] : []
+    const entityTabs = reportTemplate.selectedEntityApiRequestsDisplay.length !== 0 ? [`Entity API: ${reportTemplate.selectedEntityApiRequestsDisplay}`] : []
+    const loanTabs = reportTemplate.selectedLoanApiRequestsDisplay.length !== 0 ? (reportTemplate.selectedLoanApiRequestsDisplay).map((api)=>( `Loan API: ${api}`)) : []
+
+    const listOfTabs = [...reportTabs, ...entityTabs, ...loanTabs]
+    const listOfTabsHidden = [
+      ...reportTemplate.selectedReportApiRequests, 
+      ...reportTemplate.selectedEntityApiRequests,
+      ...reportTemplate.selectedLoanApiRequests,
+    ]
+    return [listOfTabs, listOfTabsHidden]
+  }
+  
+  const listOfTabs= generateListOfTabs()[0]
+  const listOfTabsHidden=generateListOfTabs()[1]
+  console.log('inside report create mapping,', reportTemplate)
+
+  const getMappingGroup = ()=> {
+    const currentApiTab = listOfTabs[value]
+     let responseMappedGroup
+      if(currentApiTab[0]==='R'){
+        responseMappedGroup = 'responseMappedReport'
+      } else if(currentApiTab[0]==='E'){
+         responseMappedGroup = 'responseMappedEntity'
+      } else {
+        responseMappedGroup = 'responseMappedLoans'
+      }
+     return responseMappedGroup
+  }
+
+  /**
+   * @param {object} event the event object
+   * @param {int} newValue index value
+   */
+  const handleChange = (event, newValue) => {
+     setValue(newValue);
+  }
+
+  // renderHelixTabs return a list of Tab jsx object
+  const renderHelixTabs = () => {
+    return  listOfTabs.map((tab, tabIndex) => {
+        return (
+            <Tab key={tabIndex} label={tab} />
+        )
+    })
+  }
 
   /**
    * Handles updating fields (array of objects passed down from parent component)
    * @param {String} newValue -Value to be added to specific field object in fields 
    */
   const handleUpdateValue = (newValue) =>{
-    const updatedFields = fields.map((field) => {
-      return (field.id === fieldIdToChange) ? {...field, tableKey: newValue} : field
+    const newKeyValObj =  {[getSourceKey()] :newValue}
+    const currentApiTab = listOfTabs[value]
+   // const apiRequest = currentApiTab.split('API: ').pop()
+    const apiRequest = listOfTabsHidden[value]
+    const updatedMappings = reportTemplate[getMappingGroup()][apiRequest].map((keyValObj,idx)=>{
+      return (idx !==fieldIdxToChange ? keyValObj : newKeyValObj )
     })
-    setFields(updatedFields)
+    const updatedGroup = {...reportTemplate[getMappingGroup()], [apiRequest]: updatedMappings }
+
+    setReportTemplate({
+      ...reportTemplate, 
+      [getMappingGroup()]:updatedGroup
+     }) 
+    //  const updatedFields = fields.map((field) => {
+    //   return (field.id === fieldIdToChange) ? {...field, tableKey: newValue} : field
+    // })
+    //  setFields(updatedFields)
   }
 
   const handleBackButton = () => {
@@ -106,6 +217,7 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
   const handleKeyClick = (event, id) => {
     setAnchorEl(event.target);
     setFieldIdToChange(id)
+    setFieldIdxToChange(id)
     setOpenPopup(true)
   }
 
@@ -149,11 +261,37 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
    * @returns {String} key from source system
    */
   const getSourceKey = () => {
-    return( fieldIdToChange ?
-    fields.filter(field => field.id === fieldIdToChange)[0].fieldKey
-    : '')
+    // return( fieldIdToChange ?
+    // fields.filter(field => field.id === fieldIdToChange)[0].fieldKey
+    // : '')
+    return(fields[fieldIdxToChange].fieldKey)
   }
- 
+
+const renderMappings = () => {
+  const currentApiTab = listOfTabs[value]
+  // const apiRequest = currentApiTab.split('API: ').pop()
+  const apiRequest = listOfTabsHidden[value]
+  
+  let responseMappedGroup =reportTemplate[getMappingGroup()]
+
+  return responseMappedGroup[apiRequest].map((keyValObj,idx)=>{
+      const keyEntry = Object.keys(keyValObj)[0]
+      const valueEntry= Object.values(keyValObj)[0]
+      return (
+        <Grid container spacing={2} key={idx}> 
+          <Grid item xs={5} className={mappingClasses.keyGrid}>
+            <Paper className={mappingClasses.paper} elevation={2}> <Typography variant="subtitle1">{keyEntry}</Typography></Paper>     
+          </Grid>
+          <Grid item xs={5} className={mappingClasses.keyGrid}>
+            <Paper className={mappingClasses.paper} elevation={2} style={{cursor: 'pointer'}} onClick={(e)=>handleKeyClick(e,idx)}> 
+              <Typography variant="subtitle1">{valueEntry}</Typography>
+            </Paper>     
+          </Grid>
+        </Grid>
+      )
+  })
+}
+
   return (
     <div>
       <Grid item xs={12}> 
@@ -163,11 +301,12 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
       <Divider style={{marginBottom: '1rem'}} />
       <Grid container spacing={2} className={mappingClasses.keyContainer}>
         <Grid item xs ={4}>
-          <Typography variant="h6" > Placeholder for Vertical Navigation Component</Typography>
+          <Typography variant="h6" > Selected API Requests </Typography>
+          <HelixVerticalTab handleChange={handleChange} value={value}  renderHelixTabs={renderHelixTabs} renderHelixPanelTabs={()=>null}/>
         </Grid>
         <Grid container spacing={2} item xs={8}>
           <Grid item xs={7}> 
-            <Typography variant="h6" className={mappingClasses.gridHeader} > Test Entity #1 Helix :</Typography>
+            <Typography variant="h6" className={mappingClasses.gridHeader} > {listOfTabs[value]}: </Typography>
           </Grid>
           <Grid item xs={4}>
             <Select
@@ -177,6 +316,7 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
             value={collectionId}
             onChange={(e)=>setCollectionId(e.target.value)}
             hideNone
+           // propForMenu = "keyCollectionName"
              />
           </Grid>
           <Grid item xs={5}>
@@ -185,27 +325,15 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
           <Grid item xs={5}>
             <Typography variant="subtitle1"> Normalized Table Keys: </Typography> 
           </Grid>
-          {fields.map((field) => {
-            return (
-              <Grid container spacing={2} key={field.id}> 
-                <Grid item xs={5} className={mappingClasses.keyGrid}>
-                  <Paper className={mappingClasses.paper} elevation={2}> <Typography variant="subtitle1">{field.fieldKey}</Typography></Paper>     
-                </Grid>
-                <Grid item xs={5} className={mappingClasses.keyGrid}>
-                  <Paper className={mappingClasses.paper} elevation={2} style={{cursor: 'pointer'}} onClick={(e)=>handleKeyClick(e,field.id)}> 
-                    <Typography variant="subtitle1">{field.tableKey}</Typography>
-                  </Paper>     
-                </Grid>
-              </Grid>
-            ) 
-          })}
+          {renderMappings()}
         </Grid>
       </Grid>
       <SelectValuePopup
         open={openPopup}
         anchorEl={anchorEl}
-        id={fieldIdToChange}
+        id={fieldIdxToChange}
         title= {`Select Key from "${getCollectionById().title}" to Use for Report Field Key "${getSourceKey()}"`}
+        //title= {`Select Key from "${getCollectionById().keyCollectionName}" to Use for Report Field Key "${getSourceKey()}"`}
         addCollectionKey = {addCollectionKey}
         options={getCollectionById().keys.sort((a,b)=> a.toLowerCase().localeCompare(b.toLowerCase()))}
         onClose={handleClosePopup}> 
@@ -224,10 +352,10 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
           className={mappingClasses.confirmButton}
           color="primary" 
           variant="contained" 
-          // type="submit" 
-          type='button'
+          type='submit'
+         // href="/reporttemplates"
           size="small"
-          onClick = {()=> console.log('implement submit form')}
+          onClick = {handleSubmit}
           text="Confirm" />
         <HelixButton
           className={mappingClasses.cancelButton}
@@ -240,7 +368,6 @@ const ReportTemplateCreateMapping = ({ fields = mockFields, initialCollections=m
         </div>
     </div>
   )
-
 }
 
 export default withRouter(ReportTemplateCreateMapping)
