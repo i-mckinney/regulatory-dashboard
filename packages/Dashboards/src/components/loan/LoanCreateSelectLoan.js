@@ -136,7 +136,7 @@ function LoanCreateSelectEntity(props) {
 
     let row = rows[selected];
 
-    let loanId = row.loanId;
+    let loanId = row.loanID;
     let reqBody = {
       loanId: loanId,
       onDashboard: true,

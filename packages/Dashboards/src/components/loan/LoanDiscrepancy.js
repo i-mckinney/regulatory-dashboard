@@ -95,6 +95,7 @@ const LoanDiscrepancy = (props) => {
     return row[0]
   }
 
+  console.log(props.location.state)
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
     if (props.location.state.borrowerID) {

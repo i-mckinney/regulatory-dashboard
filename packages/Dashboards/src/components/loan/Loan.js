@@ -103,12 +103,12 @@ function Loan(props) {
    * @param {string} id row id to be deleted
    * Closes dialog box and updates row data
    */
-  const handleDelete = async (loanId) => {
+  const handleDelete = async (loanID) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     })
-    const reqBody = { loanId: loanId, onDashboard: false }
+    const reqBody = { loanId: loanID, onDashboard: false }
     await entities.patch(`/loans/5f7e1bb2ab26a664b6e950c8`, reqBody)
 
     setNotification({
@@ -160,10 +160,14 @@ function Loan(props) {
         if (loan["updatedAt"] !== undefined) {
           isoToDate(loan, "updatedAt");
         }
+        if (loan["maturityDate"] !== undefined) {
+          isoToDate(loan, "maturityDate");
+        }
         if (loan["Actions"] === undefined) {
           loan["Actions"] = "";
         }
       });
+      console.log(response.data)
       setRows(response.data);
     };
 
@@ -180,7 +184,7 @@ function Loan(props) {
       cancelText: 'Cancel',
       confirmText: 'Yes',
       onConfirm: () => {
-        handleDelete(row.loanId)
+        handleDelete(row.loanID)
       },
     })
   }
@@ -304,7 +308,7 @@ function Loan(props) {
             >
               <AssessmentIcon />
             </IconButton>
-            <ListItemText primary={`Discrepancies - ${row.loanId}`} />
+            <ListItemText primary={`Discrepancies - ${row.loanID}`} />
           </ActionMenuItem>
           <ActionMenuItem
             onClick={() =>
@@ -322,7 +326,7 @@ function Loan(props) {
             >
               <SettingsIcon />
             </IconButton>
-            <ListItemText primary={`Configure - ${row.loanId}`}  />
+            <ListItemText primary={`Configure - ${row.loanID}`}  />
           </ActionMenuItem>
           <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
             <IconButton
@@ -351,7 +355,7 @@ function Loan(props) {
       return (
         <HelixTableCell
           key={`Row-${rowIndex} ${columnAccessor}-${columnIndex}`}
-          value={row[columnAccessor]}
+          value={row[columnAccessor].toString()}
         />
       )
     }

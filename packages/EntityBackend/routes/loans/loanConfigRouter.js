@@ -43,40 +43,48 @@ router.get("/:companyId/:loanId", async (req, res) => {
       "LoanAPIconfiguration"
     );
     const loanConfig = await LoanAPIconfiguration.findOne({
-      $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
+      $and: [{ companyId: ObjectId(companyId) }, { loanID: loanId }],
     });
+    if (!loanConfig){
+      await LoanAPIconfiguration.insertOne({
+        loanID:loanId,
+        companyId:ObjectId(companyId),
+        loanConfiguration: [],
+      })
+      res.json([])
+    } else { 
+      let loanConfiguration = loanConfig.loanConfiguration;
 
-    let loanConfiguration = loanConfig.loanConfiguration;
+      //Using loan configurations to look up custom apis that exist in our db
+      const customApiCollection = await DbConnection.getCollection(
+        "CustomApiRequests"
+      );
 
-    //Using loan configurations to look up custom apis that exist in our db
-    const customApiCollection = await DbConnection.getCollection(
-      "CustomApiRequests"
-    );
+      let customApis = [];
 
-    let customApis = [];
+      if (!loanConfiguration) {
+        res.json({ Error: "Loan configuration does not exist" });
+      } else {
+        for (let i = 0; i < loanConfiguration.length; i++) {
+          let customApiId = loanConfiguration[i];
 
-    if (!loanConfiguration) {
-      res.json({ Error: "Loan configuration does not exist" });
-    } else {
-      for (let i = 0; i < loanConfiguration.length; i++) {
-        let customApiId = loanConfiguration[i];
+          let singleCustomApi = await customApiCollection.findOne({
+            $and: [
+              { company_id: ObjectId(companyId) },
+              { _id: ObjectId(customApiId) },
+            ],
+          });
 
-        let singleCustomApi = await customApiCollection.findOne({
-          $and: [
-            { company_id: ObjectId(companyId) },
-            { _id: ObjectId(customApiId) },
-          ],
-        });
-
-        if (singleCustomApi) {
-          customApis.push(singleCustomApi);
-        } else {
-          customApis.push(null);
+          if (singleCustomApi) {
+            customApis.push(singleCustomApi);
+          } else {
+            customApis.push(null);
+          }
         }
       }
-    }
 
-    res.json(customApis);
+      res.json(customApis);
+    }
   } catch (e) {
     res.json({
       Error: e.message + "Error in grabbing configuration settings",
@@ -96,24 +104,27 @@ router.post("/:companyId/:loanId", async (req, res) => {
     );
 
     let existingloanConfiguration = await dbCollection.findOne({
-      $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
+      $and: [{ companyId: ObjectId(companyId) }, { loanID: loanId }],
     });
-
+    console.log(req.body)
     /** Each loan should have one configuration setting for loan dashboard.
     So we are resetting and adding a new updated configuration setting.**/
 
     if (existingloanConfiguration) {
+      console.log("are we really here")
       await dbCollection.deleteOne({
-        $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
+        loanID: loanId
       });
+      console.log("did it delete")
     }
 
-    await dbCollection.insertOne({
+    let final = await dbCollection.insertOne({
       loanConfiguration,
-      loanId,
+      loanID: loanId,
       companyId: ObjectId(companyId),
       createdAt: dateTimeHelper.getTimeStamp(),
     });
+    console.log('final', final)
 
     res.json({ message: "Loan Configuration Added" });
   } catch (error) {
