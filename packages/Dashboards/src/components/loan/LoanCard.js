@@ -4,11 +4,11 @@ import { Card, CardHeader, CardContent, Typography } from "@material-ui/core"
 import PropTypes from "prop-types"
 
 // Styling used for MaterialUI
-const entityCardStyles = makeStyles(() => ({
-  entityInfoCardDiv: {
+const loanCardStyles = makeStyles(() => ({
+  loanInfoCardDiv: {
     paddingBottom: '25px',
   },
-  entityInfoCard: {
+  loanInfoCard: {
     boxShadow: '0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)',
     backgroundColor: 'rgb(241, 239, 239)',
     transition: 'box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1)',
@@ -17,17 +17,17 @@ const entityCardStyles = makeStyles(() => ({
     padding: '16px',
     borderRadius: '4px',
   },
-  entityInfoCardHeader: {
+  loanInfoCardHeader: {
     paddingBottom: '0',
   },
-  entityInfoCardTitle: {
+  loanInfoCardTitle: {
     marginBottom: '20px',
   },
-  entityInfoCardSubtitle: {
+  loanInfoCardSubtitle: {
     marginBottom: '16px',
     color: 'rgba(0, 0, 0, 0.54)',
   },
-  entityInfoCardContent: {
+  loanInfoCardContent: {
     display: 'block',
     fontSize: '14px',
     paddingLeft: '5px',
@@ -48,31 +48,31 @@ const entityCardStyles = makeStyles(() => ({
  * @param {string} BorrowerID API result property
  * @param {string} BorrowerName API result property
  * @param {string} RelationshipManager API result property
- * @returns {JSX} renders a entity card for edit entity dashboard
+ * @returns {JSX} renders a loan card for edit loan dashboard
  * */
-const EntityCard = ({
+const LoanCard = ({
   RecordLabel,
   SystemOfRecord,
   BorrowerID,
   BorrowerName,
   RelationshipManager,
 }) => {
-  // Creates an object for styling. Any className that matches key in the entityCardClasses object will have a corresponding styling
-  const entityCardClasses = entityCardStyles();
+  // Creates an object for styling. Any className that matches key in the loanCardClasses object will have a corresponding styling
+  const loanCardClasses = loanCardStyles();
 
   return (
-    <div className={entityCardClasses.entityInfoCardDiv}>
-      <Card className={entityCardClasses.entityInfoCard}>
-        <CardHeader className={entityCardClasses.entityInfoCardHeader}
-          title={<Typography className={entityCardClasses.entityInfoCardTitle} variant="h3" component="h1">
+    <div className={loanCardClasses.loanInfoCardDiv}>
+      <Card className={loanCardClasses.loanInfoCard}>
+        <CardHeader className={loanCardClasses.loanInfoCardHeader}
+          title={<Typography className={loanCardClasses.loanInfoCardTitle} variant="h3" component="h1">
             {RecordLabel}
           </Typography>}
-          subheader={<Typography className={entityCardClasses.entityInfoCardSubtitle} variant="subtitle2" >
+          subheader={<Typography className={loanCardClasses.loanInfoCardSubtitle} variant="subtitle2" >
             System of Record: {SystemOfRecord}
           </Typography>}
         >
         </CardHeader>
-        <CardContent className={entityCardClasses.entityInfoCardContent}>
+        <CardContent className={loanCardClasses.loanInfoCardContent}>
             <ul>
               <li>{`Borrower ID: ${BorrowerID}`}</li>
               <li>{`Borrower Name: ${BorrowerName}`}</li>
@@ -84,7 +84,7 @@ const EntityCard = ({
   )
 }
 
-EntityCard.propTypes = {
+LoanCard.propTypes = {
   RecordLabel: PropTypes.string.isRequired,
   SystemOfRecord: PropTypes.string.isRequired,
   BorrowerID: PropTypes.string.isRequired,
@@ -92,4 +92,4 @@ EntityCard.propTypes = {
   RelationshipManager: PropTypes.string.isRequired,
 }
 
-export default EntityCard
+export default LoanCard
