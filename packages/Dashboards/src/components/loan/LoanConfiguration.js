@@ -118,10 +118,14 @@ const LoanConfiguration = (props) => {
        */
       const fetchLoansConfiguration = async () => {
         const response = await entities.get(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanId}`)
-        response.data.forEach((row) => {
-          tempRows.push(row)
-        })
-        setRows(response.data)
+        try {
+          response.data.forEach((row) => {
+            tempRows.push(row)
+          })
+          setRows(response.data)
+        } catch (e) {
+          console.log(response.data)
+        }
       }
 
       /**

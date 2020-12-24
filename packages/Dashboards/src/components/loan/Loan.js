@@ -168,7 +168,7 @@ function Loan(props) {
     };
 
     fetchLoans();
-  }, [columns, notification]);
+  }, [notification]);
 
   /**
    * @param {object} row row represents loan object
