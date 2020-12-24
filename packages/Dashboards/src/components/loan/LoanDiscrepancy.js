@@ -95,14 +95,13 @@ const LoanDiscrepancy = (props) => {
     return row[0]
   }
 
-  console.log(props.location.state)
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
-    if (props.location.state.borrowerID) {
-      const response = await entities.get(`discrepancies/${props.location.state.company_id}/${props.location.state.borrowerID}/report/${props.location.state._id}`)
+    if (props.location.state.primaryBorrowerTIN) {
+      const response = await entities.get(`loandiscrepancies/${props.location.state.companyId}/${props.location.state.primaryBorrowerTIN}/report/${props.location.state.loanID}`)
       setData(response.data)
     } else {
-      setError({ err: true, message: "Borrower ID is empty" })
+      setError({ err: true, message: "Primary Borrower TIN is empty" })
       setData({ ErrorMessage: error.message})
     }
   }
@@ -113,7 +112,7 @@ const LoanDiscrepancy = (props) => {
     if (columns.length === 0 && !error.err) {
       if (!data.ErrorMessage) {
         data.TableHeaders.forEach((header) => columns.push(header))
-        data.TableData.forEach((loanField) => {
+        data.TableData.forEach((loanField, loanFieldIndex) => {
           const row = [loanField.key_config["display"]]
           const tempExternalValues = []
           const values = loanField.values.map((value) => {
@@ -157,7 +156,7 @@ const LoanDiscrepancy = (props) => {
   useEffect(() => {
     if(error.err) {
       if (counter > 0) {
-        setTimeout(() => setCounter(counter - 1), 1500)
+        // setTimeout(() => setCounter(counter - 1), 1500)
       } else {
         props.history.push("/loan")
       }
@@ -341,7 +340,7 @@ const LoanDiscrepancy = (props) => {
     })
     const req = { savedChanges: { ...discrepancyData } }
     console.log(`Line 346 - ${handleConfirmButton.name} -`, req)
-    await entities.post(`discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`, req)
+    await entities.post(`loandiscrepancies/${props.location.state.companyId}/report/${props.location.state.loanID}`, req)
     props.history.push("/loan")
   }
 
@@ -389,11 +388,11 @@ const LoanDiscrepancy = (props) => {
       <>
         {displayAlert()}
         <LoanCard
-          RecordLabel={props.location.state.relationshipName}
+          RecordLabel={"Test#1"}
           SystemOfRecord={detailedInfo.SystemOfRecord}
-          BorrowerID={props.location.state.borrowerID}
-          BorrowerName={props.location.state.borrowerName}
-          RelationshipManager={props.location.state.relationshipManager}
+          BorrowerID={props.location.state.primaryBorrowerBID}
+          BorrowerName={props.location.state.primaryBorrowerName}
+          RelationshipManager={props.location.state.guarantorName}
         />
         <HelixTable
         toggleSearch={false}

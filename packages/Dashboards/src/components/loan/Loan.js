@@ -274,74 +274,119 @@ function Loan(props) {
    */
   const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
+    // const displayActions = () => (
+    //   <span className={loanClasses.actionsIconStyle}>
+    //     <Button
+    //       aria-controls='action-menu'
+    //       aria-haspopup='true'
+    //       variant='contained'
+    //       color='primary'
+    //       onClick={handleClick}
+    //     >
+    //       Actions<ExpandMoreIcon style={{ paddingLeft: '0.5em' }} />
+    //     </Button>
+    //     <ActionMenu
+    //       id='action-menu'
+    //       anchorEl={anchorEl}
+    //       keepMounted
+    //       open={Boolean(anchorEl)}
+    //       onClose={handleClose}
+    //     >
+    //       <ActionMenuItem
+    //         onClick={() =>
+    //           props.history.push({
+    //             pathname: `/loan/${row._id}/discrepancy-report`,
+    //             state: row,
+    //           })
+    //         }
+    //       >
+    //         <IconButton
+    //           className={loanClasses.discrepancyButton}
+    //           aria-label='discrepancy'
+    //           size='small'
+    //           edge='start'
+    //         >
+    //           <AssessmentIcon />
+    //         </IconButton>
+    //         <ListItemText primary={`Discrepancies - ${row.primaryBorrowerName}`} />
+    //       </ActionMenuItem>
+    //       <ActionMenuItem
+    //         onClick={() =>
+    //           props.history.push({
+    //             pathname: `/loan/configuration/${row._id}`,
+    //             state: row,
+    //           })
+    //         }
+    //       >
+    //         <IconButton
+    //           aria-label='config'
+    //           size='small'
+    //           edge='start'
+    //           color='default'
+    //         >
+    //           <SettingsIcon />
+    //         </IconButton>
+    //         <ListItemText primary={`Configure - ${row.primaryBorrowerName}`}  />
+    //       </ActionMenuItem>
+    //       <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
+    //         <IconButton
+    //           aria-label='delete'
+    //           size='small'
+    //           edge='start'
+    //           color='secondary'
+    //         >
+    //           <DeleteIcon />
+    //         </IconButton>
+    //         <ListItemText primary='Delete' />
+    //       </ActionMenuItem>
+    //     </ActionMenu>
+    //   </span>
+    // )
+
+
     const displayActions = () => (
       <span className={loanClasses.actionsIconStyle}>
-        <Button
-          aria-controls='action-menu'
-          aria-haspopup='true'
-          variant='contained'
-          color='primary'
-          onClick={handleClick}
+        <IconButton
+          className={loanClasses.discrepancyButton}
+          aria-label="discrepancy"
+          size="small"
+          edge="start"
+          onClick={() =>
+            props.history.push({
+              pathname: `/loan/${row._id}/discrepancy-report`,
+              state: row,
+            })
+          }
         >
-          Actions<ExpandMoreIcon style={{ paddingLeft: '0.5em' }} />
-        </Button>
-        <ActionMenu
-          id='action-menu'
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
+          <AssessmentIcon />
+        </IconButton>
+        <IconButton     
+          aria-label="configure"
+          size="small"
+          edge="start"
+          onClick={() =>
+          props.history.push({
+          pathname: `/loan/configuration/${row._id}`,
+          state: row,
+        })
+        }>
+          <SettingsIcon fontSize="large" />
+        </IconButton>
+        <IconButton
+          aria-label="delete"
+          size="small"
+          edge="start"
+          onClick={() => {handleModalDeletePopUp(row); handleClose();}}
+          color="secondary"
         >
-          <ActionMenuItem
-            onClick={() =>
-              props.history.push({
-                pathname: `/loan/${row._id}/discrepancy-report`,
-                state: row,
-              })
-            }
-          >
-            <IconButton
-              className={loanClasses.discrepancyButton}
-              aria-label='discrepancy'
-              size='small'
-              edge='start'
-            >
-              <AssessmentIcon />
-            </IconButton>
-            <ListItemText primary={`Discrepancies - ${row.loanID}`} />
-          </ActionMenuItem>
-          <ActionMenuItem
-            onClick={() =>
-              props.history.push({
-                pathname: `/loan/configuration/${row._id}`,
-                state: row,
-              })
-            }
-          >
-            <IconButton
-              aria-label='config'
-              size='small'
-              edge='start'
-              color='default'
-            >
-              <SettingsIcon />
-            </IconButton>
-            <ListItemText primary={`Configure - ${row.loanID}`}  />
-          </ActionMenuItem>
-          <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
-            <IconButton
-              aria-label='delete'
-              size='small'
-              edge='start'
-              color='secondary'
-            >
-              <DeleteIcon />
-            </IconButton>
-            <ListItemText primary='Delete' />
-          </ActionMenuItem>
-        </ActionMenu>
+          <DeleteIcon />
+        </IconButton>
       </span>
-    )
+    );
+
+
+
+
 
     if (columnAccessor === 'Actions') {
       return (
