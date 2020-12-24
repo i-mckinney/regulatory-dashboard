@@ -3,8 +3,6 @@ import { makeStyles, Grid } from '@material-ui/core'
 
 import PageHeader from '../../layout/PageHeader'
 import EntityApiTable from './entity-api-table/EntityApiTable'
-import LoansApiTable from './loan-api-table/LoanApiTable'
-import ReportApiTable from './report-api-table/ReportApiTable'
 import TelegramIcon from '@material-ui/icons/Telegram'
 import IconButton from '@material-ui/core/IconButton'
 import SettingsIcon from '@material-ui/icons/Settings'

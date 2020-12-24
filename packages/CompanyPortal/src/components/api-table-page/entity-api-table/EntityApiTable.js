@@ -75,12 +75,14 @@ const EntityApiTable = (props) => {
         })
         .then((res) => {
           // setRows(res.data[0].CustomApiRequests);
-          setCompanyData(res.data.filter(x => x.requestGroup === props.requestGroup))
+          setCompanyData(
+            res.data.filter((x) => x.requestGroup === props.requestGroup)
+          )
         })
     }
 
     fetchCompanies()
-  }, [customApiUrl])
+  }, [customApiUrl, props.requestGroup])
 
   const handleOpenEditModal = (requestData) => {
     if (!!requestData) {
@@ -95,7 +97,7 @@ const EntityApiTable = (props) => {
         requestName: '',
         requestType: '',
         requestURL: '',
-        requestGroup: props.requestGroup
+        requestGroup: props.requestGroup,
       })
     }
     setOpenEditModal(true)
