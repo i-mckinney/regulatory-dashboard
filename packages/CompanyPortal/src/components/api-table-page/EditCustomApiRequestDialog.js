@@ -1,6 +1,6 @@
 import React from 'react';
 import DialogModalTemplate from '../DialogModalTemplate';
-import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from './constants';
+import { MODAL_ACTION_CREATE, MODAL_ACTION_UPDATE } from '../../constants';
 import ApiTestUi from '../api-testing-ui/ApiTestUi';
 
 const EditCustomApiRequestDialog = ({
