@@ -162,33 +162,34 @@ router.get("/:companyId/:loanId", async (req, res) => {
 router.post("/:companyId/:loanId", async (req, res) => {
   try {
     const companyId = req.params.companyId;
-    const loanId = req.params.loanId;
-    const newLoanConfiguration = req.body;
 
-    if (newLoanConfiguration["_id"] || newLoanConfiguration["company_id"])
-      throw Error("Not allowed to manually give _id to new loan or company_id");
+    const { loanId, loanConfiguartion } = req.body;
 
     const dbCollection = await DbConnection.getCollection(
       "LoanAPIconfiguration"
     );
 
-    let loanConfiguartion = await dbCollection.findOne({
-      $and:[{ company_id: ObjectId(companyId)}, {loanId: loanId }],
+    let existingloanConfiguartion = await dbCollection.findOne({
+      $and: [{ company_id: ObjectId(companyId) }, { loanId: loanId }],
     });
 
     /** Each loan should have one configuration setting for entity dashboard.
     So we are resetting and adding a new updated configuration setting.**/
 
-    if (loanConfiguartion) {
-      await dbCollection.deleteOne({    $and:[{ company_id: ObjectId(companyId)}, {loanId: loanId }], });
+    if (existingloanConfiguartion) {
+      await dbCollection.deleteOne({
+        $and: [{ company_id: ObjectId(companyId) }, { loanId: loanId }],
+      });
     }
+
     await dbCollection.insertOne({
-      ...newLoanConfiguration,
+      loanConfiguartion,
+      loanId,
       company_id: ObjectId(companyId),
       createdAt: dateTimeHelper.getTimeStamp(),
     });
-    
-    res.json({message:"Loan Configuration Added"});
+
+    res.json({ message: "Loan Configuration Added" });
   } catch (error) {
     res.json({ Error: error.message });
   }

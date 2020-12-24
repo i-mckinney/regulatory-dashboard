@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import HelixProgressBar from "../utils/HelixProgressBar";
 import StepOneReportBasicInfo from "./StepOneReportBasicInfo";
 import StepTwoReportEntitySelection from "./StepTwoReportEntitySelection";
-import ReportLoanSelection from "./ReportLoanSelection";
+import StepThreeReportLoanSelection from "./StepThreeReportLoanSelection";
 import ReportNormalizationTableDashboard from "./ReportNormalizationTableDashboard";
 import ReportSummary from "./ReportSummary";
 
@@ -86,7 +86,7 @@ function GenerateReport(props) {
 
         if (steps[i].type === "loan") {
           tempBody.push(
-            <ReportLoanSelection activeStep={i} setActiveStep={setActiveStep} />
+            <StepThreeReportLoanSelection activeStep={i} setActiveStep={setActiveStep} />
           );
         }
 

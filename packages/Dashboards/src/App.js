@@ -12,9 +12,6 @@ import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
 import Regulatory from "./components/regulatory/Regulatory"
 import GenerateReport from "./components/generateReport/GenerateReport"
-import StepTwoReportEntitySelection from "./components/generateReport/StepTwoReportEntitySelection"
-import ReportLoanSelection from "./components/generateReport/ReportLoanSelection"
-import ReportNormalizationTable from "./components/generateReport/ReportNormalizationTable"
 import MyRequest from "./components/myrequest/MyRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
@@ -96,7 +93,7 @@ function App(history) {
               <LoanDiscrepancy />
             </Route>
             
-            <Route exact path="/loan/configuration/:id" >
+            <Route exact path="/loan/configuration/:loanId" >
               <LoanConfiguration />
             </Route>
             

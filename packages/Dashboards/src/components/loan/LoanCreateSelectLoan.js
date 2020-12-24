@@ -58,7 +58,7 @@ function LoanCreateSelectEntity(props) {
       disablePadding: true,
       label: "Loan Id",
     },
-    { id: "LoanName", disablePadding: false, label: "Loan Name" },
+    { id: "PrimaryBorrowerName", disablePadding: false, label: "Primary Borrower Name" },
     { id: "LoanType", disablePadding: false, label: "Loan Type" },
     {
       id: "CommitmentAmount",
@@ -84,9 +84,9 @@ function LoanCreateSelectEntity(props) {
     return (
       <>
         <TableCell component="th" id={labelId} scope="row" padding="none">
-          {row.loanId}
+          {row.loanID}
         </TableCell>
-        <TableCell align="left">{row.loanName}</TableCell>
+        <TableCell align="left">{row.primaryBorrowerName}</TableCell>
         <TableCell align="left">{row.loanType}</TableCell>
         <TableCell align="left">{row.commitmentAmount}</TableCell>
         <TableCell align="left">{row.maturityDate}</TableCell>
@@ -110,11 +110,11 @@ function LoanCreateSelectEntity(props) {
         setEntityId(selectedEntityId);
 
         const response = await entities.get(
-          `/5f7e1bb2ab26a664b6e950c8/entities/${selectedEntityId}`
+          `/loans/5f7e1bb2ab26a664b6e950c8/entity/${selectedEntityId}`
         );
 
         if (response) {
-          let rowsArray = response.data.loans;
+          let rowsArray = response.data;
 
           let responseRows = [];
 
@@ -135,11 +135,16 @@ function LoanCreateSelectEntity(props) {
     event.preventDefault();
 
     let row = rows[selected];
-    row.associatedEntityId = entityId;
 
-    let response = await axios.post(
+    let loanId = row.loanId;
+    let reqBody = {
+      loanId: loanId,
+      onDashboard: true,
+    };
+
+    let response = await axios.patch(
       `${BACKEND_ENTITIES_HOST}/loans/5f7e1bb2ab26a664b6e950c8`,
-      row
+      reqBody
     );
 
     if (response) {

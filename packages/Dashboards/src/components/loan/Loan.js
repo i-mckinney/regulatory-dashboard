@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import {
   StylesProvider,
@@ -14,18 +14,16 @@ import AssessmentIcon from '@material-ui/icons/Assessment'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTableCell } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
-import mockData from './MockData'
 import { sortableExcludes, columnExcludes, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 import ConfirmDialog from '../utils/ConfirmDialog'
 import Notification from '../utils/Notification'
-
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import entities from '../apis/entities'
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'loan-',
@@ -62,7 +60,7 @@ const loanStyles = makeStyles(() => ({
  * routed at /loan
  */
 
-function LoanMenu(props) {
+function Loan(props) {
   // Creates an object for styling. Any className that matches key in the loanStyles object will have a corresponding styling
   const loanClasses = loanStyles()
 
@@ -101,23 +99,18 @@ function LoanMenu(props) {
   // Sets state of dropdown menu location
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  // On first render (column length is zero), set rows to full set of mock data
-  if (columns.length === 0) {
-    setRows(mockData)
-  }
-
   /**
    * @param {string} id row id to be deleted
    * Closes dialog box and updates row data
    */
-  const handleDelete = (id) => {
-    const tempData = [...rows]
+  const handleDelete = async (loanId) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     })
-    const newData = tempData.filter((myRequest) => myRequest._id !== id)
-    setRows(newData)
+    const reqBody = { loanId: loanId, onDashboard: false }
+    await entities.patch(`/loans/5f7e1bb2ab26a664b6e950c8`, reqBody)
+
     setNotification({
       isOpen: true,
       message: 'Successfully deleted request',
@@ -125,18 +118,59 @@ function LoanMenu(props) {
     })
   }
 
-  if (rows.length !== 0 && columns.length === 0) {
+  if (rows.length !== 0) {
     const headerColumns = Object.keys(rows[0])
-    headerColumns.forEach((key, index) => {
-      if (!columnExcludes.includes(key)) {
-        columns.push({
-          Label: columnLabels[index],
-          Accessor: key,
-          Sortable: sortableExcludes.includes(key) ? false : true,
-        })
-      }
-    })
+    if (columns.length === 0) {
+      headerColumns.forEach((key, index) => {
+        if (!columnExcludes.includes(key)) {
+          columns.push({
+            Label: columnLabels[index],
+            Accessor: key,
+            Sortable: sortableExcludes.includes(key) ? false : true,
+          })
+        }
+      })
+      columns.push({
+        Label: "Actions",
+        Accessor: "Actions",
+        Sortable: sortableExcludes.includes("Actions") ? false : true,
+      })
+    }
   }
+
+  /**
+   * @param {object} entity represent object of entity with particular props
+   * @param {string} accessor represents the accessor which entity with acessor can access the property value
+   */
+  const isoToDate = (entity, accessor) => {
+    const strDate = entity[accessor];
+    entity[accessor] = strDate.substring(0, 10);
+  };
+
+  /**
+   * Renders only when it is mounted at first
+   * It will fetchLoans whenever Loan loads
+   */
+  useEffect(() => {
+    /**
+     * fetchLoans calls backend api through get protocol to get all the loans
+     */
+    const fetchLoans = async () => {
+      const response = await entities.get("loans/5f7e1bb2ab26a664b6e950c8/loandashboard");
+
+      response.data.forEach((entity) => {
+        if (entity["createdAt"] !== undefined) {
+          isoToDate(entity, "createdAt");
+        }
+        if (entity["updatedAt"] !== undefined) {
+          isoToDate(entity, "updatedAt");
+        }
+      });
+      setRows(response.data);
+    };
+
+    fetchLoans();
+  }, [columns, notification]);
 
   /**
    * @param {object} row row represents loan object
@@ -144,11 +178,11 @@ function LoanMenu(props) {
   const handleModalDeletePopUp = (row) => {
     setConfirmDialog({
       isOpen: true,
-      title: `Do you want to delete this ${row.borrowerName}'s loan?`,
+      title: `Do you want to delete this ${row.primaryBorrowerName}'s loan?`,
       cancelText: 'Cancel',
       confirmText: 'Yes',
       onConfirm: () => {
-        handleDelete(row._id)
+        handleDelete(row.loanId)
       },
     })
   }
@@ -209,11 +243,13 @@ function LoanMenu(props) {
     customCellRender
   ) => {
     const innerTableHeadColumns = [
-      'Borrower ID',
+      'Loan ID',
+      'Primary BorrowerTIN',
+      'Guarantor ID',
       'Loan Created',
       'Loan Updated',
     ]
-    const innerTableBodyRows = [row.borrowerID, row.createdAt, row.updatedAt]
+    const innerTableBodyRows = [row.loanId, row.primaryBorrowerTIN, row.guarantorBID, row.createdAt, row.updatedAt]
     return (
       <HelixCollapsibleRow
         key={row._id}
@@ -275,7 +311,7 @@ function LoanMenu(props) {
           <ActionMenuItem
             onClick={() =>
               props.history.push({
-                pathname: `/loan/configuration/${row._id}`,
+                pathname: `/loan/configuration/${row.loanId}`,
                 state: row,
               })
             }
@@ -288,9 +324,9 @@ function LoanMenu(props) {
             >
               <SettingsIcon />
             </IconButton>
-            <ListItemText primary='Configure' />
+            <ListItemText primary={`${row.loanId}`}  />
           </ActionMenuItem>
-          <ActionMenuItem onClick={() => handleModalDeletePopUp(row)}>
+          <ActionMenuItem onClick={() => {handleModalDeletePopUp(row); handleClose();}}>
             <IconButton
               aria-label='delete'
               size='small'
@@ -388,4 +424,4 @@ function LoanMenu(props) {
   )
 }
 
-export default withRouter(LoanMenu)
+export default withRouter(Loan)
