@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import HelixProgressBar from "../utils/HelixProgressBar";
-import ReportEntitySelection from "./ReportEntitySelection";
-import ReportLoanSelection from "./ReportLoanSelection";
+import StepOneReportBasicInfo from "./StepOneReportBasicInfo";
+import StepTwoReportEntitySelection from "./StepTwoReportEntitySelection";
+import StepThreeReportLoanSelection from "./StepThreeReportLoanSelection";
 import ReportNormalizationTableDashboard from "./ReportNormalizationTableDashboard";
 import ReportSummary from "./ReportSummary";
-import ReportBasicInfo from "./ReportBasicInfo";
 
 const generateReportStyles = makeStyles((theme) => ({
   progressbarContainer: {
@@ -48,8 +48,7 @@ const generateReportStyles = makeStyles((theme) => ({
 }));
 function GenerateReport(props) {
   const reportGenerateStyles = generateReportStyles();
-  // const steps = ["Entities", "Loan", "Normalization Table", "Summary"];
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
 
   const steps = [
     { type: "info", label: "Basic Info", status: "Incomplete" },
@@ -69,7 +68,7 @@ function GenerateReport(props) {
 
         if (steps[i].type === "info") {
           tempBody.push(
-            <ReportBasicInfo
+            <StepOneReportBasicInfo
               activeStep={i}
               setActiveStep={setActiveStep}
             />
@@ -78,7 +77,7 @@ function GenerateReport(props) {
 
         if (steps[i].type === "entity") {
           tempBody.push(
-            <ReportEntitySelection
+            <StepTwoReportEntitySelection
               activeStep={i}
               setActiveStep={setActiveStep}
             />
@@ -87,7 +86,7 @@ function GenerateReport(props) {
 
         if (steps[i].type === "loan") {
           tempBody.push(
-            <ReportLoanSelection activeStep={i} setActiveStep={setActiveStep} />
+            <StepThreeReportLoanSelection activeStep={i} setActiveStep={setActiveStep} />
           );
         }
 

@@ -3,10 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import  axios from "axios";
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead,TableRow, Paper,FormControl, FormLabel, IconButton, InputLabel, RadioGroup as MuiRadioGroup, Button as MuiButton, Select, Switch, MenuItem, FormHelperText, FormControlLabel, Radio } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import SaveIcon from '@material-ui/icons/Save';
-import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import {API_HOST} from '../../config'
 
 const useEntitiesPreferencesClasses = makeStyles((theme) => ({
   root: {
@@ -40,18 +38,31 @@ const useEntitiesPreferencesClasses = makeStyles((theme) => ({
   }
 }));
 
-const EntitiesPreferences = (props) => {
+const EntitiesPreferences = ({reportTemplate, setReportTemplate}) => {
   const entitiesPreferencesClasses = useEntitiesPreferencesClasses();
-  const [template, setTemplate] = React.useState('');
-  const [toggleValue, setToggleValue] = React.useState(true)
-  const [tableRows, setTableRows] = useState([])
+  // const [template, setTemplate] = useState('');
+  const [template, setTemplate] = useState({});
+  const [toggleValue, setToggleValue] = useState(true)
+  const [tableRows, setTableRows] = useState(reportTemplate.selectedEntityApiRequests)
+  const [tableRowsDisplay, setTableRowsDisplay] = useState(reportTemplate.selectedEntityApiRequestsDisplay)
+  const [entityRequests, setEntityRequests] = useState([])
 
+  let companyId = "5f7e1bb2ab26a664b6e950c8"
+  let entityApiURL = `${API_HOST}/companies/${companyId}/customapi/entity`
 
-  const getReportTemplatePreferences = () => [
-  { id: '1', title: 'GET Test#1_FIS' },
-  { id: '2', title: 'GET Test#4_DataWarehouse' },
-  { id: '3', title: 'POST Test#6_Temenos' },
-];
+  useEffect(()=> {
+    setReportTemplate({
+      ...reportTemplate,
+      enableEntities: toggleValue,
+      selectedEntityApiRequests: toggleValue !== false ? tableRows : [],
+      selectedEntityApiRequestsDisplay: toggleValue !== false ? tableRowsDisplay : []
+    })
+    const fetchEntityRequests = async () =>{
+      const response = await axios.get(entityApiURL)
+      setEntityRequests(response.data)
+    }
+    fetchEntityRequests()
+   }, [toggleValue,tableRows])
 
  const handleChange = (e) => {
     setTemplate(e.target.value);
@@ -60,16 +71,27 @@ const EntitiesPreferences = (props) => {
 const handleToggleChange = e => {
     setToggleValue(e.target.value)
     setToggleValue(e.target.checked)
-
+    setTableRows([])
+    setTableRowsDisplay([])
   }
 
   const handleAddToTable = () => {
-    setTableRows([{ name: template }])
+    if(template.requestName){
+      // setTableRows([...tableRows, template.requestName])
+       setTableRows([template._id])
+       setTableRowsDisplay([template.requestName])
+      // setTableRows({...tableRows, rowName: template.requestName, requestId: template._id })
+       setTemplate({})
+     } else {
+       return null
+     }
   }
 
-  const handleDeleteRow = (e) => {};
+  const handleDeleteRow = () => {
+    setTableRows([])
+    setTableRowsDisplay([])
+  };
 
-  
   return (
     <>
     <FormControl>
@@ -89,24 +111,40 @@ const handleToggleChange = e => {
         className={entitiesPreferencesClasses.formControl}>
         <InputLabel ></InputLabel>
           <Select
-            value={template}
+           // value={template}
             onChange={handleChange}
-            displayEmpty
+          //  displayEmpty
+            defaultValue = ''
             className={entitiesPreferencesClasses.selectEmpty}
             inputProps={{ 'aria-label': 'Without label' }}
-            options={getReportTemplatePreferences()}
+           // options={getEntitesPreferences()}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={1}>GET Test#1_FIS</MenuItem>
-            <MenuItem value={2}>POST Test#6_Temenos</MenuItem>
-            <MenuItem value={3}>GET Test#4_DataWarehouse</MenuItem>
+            {/* <MenuItem value=""> <em>None</em> </MenuItem> */}
+            {/* {getEntitesPreferences().map((entity) => {
+             return <MenuItem 
+                value={entity.title}
+                key={entity.id}
+                style={{display:(tableRows.includes(entity.title) ? 'none': '')}}
+              >
+                {entity.title}
+              </MenuItem>
+              })
+            } */}
+            {entityRequests.map((entity) => {
+              return <MenuItem 
+                value={entity}
+                key={entity._id}
+                style={{display:(tableRowsDisplay.includes(entity.requestName) ? 'none': '')}}
+              >
+                {entity.requestName}
+              </MenuItem>
+              })
+            }
           </Select>
         <FormHelperText>Please select your API</FormHelperText>
       </FormControl>
     </Grid>
-      <Grid item xs={1} alignContent='flex-start'>
+      <Grid container item xs={1} alignContent='flex-start'>
         <IconButton variant='contained' color='primary' size='medium' onClick={handleAddToTable}>
           <AddBoxIcon />
         </IconButton>
@@ -121,13 +159,13 @@ const handleToggleChange = e => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tableRows.map((row) => (
-                <TableRow key={row.name}>
+              {tableRowsDisplay.map((row) => (
+                <TableRow key={row}>
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row}
                   </TableCell>
                   <TableCell>
-                    <IconButton variant='contained' color='primary' size='medium' onClick={() => setTableRows([])}>
+                    <IconButton variant='contained' color='primary' size='medium' onClick={handleDeleteRow}>
                       <DeleteIcon  />
                     </IconButton>
                   </TableCell>
@@ -137,20 +175,6 @@ const handleToggleChange = e => {
             </TableBody>
           </Table>
         </TableContainer>
-    </Grid>
-      <Grid item xs={12}>
-        <Grid container direction='row-reverse' spacing={1}>
-          <Grid item> 
-            <MuiButton color='primary' variant='contained' startIcon={<SaveIcon />}
-            >Save
-            </MuiButton>
-          </Grid>
-          <Grid item>   
-            <MuiButton color='secondary' variant='contained' startIcon={<CancelIcon />}
-            >Cancel
-            </MuiButton>
-          </Grid>
-     </Grid>
     </Grid>
     </Grid> ) : <div><h3>Use the toggle button to add Entity Report Template preferences</h3></div>}
     

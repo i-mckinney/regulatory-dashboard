@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
       opacity: '0.6',
     },
   },
+  emptyDiv: {
+    flexGrow: 1,
+  }
 }));
 
 export default function PageHeader(props) {
@@ -33,6 +36,8 @@ export default function PageHeader(props) {
     subTitle,
     /* Page icon string */
     icon,
+    /* Page setting func returns jsx object */
+    settingButton,
   } = props;
   return (
     <Paper elevation={0} square className={classes.root}>
@@ -46,6 +51,8 @@ export default function PageHeader(props) {
             {subTitle}
           </Typography>
         </div>
+        <div className={classes.emptyDiv} />
+        {settingButton()}
       </div>
     </Paper>
   );

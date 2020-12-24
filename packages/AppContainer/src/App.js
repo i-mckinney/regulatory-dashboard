@@ -151,15 +151,14 @@ const App = () => {
               <Route exact path="/entity/:id/discrepancy-report" component={Dashboard}/>
               <Route exact path="/entity/edit/:id" component={Dashboard} />
               <Route exact path="/entity/delete/:id" component={Dashboard} />
-              <Route exact path="/report/generate/entityselection/step1" component={Dashboard} />
-              <Route exact path="/report/generate/loanselection/step2" component={Dashboard} />
-              <Route exact path="/report/generate/normalizationTable/step3" component={Dashboard} />
-              <Route exact path="/report/generate/summary/step4" component={Dashboard} />
-              <Route exact path="/report/:reportid/generate" component={Dashboard} />
-              <Route exact path="/report/new" component={Dashboard} />
+              <Route exact path="/report/:reportId/generate" component={Dashboard} />
+              <Route exact path="/reporttemplates/new" component={Dashboard} />
               <Route exact path="/report/edit/:id" component={Dashboard} />
               <Route exact path="/report/delete/:id" component={Dashboard} />
               <Route exact path="/loan" component={Dashboard} />
+              <Route exact path="/loan/configuration/:loanId" component={Dashboard} />
+              <Route exact path="/loan/new/selectentity" component={Dashboard} />
+              <Route exact path="/loan/new/selectloan" component={Dashboard} />
               <Route exact path="/reporttemplates" component={Dashboard} />
               <Route exact path="/myrequest" component={Dashboard} />
               <Route exact path="/users" component={User} />
@@ -167,6 +166,8 @@ const App = () => {
               <Route exact path="/users/edit/:id" component={User} />
               <Route exact path="/users/delete/:id" component={User} />
               <Route exact path="/api-table" component={CompanyView} />
+              <Route exact path="/api-table/global-table-key" component={CompanyView} />
+              <Route exact path="/global-table-key" component={Dashboard} />
               <Route exact path="/selecttable"  component={Dashboard}/>
             </Switch>
           </main>

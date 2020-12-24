@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import HelixSelectTable from "../HelixSelectTable/HelixSelectTable";
 import { TableCell } from "@material-ui/core";
-import { EntitySelectionMockData } from "./mockData/EntitySelectionMockData";
+import { LoanSelectionMockData } from "./mockData/LoanSelectionMockData";
 import { HelixButton } from "helixmonorepo-lib";
 
 const selectEntityStyles = makeStyles((theme) => ({
@@ -15,7 +15,6 @@ const selectEntityStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
-
   backButton: {
     backgroundColor: "#42a5f5",
     color: "white",
@@ -45,7 +44,7 @@ const selectEntityStyles = makeStyles((theme) => ({
   },
 }));
 
-function ReportEntitySelection(props) {
+function StepThreeReportLoanSelection(props) {
   const entitySelectionTableStyles = selectEntityStyles();
 
   //columnHeaders determine header of each columns in the Helix select table.
@@ -65,10 +64,10 @@ function ReportEntitySelection(props) {
   const [selected, setSelected] = useState([]);
 
   // Data for rendering rows in Helix select table
-  const rows = EntitySelectionMockData;
+  const rows = LoanSelectionMockData;
 
   // Helix select table name or a header for the table itself
-  const selectTableHeaderName = "Select Entity";
+  const selectTableHeaderName = "Select Loans";
 
   //function to render rows in Helix select table
   const customRow = (row, labelId) => {
@@ -90,13 +89,14 @@ function ReportEntitySelection(props) {
     props.setActiveStep(nextStep);
   };
 
+  const hanldeReportGenerateBack = () => {
+    let nextStep = props.activeStep - 1;
+    props.setActiveStep(nextStep);
+  };
+
   const handleCancel = () => {
     props.history.push("/reporttemplates");
   };
-
-  const handleBack = () => {
-    let prevStep = props.activeStep - 1;
-    props.setActiveStep(prevStep);  };
 
   return (
     <div>
@@ -107,14 +107,14 @@ function ReportEntitySelection(props) {
           selected={selected}
           customRow={customRow}
           rows={rows}
-          singleSelection={true}
+          singleSelection={false}
           selectTableHeaderName={selectTableHeaderName}
         />
         <div className={entitySelectionTableStyles.buttonContainer}>
           <HelixButton
             className={entitySelectionTableStyles.backButton}
             text="Back"
-            onClick={handleBack}
+            onClick={hanldeReportGenerateBack}
           />
           <HelixButton
             disabled={selected.length > 0? false : true}
@@ -126,11 +126,11 @@ function ReportEntitySelection(props) {
             className={entitySelectionTableStyles.cancelButton}
             onClick={handleCancel}
             text="Cancel"
-          /> 
+          />
         </div>
       </div>
     </div>
   );
 }
 
-export default withRouter(ReportEntitySelection);
+export default withRouter(StepThreeReportLoanSelection);

@@ -6,14 +6,12 @@ import Entity from "./components/entity/Entity"
 import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
 import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
 import Loan from "./components/loan/Loan"
-import LoanCreate from "./components/loan/LoanCreate"
+import LoanCreateSelectEntity from "./components/loan/LoanCreateSelectEntity"
+import LoanCreateSelectLoan from "./components/loan/LoanCreateSelectLoan"
 import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
 import Regulatory from "./components/regulatory/Regulatory"
 import GenerateReport from "./components/generateReport/GenerateReport"
-import ReportEntitySelection from "./components/generateReport/ReportEntitySelection"
-import ReportLoanSelection from "./components/generateReport/ReportLoanSelection"
-import ReportNormalizationTable from "./components/generateReport/ReportNormalizationTable"
 import MyRequest from "./components/myrequest/MyRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
 import EntityCreate from "./components/entity/EntityCreate"
@@ -21,7 +19,7 @@ import EntityEdit from "./components/entity/EntityEdit"
 import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportTemplatePage from './components/report-template/ReportTemplatePage'
-import ReportCreate from './components/report/ReportCreate'
+import ReportTemplateCreate from './components/report-template/ReportTemplateCreate'
 import ReportEdit from './components/report/ReportEdit'
 import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
@@ -48,7 +46,7 @@ function App(history) {
           <Switch>
 
             <Route exact path="/homepage">
-              <Homepage />
+              <HelixTableKeysRight />
             </Route>
 
             <Route exact path="/entity">
@@ -83,8 +81,12 @@ function App(history) {
               <Loan />
             </Route>
 
-            <Route exact path="/loan/new" >
-              <LoanCreate />
+            <Route exact path="/loan/new/selectentity" >
+              <LoanCreateSelectEntity />
+            </Route>
+
+            <Route exact path="/loan/new/selectloan" >
+              <LoanCreateSelectLoan />
             </Route>
 
             <Route exact path="/loan/:id/discrepancy-report" >
@@ -103,13 +105,12 @@ function App(history) {
               <MyRequest />
             </Route>
             
-            {/* 
             <Route exact path="/report">
               <Report />
-            </Route> */}
+            </Route>
 
-            <Route exact path="/report/new">
-              <ReportCreate />
+            <Route exact path="/reporttemplates/new">
+              <ReportTemplateCreate />
             </Route>
 
             <Route exact path="/report/new-pref">
@@ -120,26 +121,8 @@ function App(history) {
               <ReportEdit />
             </Route>
 
-            <Route exact path="/report/:reportid/generate">
+            <Route exact path="/report/:reportId/generate">
               <GenerateReport />
-            </Route>
-
-            <Route exact path="/report/generate/entityselection/step1">
-              <ReportEntitySelection />
-            </Route>
-
-            <Route exact path="/report/generate/loanselection/step2">
-              <ReportLoanSelection />
-            </Route>
-
-            <Route exact path="/report/generate/normalizationTable/step3">
-              <ReportNormalizationTable />
-            </Route>
-
-            <Route exact path="/report/generate/summary/step4">
-              <h1>
-                Report Summary Page
-              </h1>
             </Route>
 
             <Route exact path="/selecttable">
