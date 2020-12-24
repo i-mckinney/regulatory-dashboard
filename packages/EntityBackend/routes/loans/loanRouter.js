@@ -11,18 +11,43 @@ const { generatePath } = require("react-router-dom");
 
 // /**************************************************************************************************************************************************** */
 
+<<<<<<< HEAD
 //Loan fake
 router.get("/yo", async (req, res) => {
   const companyId = req.params.companyId;
   try {
     GenerateData()
     res.json({ messagee: "Yes" });
+=======
+// GET ALL loans that exist in our loan dashboard
+router.get("/:companyId/loandashboard", async (req, res) => {
+  const companyId = req.params.companyId;
+  try {
+    const dbCollection = await DbConnection.getCollection("Loans");
+    const loans = await dbCollection
+      .find({
+        $and: [
+          { companyId: ObjectId(companyId) },
+          { onDashboard: true },
+        ],
+      })
+      .toArray((err, result) => {
+        if (err) throw new Error(err);
+        res.json(result);
+      });
+>>>>>>> develop
   } catch (e) {
     res.json({
       Error: e.message + "Error in grabbing data from an external source",
     });
   }
+<<<<<<< HEAD
 });
+=======
+}); 
+
+
+>>>>>>> develop
 // GET ALL loans that exist in our loan database
 router.get("/:companyId", async (req, res) => {
   const companyId = req.params.companyId;

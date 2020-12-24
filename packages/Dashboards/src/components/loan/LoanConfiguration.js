@@ -7,6 +7,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import SaveIcon from '@material-ui/icons/Save'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { HelixTable, HelixTableCell, HelixTextField, HelixButton } from 'helixmonorepo-lib'
+import entities from '../apis/entities'
+import companies from '../apis/companies'
 
 // Styling used for MaterialUI
 const loanConfigurationStyles = makeStyles(() => ({
@@ -47,7 +49,7 @@ const loanConfigurationStyles = makeStyles(() => ({
 
 /**
  * @param {Object} props Using the history property to route next component with data state
- * @return {JSX} EntityConfiguration site with provided configs for entity
+ * @return {JSX} LoanConfiguration site with provided configs for loan
  * routed at /loan/configuration/:id
  */
 const LoanConfiguration = (props) => {
@@ -90,7 +92,7 @@ const LoanConfiguration = (props) => {
 
     /**
      * Renders only when it is mounted at first
-     * It will fetchEntitiesConfiguration and fetchCustomApis whenever EntityConfiguration loads
+     * It will fetchLoansConfiguration and fetchCustomApis whenever LoanConfiguration loads
      */
     useEffect(() => {
 
@@ -98,41 +100,41 @@ const LoanConfiguration = (props) => {
       * @param {object} response the response is an api results/response via api call
       */
       const showSelection = (response) => {
-        // const copyCustomApis = [ ...response ]
-        // const remainingCustomApis = copyCustomApis.filter((customApi) => 
-        //   !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
-        // )
+        const copyCustomApis = [ ...response ]
+        const remainingCustomApis = copyCustomApis.filter((customApi) => 
+          !tempRows.find((selectedCustomApi) => customApi._id === selectedCustomApi._id)
+        )
 
-        // remainingCustomApis.forEach((customApi) => {
-        //   const copyCustomApi = { ...customApi }
-        //   copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
-        //   copyCustomApi["value"] = customApi["_id"]
-        //   apis.push(copyCustomApi)
-        // })
+        remainingCustomApis.forEach((customApi) => {
+          const copyCustomApi = { ...customApi }
+          copyCustomApi["label"] = `#${customApi["_id"]} - ${customApi["requestName"]} - ${customApi["requestType"]}`
+          copyCustomApi["value"] = customApi["_id"]
+          apis.push(copyCustomApi)
+        })
       }
 
       /**
-       * fetchEntitiesConfiguration calls backend api through get protocol to get all the selected custom apis
+       * fetchLoansConfiguration calls backend api through get protocol to get all the selected custom apis
        */
-      const fetchEntitiesConfiguration = async () => {
-        // const response = await entities.get("/config/5f7e1bb2ab26a664b6e950c8")
-        // response.data.forEach((row) => {
-        //   tempRows.push(row)
-        // })
-        // setRows(response.data)
+      const fetchLoansConfiguration = async () => {
+        const response = await entities.get(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanId}`)
+        response.data.forEach((row) => {
+          tempRows.push(row)
+        })
+        setRows(response.data)
       }
 
       /**
        * fetchCustomApis calls backend api through get protocol to get all custom apis
        */
       const fetchCustomApis = async () => {
-        // const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi")
-        // showSelection(response.data)
-        // setCustomApis(response.data)
+        const response = await companies.get("/companies/5f7e1bb2ab26a664b6e950c8/customapi/loan")
+        showSelection(response.data)
+        setCustomApis(response.data)
       }
 
       const apiCallCheckList = async () => {
-        await fetchEntitiesConfiguration()
+        await fetchLoansConfiguration()
         await fetchCustomApis()
       }
       apiCallCheckList()
@@ -173,13 +175,13 @@ const LoanConfiguration = (props) => {
     }
 
     /**
-     * handleSaveEntityConfiguration saves list of selected custom api in the configuration table
+     * handleSaveLoanConfiguration saves list of selected custom api in the configuration table
      */
-    const handleSaveEntityConfiguration = async () => {
-      const config = { entityConfiguration: [] }
-      rows.forEach((row) => config.entityConfiguration.push(row._id))
-      // await entities.post("/config/5f7e1bb2ab26a664b6e950c8/", config)
-      props.history.push("/entity")
+    const handleSaveLoanConfiguration = async () => {
+      const config = { loanConfiguration: [], loanId: props.location.state.loanId }
+      rows.forEach((row) => config.loanConfiguration.push(row._id))
+      await entities.post(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanId}`, config)
+      props.history.push("/loan")
     }
 
     /**
@@ -233,7 +235,7 @@ const LoanConfiguration = (props) => {
               variant="contained" 
               type="submit" 
               size="small"
-              onClick={handleSaveEntityConfiguration}
+              onClick={handleSaveLoanConfiguration}
               startIcon={<SaveIcon />}
               text="Save" />
               <HelixButton

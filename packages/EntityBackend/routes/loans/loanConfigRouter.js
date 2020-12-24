@@ -63,7 +63,7 @@ router.get("/:companyId/:loanId", async (req, res) => {
 
         let singleCustomApi = await customApiCollection.findOne({
           $and: [
-            { companyId: ObjectId(companyId) },
+            { company_id: ObjectId(companyId) },
             { _id: ObjectId(customApiId) },
           ],
         });
