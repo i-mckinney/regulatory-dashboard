@@ -370,7 +370,7 @@ function Loan(props) {
           state: row,
         })
         }>
-          <SettingsIcon fontSize="large" />
+          <SettingsIcon />
         </IconButton>
         <IconButton
           aria-label="delete"
