@@ -58,7 +58,7 @@ function LoanCreateSelectEntity(props) {
       disablePadding: true,
       label: "Loan Id",
     },
-    { id: "PrimaryBorrowerName", disablePadding: false, label: "Primary Borrower Name" },
+    { id: "PrimaryBorrowerName", disablePadding: false, label: "Primary Borrower Name Name" },
     { id: "LoanType", disablePadding: false, label: "Loan Type" },
     {
       id: "CommitmentAmount",

@@ -46,6 +46,14 @@ router.get("/:companyId/:loanId", async (req, res) => {
       $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
     });
 
+    if (!loanConfig){
+      await LoanAPIconfiguration.insertOne({
+        loanID:loanId,
+        companyId:ObjectId(companyId)
+      })
+      res.json({customApis:[]})
+    }
+
     let loanConfiguration = loanConfig.loanConfiguration;
 
     //Using loan configurations to look up custom apis that exist in our db

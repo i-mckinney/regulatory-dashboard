@@ -287,7 +287,7 @@ router.patch("/:companyId", async (req, res) => {
     if (doesloanExist) {
       let updatedDashboardLoan = await dbCollection.updateOne(
         {
-          loanId,
+          loanID,
         },
         { $set: { onDashboard: onDashboard } }
       );
