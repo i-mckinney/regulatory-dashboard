@@ -140,7 +140,7 @@ const LoanConfiguration = (props) => {
     }
     apiCallCheckList()
     
-  }, [columns, tempRows, apis])
+  }, [columns, tempRows, apis, props.location.state.loanID])
 
   /**
    * handleAddCustomApi adds custom api to table

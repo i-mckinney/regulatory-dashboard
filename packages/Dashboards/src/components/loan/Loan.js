@@ -167,7 +167,6 @@ function Loan(props) {
           loan["Actions"] = "";
         }
       });
-      console.log(response.data)
       setRows(response.data);
     };
 
