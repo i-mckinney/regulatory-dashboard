@@ -43,19 +43,19 @@ const loanCardStyles = makeStyles(() => ({
 
 
 /**
- * @param {string} RecordLabel API result property
- * @param {string} SystemOfRecord API result property
- * @param {string} BorrowerID API result property
- * @param {string} BorrowerName API result property
- * @param {string} RelationshipManager API result property
+ * @param {string} recordLabel API result property
+ * @param {string} systemOfRecord API result property
+ * @param {string} primaryBorrowerBID API result property
+ * @param {string} primaryBorrowerName API result property
+ * @param {string} guarantorName API result property
  * @returns {JSX} renders a loan card for edit loan dashboard
  * */
 const LoanCard = ({
-  RecordLabel,
-  SystemOfRecord,
-  BorrowerID,
-  BorrowerName,
-  RelationshipManager,
+  recordLabel,
+  systemOfRecord,
+  primaryBorrowerBID,
+  primaryBorrowerName,
+  guarantorName,
 }) => {
   // Creates an object for styling. Any className that matches key in the loanCardClasses object will have a corresponding styling
   const loanCardClasses = loanCardStyles();
@@ -65,18 +65,18 @@ const LoanCard = ({
       <Card className={loanCardClasses.loanInfoCard}>
         <CardHeader className={loanCardClasses.loanInfoCardHeader}
           title={<Typography className={loanCardClasses.loanInfoCardTitle} variant="h3" component="h1">
-            {RecordLabel}
+            {recordLabel}
           </Typography>}
           subheader={<Typography className={loanCardClasses.loanInfoCardSubtitle} variant="subtitle2" >
-            System of Record: {SystemOfRecord}
+            System of Record: {systemOfRecord}
           </Typography>}
         >
         </CardHeader>
         <CardContent className={loanCardClasses.loanInfoCardContent}>
             <ul>
-              <li>{`Borrower ID: ${BorrowerID}`}</li>
-              <li>{`Borrower Name: ${BorrowerName}`}</li>
-              <li>{`Relationship Manager: ${RelationshipManager}` }</li>
+              <li>{`Primary Borrower ID: ${primaryBorrowerBID}`}</li>
+              <li>{`Primary Borrower Name: ${primaryBorrowerName}`}</li>
+              <li>{`Guarantor Name: ${guarantorName}` }</li>
             </ul>
         </CardContent>
       </Card>
@@ -85,11 +85,11 @@ const LoanCard = ({
 }
 
 LoanCard.propTypes = {
-  RecordLabel: PropTypes.string.isRequired,
-  SystemOfRecord: PropTypes.string.isRequired,
-  BorrowerID: PropTypes.string.isRequired,
-  BorrowerName: PropTypes.string.isRequired,
-  RelationshipManager: PropTypes.string.isRequired,
+  recordLabel: PropTypes.string.isRequired,
+  systemOfRecord: PropTypes.string.isRequired,
+  primaryBorrowerBID: PropTypes.string.isRequired,
+  primaryBorrowerName: PropTypes.string.isRequired,
+  guarantorName: PropTypes.string.isRequired,
 }
 
 export default LoanCard

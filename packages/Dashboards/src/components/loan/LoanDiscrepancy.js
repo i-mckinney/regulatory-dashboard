@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import PropTypes from "prop-types"
 import LoanCard from "./LoanCard"
-import { detailedInfo } from "../../MockData/ReconcileDWMockData"
 import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 import HelixLinearProgress from '../utils/HelixLinearProgress'
@@ -156,7 +155,7 @@ const LoanDiscrepancy = (props) => {
   useEffect(() => {
     if(error.err) {
       if (counter > 0) {
-        // setTimeout(() => setCounter(counter - 1), 1500)
+        setTimeout(() => setCounter(counter - 1), 1500)
       } else {
         props.history.push("/loan")
       }
@@ -388,11 +387,11 @@ const LoanDiscrepancy = (props) => {
       <>
         {displayAlert()}
         <LoanCard
-          RecordLabel={"Test#1"}
-          SystemOfRecord={detailedInfo.SystemOfRecord}
-          BorrowerID={props.location.state.primaryBorrowerBID}
-          BorrowerName={props.location.state.primaryBorrowerName}
-          RelationshipManager={props.location.state.guarantorName}
+          recordLabel={`${props.location.state.loanType} Loan`}
+          systemOfRecord={props.location.state.ExternalSource}
+          primaryBorrowerBID={props.location.state.primaryBorrowerBID}
+          primaryBorrowerName={props.location.state.primaryBorrowerName}
+          guarantorName={props.location.state.guarantorName}
         />
         <HelixTable
         toggleSearch={false}
