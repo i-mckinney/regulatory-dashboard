@@ -1,13 +1,13 @@
 // server.js
 const config = require("./config");
 const loanRouter = require("./routes/loans/loanRouter");
-const entityRouter = require("./routes/entityRouter");
-const externalSourceRouter = require("./routes/externalSourceRouter");
-const configurationRouter = require("./routes/configurationRouter");
+const entityRouter = require("./routes/entity/entityRouter");
+const entitySummaryRouter = require("./routes/entity/entitySummaryRouter");
+const entityConfigurationRouter = require("./routes/entity/entityConfigurationRouter");
 const loanConfigRouter = require("./routes/loans/loanConfigRouter.js");
 const loanDiscrepanciesRouter = require("./routes/loans/loanDiscrepanciesRouter.js");
+const externalSourceRouter = require("./routes/externalSourceRouter");
 const discrepanciesRouter = require("./routes/discrepanciesRouter");
-const entitySummaryRouter = require("./routes/entitySummaryRouter");
 const reportRouter = require("./routes/report/reportRouter");
 const reportTemplateRouter = require("./routes/reportTemplate/reportTemplateRouter");
 
@@ -31,15 +31,23 @@ server.use(body_parser.json());
 const port = config.port || 4005;
 
 server.use(cors());
-server.use("/", entityRouter);
-server.use("/loans", loanRouter);
 server.use("/external", externalSourceRouter);
+
+///Entity Routes
+server.use("/", entityRouter);
 server.use("/discrepancies", discrepanciesRouter);
-server.use("/loandiscrepancies", loanDiscrepanciesRouter);
-server.use("/entityConfig", configurationRouter);
-server.use("/loanConfig", loanConfigRouter);
+server.use("/entityConfig", entityConfigurationRouter);
 server.use("/entitysummary", entitySummaryRouter);
+
+//Loan Routes
+server.use("/loans", loanRouter);
+server.use("/loandiscrepancies", loanDiscrepanciesRouter);
+server.use("/loanConfig", loanConfigRouter);
+
+//Report Routes
 server.use("/report", reportRouter);
+
+//Report Template Routes
 server.use("/reporttemplate", reportTemplateRouter);
 
 server.listen(port, () => {
