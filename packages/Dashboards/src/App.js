@@ -1,7 +1,5 @@
 import React from "react"
 import { BrowserRouter, Switch, Route, Redirect  } from "react-router-dom"
-import Homepage from "./components/homepage/Homepage"
-import Dashboard from "./components/dashboard/Dashboard"
 import Entity from "./components/entity/Entity"
 import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
 import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
@@ -10,7 +8,6 @@ import LoanCreateSelectEntity from "./components/loan/LoanCreateSelectEntity"
 import LoanCreateSelectLoan from "./components/loan/LoanCreateSelectLoan"
 import LoanDiscrepancy from "./components/loan/LoanDiscrepancy"
 import LoanConfiguration from "./components/loan/LoanConfiguration"
-import Regulatory from "./components/regulatory/Regulatory"
 import GenerateReport from "./components/generateReport/GenerateReport"
 import MyRequest from "./components/myrequest/MyRequest"
 import EntityConfiguration from "./components/entity/EntityConfiguration"
@@ -20,16 +17,13 @@ import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportTemplatePage from './components/report-template/ReportTemplatePage'
 import ReportTemplateCreate from './components/report-template/ReportTemplateCreate'
-import ReportEdit from './components/report/ReportEdit'
 import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
-
 import {
   StylesProvider,
   createGenerateClassName,
-} from "@material-ui/core/styles";
-import HelixNormalizationTableCell from "./components/table/HelixNormalizationTableCell"
+} from "@material-ui/core/styles"
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "dashbored-",
@@ -115,10 +109,6 @@ function App(history) {
 
             <Route exact path="/report/new-pref">
               <ReportTemplatePage />
-            </Route>
-
-            <Route exact path="/report/edit/:id">
-              <ReportEdit />
             </Route>
 
             <Route exact path="/report/:reportId/generate">

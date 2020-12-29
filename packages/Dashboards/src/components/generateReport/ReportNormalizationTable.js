@@ -2,13 +2,12 @@ import React, { useMemo, useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
-import EntityCard from "../entity/EntityCard";
 import HelixProgressBar from "../utils/HelixProgressBar";
-// import { detailedInfo } from "../../MockData/ReconcileDWMockData"
 import { HelixTable, HelixButton } from "helixmonorepo-lib";
 import HelixNormalizationTableCell from "../table/HelixNormalizationTableCell";
 import { columns, rows, data, externalValues } from "./ReportNormTableMockData";
 import { DragHandle } from "@material-ui/icons";
+import HelixTableCard from "../utils/HelixTableCard";
 
 // Styling used for MaterialUI
 const reportNormalizationTableStyles = makeStyles((theme) => ({
@@ -190,10 +189,10 @@ const ReportNormalizationTable = (props) => {
     return (
       <>
         <div className={reportNormalizationTableClasses.entityCard}>
-          <EntityCard
-            RecordLabel={props.header}
-            BorrowerID="1a"
-            BorrowerName="Rey"
+          <HelixTableCard
+          recordLabel={props.header}
+          systemOfRecord={`System of Record: FIS`}
+          renderCardContent={() => null}
           />
           <HelixTable
             toggleSearch={false}

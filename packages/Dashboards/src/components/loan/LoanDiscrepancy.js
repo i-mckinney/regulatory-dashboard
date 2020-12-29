@@ -3,11 +3,10 @@ import { withRouter } from "react-router-dom"
 import { makeStyles } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import PropTypes from "prop-types"
-import LoanCard from "./LoanCard"
-import { detailedInfo } from "../../MockData/ReconcileDWMockData"
 import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 import HelixLinearProgress from '../utils/HelixLinearProgress'
+import HelixTableCard from "../utils/HelixTableCard"
 
 // Styling used for MaterialUI
 const loanDiscrepancyStyles = makeStyles(() => ({
@@ -156,7 +155,7 @@ const LoanDiscrepancy = (props) => {
   useEffect(() => {
     if(error.err) {
       if (counter > 0) {
-        // setTimeout(() => setCounter(counter - 1), 1500)
+        setTimeout(() => setCounter(counter - 1), 1500)
       } else {
         props.history.push("/loan")
       }
@@ -380,6 +379,18 @@ const LoanDiscrepancy = (props) => {
     }
   }, [progress, loading])
 
+  // renderCardContent return jsx of unordered list items
+  const renderCardContent = () => {
+    return (
+      <ul>
+        <li>{`Primary Borrower ID: ${props.location.state.primaryBorrowerBID}`}</li>
+        <li>{`Primary Borrower Name: ${props.location.state.primaryBorrowerName}`}</li>
+        <li>{`Guarantor Name: ${props.location.state.guarantorName}`}</li>
+      </ul>
+    )
+  }
+
+  // render returns jsx of helixtablecard and helixtable component with discrepancy data
   const render = () => {
     return (
       error.err ? 
@@ -387,12 +398,10 @@ const LoanDiscrepancy = (props) => {
       :
       <>
         {displayAlert()}
-        <LoanCard
-          RecordLabel={"Test#1"}
-          SystemOfRecord={detailedInfo.SystemOfRecord}
-          BorrowerID={props.location.state.primaryBorrowerBID}
-          BorrowerName={props.location.state.primaryBorrowerName}
-          RelationshipManager={props.location.state.guarantorName}
+        <HelixTableCard
+        recordLabel={`${props.location.state.loanType} Loan`}
+        systemOfRecord={`System of Record: ${props.location.state.ExternalSource}`}
+        renderCardContent={renderCardContent}
         />
         <HelixTable
         toggleSearch={false}
