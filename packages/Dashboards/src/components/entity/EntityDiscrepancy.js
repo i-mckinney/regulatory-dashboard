@@ -3,8 +3,6 @@ import { withRouter } from "react-router-dom"
 import { makeStyles } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import PropTypes from "prop-types"
-import EntityCard from "./EntityCard"
-import { detailedInfo } from "../../MockData/ReconcileDWMockData"
 import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 import HelixLinearProgress from '../utils/HelixLinearProgress'
