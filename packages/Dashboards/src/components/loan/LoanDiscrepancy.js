@@ -7,6 +7,7 @@ import LoanCard from "./LoanCard"
 import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 import HelixLinearProgress from '../utils/HelixLinearProgress'
+import HelixTableCard from "../utils/HelixTableCard"
 
 // Styling used for MaterialUI
 const loanDiscrepancyStyles = makeStyles(() => ({
@@ -379,6 +380,18 @@ const LoanDiscrepancy = (props) => {
     }
   }, [progress, loading])
 
+  // renderCardContent return jsx of unordered list items
+  const renderCardContent = () => {
+    return (
+      <ul>
+        <li>{`Primary Borrower ID: ${props.location.state.primaryBorrowerBID}`}</li>
+        <li>{`Primary Borrower Name: ${props.location.state.primaryBorrowerName}`}</li>
+        <li>{`Guarantor Name: ${props.location.state.guarantorName}`}</li>
+      </ul>
+    )
+  }
+
+  // render returns jsx of helixtablecard and helixtable component with discrepancy data
   const render = () => {
     return (
       error.err ? 
@@ -386,12 +399,10 @@ const LoanDiscrepancy = (props) => {
       :
       <>
         {displayAlert()}
-        <LoanCard
-          recordLabel={`${props.location.state.loanType} Loan`}
-          systemOfRecord={props.location.state.ExternalSource}
-          primaryBorrowerBID={props.location.state.primaryBorrowerBID}
-          primaryBorrowerName={props.location.state.primaryBorrowerName}
-          guarantorName={props.location.state.guarantorName}
+        <HelixTableCard
+        recordLabel={`${props.location.state.loanType} Loan`}
+        systemOfRecord={`System of Record: ${props.location.state.ExternalSource}`}
+        renderCardContent={renderCardContent}
         />
         <HelixTable
         toggleSearch={false}

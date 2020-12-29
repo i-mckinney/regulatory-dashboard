@@ -56,18 +56,18 @@ const HelixTableCard = ({
   const helixTableCardClasses = helixTableCardStyles();
 
   return (
-    <div className={helixTableCardClasses.loanInfoCardDiv}>
-      <Card className={helixTableCardClasses.loanInfoCard}>
-        <CardHeader className={helixTableCardClasses.loanInfoCardHeader}
-          title={<Typography className={helixTableCardClasses.loanInfoCardTitle} variant="h3" component="h1">
+    <div className={helixTableCardClasses.infoCardDiv}>
+      <Card className={helixTableCardClasses.infoCard}>
+        <CardHeader className={helixTableCardClasses.infoCardHeader}
+          title={<Typography className={helixTableCardClasses.infoCardTitle} variant="h3" component="h1">
             {recordLabel}
           </Typography>}
-          subheader={<Typography className={helixTableCardClasses.loanInfoCardSubtitle} variant="subtitle2" >
+          subheader={<Typography className={helixTableCardClasses.infoCardSubtitle} variant="subtitle2" >
             {systemOfRecord}
           </Typography>}
         >
         </CardHeader>
-        <CardContent className={helixTableCardClasses.loanInfoCardContent}>
+        <CardContent className={helixTableCardClasses.infoCardContent}>
             {renderCardContent()}
         </CardContent>
       </Card>

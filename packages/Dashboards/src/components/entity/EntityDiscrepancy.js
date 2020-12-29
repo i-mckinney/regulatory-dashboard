@@ -8,6 +8,7 @@ import { detailedInfo } from "../../MockData/ReconcileDWMockData"
 import { HelixTable, HelixTableCell, HelixButton } from 'helixmonorepo-lib'
 import entities from '../apis/entities'
 import HelixLinearProgress from '../utils/HelixLinearProgress'
+import HelixTableCard from '../utils/HelixTableCard'
 
 // Styling used for MaterialUI
 const entityDiscrepancyStyles = makeStyles(() => ({
@@ -380,6 +381,18 @@ const EntityDiscrepancy = (props) => {
     }
   }, [progress, loading])
 
+  // renderCardContent return jsx of unordered list items
+  const renderCardContent = () => {
+    return (
+      <ul>
+        <li>{`Borrower ID: ${props.location.state.borrowerID}`}</li>
+        <li>{`Borrower Name: ${props.location.state.borrowerName}`}</li>
+        <li>{`Relationship Manager: ${props.location.state.relationshipManager}` }</li>
+      </ul>
+    )
+  }
+
+  // render returns jsx of helixtablecard and helixtable component with discrepancy data
   const render = () => {
     return (
       error.err ? 
@@ -387,12 +400,10 @@ const EntityDiscrepancy = (props) => {
       :
       <>
         {displayAlert()}
-        <EntityCard
-          RecordLabel={props.location.state.relationshipName}
-          SystemOfRecord={detailedInfo.SystemOfRecord}
-          BorrowerID={props.location.state.borrowerID}
-          BorrowerName={props.location.state.borrowerName}
-          RelationshipManager={props.location.state.relationshipManager}
+        <HelixTableCard
+        recordLabel={props.location.state.relationshipName}
+        systemOfRecord={`System of Record: FIS`}
+        renderCardContent={renderCardContent}
         />
         <HelixTable
         toggleSearch={false}
