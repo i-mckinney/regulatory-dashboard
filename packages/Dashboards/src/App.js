@@ -17,7 +17,6 @@ import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportTemplatePage from './components/report-template/ReportTemplatePage'
 import ReportTemplateCreate from './components/report-template/ReportTemplateCreate'
-import ReportEdit from './components/report/ReportEdit'
 import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
@@ -110,10 +109,6 @@ function App(history) {
 
             <Route exact path="/report/new-pref">
               <ReportTemplatePage />
-            </Route>
-
-            <Route exact path="/report/edit/:id">
-              <ReportEdit />
             </Route>
 
             <Route exact path="/report/:reportId/generate">

@@ -4,8 +4,8 @@ export const sortableExcludes = ["_id", "Actions"]
 // columnExcludes is array of identifier that we do not want to display in the table
 export const columnExcludes = ["ExternalSource", "onDashboard", "loanId", "loanType", "primaryBorrowerTIN", "primaryBorrowerBID", "primaryBorrowerTIN", "guarantorBID", "companyId", "associatedEntityId", "loanApiConfigurations","createdAt", "updatedAt"]
 
-// innerColumnIncludes is array of identifier that we want to display for additional information in the table
-export const innerColumnIncludes = ["loanId", "primaryBorrowerBID", "guarantorBID", "createdAt", "updatedAt"]
+// innerTableHeadColumnLabels is array of identifier that we want to display for additional information in the table
+export const innerTableHeadColumnLabels = ["Loan ID", "Primary Borrower BID", "Guarantor ID", "Loan Created", "Loan Updated"]
 
 // columnLabels is array of label name that correspondings to columnFields EXCEPT _id (primary key)
 // PRIMARY KEY must be FIRST in the array (required)

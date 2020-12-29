@@ -11,7 +11,7 @@ const useFormDialogStyles = makeStyles(theme =>({
 
 const FormDialog = (props) => {
   const formDialogClasses = useFormDialogStyles()
-  const {title, children, openDialog, setOpenDialog} = props
+  const {title, children, openDialog} = props
 
   return (
     <Dialog open={openDialog} classes={{ paper : formDialogClasses.dialogWrapper}}>

@@ -4,7 +4,7 @@ import {
   StylesProvider,
   createGenerateClassName,
   makeStyles,
-  withStyles,
+  // withStyles,
   Typography,
 } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
@@ -14,15 +14,15 @@ import AssessmentIcon from '@material-ui/icons/Assessment'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { HelixTableCell } from 'helixmonorepo-lib'
 import HelixTable from '../table/HelixTable'
-import { sortableExcludes, columnExcludes, columnLabels } from './config'
+import { sortableExcludes, columnExcludes, innerTableHeadColumnLabels, columnLabels } from './config'
 import HelixCollapsibleRow from '../utils/HelixCollapsibleRow'
 import ConfirmDialog from '../utils/ConfirmDialog'
 import Notification from '../utils/Notification'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+// import Button from '@material-ui/core/Button'
+// import Menu from '@material-ui/core/Menu'
+// import MenuItem from '@material-ui/core/MenuItem'
+// import ListItemText from '@material-ui/core/ListItemText'
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import entities from '../apis/entities'
 
 const generateClassName = createGenerateClassName({
@@ -97,7 +97,7 @@ function Loan(props) {
   })
 
   // Sets state of dropdown menu location
-  const [anchorEl, setAnchorEl] = React.useState(null)
+  // const [anchorEl, setAnchorEl] = React.useState(null)
 
   /**
    * @param {string} id row id to be deleted
@@ -189,47 +189,47 @@ function Loan(props) {
   }
 
   // Handles opening of the action button dropdown menu
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget)
+  // }
 
   // Handles closing of the action button dropdown menu
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  // const handleClose = () => {
+  //   setAnchorEl(null)
+  // }
 
   // Toggle-able dropdown menu that displays on action button click event
-  const ActionMenu = withStyles({
-    paper: {
-      border: '1px solid #d3d4d5',
-    },
-  })((props) => (
-    <Menu
-      elevation={10}
-      getContentAnchorEl={null}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
-      }}
-      {...props}
-    />
-  ))
+  // const ActionMenu = withStyles({
+  //   paper: {
+  //     border: '1px solid #d3d4d5',
+  //   },
+  // })((props) => (
+  //   <Menu
+  //     elevation={10}
+  //     getContentAnchorEl={null}
+  //     anchorOrigin={{
+  //       vertical: 'bottom',
+  //       horizontal: 'center',
+  //     }}
+  //     transformOrigin={{
+  //       vertical: 'top',
+  //       horizontal: 'center',
+  //     }}
+  //     {...props}
+  //   />
+  // ))
 
   // Dropdown menu list items and styling
-  const ActionMenuItem = withStyles((theme) => ({
-    root: {
-      '&:focus': {
-        backgroundColor: theme.palette.primary.main,
-        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-          color: theme.palette.common.white,
-        },
-      },
-    },
-  }))(MenuItem)
+  // const ActionMenuItem = withStyles((theme) => ({
+  //   root: {
+  //     '&:focus': {
+  //       backgroundColor: theme.palette.primary.main,
+  //       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+  //         color: theme.palette.common.white,
+  //       },
+  //     },
+  //   },
+  // }))(MenuItem)
 
   /**
    * @param {object} row row represents loan object
@@ -243,21 +243,14 @@ function Loan(props) {
     columns,
     customCellRender
   ) => {
-    const innerTableHeadColumns = [
-      'Loan ID',
-      'Primary BorrowerTIN',
-      'Guarantor ID',
-      'Loan Created',
-      'Loan Updated',
-    ]
-    const innerTableBodyRows = [row.loanId, row.primaryBorrowerTIN, row.guarantorBID, row.createdAt, row.updatedAt]
+    const innerTableBodyRows = [row.loanId, row.primaryBorrowerBID, row.guarantorBID, row.createdAt, row.updatedAt]
     return (
       <HelixCollapsibleRow
         key={row._id}
         row={row}
         rowIndex={rowIndex}
         columns={columns}
-        innerTableHeadColumns={innerTableHeadColumns}
+        innerTableHeadColumns={innerTableHeadColumnLabels}
         innerTableBodyRows={innerTableBodyRows}
         customCellRender={customCellRender}
       />
@@ -342,7 +335,6 @@ function Loan(props) {
     //   </span>
     // )
 
-
     const displayActions = () => (
       <span className={loanClasses.actionsIconStyle}>
         <IconButton
@@ -375,17 +367,13 @@ function Loan(props) {
           aria-label="delete"
           size="small"
           edge="start"
-          onClick={() => {handleModalDeletePopUp(row); handleClose();}}
+          onClick={() => handleModalDeletePopUp(row)}
           color="secondary"
         >
           <DeleteIcon />
         </IconButton>
       </span>
-    );
-
-
-
-
+    )
 
     if (columnAccessor === 'Actions') {
       return (
