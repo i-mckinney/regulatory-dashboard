@@ -2,10 +2,10 @@
 const express = require("express");
 const router = express.Router();
 const { ObjectId } = require("mongodb");
-const dateTimeHelper = require("../utils/dateTimeHelper");
+const dateTimeHelper = require("../../utils/dateTimeHelper");
 
 // db setup
-const DbConnection = require("../db");
+const DbConnection = require("../../db");
 
 /**************************************************************************************************************************************************** */
 

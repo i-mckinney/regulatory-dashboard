@@ -2,44 +2,41 @@
 const express = require("express");
 const { ObjectId } = require("mongodb");
 const router = express.Router();
-const getLoanConfigurations = require("./Helper/getLoanConfigurations");
-const responseMapper = require("./Helper/responseMapper");
-const mergingReportChanges = require("./Helper/mergingReportChanges");
+const getLoanConfigurations = require("./loanHelper/getLoanConfigurations");
+const responseMapper = require("./loanHelper/responseMapper");
+const mergingReportChanges = require("./loanHelper/mergingReportChanges");
 
 // db setup
 const DbConnection = require("../../db");
 
-//Used to get a aggregated discrepancy report for an entity
+//Used to get a aggregated discrepancy report for a loan
 router.get(
-  "/:companyId/:primaryborrowertin/report/:loanid",
+  "/:companyId/:primaryborrowertin/report/:loanId",
   async (req, res) => {
     try {
       /**
        * CompanyId : used to identify which company this report belongs to
        * PrimaryBorrowerTIN : used to identify the entity across different external sources
-       * Entity Id: used to identify the entity that user has created
+       * Loan Id: used to identify the associated loan
        */
       const CompanyId = req.params.companyId;
       const PrimaryBorrowerTIN = req.params.primaryborrowertin;
-      const LoanId = req.params.loanid;
-      const reportType = "loan discrepancies";
+      const loanId = req.params.loanId;
+
       /** Using this information, we would know which custom api calls to dispatch for a discrepancy report.
        *  getEntityConfigurations(CompanyId) will return a list of custom api calls that has been selected in entity configuration page.
        * ex) [{responsType:"GET", responseURL:"string", responseMapper ...}, {responseType:"GET"...}, ...]
        */
-      let configuredApiCalls = await getLoanConfigurations(CompanyId);
+      let configuredApiCalls = await getLoanConfigurations(CompanyId, loanId);
 
       /** Loading in all the previous changes that user made to this specific entity */
       const savedChangesCollection = await DbConnection.getCollection(
         "DiscrepanciesReport"
       );
 
-
       const proposedChanges = await savedChangesCollection.findOne({
-        $and: [{ loanId: LoanId }],
+        $and: [{ companyId: ObjectId(companyId) }, { loanId }],
       });
-      console.log(proposedChanges)
-
 
       /** resultWithMapping : would be the final output after aggregating/mapping all the data from multiple external sources  */
       let resultWithMapping = [];
@@ -115,7 +112,7 @@ router.post("/:companyId/report/:loanid", async (req, res) => {
      * CompanyId : used to identify which company this report belongs to
      * loanid : used to identify the entity that user has created
      */
-    const LoanId = req.params.loanid;
+    const loanId = req.params.loanid;
     const CompanyId = req.params.companyId;
 
     const newChanges = req.body.savedChanges;
@@ -130,7 +127,7 @@ router.post("/:companyId/report/:loanid", async (req, res) => {
     );
 
     let pastChanges = await reportCollection.findOne({
-      loanId: LoanId,
+      loanId: loanId,
     });
 
     let unMergedChanges;
@@ -172,11 +169,11 @@ router.post("/:companyId/report/:loanid", async (req, res) => {
       let finalChanges = unMergedChanges;
 
       await reportCollection.updateOne(
-        { loanId: LoanId },
+        { loanId: loanId },
         {
           $set: {
             savedChanges: finalChanges,
-            loanId: LoanId,
+            loanId: loanId,
             company_id: ObjectId(CompanyId),
           },
         }
@@ -184,21 +181,18 @@ router.post("/:companyId/report/:loanid", async (req, res) => {
     } else {
       await reportCollection.insertOne({
         savedChanges: newChanges,
-        loanId: LoanId,
+        loanId: loanId,
         company_id: ObjectId(CompanyId),
       });
     }
 
     // return added discrepancyReportChanges
-    pastChanges = await reportCollection
-      .find({  loanId: LoanId })
-      .toArray();
+    pastChanges = await reportCollection.find({ loanId: loanId }).toArray();
     const changesJustAdded = pastChanges[pastChanges.length - 1];
     res.json(changesJustAdded);
   } catch (err) {
     res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
   }
 });
-
 
 module.exports = router;

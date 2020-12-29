@@ -30,28 +30,30 @@ const DbConnection = require("../../../db");
  * ]
  *
  */
-async function getLoanConfigurations(companyId) {
+async function getLoanConfigurations(companyId, loanId) {
   /** Using this information, we would know which custom api calls to dispatch for a discrepancy report. */
 
   try {
-    //Setting up entity configurations
+    //Setting up loan configurations
     const loanConfigCollection = await DbConnection.getCollection(
       "LoanAPIconfiguration"
     );
     const loanConfigurationData = await loanConfigCollection.findOne({
-      companyId: ObjectId(companyId),
+      $and: [{ companyId: ObjectId(companyId) }, { loanId }],
     });
 
-    let loanConfiguration = loanConfigurationData.loanConfiguration;
+    let loanConfiguration;
+
+    if (loanConfigurationData) {
+      loanConfiguration = loanConfigurationData.loanConfiguration;
+    }
 
     //Using entity configurations to look up custom apis that exist in our db
     const customApiCollection = await DbConnection.getCollection(
       "CustomApiRequests"
     );
 
-
     let customApis = [];
-
     if (!loanConfiguration) {
       return { Error: "Loan configuration does not exist" };
     } else {

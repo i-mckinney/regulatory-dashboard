@@ -13,21 +13,20 @@ router.get("/:companyId", async (req, res) => {
 
   try {
     //Setting up loan API configurations
-    const loanConfig = await DbConnection.getCollection(
-      "LoanAPIconfiguration"
-    );
+    const loanConfig = await DbConnection.getCollection("LoanAPIconfiguration");
 
     const loanConfigurations = await loanConfig
-    .find({
-      companyId: ObjectId(companyId),
-    })
-    .toArray((err, result) => {
-      if (err) throw new Error(err);
-      res.json(result);
-    });
-}  catch (e) {
+      .find({
+        companyId: ObjectId(companyId),
+      })
+      .toArray((err, result) => {
+        if (err) throw new Error({ status: err.status, message: err.message });
+        res.json(result);
+      });
+  } catch (e) {
     res.json({
-      Error: e.message + "Error in grabbing configuration settings",
+      status: e.status,
+      message: e.message + "Error in grabbing loan configuration settings",
     });
   }
 });
@@ -43,16 +42,19 @@ router.get("/:companyId/:loanId", async (req, res) => {
       "LoanAPIconfiguration"
     );
     const loanConfig = await LoanAPIconfiguration.findOne({
-      $and: [{ companyId: ObjectId(companyId) }, { loanID: loanId }],
+      $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
     });
-    if (!loanConfig){
+
+    if (!loanConfig) {
       await LoanAPIconfiguration.insertOne({
-        loanID:loanId,
-        companyId:ObjectId(companyId),
+        loanId: loanId,
+        companyId: ObjectId(companyId),
         loanConfiguration: [],
-      })
-      res.json([])
-    } else { 
+        createdAt: dateTimeHelper.getTimeStamp(),
+      });
+
+      res.json([]);
+    } else {
       let loanConfiguration = loanConfig.loanConfiguration;
 
       //Using loan configurations to look up custom apis that exist in our db
@@ -63,15 +65,15 @@ router.get("/:companyId/:loanId", async (req, res) => {
       let customApis = [];
 
       if (!loanConfiguration) {
-        res.json({ Error: "Loan configuration does not exist" });
+        res.json({ status: 400, message: "Loan configuration does not exist" });
       } else {
         for (let i = 0; i < loanConfiguration.length; i++) {
-          let customApiId = loanConfiguration[i];
+          let customAPIid = loanConfiguration[i];
 
           let singleCustomApi = await customApiCollection.findOne({
             $and: [
               { company_id: ObjectId(companyId) },
-              { _id: ObjectId(customApiId) },
+              { _id: ObjectId(customAPIid) },
             ],
           });
 
@@ -87,7 +89,8 @@ router.get("/:companyId/:loanId", async (req, res) => {
     }
   } catch (e) {
     res.json({
-      Error: e.message + "Error in grabbing configuration settings",
+      status: e.status,
+      message: e.message + "Error in grabbing configuration settings",
     });
   }
 });
@@ -104,29 +107,26 @@ router.post("/:companyId/:loanId", async (req, res) => {
     );
 
     let existingloanConfiguration = await dbCollection.findOne({
-      $and: [{ companyId: ObjectId(companyId) }, { loanID: loanId }],
+      $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
     });
-    console.log(req.body)
-    /** Each loan should have one configuration setting for loan dashboard.
+
+    /** Each loan should have one configuration setting.
     So we are resetting and adding a new updated configuration setting.**/
 
     if (existingloanConfiguration) {
-      console.log("are we really here")
       await dbCollection.deleteOne({
-        loanID: loanId
+        $and: [{ companyId: ObjectId(companyId) }, { loanId: loanId }],
       });
-      console.log("did it delete")
     }
 
-    let final = await dbCollection.insertOne({
+    let newLoanConfiguration = await dbCollection.insertOne({
       loanConfiguration,
-      loanID: loanId,
+      loanId: loanId,
       companyId: ObjectId(companyId),
       createdAt: dateTimeHelper.getTimeStamp(),
     });
-    console.log('final', final)
 
-    res.json({ message: "Loan Configuration Added" });
+    res.json({ status: 200, message: "Loan Configuration successfully added" });
   } catch (error) {
     res.json({ Error: error.message });
   }
