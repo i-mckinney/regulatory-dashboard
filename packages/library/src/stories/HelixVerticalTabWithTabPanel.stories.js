@@ -24,9 +24,9 @@ export default {
  * 
  */
 
- const reportTabs = ["Tab #1",  "Tab #2", "Tab #3"]
+const reportTabs = ["Tab #1",  "Tab #2", "Tab #3"]
   
-const panelReports = ["Normalization Sin(x)", "Normalization Tan(x)", "Normalization Cos(x)"]
+const panelReports = ["Report Normalization #1", "Report Normalization #2", "Report Normalization #3"]
 
 // renderHelixTabs return a list of Helix Tab jsx object
 const renderHelixTabs = () => {
