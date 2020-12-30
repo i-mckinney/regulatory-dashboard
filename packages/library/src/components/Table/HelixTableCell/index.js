@@ -125,6 +125,7 @@ const HelixTableCell = ({
   source,
   sourceTrueValue,
   externalValues,
+  isBold,
 }) => {
   /**
    * 1) value will be data from props you get from Cell object property
@@ -189,7 +190,7 @@ const HelixTableCell = ({
   const displayInitialStateValue = () => {
     return (
       <div onClick={handleDivChange} className={initialState()}>
-        {initialStateValue}
+        {isBold ? <b>{initialStateValue}</b> : initialStateValue}
       </div>
     )
   }
@@ -350,6 +351,7 @@ HelixTableCell.propTypes = {
   source: PropTypes.string.isRequired,
   sourceTrueValue: PropTypes.string.isRequired,
   externalValues: PropTypes.instanceOf(Array).isRequired,
+  isBold: PropTypes.bool.isRequired,
 }
 
 HelixTableCell.defaultProps = {
@@ -365,6 +367,7 @@ HelixTableCell.defaultProps = {
   source: "",
   sourceTrueValue: "",
   externalValues: [],
+  isBold: false,
 }
 
 export default HelixTableCell

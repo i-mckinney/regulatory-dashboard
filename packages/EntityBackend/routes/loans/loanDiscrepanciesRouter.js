@@ -28,7 +28,6 @@ router.get(
        * ex) [{responsType:"GET", responseURL:"string", responseMapper ...}, {responseType:"GET"...}, ...]
        */
       let configuredApiCalls = await getLoanConfigurations(companyId, loanId);
-
       /** Loading in all the previous changes that user made to this specific entity */
       const savedChangesCollection = await DbConnection.getCollection(
         "DiscrepanciesReport"

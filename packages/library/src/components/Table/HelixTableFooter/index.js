@@ -1,5 +1,5 @@
 import React from 'react'
-import { TableFooter, TableRow } from '@material-ui/core'
+import { TableFooter, TableRow, TableCell } from '@material-ui/core'
 import HelixTablePagination from '../HelixTablePagination/index'
 import PropTypes from 'prop-types'
 
