@@ -24,6 +24,7 @@ export default {
  * 
  */
 
+// columns contains mock data of array of columns (objects)
 const columns = [
     {
         Label: "Helix UUID",
@@ -52,6 +53,7 @@ const columns = [
     }
 ]
 
+// rows contains mock data of array of row (objects)
 const rows = [
     {
         "HelixUUID": "59413728",
@@ -91,8 +93,14 @@ const rows = [
     }
 ]
 
+// Initially, we can start the table to order by Loan Name or etc in ascending order
 const initialOrderBy = "FirstName"
 
+/**
+ * @param {array} innerTableBodyRows represents array of row (strings)
+ * @param {array} innerTableHeadColumns represents array of column (strings)
+ * @param {array} helixCollapsibleRowclasses represents object of instances contains styling properties
+ */
 const renderSummaryTable = (innerTableBodyRows, innerTableHeadColumns, helixCollapsibleRowclasses) => {
     return (
         <GenericSummaryTable rows={innerTableBodyRows} columns={innerTableHeadColumns} classes={helixCollapsibleRowclasses} />
@@ -127,6 +135,13 @@ customCellRender
     )
 }
 
+/**
+ * @param {object} row the row is an object of data
+ * @param {object} column the column is an object of the header with accessor and label props
+ * @param {int} rowIndex the rowIndex represents index of the row
+ * @param {int} columnIndex the columnIndex represents index of the column
+ * @return {JSX} HelixTableCell of object properties in that Table row
+ */
 const customCellRender = (row, column, rowIndex, columnIndex) => {
     const columnAccessor = column.Accessor
     return (
@@ -134,10 +149,16 @@ const customCellRender = (row, column, rowIndex, columnIndex) => {
     )
 }
 
-
+/**
+ * @param {object} column represent object data regarding the api result
+ * @return {string} provide table row with unique key props (required)
+ */
 const customHeadColumnKeyProp = (column) => column.Accessor
 
-// The unique idenifier for whole row
+/**
+ * @param {object} row represent object data regarding the api result
+ * @return {string} provide table row with unique key props (required)
+ */
 const customBodyRowKeyProp = (row) => row.HelixUUID
 
 // If your service does not need to AddIcon/Button return null ()

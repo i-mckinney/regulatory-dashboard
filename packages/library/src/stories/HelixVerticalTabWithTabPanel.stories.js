@@ -24,8 +24,10 @@ export default {
  * 
  */
 
+ // reportTabs contains mock data of array of strings
 const reportTabs = ["Tab #1",  "Tab #2", "Tab #3"]
-  
+
+// panelReports contains mock data of array of strings
 const panelReports = ["Report Normalization #1", "Report Normalization #2", "Report Normalization #3"]
 
 // renderHelixTabs return a list of Helix Tab jsx object

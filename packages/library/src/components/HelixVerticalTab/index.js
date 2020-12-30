@@ -48,8 +48,6 @@ function HelixVerticalTabs(props) {
       {props.renderHelixPanelTabs(props.value)}
       <br />
       {props.renderButtonContainer()}
-      
-
     </Box>
   )
 }

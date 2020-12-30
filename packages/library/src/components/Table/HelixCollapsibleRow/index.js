@@ -4,6 +4,7 @@ import { makeStyles, Box, Collapse, Table, TableHead, TableRow, TableBody, Table
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 
+// Styling used for MaterialUI
 const HelixCollapsibleRowStyles = makeStyles({
   root: {
     '& > *': {

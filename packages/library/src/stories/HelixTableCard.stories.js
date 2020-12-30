@@ -22,6 +22,7 @@ export default {
  * 
  */
 
+// renderCardContent returns unordered list of content
 const renderCardContent = () => {
     return (
     <ul>
