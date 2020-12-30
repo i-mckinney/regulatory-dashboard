@@ -19,16 +19,15 @@ router.get(
        * PrimaryBorrowerTIN : used to identify the entity across different external sources
        * Loan Id: used to identify the associated loan
        */
-      const CompanyId = req.params.companyId;
+      const companyId = req.params.companyId;
       const PrimaryBorrowerTIN = req.params.primaryborrowertin;
       const loanId = req.params.loanId;
 
       /** Using this information, we would know which custom api calls to dispatch for a discrepancy report.
-       *  getEntityConfigurations(CompanyId) will return a list of custom api calls that has been selected in entity configuration page.
+       *  getEntityConfigurations(companyId) will return a list of custom api calls that has been selected in entity configuration page.
        * ex) [{responsType:"GET", responseURL:"string", responseMapper ...}, {responseType:"GET"...}, ...]
        */
-      let configuredApiCalls = await getLoanConfigurations(CompanyId, loanId);
-
+      let configuredApiCalls = await getLoanConfigurations(companyId, loanId);
       /** Loading in all the previous changes that user made to this specific entity */
       const savedChangesCollection = await DbConnection.getCollection(
         "DiscrepanciesReport"
