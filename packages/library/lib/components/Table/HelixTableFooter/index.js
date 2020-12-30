@@ -32,7 +32,7 @@ var HelixTableFooter = function HelixTableFooter(_ref) {
       handleChangePage = _ref.handleChangePage,
       handleChangeRowsPerPage = _ref.handleChangeRowsPerPage,
       toggleExpandable = _ref.toggleExpandable;
-  return /*#__PURE__*/_react["default"].createElement(_core.TableFooter, null, /*#__PURE__*/_react["default"].createElement(_core.TableRow, null, toggleExpandable ? /*#__PURE__*/_react["default"].createElement(TableCell, null) : null, /*#__PURE__*/_react["default"].createElement(_index["default"], {
+  return /*#__PURE__*/_react["default"].createElement(_core.TableFooter, null, /*#__PURE__*/_react["default"].createElement(_core.TableRow, null, toggleExpandable ? /*#__PURE__*/_react["default"].createElement(_core.TableCell, null) : null, /*#__PURE__*/_react["default"].createElement(_index["default"], {
     rows: rows,
     colSpan: colSpan,
     rowsPerPage: rowsPerPage,
