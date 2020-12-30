@@ -17,7 +17,7 @@ module.exports = {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  // collectCoverage: false,
+  collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
@@ -26,9 +26,7 @@ module.exports = {
   coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  coveragePathIgnorePatterns: ["\\\\node_modules\\\\"],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "babel",
@@ -37,7 +35,14 @@ module.exports = {
   coverageReporters: ["json", "text", "lcov", "clover"],
 
   // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: undefined,
+  coverageThreshold: {
+    global: {
+      branches: 0,
+      functions: 0,
+      lines: 0,
+      statements: 0,
+    },
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -61,7 +66,7 @@ module.exports = {
   // maxWorkers: "50%",
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  moduleDirectories: ["node_modules"],
+  moduleDirectories: ["node_modules", "src"],
 
   // An array of file extensions your modules use
   moduleFileExtensions: ["js", "json", "jsx", "ts", "tsx", "node"],

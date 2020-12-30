@@ -22,8 +22,8 @@
     "test": "jest",
     "prebuild:storybook": "npm run test:generate-output",
     "build:storybook": "build-storybook -c .storybook -o lib/",
-    "start-storybook": "npm install && start-storybook -p 6006",
-    "build": "npm install && npx babel src --out-dir lib --ignore \"src/**/*.stories.js\",\"src/**/*.stories.mdx\"",
+    "start-storybook": "npm run build && npm run test:generate-output && start-storybook -p 6006",
+    "build": "npx babel src --out-dir lib --ignore \"src/**/*.stories.js\",\"src/**/*.stories.mdx\"",
     "prepare": "npx babel src --out-dir lib --ignore \"src/**/*.stories.js\",\"src/**/*.stories.mdx\""
   },
   "bugs": {
