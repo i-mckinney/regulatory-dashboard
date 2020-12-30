@@ -27,6 +27,18 @@ Object.defineProperty(exports, "HelixTable", {
     return _HelixTable["default"];
   }
 });
+Object.defineProperty(exports, "HelixTableCard", {
+  enumerable: true,
+  get: function get() {
+    return _HelixTableCard["default"];
+  }
+});
+Object.defineProperty(exports, "HelixCollapsibleRow", {
+  enumerable: true,
+  get: function get() {
+    return _HelixCollapsibleRow["default"];
+  }
+});
 Object.defineProperty(exports, "HelixTableCell", {
   enumerable: true,
   get: function get() {
@@ -75,6 +87,18 @@ Object.defineProperty(exports, "HelixTableGeneric", {
     return _HelixTableGeneric["default"];
   }
 });
+Object.defineProperty(exports, "HelixVericalTab", {
+  enumerable: true,
+  get: function get() {
+    return _HelixVerticalTab["default"];
+  }
+});
+Object.defineProperty(exports, "HelixTabPanel", {
+  enumerable: true,
+  get: function get() {
+    return _HelixTabPanel["default"];
+  }
+});
 Object.defineProperty(exports, "dark", {
   enumerable: true,
   get: function get() {
@@ -96,6 +120,10 @@ var _HelixTextField = _interopRequireDefault(require("./components/HelixTextFiel
 
 var _HelixTable = _interopRequireDefault(require("./components/Table/HelixTable"));
 
+var _HelixTableCard = _interopRequireDefault(require("./components/Table/HelixTableCard"));
+
+var _HelixCollapsibleRow = _interopRequireDefault(require("./components/Table/HelixCollapsibleRow"));
+
 var _HelixTableCell = _interopRequireDefault(require("./components/Table/HelixTableCell"));
 
 var _HelixSwitch = _interopRequireDefault(require("./components/HelixSwitch"));
@@ -111,6 +139,10 @@ var _Notification = _interopRequireDefault(require("./components/Notification"))
 var _ConfirmDialogModal = _interopRequireDefault(require("./components/ConfirmDialogModal"));
 
 var _HelixTableGeneric = _interopRequireDefault(require("./components/Table/TableGeneric/HelixTableGeneric"));
+
+var _HelixVerticalTab = _interopRequireDefault(require("./components/HelixVerticalTab"));
+
+var _HelixTabPanel = _interopRequireDefault(require("./components/HelixTabPanel"));
 
 var _dark = _interopRequireDefault(require("./themes/dark"));
 
