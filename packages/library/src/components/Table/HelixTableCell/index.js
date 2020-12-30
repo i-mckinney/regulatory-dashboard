@@ -6,7 +6,7 @@ import ReplayIcon from '@material-ui/icons/Replay'
 import SaveIcon from '@material-ui/icons/Save'
 import ClearIcon from '@material-ui/icons/Clear'
 import PropTypes from 'prop-types'
-import { HelixTextField } from 'helixmonorepo-lib'
+import HelixTextField from '../../HelixTextField/index'
 
 // Styling used for MaterialUI
 const helixTableCellStyles = makeStyles(() => ({
