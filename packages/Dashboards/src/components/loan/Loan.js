@@ -24,6 +24,7 @@ import Notification from '../utils/Notification'
 // import ListItemText from '@material-ui/core/ListItemText'
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import entities from '../apis/entities'
+import GenericSummaryTable from '../report/GenericSummaryTable'
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'loan-',
@@ -232,6 +233,16 @@ function Loan(props) {
   // }))(MenuItem)
 
   /**
+   * @param {array} innerTableBodyRows represents array of row (strings)
+   * @param {array} innerTableHeadColumns represents array of column (strings)
+   * @param {array} helixCollapsibleRowclasses represents object of instances contains styling properties
+   */
+  const renderSummaryTable = (innerTableBodyRows, innerTableHeadColumns, helixCollapsibleRowclasses) => {
+  return (
+      <GenericSummaryTable rows={innerTableBodyRows} columns={innerTableHeadColumns} classes={helixCollapsibleRowclasses} />
+  )
+}
+  /**
    * @param {object} row row represents loan object
    * @param {int} rowIndex rowIndex represents the index of the current row object
    * @param {object} columns columns represents list of columns
@@ -253,6 +264,7 @@ function Loan(props) {
         innerTableHeadColumns={innerTableHeadColumnLabels}
         innerTableBodyRows={innerTableBodyRows}
         customCellRender={customCellRender}
+        renderSummaryTable={renderSummaryTable}
       />
     )
   }
