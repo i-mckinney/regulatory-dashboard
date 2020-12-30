@@ -97,7 +97,8 @@ const LoanDiscrepancy = (props) => {
   // fetchAggregatedSourceSystemsData calls backend api through get protocol to get all the aggregated source system data
   const fetchAggregatedSourceSystemsData = async () => {
     if (props.location.state.primaryBorrowerTIN) {
-      const response = await entities.get(`loandiscrepancies/${props.location.state.companyId}/${props.location.state.primaryBorrowerTIN}/report/${props.location.state.loanID}`)
+      const response = await entities.get(`/loandiscrepancies/${props.location.state.companyId}/${props.location.state.primaryBorrowerTIN}/report/${props.location.state.loanId}`)
+      console.log(response.data, props.location.state)
       setData(response.data)
     } else {
       setError({ err: true, message: "Primary Borrower TIN is empty" })
@@ -111,7 +112,7 @@ const LoanDiscrepancy = (props) => {
     if (columns.length === 0 && !error.err) {
       if (!data.ErrorMessage) {
         data.TableHeaders.forEach((header) => columns.push(header))
-        data.TableData.forEach((loanField, loanFieldIndex) => {
+        data.TableData.forEach((loanField) => {
           const row = [loanField.key_config["display"]]
           const tempExternalValues = []
           const values = loanField.values.map((value) => {
@@ -144,7 +145,7 @@ const LoanDiscrepancy = (props) => {
         })
         setLoanTableData(data.TableData)
       } else {
-        setError({ err: true, message: `${data.ErrorMessage}/Borrower ID does not exist` })
+        setError({ err: true, message: `${data.ErrorMessage}` })
       }
     }
   }
@@ -339,7 +340,7 @@ const LoanDiscrepancy = (props) => {
     })
     const req = { savedChanges: { ...discrepancyData } }
     console.log(`Line 346 - ${handleConfirmButton.name} -`, req)
-    await entities.post(`loandiscrepancies/${props.location.state.companyId}/report/${props.location.state.loanID}`, req)
+    await entities.post(`/loandiscrepancies/${props.location.state.companyId}/report/${props.location.state.loanId}`, req)
     props.history.push("/loan")
   }
 

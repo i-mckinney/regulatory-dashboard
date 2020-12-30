@@ -87,7 +87,7 @@ function App(history) {
               <LoanDiscrepancy />
             </Route>
             
-            <Route exact path="/loan/configuration/:id" >
+            <Route exact path="/loan/configuration/:loanId" >
               <LoanConfiguration />
             </Route>
             

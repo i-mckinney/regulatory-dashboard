@@ -117,7 +117,7 @@ const LoanConfiguration = (props) => {
      * fetchLoansConfiguration calls backend api through get protocol to get all the selected custom apis
      */
     const fetchLoansConfiguration = async () => {
-      const response = await entities.get(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanID}`)
+      const response = await entities.get(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanId}`)
       response.data.forEach((row) => {
         tempRows.push(row)
       })
@@ -140,7 +140,7 @@ const LoanConfiguration = (props) => {
     }
     apiCallCheckList()
     
-  }, [columns, tempRows, apis, props.location.state.loanID])
+  }, [columns, tempRows, apis, props.location.state.loanId])
 
   /**
    * handleAddCustomApi adds custom api to table
@@ -179,9 +179,9 @@ const LoanConfiguration = (props) => {
    * handleSaveLoanConfiguration saves list of selected custom api in the configuration table
    */
   const handleSaveLoanConfiguration = async () => {
-    const config = { loanConfiguration: [], loanId: props.location.state.loanID }
+    const config = { loanConfiguration: [], loanId: props.location.state.loanId }
     rows.forEach((row) => config.loanConfiguration.push(row._id))
-    await entities.post(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanID}`, config)
+    await entities.post(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanId}`, config)
     props.history.push("/loan")
   }
 
