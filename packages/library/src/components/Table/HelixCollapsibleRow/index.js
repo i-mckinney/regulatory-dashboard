@@ -138,10 +138,12 @@ HelixCollapsibleRow.propTypes = {
   innerTableBodyRows: PropTypes.instanceOf(Array).isRequired, 
   customCellRender: PropTypes.func.isRequired,
   isSummaryTableAllow: PropTypes.bool.isRequired,
+  renderSummaryTable: PropTypes.func.isRequired,
 }
 
 HelixCollapsibleRow.defaultProps = {
-  isSummaryTableAllow: false
+  isSummaryTableAllow: false,
+  renderSummaryTable: () => null
 }
 
 export default HelixCollapsibleRow
