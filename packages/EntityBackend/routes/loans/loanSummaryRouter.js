@@ -54,7 +54,7 @@ router.post("/email", async (req, res) => {
       <img src=${headerEmail} alt="headerEmail" style="width:100%;height:100%;border:0">
       </a>
       <h1 style="color:black"> 
-        Pending: Entity Discrepancy Report Summary 
+        Pending: Loan Discrepancy Report Summary 
       </h1>
       <h3 style="color:black">
       Entity ${entityId} 
@@ -113,7 +113,7 @@ router.post("/email", async (req, res) => {
     const msg = {
       to: "helixdemoproduct@gmail.com",
       from: "eric.jho@helixcp.com",
-      subject: "Pending: Entity Discrepancy Report Summary",
+      subject: "Pending: Loan Discrepancy Report Summary",
       content: [{ type: "text/html", value: htmlFile }],
     };
 

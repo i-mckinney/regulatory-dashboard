@@ -2,7 +2,7 @@ import React from "react"
 import { BrowserRouter, Switch, Route, Redirect  } from "react-router-dom"
 import Entity from "./components/entity/Entity"
 import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
-import EntitySelectTable from "./components/summaryPage/SummarySelectTable"
+import SummarySelectTable from "./components/summaryPage/SummarySelectTable"
 import Loan from "./components/loan/Loan"
 import LoanCreateSelectEntity from "./components/loan/LoanCreateSelectEntity"
 import LoanCreateSelectLoan from "./components/loan/LoanCreateSelectLoan"
@@ -68,7 +68,7 @@ function App(history) {
             </Route>
 
             <Route exact path="/entity/:id/discrepancy-report/summary" >
-              <EntitySelectTable />
+              <SummarySelectTable summaryType={"entitiy"} />
             </Route>
 
             <Route exact path="/loan">
@@ -76,7 +76,7 @@ function App(history) {
             </Route>
 
             <Route exact path="/loan/:id/discrepancy-report/summary">
-              <EntitySelectTable />
+              <SummarySelectTable summaryType={"loan"} />
             </Route>
 
             <Route exact path="/loan/new/selectentity" >

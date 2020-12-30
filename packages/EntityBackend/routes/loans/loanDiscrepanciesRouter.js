@@ -19,15 +19,15 @@ router.get(
        * PrimaryBorrowerTIN : used to identify the entity across different external sources
        * Loan Id: used to identify the associated loan
        */
-      const CompanyId = req.params.companyId;
+      const companyId = req.params.companyId;
       const PrimaryBorrowerTIN = req.params.primaryborrowertin;
       const loanId = req.params.loanId;
 
       /** Using this information, we would know which custom api calls to dispatch for a discrepancy report.
-       *  getEntityConfigurations(CompanyId) will return a list of custom api calls that has been selected in entity configuration page.
+       *  getEntityConfigurations(companyId) will return a list of custom api calls that has been selected in entity configuration page.
        * ex) [{responsType:"GET", responseURL:"string", responseMapper ...}, {responseType:"GET"...}, ...]
        */
-      let configuredApiCalls = await getLoanConfigurations(CompanyId, loanId);
+      let configuredApiCalls = await getLoanConfigurations(companyId, loanId);
 
       /** Loading in all the previous changes that user made to this specific entity */
       const savedChangesCollection = await DbConnection.getCollection(
@@ -192,6 +192,60 @@ router.post("/:companyId/report/:loanid", async (req, res) => {
     res.json(changesJustAdded);
   } catch (err) {
     res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
+  }
+});
+
+
+// Get the changes that were made for an loan (For development purposes)
+router.get("/:companyId/report/:loanId", async (req, res) => {
+  try {
+    /**
+     * loanId : used to identify the loan that user has created
+     */
+    const loanId = req.params.loanId;
+
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
+
+    let discrepancyReportChanges = await reportCollection.findOne({
+      loanId: loanId,
+    });
+
+    res.json(discrepancyReportChanges);
+  } catch (err) {
+    res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
+  }
+});
+
+
+//Route for updating discrepancy report changes in discrepancy report summary page.
+router.put("/:companyId/report/:loanId/summary", async (req, res) => {
+  try {
+    /**
+     * companyId : used to identify which company this report belongs to
+     * loanId : used to identify the entity that user has created
+     */
+    const loanId = req.params.loanId;
+
+    const newChanges = req.body.savedChanges;
+
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
+console.log(newChanges)
+console.log(loanId)
+    // let updatedChanges = await reportCollection.updateOne(
+    //   { loanId },
+    //   { $set: { savedChanges: newChanges } }
+    // );
+console.log( "Here")
+    res.json({
+      status: 200,
+      message: "Changes have been successfully updated!",
+    });
+  } catch (error) {
+    res.json({ Error: error.message });
   }
 });
 

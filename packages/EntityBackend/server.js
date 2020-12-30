@@ -6,6 +6,7 @@ const entitySummaryRouter = require("./routes/entity/entitySummaryRouter");
 const entityConfigurationRouter = require("./routes/entity/entityConfigurationRouter");
 const loanConfigRouter = require("./routes/loans/loanConfigRouter.js");
 const loanDiscrepanciesRouter = require("./routes/loans/loanDiscrepanciesRouter.js");
+const loanSummaryRouter = require("./routes/loans/loanSummaryRouter.js");
 const externalSourceRouter = require("./routes/externalSourceRouter");
 const discrepanciesRouter = require("./routes/discrepanciesRouter");
 const reportRouter = require("./routes/report/reportRouter");
@@ -43,6 +44,7 @@ server.use("/entitysummary", entitySummaryRouter);
 server.use("/loans", loanRouter);
 server.use("/loandiscrepancies", loanDiscrepanciesRouter);
 server.use("/loanConfig", loanConfigRouter);
+server.use("/loansummary", loanSummaryRouter);
 
 //Report Routes
 server.use("/report", reportRouter);

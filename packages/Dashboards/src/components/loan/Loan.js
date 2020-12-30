@@ -379,7 +379,7 @@ function Loan(props) {
           edge="start"
           onClick={() =>
             props.history.push({
-              pathname: `/entity/${row._id}/discrepancy-report/summary`,
+              pathname: `/loan/${row._id}/discrepancy-report/summary`,
               state: row,
             })
           }

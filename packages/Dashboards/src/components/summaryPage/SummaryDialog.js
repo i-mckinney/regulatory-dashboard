@@ -10,10 +10,10 @@ import {
   InputLabel,
   MenuItem,
   Collapse,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
-import { Alert} from "@material-ui/lab";
-import CloseIcon from '@material-ui/icons/Close';
+import { Alert } from "@material-ui/lab";
+import CloseIcon from "@material-ui/icons/Close";
 import { withRouter } from "react-router-dom";
 import entities from "../apis/entities";
 import EntityReceiptTable from "./ReceiptTable";
@@ -36,6 +36,7 @@ function EntitySummaryDialog(props) {
     classes,
     savedChanges,
     handleClickSave,
+    summaryType,
   } = props;
 
   //state for opening alert when message is successfully sent
@@ -47,32 +48,57 @@ function EntitySummaryDialog(props) {
   const handleSelectApprover = (event) => {
     setSelectedApprover(event.target.value);
   };
-
+console.log(savedChanges)
   //handle sending an email of static receipt to a selected approver
   const handleSendApproverEmail = async (event) => {
-    //sending email
-    let entityId;
+    if (summaryType === "loan") {
+      //sending email
+      let loanId;
 
-    if (savedChanges) {
-      entityId = savedChanges.entity_id;
-      //Saving changes to the helix backend
-      handleClickSave("summaryDialog");
-    }
+      if (savedChanges) {
+        loanId = savedChanges.loanId;
+        //Saving changes to the helix backend
 
-    let changesForApproval = { finalChanges: rows, entityId };
-    try {
-      let result = await entities.post(
-        `entitysummary/email`,
-        changesForApproval
-      );
-      if (result) {
-        setOpenEmailSuccessMessage(true)
+        console.log(loanId)
+        handleClickSave("summaryDialog");
       }
-    } catch (error) {
-      return { error: error.message };
+
+      // let changesForApproval = { finalChanges: rows, loanId };
+      // try {
+      //   let result = await entities.post(
+      //     `loansummary/email`,
+      //     changesForApproval
+      //   );
+      //   if (result) {
+      //     setOpenEmailSuccessMessage(true);
+      //   }
+      // } catch (error) {
+      //   return { error: error.message };
+      // }
+    } else {
+      //sending email
+      let entityId;
+
+      if (savedChanges) {
+        entityId = savedChanges.entity_id;
+        //Saving changes to the helix backend
+        handleClickSave("summaryDialog");
+      }
+
+      let changesForApproval = { finalChanges: rows, entityId };
+      try {
+        let result = await entities.post(
+          `entitysummary/email`,
+          changesForApproval
+        );
+        if (result) {
+          setOpenEmailSuccessMessage(true);
+        }
+      } catch (error) {
+        return { error: error.message };
+      }
     }
   };
-
 
   return (
     <Dialog
@@ -81,7 +107,7 @@ function EntitySummaryDialog(props) {
       aria-labelledby="form-dialog-title"
       maxWidth={"lg"}
     >
-        <Collapse in={openEmailSuccessMessage} className={classes.successAlert}>
+      <Collapse in={openEmailSuccessMessage} className={classes.successAlert}>
         <Alert
           action={
             <IconButton
@@ -90,7 +116,7 @@ function EntitySummaryDialog(props) {
               size="small"
               onClick={() => {
                 setOpenEmailSuccessMessage(false);
-                window.location.reload()
+                window.location.reload();
               }}
             >
               <CloseIcon fontSize="inherit" />
@@ -121,15 +147,13 @@ function EntitySummaryDialog(props) {
           onChange={handleSelectApprover}
         >
           <MenuItem value="lebronJames">Lebron James</MenuItem>
-          <MenuItem value="tylerHerro">Tyler Herro</MenuItem>
+          <MenuItem value="nikolaJokic">Nikola Jokic</MenuItem>
+          <MenuItem value="markelleFultz">Markelle Fultz</MenuItem>
           <MenuItem value="anthonyDavis">Anthony Davis</MenuItem>
         </Select>
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={handleSendApproverEmail}
-          color="primary"
-        >
+        <Button onClick={handleSendApproverEmail} color="primary">
           Send
         </Button>
         <Button onClick={handleCloseSummaryDialog} color="primary">

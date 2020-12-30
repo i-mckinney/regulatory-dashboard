@@ -22,7 +22,7 @@ import SelectTableHead from "./SelectTableComponents/SelectTableHead";
 import SelectTableToolBar from "./SelectTableComponents/SelectTableToolBar";
 import EntitySummaryDialog from "./SummaryDialog";
 import { getComparator, stableSort } from "./HelperFunctions";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 
 const useSelectTableStyles = makeStyles((theme) => ({
   selectTableRoot: {
@@ -88,10 +88,13 @@ const useSelectTableStyles = makeStyles((theme) => ({
  * @return Select table used in entity summary page (Can delete rows and save changes)
  *
  */
-function EntitySelectTable(props) {
+function SummarySelectTable(props) {
+  //To indicate where the table is being used
+  const summaryType = props.summaryType;
+
   //used for styling entity select table
   const classes = useSelectTableStyles();
-  const [openSaveSuccess, setOpenSaveSuccess] = useState(false)
+  const [openSaveSuccess, setOpenSaveSuccess] = useState(false);
   //State to determine whether modal that contains static receipt of all the propsed changes is open or not
   const [openSummaryDialog, setOpenSummaryDialog] = useState(false);
 
@@ -181,7 +184,6 @@ function EntitySelectTable(props) {
 
   //api request to save changes
   const handleClickSave = async (location) => {
-
     let finalChanges = { ...savedChanges };
     if (deletedCells.length > 0) {
       for (let i = 0; i < deletedCells.length; i++) {
@@ -192,13 +194,24 @@ function EntitySelectTable(props) {
     }
 
     try {
-      let result = await entities.put(
-        `discrepancies/${props.location.state.company_id}/report/${props.location.state._id}/summary`,
-        finalChanges
-      );
-      if (result.data.status ===200) {
-        if (location !=="summaryDialog"){
-          setOpenSaveSuccess(true)
+      if (summaryType === "loan") {
+        let result = await entities.put(
+          `loandiscrepancies/${props.location.state.companyId}/report/${props.location.state.loanId}/summary`
+        );
+        if (result.data.status === 200) {
+          if (location !== "summaryDialog") {
+            setOpenSaveSuccess(true);
+          }
+        }
+      } else {
+        let result = await entities.put(
+          `discrepancies/${props.location.state.company_id}/report/${props.location.state._id}/summary`,
+          finalChanges
+        );
+        if (result.data.status === 200) {
+          if (location !== "summaryDialog") {
+            setOpenSaveSuccess(true);
+          }
         }
       }
     } catch (error) {
@@ -259,43 +272,53 @@ function EntitySelectTable(props) {
   const fetchSavedChanges = async () => {
     if (props.location.state) {
       try {
-        let result = await entities.get(
-          `discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`
-        );
+        let result;
+
+        if (summaryType === "loan") {
+          result = await entities.get(
+            `loandiscrepancies/${props.location.state.companyId}/report/${props.location.state.loanId}`
+          );
+        } else {
+          result = await entities.get(
+            `discrepancies/${props.location.state.company_id}/report/${props.location.state._id}`
+          );
+        }
 
         if (result) {
-          setSavedChanges(result.data);
+          if (result.data) {
+            setSavedChanges(result.data);
 
-          let proposedChanges = Object.values(result.data.savedChanges);
-          let listOfExternallCallIds = Object.keys(result.data.savedChanges);
+            let proposedChanges = Object.values(result.data.savedChanges);
+            let listOfExternallCallIds = Object.keys(result.data.savedChanges);
 
-          let finalRows = [];
-          let entryNumber = 0;
+            let finalRows = [];
+            let entryNumber = 0;
 
-          for (let i = 0; i < proposedChanges.length; i++) {
-            let externalCallId = listOfExternallCallIds[i];
+            for (let i = 0; i < proposedChanges.length; i++) {
+              let externalCallId = listOfExternallCallIds[i];
 
-            /**
-             * ex) proposedChanges -> is [{masterId: {currentValue, ExternalSource}}, {mailingState: {currentValue, ExternalSource}}]
-             */
-            let listOfFieldNames = Object.keys(proposedChanges[i]);
+              /**
+               * ex) proposedChanges -> is [{masterId: {currentValue, ExternalSource}}, {mailingState: {currentValue, ExternalSource}}]
+               */
+              let listOfFieldNames = Object.keys(proposedChanges[i]);
 
-            for (let index = 0; index < listOfFieldNames.length; index++) {
-              let fieldName = listOfFieldNames[index];
+              for (let index = 0; index < listOfFieldNames.length; index++) {
+                let fieldName = listOfFieldNames[index];
 
-              let cellValue = proposedChanges[i][fieldName];
-              let finalCellValue = { ...cellValue };
+                let cellValue = proposedChanges[i][fieldName];
+                let finalCellValue = { ...cellValue };
 
-              finalCellValue.fieldName = fieldName;
-              finalCellValue.entryNumber = entryNumber;
-              finalCellValue.externalCallId = externalCallId;
+                finalCellValue.fieldName = fieldName;
+                finalCellValue.entryNumber = entryNumber;
+                finalCellValue.externalCallId = externalCallId;
 
-              entryNumber++;
-              finalRows.push(finalCellValue);
+                entryNumber++;
+                finalRows.push(finalCellValue);
+              }
             }
-          }
 
-          setRows(finalRows);
+            setRows(finalRows);
+          }
         }
       } catch (error) {
         setErrorMessage(error.message);
@@ -319,24 +342,24 @@ function EntitySelectTable(props) {
   return (
     <div className={classes.selectTableRoot}>
       <Collapse in={openSaveSuccess} className={classes.successAlert}>
-          <Alert
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setOpenSaveSuccess(false);
-                  window.location.reload();
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-          >
-            Current Changes have been successfully saved.
-          </Alert>
-        </Collapse>
+        <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setOpenSaveSuccess(false);
+                window.location.reload();
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          Current Changes have been successfully saved.
+        </Alert>
+      </Collapse>
       <Paper className={classes.selectTablePaper}>
         <SelectTableToolBar
           numSelected={selected.length}
@@ -344,6 +367,7 @@ function EntitySelectTable(props) {
           selected={selected}
           rows={rows}
           setRows={setRows}
+          summaryType={summaryType}
         />
         <TableContainer>
           <Table
@@ -453,7 +477,7 @@ function EntitySelectTable(props) {
           Save
         </Button>
         <Button
-          href="/entity"
+          href={summaryType === "loan" ? "/loan" : "/entity"}
           className={classes.confirmationCancelButton}
           variant="contained"
           color="secondary"
@@ -464,6 +488,7 @@ function EntitySelectTable(props) {
       <EntitySummaryDialog
         classes={classes}
         rows={rows}
+        summaryType={summaryType}
         openSummaryDialog={openSummaryDialog}
         handleCloseSummaryDialog={handleCloseSummaryDialog}
         savedChanges={savedChanges}
@@ -473,4 +498,4 @@ function EntitySelectTable(props) {
   );
 }
 
-export default withRouter(EntitySelectTable);
+export default withRouter(SummarySelectTable);
