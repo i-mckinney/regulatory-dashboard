@@ -103,12 +103,12 @@ function Loan(props) {
    * @param {string} id row id to be deleted
    * Closes dialog box and updates row data
    */
-  const handleDelete = async (loanID) => {
+  const handleDelete = async (loanId) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     })
-    const reqBody = { loanId: loanID, onDashboard: false }
+    const reqBody = { loanId: loanId, onDashboard: false }
     await entities.patch(`/loans/5f7e1bb2ab26a664b6e950c8`, reqBody)
 
     setNotification({
@@ -183,7 +183,7 @@ function Loan(props) {
       cancelText: 'Cancel',
       confirmText: 'Yes',
       onConfirm: () => {
-        handleDelete(row.loanID)
+        handleDelete(row.loanId)
       },
     })
   }
