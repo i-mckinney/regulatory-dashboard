@@ -14,6 +14,6 @@ export {default as ConfirmDialogModal} from "./components/ConfirmDialogModal"
 export {default as HelixTableGeneric} from "./components/Table/TableGeneric/HelixTableGeneric"
 export {default as HelixVericalTab} from "./components/HelixVerticalTab"
 export {default as HelixTabPanel} from "./components/HelixTabPanel"
+export { default as HelixPageHeader } from "./components/HelixPageHeader"
 export {default as dark} from "./themes/dark";
 export {default as tropical} from "./themes/testTheme"
-
