@@ -254,10 +254,13 @@ var HelixTable = function HelixTable(_ref) {
   }, /*#__PURE__*/_react["default"].createElement(_core.Table, {
     "aria-label": "table"
   }, /*#__PURE__*/_react["default"].createElement(_index["default"], {
+    toggleExpandable: toggleExpandable,
     onSort: onSort,
     columns: columns,
     customHeadColumnKeyProp: customHeadColumnKeyProp
   }), /*#__PURE__*/_react["default"].createElement(_index2["default"], {
+    toggleExpandable: toggleExpandable,
+    customCollapsibleRowRender: customCollapsibleRowRender,
     searchFilter: searchFilter,
     getComparator: _index5.getComparator,
     stableSort: _index5.stableSort,

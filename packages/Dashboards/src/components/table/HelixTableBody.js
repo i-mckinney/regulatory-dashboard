@@ -15,6 +15,8 @@ import PropTypes from "prop-types"
  * @param {func} stableSort func that uses getComparator to sort it in order
  * @param {object} searchFilter object that contains a function for filtering search query
  * @param {bool} toggleSearch bool represents true or false if table should have a search function
+ * @param {bool} toggleExpandable bool represents true or false if table should have a expandable rows
+ * @param {func} customCollapsibleRowRender func represent custom func that return jsx of expandable table row
  * @returns {JSX} renders a custom table body for table
  */
 const HelixTableBody = ({ columns, rows, rowsPerPage, page, customCellRender, customBodyRowKeyProp, order, orderBy, getComparator, stableSort, searchFilter, toggleSearch, toggleExpandable, customCollapsibleRowRender }) => {
