@@ -24,7 +24,7 @@ export default {
  * 
  */
 
- const reportTabs = ["Table #1",  "Table #2", "Table #3"]
+ const reportTabs = ["Tab #1",  "Tab #2", "Tab #3"]
   
 const panelReports = ["Normalization Sin(x)", "Normalization Tan(x)", "Normalization Cos(x)"]
 
