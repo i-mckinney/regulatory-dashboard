@@ -15,8 +15,8 @@ import {
 import { Alert} from "@material-ui/lab";
 import CloseIcon from '@material-ui/icons/Close';
 import { withRouter } from "react-router-dom";
-import entities from "../../apis/entities";
-import EntityReceiptTable from "./EntityReceiptTable";
+import entities from "../apis/entities";
+import EntityReceiptTable from "./ReceiptTable";
 
 /**
  *

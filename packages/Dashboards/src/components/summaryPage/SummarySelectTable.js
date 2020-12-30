@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import entities from "../../apis/entities";
+import entities from "../apis/entities";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -20,7 +20,7 @@ import {
 import { Alert } from "@material-ui/lab";
 import SelectTableHead from "./SelectTableComponents/SelectTableHead";
 import SelectTableToolBar from "./SelectTableComponents/SelectTableToolBar";
-import EntitySummaryDialog from "./EntitySummaryDialog";
+import EntitySummaryDialog from "./SummaryDialog";
 import { getComparator, stableSort } from "./HelperFunctions";
 import CloseIcon from '@material-ui/icons/Close';
 

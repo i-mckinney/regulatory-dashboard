@@ -158,6 +158,7 @@ const App = () => {
               <Route exact path="/loan" component={Dashboard} />
               <Route exact path="/loan/configuration/:loanId" component={Dashboard} />
               <Route exact path="/loan/new/selectentity" component={Dashboard} />
+              <Route exact path="/loan/:id/discrepancy-report/summary" component={Dashboard} />
               <Route exact path="/loan/new/selectloan" component={Dashboard} />
               <Route exact path="/reporttemplates" component={Dashboard} />
               <Route exact path="/myrequest" component={Dashboard} />
