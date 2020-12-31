@@ -158,5 +158,4 @@ SampleHelixTable.args = {
     customCellRender: customCellRender,
     customHeadColumnKeyProp: customHeadColumnKeyProp,
     customBodyRowKeyProp: customBodyRowKeyProp,
-    customCollapsibleRowRender: () => null,
 }
