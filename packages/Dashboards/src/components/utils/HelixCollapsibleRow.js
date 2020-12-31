@@ -3,41 +3,51 @@ import PropTypes from 'prop-types'
 import { makeStyles, Box, Collapse, Table, TableHead, TableRow, TableBody, TableCell, IconButton } from '@material-ui/core'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import GenericSummaryTable from '../report/GenericSummaryTable'
 
+// Styling used for MaterialUI
 const HelixCollapsibleRowStyles = makeStyles({
-    root: {
-      '& > *': {
-        borderBottom: 'unset',
-      },
+  root: {
+    '& > *': {
+      borderBottom: 'unset',
     },
-    actionsIconStyle: {
-        '& button': {
-            marginRight: '1rem',
-            cursor: 'pointer',
-        },
+  },
+  actionsIconStyle: {
+    '& button': {
+        marginRight: '1rem',
+        cursor: 'pointer',
     },
-    discrepancyButton: {
-        color: 'green'
-    },
-    summaryReceiptRoot: {
-      width: "100%",
-    },
-    summaryReceiptContainer: {
-        maxHeight: 440,
-    },
-    rowInnerTable: {
+  },
+  discrepancyButton: {
+    color: 'green'
+  },
+  summaryReceiptRoot: {
+    width: "100%",
+  },
+  summaryReceiptContainer: {
+    maxHeight: 440,
+  },
+  rowInnerTable: {
+    backgroundColor: 'white!important',
+  },
+  innerTable: {
+    width: '90%!important',
+    margin: 'auto',
+    '& tr': {
+      border: 'none',
       backgroundColor: 'white!important',
     },
-    innerTable: {
-      width: '90%!important',
-      margin: 'auto',
-      '& tr': {
-        border: 'none',
-        backgroundColor: 'white!important',
-      },
+  },
+  innerTableHead: {
+    '& th': {
+      backgroundColor: 'white!important',
+      color: 'black!important',
+      margin: '0',
+      borderBottom: 'solid 1px #e0e4e8',
+      padding: '8px',
     },
-    innerTableHead: {
+  },
+  innerContainer: {
+    '& table': {
       '& th': {
         backgroundColor: 'white!important',
         color: 'black!important',
@@ -45,22 +55,12 @@ const HelixCollapsibleRowStyles = makeStyles({
         borderBottom: 'solid 1px #e0e4e8',
         padding: '8px',
       },
-    },
-    innerContainer: {
-      '& table': {
-        '& th': {
-          backgroundColor: 'white!important',
-          color: 'black!important',
-          margin: '0',
-          borderBottom: 'solid 1px #e0e4e8',
-          padding: '8px',
-        },
-        '& tr': {
-          border: 'none',
-          backgroundColor: 'white!important',
-        },
-      }
+      '& tr': {
+        border: 'none',
+        backgroundColor: 'white!important',
+      },
     }
+  }
 })
 
 /**
@@ -75,8 +75,9 @@ function HelixCollapsibleRow(props) {
    * innerTableBodyRows (array) contains list of string or list of objects of data
    * customCellRender (func) returns a jsx of HelixTableCell
    * isSummaryTableAllow (bool) represents whether this collapsible row will contains additional summary table
+   * renderSummaryTable (func) return a jsx of SummaryTable component
    */
-  const { row, rowIndex, columns, innerTableHeadColumns, innerTableBodyRows, customCellRender, isSummaryTableAllow } = props;
+  const { row, rowIndex, columns, innerTableHeadColumns, innerTableBodyRows, customCellRender, isSummaryTableAllow, renderSummaryTable } = props;
   
   // open is boolean variable that keep track of whether to show additional data regarding that row.
   const [open, setOpen] = useState(false)
@@ -103,7 +104,7 @@ function HelixCollapsibleRow(props) {
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box margin={1} className={helixCollapsibleRowclasses.innerContainer}>
                 {isSummaryTableAllow ?
-                <GenericSummaryTable rows={innerTableBodyRows} columns={innerTableHeadColumns} classes={helixCollapsibleRowclasses} />
+                renderSummaryTable(innerTableBodyRows, innerTableHeadColumns, helixCollapsibleRowclasses)
                 :
                 <Table className={helixCollapsibleRowclasses.innerTable}>
                   <TableHead className={helixCollapsibleRowclasses.innerTableHead}>
@@ -138,10 +139,12 @@ HelixCollapsibleRow.propTypes = {
   innerTableBodyRows: PropTypes.instanceOf(Array).isRequired, 
   customCellRender: PropTypes.func.isRequired,
   isSummaryTableAllow: PropTypes.bool.isRequired,
+  renderSummaryTable: PropTypes.func.isRequired,
 }
 
 HelixCollapsibleRow.defaultProps = {
-  isSummaryTableAllow: false
+  isSummaryTableAllow: false,
+  renderSummaryTable: () => null
 }
 
 export default HelixCollapsibleRow
