@@ -55,7 +55,7 @@ function SelectTableToolBar(props) {
           id="tableTitle"
           component="div"
         >
-          <strong>Discrepancy Table Summary</strong>
+          <strong>{ props.summaryType === "loan"? "Loan Discrepancy Table Summary":"Entity Discrepancy Table Summary"}</strong>
         </Typography>
       )}
 

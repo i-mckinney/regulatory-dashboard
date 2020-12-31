@@ -45,7 +45,11 @@ const loanCreateStyles = makeStyles((theme) => ({
   },
 }));
 
-//Fisrt Select Table for creating a new loan (choosing Entity)
+/**
+ * @param {object} props object that contains withRouter object (such as history, location, state)
+ * @return {jsx}  Select Table for creating a new loan (first step: choosing an entity)
+ * */
+
 function LoanCreateSelectEntity(props) {
   const entitySelectionTableStyles = loanCreateStyles();
 

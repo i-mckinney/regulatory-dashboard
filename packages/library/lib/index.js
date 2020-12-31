@@ -99,6 +99,12 @@ Object.defineProperty(exports, "HelixTabPanel", {
     return _HelixTabPanel["default"];
   }
 });
+Object.defineProperty(exports, "HelixPageHeader", {
+  enumerable: true,
+  get: function get() {
+    return _HelixPageHeader["default"];
+  }
+});
 Object.defineProperty(exports, "dark", {
   enumerable: true,
   get: function get() {
@@ -143,6 +149,8 @@ var _HelixTableGeneric = _interopRequireDefault(require("./components/Table/Tabl
 var _HelixVerticalTab = _interopRequireDefault(require("./components/HelixVerticalTab"));
 
 var _HelixTabPanel = _interopRequireDefault(require("./components/HelixTabPanel"));
+
+var _HelixPageHeader = _interopRequireDefault(require("./components/HelixPageHeader"));
 
 var _dark = _interopRequireDefault(require("./themes/dark"));
 

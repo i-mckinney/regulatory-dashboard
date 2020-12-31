@@ -47,7 +47,11 @@ const selectLoanStyles = makeStyles((theme) => ({
   },
 }));
 
-//Loan selection table for creating a loan in the loan dashboard (shows a list of loans asscoiated with the entity chosen previous step)
+/**
+ * @param {object} props object that contains withRouter object (such as history, location, state)
+ * @return {jsx}  Select Table for creating a new loan (second step: choosing a loan)
+ * */
+
 function LoanCreateSelectEntity(props) {
   const loanSelectionTableStyles = selectLoanStyles();
 
@@ -81,6 +85,7 @@ function LoanCreateSelectEntity(props) {
 
   //function to render rows in Helix select table
   const customRow = (row, labelId) => {
+    let formattedDate = new Date(row.maturityDate)
     return (
       <>
         <TableCell component="th" id={labelId} scope="row" padding="none">
@@ -89,7 +94,7 @@ function LoanCreateSelectEntity(props) {
         <TableCell align="left">{row.primaryBorrowerName}</TableCell>
         <TableCell align="left">{row.loanType}</TableCell>
         <TableCell align="left">{row.commitmentAmount}</TableCell>
-        <TableCell align="left">{row.maturityDate}</TableCell>
+        <TableCell align="left">{formattedDate.toLocaleString()}</TableCell>
       </>
     );
   };
@@ -136,9 +141,9 @@ function LoanCreateSelectEntity(props) {
 
     let row = rows[selected];
 
-    let loanId = row.loanID;
+    let loanId = row.loanId;
     let reqBody = {
-      loanId: loanId,
+      loanId,
       onDashboard: true,
     };
 

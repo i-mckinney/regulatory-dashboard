@@ -34,9 +34,10 @@ router.get(
       );
 
       const proposedChanges = await savedChangesCollection.findOne({
-        $and: [{ companyId: ObjectId(companyId) }, { loanId }],
+        $and: [{ company_id: ObjectId(companyId) }, { loanId }],
       });
 
+      console.log(proposedChanges)
       /** resultWithMapping : would be the final output after aggregating/mapping all the data from multiple external sources  */
       let resultWithMapping = [];
 
@@ -191,6 +192,59 @@ router.post("/:companyId/report/:loanid", async (req, res) => {
     res.json(changesJustAdded);
   } catch (err) {
     res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
+  }
+});
+
+
+// Get the changes that were made for an loan (For development purposes)
+router.get("/:companyId/report/:loanId", async (req, res) => {
+  try {
+    /**
+     * loanId : used to identify the loan that user has created
+     */
+    const loanId = req.params.loanId;
+
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
+
+    let discrepancyReportChanges = await reportCollection.findOne({
+      loanId: loanId,
+    });
+
+    res.json(discrepancyReportChanges);
+  } catch (err) {
+    res.json({ ErrorStatus: err.status, ErrorMessage: err.message });
+  }
+});
+
+
+//Route for updating discrepancy report changes in discrepancy report summary page.
+router.put("/:companyId/report/:loanId/summary", async (req, res) => {
+  try {
+    /**
+     * companyId : used to identify which company this report belongs to
+     * loanId : used to identify the entity that user has created
+     */
+    const loanId = req.params.loanId;
+
+    const newChanges = req.body.savedChanges;
+
+    const reportCollection = await DbConnection.getCollection(
+      "DiscrepanciesReport"
+    );
+
+    let updatedChanges = await reportCollection.updateOne(
+      { loanId },
+      { $set: { savedChanges: newChanges } }
+    );
+
+    res.json({
+      status: 200,
+      message: "Changes have been successfully updated!",
+    });
+  } catch (error) {
+    res.json({ Error: error.message });
   }
 });
 

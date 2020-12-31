@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import SettingsIcon from '@material-ui/icons/Settings'
+import ContactMail from "@material-ui/icons/ContactMail"
 import IconButton from '@material-ui/core/IconButton'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -371,6 +372,20 @@ function Loan(props) {
           color="secondary"
         >
           <DeleteIcon />
+        </IconButton>
+        <IconButton
+          aria-label="edit"
+          size="small"
+          edge="start"
+          onClick={() =>
+            props.history.push({
+              pathname: `/loan/${row._id}/discrepancy-report/summary`,
+              state: row,
+            })
+          }
+          color="default"
+        >
+          <ContactMail />
         </IconButton>
       </span>
     )

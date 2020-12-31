@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/email", async (req, res) => {
   let finalChanges = req.body.finalChanges || [];
   let rows = "";
-  let entityId = req.body.entityId || "";
+  let loanId = req.body.loanId || "";
 
   if (finalChanges.length > 0) {
     for (let i = 0; i < finalChanges.length; i++) {
@@ -54,10 +54,10 @@ router.post("/email", async (req, res) => {
       <img src=${headerEmail} alt="headerEmail" style="width:100%;height:100%;border:0">
       </a>
       <h1 style="color:black"> 
-        Pending: Entity Discrepancy Report Summary 
+        Pending: Loan Discrepancy Report Summary 
       </h1>
       <h3 style="color:black">
-      Entity ${entityId} 
+      Loan ${loanId} 
       </h3>
       <div  style="width:100%;height:30px;border:0; visibility:hidden"></div>
       <p>
@@ -113,7 +113,7 @@ router.post("/email", async (req, res) => {
     const msg = {
       to: "helixdemoproduct@gmail.com",
       from: "eric.jho@helixcp.com",
-      subject: "Pending: Entity Discrepancy Report Summary",
+      subject: "Pending: Loan Discrepancy Report Summary",
       content: [{ type: "text/html", value: htmlFile }],
     };
 

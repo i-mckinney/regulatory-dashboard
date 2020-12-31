@@ -2,7 +2,7 @@ import React from "react"
 import { BrowserRouter, Switch, Route, Redirect  } from "react-router-dom"
 import Entity from "./components/entity/Entity"
 import EntityDiscrepancy from "./components/entity/EntityDiscrepancy"
-import EntitySelectTable from "./components/entity/entitySummary/EntitySelectTable"
+import SummarySelectTable from "./components/summaryPage/SummarySelectTable"
 import Loan from "./components/loan/Loan"
 import LoanCreateSelectEntity from "./components/loan/LoanCreateSelectEntity"
 import LoanCreateSelectLoan from "./components/loan/LoanCreateSelectLoan"
@@ -17,7 +17,7 @@ import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportTemplatePage from './components/report-template/ReportTemplatePage'
 import ReportTemplateCreate from './components/report-template/ReportTemplateCreate'
-import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
+import ViewReportDemo from './components/generateReport/ViewReportDemo.js'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
 import {
@@ -68,11 +68,15 @@ function App(history) {
             </Route>
 
             <Route exact path="/entity/:id/discrepancy-report/summary" >
-              <EntitySelectTable />
+              <SummarySelectTable summaryType={"entitiy"} />
             </Route>
 
             <Route exact path="/loan">
               <Loan />
+            </Route>
+
+            <Route exact path="/loan/:id/discrepancy-report/summary">
+              <SummarySelectTable summaryType={"loan"} />
             </Route>
 
             <Route exact path="/loan/new/selectentity" >
@@ -115,8 +119,8 @@ function App(history) {
               <GenerateReport />
             </Route>
 
-            <Route exact path="/selecttable">
-              <HelixSelectTableSetUp />
+            <Route exact path="/viewReportDemo">
+              <ViewReportDemo />
             </Route>
 
             <Redirect to="/" />
