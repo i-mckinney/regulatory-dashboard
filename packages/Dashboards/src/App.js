@@ -17,7 +17,7 @@ import EntityDelete from "./components/entity/EntityDelete"
 import Report from './components/report/Report'
 import ReportTemplatePage from './components/report-template/ReportTemplatePage'
 import ReportTemplateCreate from './components/report-template/ReportTemplateCreate'
-import HelixSelectTableSetUp from './components/HelixSelectTable/HelixSelectTableSetUp'
+import ViewReportDemo from './components/generateReport/ViewReportDemo.js'
 import Breadcrumbs from  "./components/utils/Breadcrumbs"
 import HelixTableKeysRight from  "./components/utils/helix-table-keys/HelixTableKeysRight"
 import {
@@ -119,8 +119,8 @@ function App(history) {
               <GenerateReport />
             </Route>
 
-            <Route exact path="/selecttable">
-              <HelixSelectTableSetUp />
+            <Route exact path="/viewReportDemo">
+              <ViewReportDemo />
             </Route>
 
             <Redirect to="/" />

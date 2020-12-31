@@ -34,9 +34,10 @@ router.get(
       );
 
       const proposedChanges = await savedChangesCollection.findOne({
-        $and: [{ companyId: ObjectId(companyId) }, { loanId }],
+        $and: [{ company_id: ObjectId(companyId) }, { loanId }],
       });
 
+      console.log(proposedChanges)
       /** resultWithMapping : would be the final output after aggregating/mapping all the data from multiple external sources  */
       let resultWithMapping = [];
 
@@ -232,13 +233,12 @@ router.put("/:companyId/report/:loanId/summary", async (req, res) => {
     const reportCollection = await DbConnection.getCollection(
       "DiscrepanciesReport"
     );
-console.log(newChanges)
-console.log(loanId)
-    // let updatedChanges = await reportCollection.updateOne(
-    //   { loanId },
-    //   { $set: { savedChanges: newChanges } }
-    // );
-console.log( "Here")
+
+    let updatedChanges = await reportCollection.updateOne(
+      { loanId },
+      { $set: { savedChanges: newChanges } }
+    );
+
     res.json({
       status: 200,
       message: "Changes have been successfully updated!",

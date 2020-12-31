@@ -158,8 +158,8 @@ const App = () => {
               <Route exact path="/loan" component={Dashboard} />
               <Route exact path="/loan/configuration/:loanId" component={Dashboard} />
               <Route exact path="/loan/new/selectentity" component={Dashboard} />
-              <Route exact path="/loan/:id/discrepancy-report/summary" component={Dashboard} />
               <Route exact path="/loan/new/selectloan" component={Dashboard} />
+              <Route exact path="/loan/:id/discrepancy-report/summary" component={Dashboard} />
               <Route exact path="/reporttemplates" component={Dashboard} />
               <Route exact path="/myrequest" component={Dashboard} />
               <Route exact path="/users" component={User} />
@@ -169,7 +169,7 @@ const App = () => {
               <Route exact path="/api-table" component={CompanyView} />
               <Route exact path="/api-table/global-table-key" component={CompanyView} />
               <Route exact path="/global-table-key" component={Dashboard} />
-              <Route exact path="/selecttable"  component={Dashboard}/>
+              <Route exact path="/viewReportDemo"  component={Dashboard}/>
             </Switch>
           </main>
         </div>

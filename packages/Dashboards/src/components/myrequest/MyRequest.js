@@ -7,11 +7,11 @@ import { HelixTable, HelixTableCell, HelixButton } from "helixmonorepo-lib";
 import { sortableExcludes, columnExcludes, columnLabels } from "./config";
 import mockData from "./MockRequestData";
 import ConfirmDialog from "../utils/ConfirmDialog";
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import IconButton from "@material-ui/core/IconButton";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Notification from "../utils/Notification";
+import DownloadReport from "./DownloadReport"
 
 // Styling used for MaterialUI
 const requestTableStyles = makeStyles(() => ({
@@ -44,7 +44,7 @@ const requestTableStyles = makeStyles(() => ({
  * @return {JSX} MyRequest site show list of Requests
  * routed at /myrequest
  */
-const MyRequest = () => {
+const MyRequest = (props) => {
   //Set state of notification in response to a button action
   const [notification, setNotification] = useState({
     isOpen: false,
@@ -120,6 +120,9 @@ const MyRequest = () => {
     });
   };
 
+  const handleDemoReport = () =>{
+    props.history.push("/viewReportDemo")
+  }
   /**
    * @param {object} row the row is an object of data
    * @param {object} column the column is an object of the header with accessor and label props
@@ -136,17 +139,11 @@ const MyRequest = () => {
           aria-label="discrepancy"
           size="small"
           edge="start"
+          onClick={handleDemoReport}
         >
           <AssessmentIcon />
         </IconButton>
-        <IconButton
-          aria-label="discrepancy"
-          size="small"
-          edge="start"
-          color="primary"
-        >
-          <CloudDownloadIcon />
-        </IconButton>
+        <DownloadReport/>
         <IconButton
           aria-label="delete"
           size="small"

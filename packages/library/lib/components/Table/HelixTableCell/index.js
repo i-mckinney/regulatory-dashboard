@@ -161,7 +161,8 @@ var HelixTableCell = function HelixTableCell(_ref) {
       saveRadioData = _ref.saveRadioData,
       source = _ref.source,
       sourceTrueValue = _ref.sourceTrueValue,
-      externalValues = _ref.externalValues;
+      externalValues = _ref.externalValues,
+      isBold = _ref.isBold;
 
   /**
    * 1) value will be data from props you get from Cell object property
@@ -243,7 +244,7 @@ var HelixTableCell = function HelixTableCell(_ref) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       onClick: handleDivChange,
       className: initialState()
-    }, initialStateValue);
+    }, isBold ? /*#__PURE__*/_react["default"].createElement("b", null, initialStateValue) : initialStateValue);
   }; // Display the external value that exist in that source system
 
 
@@ -388,7 +389,8 @@ HelixTableCell.propTypes = {
   saveRadioData: _propTypes["default"].func.isRequired,
   source: _propTypes["default"].string.isRequired,
   sourceTrueValue: _propTypes["default"].string.isRequired,
-  externalValues: _propTypes["default"].instanceOf(Array).isRequired
+  externalValues: _propTypes["default"].instanceOf(Array).isRequired,
+  isBold: _propTypes["default"].bool.isRequired
 };
 HelixTableCell.defaultProps = {
   value: "",
@@ -408,7 +410,8 @@ HelixTableCell.defaultProps = {
   },
   source: "",
   sourceTrueValue: "",
-  externalValues: []
+  externalValues: [],
+  isBold: false
 };
 var _default = HelixTableCell;
 exports["default"] = _default;

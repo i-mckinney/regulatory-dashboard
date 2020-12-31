@@ -185,6 +185,7 @@ function SummarySelectTable(props) {
   //api request to save changes
   const handleClickSave = async (location) => {
     let finalChanges = { ...savedChanges };
+
     if (deletedCells.length > 0) {
       for (let i = 0; i < deletedCells.length; i++) {
         let keyId = deletedCells[i].externalCallId;
@@ -192,12 +193,15 @@ function SummarySelectTable(props) {
         delete finalChanges["savedChanges"][keyId][fieldName];
       }
     }
-
+    
     try {
       if (summaryType === "loan") {
+
         let result = await entities.put(
-          `loandiscrepancies/${props.location.state.companyId}/report/${props.location.state.loanId}/summary`
+          `loandiscrepancies/${props.location.state.companyId}/report/${props.location.state.loanId}/summary`,
+          finalChanges
         );
+
         if (result.data.status === 200) {
           if (location !== "summaryDialog") {
             setOpenSaveSuccess(true);

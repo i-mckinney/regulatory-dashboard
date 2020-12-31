@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/email", async (req, res) => {
   let finalChanges = req.body.finalChanges || [];
   let rows = "";
-  let entityId = req.body.entityId || "";
+  let loanId = req.body.loanId || "";
 
   if (finalChanges.length > 0) {
     for (let i = 0; i < finalChanges.length; i++) {
@@ -57,7 +57,7 @@ router.post("/email", async (req, res) => {
         Pending: Loan Discrepancy Report Summary 
       </h1>
       <h3 style="color:black">
-      Entity ${entityId} 
+      Loan ${loanId} 
       </h3>
       <div  style="width:100%;height:30px;border:0; visibility:hidden"></div>
       <p>

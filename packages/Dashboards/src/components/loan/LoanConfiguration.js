@@ -118,6 +118,7 @@ const LoanConfiguration = (props) => {
      */
     const fetchLoansConfiguration = async () => {
       const response = await entities.get(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanId}`)
+      console.log(response)
       response.data.forEach((row) => {
         tempRows.push(row)
       })
@@ -179,6 +180,7 @@ const LoanConfiguration = (props) => {
    * handleSaveLoanConfiguration saves list of selected custom api in the configuration table
    */
   const handleSaveLoanConfiguration = async () => {
+    console.log(props.location.state.loanId)
     const config = { loanConfiguration: [], loanId: props.location.state.loanId }
     rows.forEach((row) => config.loanConfiguration.push(row._id))
     await entities.post(`/loanConfig/5f7e1bb2ab26a664b6e950c8/${props.location.state.loanId}`, config)

@@ -48,7 +48,7 @@ function EntitySummaryDialog(props) {
   const handleSelectApprover = (event) => {
     setSelectedApprover(event.target.value);
   };
-console.log(savedChanges)
+  console.log(savedChanges);
   //handle sending an email of static receipt to a selected approver
   const handleSendApproverEmail = async (event) => {
     if (summaryType === "loan") {
@@ -59,22 +59,22 @@ console.log(savedChanges)
         loanId = savedChanges.loanId;
         //Saving changes to the helix backend
 
-        console.log(loanId)
+        console.log(loanId);
         handleClickSave("summaryDialog");
       }
 
-      // let changesForApproval = { finalChanges: rows, loanId };
-      // try {
-      //   let result = await entities.post(
-      //     `loansummary/email`,
-      //     changesForApproval
-      //   );
-      //   if (result) {
-      //     setOpenEmailSuccessMessage(true);
-      //   }
-      // } catch (error) {
-      //   return { error: error.message };
-      // }
+      let changesForApproval = { finalChanges: rows, loanId };
+      try {
+        let result = await entities.post(
+          `loansummary/email`,
+          changesForApproval
+        );
+        if (result) {
+          setOpenEmailSuccessMessage(true);
+        }
+      } catch (error) {
+        return { error: error.message };
+      }
     } else {
       //sending email
       let entityId;
