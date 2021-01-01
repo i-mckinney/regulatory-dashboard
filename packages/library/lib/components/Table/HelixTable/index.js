@@ -289,6 +289,9 @@ HelixTable.defaultProps = {
   toggleExpandable: false,
   displayCreateIcon: function displayCreateIcon() {
     return null;
+  },
+  customCollapsibleRowRender: function customCollapsibleRowRender() {
+    return null;
   }
 };
 var _default = HelixTable;

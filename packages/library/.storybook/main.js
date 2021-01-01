@@ -6,5 +6,9 @@ module.exports = {
     "@storybook/addon-knobs/register",
     "@storybook/addon-controls",
     "@storybook/addon-jest",
+    {
+      name: '@storybook/addon-docs',
+      options: { configureJSX: true }
+   }
   ],
 };
