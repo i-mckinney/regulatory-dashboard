@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getByText, render, findByText, screen } from "@testing-library/react";
+import { getByText, render, fireEvent, findByText, screen } from "@testing-library/react";
 import HelixTextField from "./index";
 import "@testing-library/jest-dom/extend-expect";
 
@@ -39,9 +39,15 @@ it("is empty value", async () => {
   expect(screen.getByDisplayValue(""));
 });
 
-it("should allot letters to be inputted", async () => {
+it("should alot letters to be inputted", async () => {
     
 });
+
+test('It should keep a $ in front of the input', () => {
+  const { input } = setup()
+  fireEvent.change(input, { target: { value: '23' } })
+  expect(input.value).toBe('$23')
+})
 
 // it("passes in button text", async () => {
 //   const text = "Test Button Text";
