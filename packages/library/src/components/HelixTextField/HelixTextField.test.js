@@ -43,10 +43,16 @@ it("should alot letters to be inputted", async () => {
     
 });
 
-test('It should keep a $ in front of the input', () => {
+it('should keep a $ in front of the input', () => {
   const { input } = setup()
   fireEvent.change(input, { target: { value: '23' } })
   expect(input.value).toBe('$23')
+})
+
+it('should allow a $ to be in the input when the value is changed', () => {
+  const { input } = setup()
+  fireEvent.change(input, { target: { value: '$23.0' } })
+  expect(input.value).toBe('$23.0')
 })
 
 // it("passes in button text", async () => {
