@@ -20,7 +20,6 @@ function CostInput() {
     return <HelixTextField value={value} label="Cost" name="cost-input" inputProps={{ "data-testid": "cost-input" }} onChange={handleChange} />
 }
 
-
 const setup = () => {
     const utils = render(<CostInput />)
     const input = utils.getByTestId("cost-input")
