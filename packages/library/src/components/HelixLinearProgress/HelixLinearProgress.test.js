@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import HelixLinearProgress from "./index";
 import "@testing-library/jest-dom/extend-expect";
 
