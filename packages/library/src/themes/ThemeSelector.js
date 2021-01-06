@@ -5,7 +5,7 @@ import { select } from "@storybook/addon-knobs";
 import dark from "./dark";
 import tropical from "./testTheme";
 
-const themes = { dark: dark, tropical: tropical };
+const themes = { default: null,  dark: dark, tropical: tropical };
 const themeNames = Object.keys(themes);
 
 export default ({ children }) => {

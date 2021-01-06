@@ -2917,47 +2917,159 @@ exports[`Storyshots Helix Components/Helix Table with Collapsible Row Sample Hel
 </div>
 `;
 
-exports[`Storyshots Helix Components/Helix Text Field Sample Helix Text Field 1`] = `
+exports[`Storyshots Helix Components/Helix Vertical Tab with Tab Panel Sample Helix Vertical Tab With Tab Panel 1`] = `
 <div
-  className="MuiFormControl-root MuiTextField-root"
+  className="MuiBox-root MuiBox-root-108 makeStyles-container-105"
 >
-  <label
-    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
-    data-shrink={false}
-  >
-    Full Name
-  </label>
   <div
-    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
-    onClick={[Function]}
+    className="makeStyles-tabContainer-106"
   >
-    <input
-      aria-invalid={false}
-      autoFocus={false}
-      className="MuiInputBase-input MuiOutlinedInput-input"
-      disabled={false}
-      name="FullName"
-      onAnimationStart={[Function]}
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      placeholder="John Doe"
-      required={false}
-      type="text"
-    />
-    <fieldset
-      aria-hidden={true}
-      className="PrivateNotchedOutline-root-105 MuiOutlinedInput-notchedOutline"
+    <div
+      className="MuiTabs-root makeStyles-tabs-107 MuiTabs-vertical"
     >
-      <legend
-        className="PrivateNotchedOutline-legendLabelled-107"
+      <div
+        className="MuiTabs-scrollable"
+        style={
+          Object {
+            "height": 99,
+            "overflow": "scroll",
+            "position": "absolute",
+            "top": -9999,
+            "width": 99,
+          }
+        }
+      />
+      <div
+        className="MuiTabs-scroller MuiTabs-scrollable"
+        onScroll={[Function]}
+        style={
+          Object {
+            "marginBottom": null,
+            "overflow": "hidden",
+          }
+        }
       >
-        <span>
-          Full Name
-        </span>
-      </legend>
-    </fieldset>
+        <div
+          aria-label="vertical tabs"
+          className="MuiTabs-flexContainer MuiTabs-flexContainerVertical"
+          onKeyDown={[Function]}
+          role="tablist"
+        >
+          <button
+            aria-selected={false}
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="tab"
+            tabIndex={-1}
+            type="button"
+          >
+            <span
+              className="MuiTab-wrapper"
+            >
+              Tab #1
+            </span>
+          </button>
+          <button
+            aria-selected={true}
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="tab"
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiTab-wrapper"
+            >
+              Tab #2
+            </span>
+            <span
+              className="PrivateTabIndicator-root-109 PrivateTabIndicator-colorPrimary-110 MuiTabs-indicator PrivateTabIndicator-vertical-112"
+              style={Object {}}
+            />
+          </button>
+          <button
+            aria-selected={false}
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="tab"
+            tabIndex={-1}
+            type="button"
+          >
+            <span
+              className="MuiTab-wrapper"
+            >
+              Tab #3
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+  <div
+    aria-labelledby="vertical-tab-0"
+    hidden={true}
+    id="vertical-tabpanel-0"
+    role="tabpanel"
+  />
+  <div
+    aria-labelledby="vertical-tab-1"
+    hidden={false}
+    id="vertical-tabpanel-1"
+    role="tabpanel"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-114 makeStyles-canvas-113"
+    >
+      <ul>
+        <li>
+          Tab #Report Normalization #2
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    aria-labelledby="vertical-tab-2"
+    hidden={true}
+    id="vertical-tabpanel-2"
+    role="tabpanel"
+  />
+  <br />
 </div>
 `;
 

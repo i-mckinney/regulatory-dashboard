@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HelixTextField from "../components/HelixTextField/index"
 import { withKnobs } from "@storybook/addon-knobs"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -26,6 +26,15 @@ export default {
  * @param {object} args represents arguments that SampleHelixTextField needs
  */
 export const SampleHelixTextField = (args) => {
+    const [value, setValue] = useState("")
+
+    const handleInput = (event) => {
+        setValue(event.target.value)
+    }
+    
+    args.onChange = handleInput
+    args.value = value
+
     return (
         <ThemeSelector>
             <CssBaseline />
