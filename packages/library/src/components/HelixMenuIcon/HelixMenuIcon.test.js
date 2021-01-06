@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Card, CardHeader, Divider, CardContent, Typography, Avatar, MenuItem, ListItemIcon } from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -10,34 +10,29 @@ function MenuIconActions() {
     const user = "HelixCP"
 
     const renderCustomizedMenuItems = (handleEditMenuItem, handleDeleteMenuItem) => {
-        return (
-          <>
-            <MenuItem onClick={handleEditMenuItem}>
+        return [
+            <MenuItem onClick={handleEditMenuItem} id="edit" key="edit">
               <ListItemIcon>
                   <EditIcon fontSize="small" />
               </ListItemIcon>
               <Typography>Edit</Typography>
-            </MenuItem>
-            <MenuItem onClick={handleDeleteMenuItem}>
+            </MenuItem>,
+            <MenuItem onClick={handleDeleteMenuItem} id="delete" key="delete">
               <ListItemIcon>
                   <DeleteIcon fontSize="small" color="secondary" />
               </ListItemIcon>
               <Typography>Delete</Typography>
             </MenuItem>
-          </>
-        )
+        ]
       }
 
     const handleEditMenuItem = () => {
-        return (
-            alert("Edited Menu Item!")
-        )
+        return alert("Edited Menu Item!")
+        
     }
 
     const handleDeleteMenuItem = () => {
-        return (
-            alert("Deleted Menu Item!")
-        )
+        return alert("Deleted Menu Item!")
     }
     return (
         <Card>
@@ -73,10 +68,40 @@ const setup = () => {
     }
 }
 
+afterEach(() => {
+    jest.clearAllMocks();
+});
+
 it("should render Menu Icon Actions component", () => {
     const { ...utils } = setup()
 
     const tab = utils.getByRole("button")
 
     expect(tab).toBeDefined()
+})
+
+it("click edit menu item from menu drop down list", () => {
+    const { ...utils } = setup()
+    window.alert = jest.fn(() => ({}));
+
+    const tab = utils.getByRole("button")
+    fireEvent.click(tab)
+
+    const edit = utils.queryAllByRole("menuitem")[0]
+    fireEvent.click(edit)
+    expect(window.alert).toHaveBeenCalledTimes(1)
+    expect(edit.id).toBe("edit")
+})
+
+it("click delete menu item from menu drop down list", () => {
+    const { ...utils } = setup()
+    window.alert = jest.fn(() => ({}));
+
+    const tab = utils.getByRole("button")
+    fireEvent.click(tab)
+
+    const del = utils.queryAllByRole("menuitem")[1]
+    fireEvent.click(del)
+    expect(window.alert).toHaveBeenCalledTimes(1)
+    expect(del.id).toBe("delete")
 })
