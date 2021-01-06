@@ -62,32 +62,34 @@ it("should render Vertical Tabs component", () => {
 })
 
 describe("Vertical Tabs should", () => {
-    it("click Test #1 tab and Report #1 panel should display", () => {
+    it("be at Test #1 tab and Report #1 panel should display", async () => {
         const { ...utils } = setup()
     
-        expect(utils.getByText("Report #1")).toBe("Report #1")
+        const tab = utils.getByText("Test #1")
+    
+        expect(utils.getByText("Report #1")).toBeDefined()
         expect(utils.queryByText("Report #2")).toBeNull()
         expect(utils.queryByText("Report #3")).toBeNull()
     })
     
-    it("click Test #2 tab and Report #2 panel should display", () => {
+    it("clicked on Test #2 tab and Report #2 panel should display", () => {
         const { ...utils } = setup()
     
         const tab = utils.getByText("Test #2")
         fireEvent.click(tab)
     
-        expect(utils.getByText("Report #2")).toBe("Report #2")
+        expect(utils.getByText("Report #2")).toBeDefined()
         expect(utils.queryByText("Report #1")).toBeNull()
         expect(utils.queryByText("Report #3")).toBeNull()
     })
     
-    it("click Test #3 tab and Report #3 panel should display", () => {
+    it("clicked on Test #3 tab and Report #3 panel should display", () => {
         const { ...utils } = setup()
     
         const tab = utils.getByText("Test #3")
         fireEvent.click(tab)
     
-        expect(utils.getByText("Report #3")).toBe("Report #3")
+        expect(utils.getByText("Report #3")).toBeDefined()
         expect(utils.queryByText("Report #1")).toBeNull()
         expect(utils.queryByText("Report #2")).toBeNull()
     })
