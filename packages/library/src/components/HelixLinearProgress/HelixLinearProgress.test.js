@@ -28,6 +28,7 @@ const setup = () => {
 }
 
 it("should render Progress Indicator component", () => {
-    const { progress, ...utils } = setup()
+    const { progress } = setup()
+    
     expect(progress).toBeDefined()
 })

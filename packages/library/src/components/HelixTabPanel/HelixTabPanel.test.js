@@ -24,5 +24,6 @@ const setup = () => {
 
 it("should render Panel component", () => {
     const { panel } = setup()
+    
     expect(panel).toBeDefined()
 })

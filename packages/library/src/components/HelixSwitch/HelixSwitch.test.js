@@ -59,6 +59,7 @@ const setup = (element = "") => {
 
 it("should return all true due to initial state", () => {
     const { ...utils } = setup()
+    
     expect(utils.getByTestId("scheduledNightLight").checked).toBe(true)
     expect(utils.getByTestId("mostUsedApp").checked).toBe(true)
     expect(utils.getByTestId("recentlyAddedApp").checked).toBe(true)
@@ -70,39 +71,48 @@ describe("Setting should", () => {
     it("return true since scheduled night light is on", () => {
         // Render new instance in every test to prevent leaking state
         const { toggle } = setup("scheduledNightLight")
+
         expect(toggle.checked).toBe(true)
     });
 
     it("return true since most used app is on", () => {
         // Render new instance in every test to prevent leaking state
         const { toggle } = setup("mostUsedApp")
+
         expect(toggle.checked).toBe(true)
     });
 
     it("return true since recently added App is on", () => {
         // Render new instance in every test to prevent leaking state
         const { toggle } = setup("recentlyAddedApp")
+
         expect(toggle.checked).toBe(true)
     });
 
     it("return false since scheduled night light is off (untoggle)", () => {
         // Render new instance in every test to prevent leaking state
         const { toggle } = setup("scheduledNightLight")
+
         fireEvent.change(toggle, { target: { checked: false }})
+
         expect(toggle.checked).toBe(false)
     });
 
     it("return false since scheduled night light is off (untoggle)", () => {
         // Render new instance in every test to prevent leaking state
         const { toggle } = setup("mostUsedApp")
+
         fireEvent.change(toggle, { target: { checked: false }})
+
         expect(toggle.checked).toBe(false)
     });
 
     it("return false since scheduled night light is off (untoggle)", () => {
         // Render new instance in every test to prevent leaking state
         const { toggle } = setup("recentlyAddedApp")
+
         fireEvent.change(toggle, { target: { checked: false }})
+
         expect(toggle.checked).toBe(false)
     });
 });
