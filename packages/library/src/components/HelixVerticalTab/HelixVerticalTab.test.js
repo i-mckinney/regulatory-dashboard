@@ -53,6 +53,10 @@ const setup = () => {
     }
 }
 
+afterEach(() => {
+    jest.clearAllMocks();
+})
+
 it("should render Vertical Tabs component", () => {
     const { ...utils } = setup()
 

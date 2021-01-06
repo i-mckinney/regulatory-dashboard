@@ -22,6 +22,10 @@ const setup = () => {
     }
 }
 
+afterEach(() => {
+    jest.clearAllMocks();
+})
+
 it("should render Panel component", () => {
     const { panel } = setup()
     

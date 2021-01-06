@@ -70,7 +70,7 @@ const setup = () => {
 
 afterEach(() => {
     jest.clearAllMocks();
-});
+})
 
 it("should render Menu Icon Actions component", () => {
     const { ...utils } = setup()

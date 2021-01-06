@@ -57,6 +57,10 @@ const setup = (element = "") => {
     }
 }
 
+afterEach(() => {
+    jest.clearAllMocks();
+})
+
 it("should return all true due to initial state", () => {
     const { ...utils } = setup()
     

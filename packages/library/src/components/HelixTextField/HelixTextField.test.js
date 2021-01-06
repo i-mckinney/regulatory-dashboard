@@ -29,6 +29,10 @@ const setup = () => {
     }
 }
 
+afterEach(() => {
+  jest.clearAllMocks();
+})
+
 describe("Cost Input", () => {
   it("is empty value", async () => {
     // Render new instance in every test to prevent leaking state
