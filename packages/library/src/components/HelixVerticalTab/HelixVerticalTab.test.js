@@ -71,7 +71,7 @@ describe("Vertical Tabs should", () => {
     
         const tab = utils.getByText("Tab #1")
     
-        expect(utils.getByText("Report #1")).toBeDefined()
+        expect(utils.getByText("Report Normalization #1")).toBeDefined()
         expect(utils.queryByText("Report Normalization #2")).toBeNull()
         expect(utils.queryByText("Report Normalization #3")).toBeNull()
     })
