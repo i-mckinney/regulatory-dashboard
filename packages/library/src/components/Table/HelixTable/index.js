@@ -200,6 +200,7 @@ HelixTable.defaultProps = {
   toggleSearch: false,
   toggleExpandable: false,
   displayCreateIcon: () => null,
+  customCollapsibleRowRender: () => null,
 }
 
 export default HelixTable

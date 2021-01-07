@@ -412,13 +412,52 @@ exports[`Storyshots Helix Components/Helix Linear Progress Sample Helix Linear P
 </div>
 `;
 
+exports[`Storyshots Helix Components/Helix Page Header Sample Helix Page Header 1`] = `
+<div
+  className="MuiPaper-root makeStyles-root-19 MuiPaper-elevation0"
+>
+  <div
+    className="makeStyles-pageHeader-20"
+  >
+    <div
+      className="MuiPaper-root MuiCard-root makeStyles-pageIcon-21 MuiPaper-elevation1 MuiPaper-rounded"
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z"
+        />
+      </svg>
+    </div>
+    <div
+      className="makeStyles-pageTitle-22"
+    >
+      <div
+        className="MuiTypography-root MuiTypography-h6"
+      >
+        This is the title of the page
+      </div>
+      <div
+        className="MuiTypography-root MuiTypography-subtitle2"
+      >
+        This is the subtitle
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Helix Components/Helix Switch Sample Helix Switch 1`] = `
 <span
-  className="MuiSwitch-root makeStyles-root-19"
+  className="MuiSwitch-root makeStyles-root-23"
 >
   <span
     aria-disabled={false}
-    className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-25 MuiSwitch-switchBase makeStyles-switchBase-20 MuiSwitch-colorSecondary"
+    className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-29 MuiSwitch-switchBase makeStyles-switchBase-24 MuiSwitch-colorSecondary"
     onBlur={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}
@@ -436,30 +475,71 @@ exports[`Storyshots Helix Components/Helix Switch Sample Helix Switch 1`] = `
       className="MuiIconButton-label"
     >
       <input
-        className="PrivateSwitchBase-input-28 MuiSwitch-input"
+        className="PrivateSwitchBase-input-32 MuiSwitch-input"
         onChange={[Function]}
         type="checkbox"
       />
       <span
-        className="MuiSwitch-thumb makeStyles-thumb-21"
+        className="MuiSwitch-thumb makeStyles-thumb-25"
       />
     </span>
   </span>
   <span
-    className="MuiSwitch-track makeStyles-track-22"
+    className="MuiSwitch-track makeStyles-track-26"
   />
 </span>
 `;
 
+exports[`Storyshots Helix Components/Helix Table Card Sample Helix Table Card 1`] = `
+<div
+  className="makeStyles-infoCardDiv-58"
+>
+  <div
+    className="MuiPaper-root MuiCard-root makeStyles-infoCard-59 MuiPaper-elevation1 MuiPaper-rounded"
+  >
+    <div
+      className="MuiCardHeader-root makeStyles-infoCardHeader-60"
+    >
+      <div
+        className="MuiCardHeader-content"
+      >
+        <h1
+          className="MuiTypography-root makeStyles-infoCardTitle-61 MuiTypography-h3"
+        >
+          Sample Helix Table Card Inc
+        </h1>
+        <h6
+          className="MuiTypography-root makeStyles-infoCardSubtitle-62 MuiTypography-subtitle2"
+        >
+          SampleHexlixCP
+        </h6>
+      </div>
+    </div>
+    <div
+      className="MuiCardContent-root makeStyles-infoCardContent-63"
+    >
+      <ul>
+        <li>
+          Name: Robert McGerald
+        </li>
+        <li>
+          Date: 12/02/2021
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Generic 1`] = `
 <div
-  className="makeStyles-helixTable-54"
+  className="makeStyles-helixTable-64"
 >
   <div
     className="MuiToolbar-root MuiToolbar-regular"
   >
     <div
-      className="MuiFormControl-root MuiTextField-root makeStyles-searchStyles-58"
+      className="MuiFormControl-root MuiTextField-root makeStyles-searchStyles-68"
     >
       <label
         className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined"
@@ -499,10 +579,10 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
         />
         <fieldset
           aria-hidden={true}
-          className="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline"
+          className="PrivateNotchedOutline-root-69 MuiOutlinedInput-notchedOutline"
         >
           <legend
-            className="PrivateNotchedOutline-legendLabelled-61 PrivateNotchedOutline-legendNotched-62"
+            className="PrivateNotchedOutline-legendLabelled-71 PrivateNotchedOutline-legendNotched-72"
           >
             <span>
               Search
@@ -512,10 +592,10 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
       </div>
     </div>
     <span
-      className="makeStyles-createRowColStyle-55"
+      className="makeStyles-createRowColStyle-65"
     >
       <button
-        className="MuiButtonBase-root MuiButton-root makeStyles-root-63 MuiButton-contained MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root makeStyles-root-73 MuiButton-contained MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -533,13 +613,13 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
         type="button"
       >
         <span
-          className="MuiButton-label makeStyles-label-64"
+          className="MuiButton-label makeStyles-label-74"
         >
           Add Row
         </span>
       </button>
       <button
-        className="MuiButtonBase-root MuiButton-root makeStyles-root-63 MuiButton-contained MuiButton-containedPrimary"
+        className="MuiButtonBase-root MuiButton-root makeStyles-root-73 MuiButton-contained MuiButton-containedPrimary"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -557,7 +637,7 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
         type="button"
       >
         <span
-          className="MuiButton-label makeStyles-label-64"
+          className="MuiButton-label makeStyles-label-74"
         >
           Add Column
         </span>
@@ -582,12 +662,12 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
         >
           <th
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-head makeStyles-headerCell-72"
+            className="MuiTableCell-root MuiTableCell-head makeStyles-headerCell-82"
             scope="col"
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-65"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-75"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -618,12 +698,12 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </th>
           <th
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-head makeStyles-headerCell-72"
+            className="MuiTableCell-root MuiTableCell-head makeStyles-headerCell-82"
             scope="col"
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-65"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-75"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -654,7 +734,7 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
             <span>
               <button
                 aria-label="edit"
-                className="MuiButtonBase-root MuiIconButton-root makeStyles-matHeaderIcon-71 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
+                className="MuiButtonBase-root MuiIconButton-root makeStyles-matHeaderIcon-81 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -688,7 +768,7 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
               </button>
               <button
                 aria-label="edit"
-                className="MuiButtonBase-root MuiIconButton-root makeStyles-matHeaderIcon-71 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
+                className="MuiButtonBase-root MuiIconButton-root makeStyles-matHeaderIcon-81 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -724,12 +804,12 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </th>
           <th
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-head makeStyles-headerCell-72"
+            className="MuiTableCell-root MuiTableCell-head makeStyles-headerCell-82"
             scope="col"
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-65"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-75"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -760,7 +840,7 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
             <span>
               <button
                 aria-label="edit"
-                className="MuiButtonBase-root MuiIconButton-root makeStyles-matHeaderIcon-71 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
+                className="MuiButtonBase-root MuiIconButton-root makeStyles-matHeaderIcon-81 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -794,7 +874,7 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
               </button>
               <button
                 aria-label="edit"
-                className="MuiButtonBase-root MuiIconButton-root makeStyles-matHeaderIcon-71 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
+                className="MuiButtonBase-root MuiIconButton-root makeStyles-matHeaderIcon-81 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -830,12 +910,12 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </th>
           <th
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-head makeStyles-headerCellActions-73"
+            className="MuiTableCell-root MuiTableCell-head makeStyles-headerCellActions-83"
             scope="col"
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-65"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-75"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -876,10 +956,10 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
         >
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-79"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-89"
           >
             <div
-              className="makeStyles-initialState-77"
+              className="makeStyles-initialState-87"
               onClick={[Function]}
             >
               1
@@ -887,17 +967,17 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-79"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-89"
           >
             <div
-              className="makeStyles-initialState-77"
+              className="makeStyles-initialState-87"
               onClick={[Function]}
             >
               H1
             </div>
             <button
               aria-label="edit"
-              className="MuiButtonBase-root MuiIconButton-root makeStyles-matIconSpan-82 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
+              className="MuiButtonBase-root MuiIconButton-root makeStyles-matIconSpan-92 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -932,17 +1012,17 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-79"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-89"
           >
             <div
-              className="makeStyles-initialState-77"
+              className="makeStyles-initialState-87"
               onClick={[Function]}
             >
               
             </div>
             <button
               aria-label="edit"
-              className="MuiButtonBase-root MuiIconButton-root makeStyles-matIconSpan-82 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
+              className="MuiButtonBase-root MuiIconButton-root makeStyles-matIconSpan-92 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -977,10 +1057,10 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-79"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-89"
           >
             <span
-              className="makeStyles-actionsIconStyle-57"
+              className="makeStyles-actionsIconStyle-67"
             >
               <button
                 aria-label="delete"
@@ -1025,10 +1105,10 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
         >
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-79"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-89"
           >
             <div
-              className="makeStyles-initialState-77"
+              className="makeStyles-initialState-87"
               onClick={[Function]}
             >
               2
@@ -1036,17 +1116,17 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-79"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-89"
           >
             <div
-              className="makeStyles-initialState-77"
+              className="makeStyles-initialState-87"
               onClick={[Function]}
             >
               H2
             </div>
             <button
               aria-label="edit"
-              className="MuiButtonBase-root MuiIconButton-root makeStyles-matIconSpan-82 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
+              className="MuiButtonBase-root MuiIconButton-root makeStyles-matIconSpan-92 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -1081,17 +1161,17 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-79"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-89"
           >
             <div
-              className="makeStyles-initialState-77"
+              className="makeStyles-initialState-87"
               onClick={[Function]}
             >
               MasterID
             </div>
             <button
               aria-label="edit"
-              className="MuiButtonBase-root MuiIconButton-root makeStyles-matIconSpan-82 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
+              className="MuiButtonBase-root MuiIconButton-root makeStyles-matIconSpan-92 MuiIconButton-sizeSmall MuiIconButton-edgeStart"
               disabled={false}
               onBlur={[Function]}
               onClick={[Function]}
@@ -1126,10 +1206,10 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-79"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-89"
           >
             <span
-              className="makeStyles-actionsIconStyle-57"
+              className="makeStyles-actionsIconStyle-67"
             >
               <button
                 aria-label="delete"
@@ -1255,7 +1335,7 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
                 1-2 of 2
               </p>
               <div
-                className="makeStyles-paginationButton-84"
+                className="makeStyles-paginationButton-94"
               >
                 <button
                   aria-label="first page"
@@ -1405,13 +1485,13 @@ exports[`Storyshots Helix Components/Helix Table Generic Sample Helix Table Gene
 
 exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
 <div
-  className="makeStyles-helixTable-29"
+  className="makeStyles-helixTable-33"
 >
   <div
     className="MuiToolbar-root MuiToolbar-regular"
   >
     <div
-      className="MuiFormControl-root MuiTextField-root makeStyles-searchStyles-30"
+      className="MuiFormControl-root MuiTextField-root makeStyles-searchStyles-34"
     >
       <label
         className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined"
@@ -1451,10 +1531,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
         />
         <fieldset
           aria-hidden={true}
-          className="PrivateNotchedOutline-root-31 MuiOutlinedInput-notchedOutline"
+          className="PrivateNotchedOutline-root-35 MuiOutlinedInput-notchedOutline"
         >
           <legend
-            className="PrivateNotchedOutline-legendLabelled-33 PrivateNotchedOutline-legendNotched-34"
+            className="PrivateNotchedOutline-legendLabelled-37 PrivateNotchedOutline-legendNotched-38"
           >
             <span>
               Search
@@ -1487,7 +1567,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35 MuiTableSortLabel-active"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39 MuiTableSortLabel-active"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1505,7 +1585,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
             >
               First Name
               <span
-                className="makeStyles-visuallyHidden-36"
+                className="makeStyles-visuallyHidden-40"
               >
                 sorted ascending
               </span>
@@ -1528,7 +1608,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1564,7 +1644,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1600,7 +1680,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1636,7 +1716,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1672,7 +1752,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1708,7 +1788,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1744,7 +1824,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1780,7 +1860,7 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           >
             <span
               aria-disabled={false}
-              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-35"
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-39"
               onBlur={[Function]}
               onClick={[Function]}
               onDragLeave={[Function]}
@@ -1821,10 +1901,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
         >
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               John
@@ -1832,10 +1912,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Doe
@@ -1843,10 +1923,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Kircuit City
@@ -1854,10 +1934,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               125000
@@ -1865,10 +1945,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               283375991
@@ -1876,10 +1956,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               8001498422
@@ -1887,10 +1967,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               32541
@@ -1898,10 +1978,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               No
@@ -1909,10 +1989,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Yes
@@ -1925,10 +2005,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
         >
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Joy
@@ -1936,10 +2016,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Doe
@@ -1947,10 +2027,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Pi Inc
@@ -1958,10 +2038,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               75000
@@ -1969,10 +2049,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               590193680
@@ -1980,10 +2060,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               8662138532
@@ -1991,10 +2071,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               99542
@@ -2002,10 +2082,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Yes
@@ -2013,10 +2093,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               No
@@ -2029,10 +2109,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
         >
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Ray
@@ -2040,10 +2120,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Smith
@@ -2051,10 +2131,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Apple LLC
@@ -2062,10 +2142,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               1000000
@@ -2073,10 +2153,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               258456913
@@ -2084,10 +2164,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               8009498588
@@ -2095,10 +2175,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               79232
@@ -2106,10 +2186,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               Yes
@@ -2117,10 +2197,10 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
           </td>
           <td
             aria-sort={null}
-            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-39"
+            className="MuiTableCell-root MuiTableCell-body makeStyles-initialCell-43"
           >
             <div
-              className="makeStyles-initialState-37"
+              className="makeStyles-initialState-41"
               onClick={[Function]}
             >
               No
@@ -2214,7 +2294,482 @@ exports[`Storyshots Helix Components/Helix Table Sample Helix Table 1`] = `
                 1-3 of 3
               </p>
               <div
-                className="makeStyles-paginationButton-53"
+                className="makeStyles-paginationButton-57"
+              >
+                <button
+                  aria-label="first page"
+                  className="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={-1}
+                  type="button"
+                >
+                  <span
+                    className="MuiIconButton-label"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                <button
+                  aria-label="previous page"
+                  className="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={-1}
+                  type="button"
+                >
+                  <span
+                    className="MuiIconButton-label"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                <button
+                  aria-label="next page"
+                  className="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={-1}
+                  type="button"
+                >
+                  <span
+                    className="MuiIconButton-label"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                <button
+                  aria-label="last page"
+                  className="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
+                  disabled={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onDragLeave={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onKeyUp={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseLeave={[Function]}
+                  onMouseUp={[Function]}
+                  onTouchEnd={[Function]}
+                  onTouchMove={[Function]}
+                  onTouchStart={[Function]}
+                  tabIndex={-1}
+                  type="button"
+                >
+                  <span
+                    className="MuiIconButton-label"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      className="MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Helix Components/Helix Table with Collapsible Row Sample Helix Table With Collapsible Row 1`] = `
+<div
+  className="makeStyles-helixTable-96"
+>
+  <div
+    className="MuiToolbar-root MuiToolbar-regular"
+  >
+    <div
+      className="MuiFormControl-root MuiTextField-root makeStyles-searchStyles-97"
+    >
+      <label
+        className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined"
+        data-shrink={true}
+      >
+        Search
+      </label>
+      <div
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-adornedStart MuiOutlinedInput-adornedStart"
+        onClick={[Function]}
+      >
+        <div
+          className="MuiInputAdornment-root MuiInputAdornment-positionStart"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+            />
+          </svg>
+        </div>
+        <input
+          aria-invalid={false}
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart MuiOutlinedInput-inputAdornedStart"
+          disabled={false}
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          type="text"
+        />
+        <fieldset
+          aria-hidden={true}
+          className="PrivateNotchedOutline-root-98 MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            className="PrivateNotchedOutline-legendLabelled-100 PrivateNotchedOutline-legendNotched-101"
+          >
+            <span>
+              Search
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+  >
+    <table
+      aria-label="table"
+      className="MuiTable-root"
+      role={null}
+    >
+      <thead
+        className="MuiTableHead-root"
+        role={null}
+      >
+        <tr
+          className="MuiTableRow-root MuiTableRow-head"
+          role={null}
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head"
+            scope="col"
+          />
+          <th
+            aria-sort="ascending"
+            className="MuiTableCell-root MuiTableCell-head"
+            scope="col"
+          >
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-102 MuiTableSortLabel-active"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              First Name
+              <span
+                className="makeStyles-visuallyHidden-103"
+              >
+                sorted ascending
+              </span>
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head"
+            scope="col"
+          >
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-102"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              Last Name
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head"
+            scope="col"
+          >
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-102"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              Business Name
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head"
+            scope="col"
+          >
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiTableSortLabel-root makeStyles-sortLabel-102"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              Loan Amount
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                />
+              </svg>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="MuiTableBody-root"
+        role={null}
+      />
+      <tfoot
+        className="MuiTableFooter-root"
+        role={null}
+      >
+        <tr
+          className="MuiTableRow-root MuiTableRow-footer"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-footer"
+          />
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-footer MuiTablePagination-root"
+            colSpan={4}
+          >
+            <div
+              className="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
+            >
+              <div
+                className="MuiTablePagination-spacer"
+              />
+              <p
+                className="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+              >
+                Rows per page:
+              </p>
+              <div
+                className="MuiInputBase-root MuiTablePagination-input MuiTablePagination-selectRoot"
+                onClick={[Function]}
+              >
+                <select
+                  aria-label="rows per page"
+                  className="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiInputBase-input"
+                  multiple={false}
+                  onAnimationStart={[Function]}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  value={5}
+                >
+                  <option
+                    className="MuiTablePagination-menuItem"
+                    value={5}
+                  >
+                    5
+                  </option>
+                  <option
+                    className="MuiTablePagination-menuItem"
+                    value={10}
+                  >
+                    10
+                  </option>
+                  <option
+                    className="MuiTablePagination-menuItem"
+                    value={25}
+                  >
+                    25
+                  </option>
+                  <option
+                    className="MuiTablePagination-menuItem"
+                    value={50}
+                  >
+                    50
+                  </option>
+                  <option
+                    className="MuiTablePagination-menuItem"
+                    value={-1}
+                  >
+                    All
+                  </option>
+                </select>
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root MuiSelect-icon MuiTablePagination-selectIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
+              <p
+                className="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+              >
+                1-3 of 3
+              </p>
+              <div
+                className="makeStyles-paginationButton-104"
               >
                 <button
                   aria-label="first page"
@@ -2370,7 +2925,7 @@ exports[`Storyshots Helix Components/Helix Text Field Sample Helix Text Field 1`
     className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
     data-shrink={false}
   >
-    Full Name
+    Cost Input
   </label>
   <div
     className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -2381,28 +2936,185 @@ exports[`Storyshots Helix Components/Helix Text Field Sample Helix Text Field 1`
       autoFocus={false}
       className="MuiInputBase-input MuiOutlinedInput-input"
       disabled={false}
-      name="FullName"
+      name="costInput"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      placeholder="John Doe"
+      placeholder="$1.99"
       required={false}
       type="text"
+      value=""
     />
     <fieldset
       aria-hidden={true}
-      className="PrivateNotchedOutline-root-86 MuiOutlinedInput-notchedOutline"
+      className="PrivateNotchedOutline-root-105 MuiOutlinedInput-notchedOutline"
     >
       <legend
-        className="PrivateNotchedOutline-legendLabelled-88"
+        className="PrivateNotchedOutline-legendLabelled-107"
       >
         <span>
-          Full Name
+          Cost Input
         </span>
       </legend>
     </fieldset>
   </div>
+</div>
+`;
+
+exports[`Storyshots Helix Components/Helix Vertical Tab with Tab Panel Sample Helix Vertical Tab With Tab Panel 1`] = `
+<div
+  className="MuiBox-root MuiBox-root-112 makeStyles-container-109"
+>
+  <div
+    className="makeStyles-tabContainer-110"
+  >
+    <div
+      className="MuiTabs-root makeStyles-tabs-111 MuiTabs-vertical"
+    >
+      <div
+        className="MuiTabs-scrollable"
+        style={
+          Object {
+            "height": 99,
+            "overflow": "scroll",
+            "position": "absolute",
+            "top": -9999,
+            "width": 99,
+          }
+        }
+      />
+      <div
+        className="MuiTabs-scroller MuiTabs-scrollable"
+        onScroll={[Function]}
+        style={
+          Object {
+            "marginBottom": null,
+            "overflow": "hidden",
+          }
+        }
+      >
+        <div
+          aria-label="vertical tabs"
+          className="MuiTabs-flexContainer MuiTabs-flexContainerVertical"
+          onKeyDown={[Function]}
+          role="tablist"
+        >
+          <button
+            aria-selected={false}
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="tab"
+            tabIndex={-1}
+            type="button"
+          >
+            <span
+              className="MuiTab-wrapper"
+            >
+              Tab #1
+            </span>
+          </button>
+          <button
+            aria-selected={true}
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="tab"
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiTab-wrapper"
+            >
+              Tab #2
+            </span>
+            <span
+              className="PrivateTabIndicator-root-113 PrivateTabIndicator-colorPrimary-114 MuiTabs-indicator PrivateTabIndicator-vertical-116"
+              style={Object {}}
+            />
+          </button>
+          <button
+            aria-selected={false}
+            className="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            role="tab"
+            tabIndex={-1}
+            type="button"
+          >
+            <span
+              className="MuiTab-wrapper"
+            >
+              Tab #3
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    aria-labelledby="vertical-tab-0"
+    hidden={true}
+    id="vertical-tabpanel-0"
+    role="tabpanel"
+  />
+  <div
+    aria-labelledby="vertical-tab-1"
+    hidden={false}
+    id="vertical-tabpanel-1"
+    role="tabpanel"
+  >
+    <div
+      className="MuiBox-root MuiBox-root-118 makeStyles-canvas-117"
+    >
+      <ul>
+        <li>
+          Tab #Report Normalization #2
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    aria-labelledby="vertical-tab-2"
+    hidden={true}
+    id="vertical-tabpanel-2"
+    role="tabpanel"
+  />
+  <br />
 </div>
 `;
 

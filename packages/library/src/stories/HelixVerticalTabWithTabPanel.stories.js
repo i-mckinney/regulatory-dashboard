@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HelixVerticalTab from "../components/HelixVerticalTab/index"
 import HelixTabPanel from "../components/HelixTabPanel/index"
 import { Tab } from "@material-ui/core"
@@ -59,6 +59,15 @@ const renderHelixPanelTabs = (newValue) => {
  * @param {object} args represents arguments that SampleHelixVerticalTabWithTabPanel needs
  */
 export const SampleHelixVerticalTabWithTabPanel = (args) => {
+    const [value, setValue] = useState(1)
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    args.value = value
+    args.handleChange = handleChange
+
     return (
         <ThemeSelector>
             <CssBaseline />
@@ -72,7 +81,9 @@ export const SampleHelixVerticalTabWithTabPanel = (args) => {
  */
 SampleHelixVerticalTabWithTabPanel.args = {
     renderHelixPanelTabs: renderHelixPanelTabs,
-    renderHelixTabs: renderHelixTabs,
-    handleChange: () => null,
-    value: 1
+    renderHelixTabs: renderHelixTabs
 }
+
+SampleHelixVerticalTabWithTabPanel.parameters = {
+    jest: ["HelixVerticalTab.test.js", "HelixTabPanel.test.js"],
+};

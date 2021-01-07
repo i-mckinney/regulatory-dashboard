@@ -97,17 +97,6 @@ const rows = [
 const initialOrderBy = "FirstName"
 
 /**
- * @param {array} innerTableBodyRows represents array of row (strings)
- * @param {array} innerTableHeadColumns represents array of column (strings)
- * @param {array} helixCollapsibleRowclasses represents object of instances contains styling properties
- */
-const renderSummaryTable = (innerTableBodyRows, innerTableHeadColumns, helixCollapsibleRowclasses) => {
-    return (
-        <GenericSummaryTable rows={innerTableBodyRows} columns={innerTableHeadColumns} classes={helixCollapsibleRowclasses} />
-    )
-}
-
-/**
  * @param {object} row row represents loan object
  * @param {int} rowIndex rowIndex represents the index of the current row object
  * @param {object} columns columns represents list of columns
@@ -130,7 +119,6 @@ customCellRender
         innerTableHeadColumns={innerTableHeadColumnLabels}
         innerTableBodyRows={innerTableBodyRows}
         customCellRender={customCellRender}
-        renderSummaryTable={renderSummaryTable}
         />
     )
 }
@@ -182,7 +170,6 @@ export const SampleHelixTableWithCollapsibleRow = (args) => {
 SampleHelixTableWithCollapsibleRow.args = {
     toggleSearch: true,
     toggleExpandable: true,
-    customCollapsibleRowRender: customCollapsibleRowRender,
     displayCreateIcon: displayCreateEmptyIcon,
     initialOrderBy: initialOrderBy,
     columns: columns.slice(1),

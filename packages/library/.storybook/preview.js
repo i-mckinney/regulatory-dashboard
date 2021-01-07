@@ -1,3 +1,4 @@
+import React from 'react';
 import { themes } from "@storybook/theming";
 import { addDecorator } from "@storybook/react"; // <- or your view layer
 import { withTests } from "@storybook/addon-jest";
@@ -15,3 +16,5 @@ addDecorator(
     results,
   })
 );
+
+addDecorator((Story) => <Story />);
