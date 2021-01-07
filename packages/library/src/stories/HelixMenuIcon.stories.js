@@ -30,6 +30,37 @@ export default {
  * @param {object} args represents arguments that SampleHelixMenuIcon needs
  */
 export const SampleHelixMenuIcon = (args) => {
+
+    const renderCustomizedMenuItems = (handleEditMenuItem, handleDeleteMenuItem) => {
+        return [
+            <MenuItem onClick={handleEditMenuItem} id="edit" key="edit">
+              <ListItemIcon>
+                  <EditIcon fontSize="small" />
+              </ListItemIcon>
+              <Typography>Edit</Typography>
+            </MenuItem>,
+            <MenuItem onClick={handleDeleteMenuItem} id="delete" key="delete">
+              <ListItemIcon>
+                  <DeleteIcon fontSize="small" color="secondary" />
+              </ListItemIcon>
+              <Typography>Delete</Typography>
+            </MenuItem>
+        ]
+      }
+
+    const handleEditMenuItem = () => {
+        return alert("Edited Menu Item!")
+        
+    }
+
+    const handleDeleteMenuItem = () => {
+        return alert("Deleted Menu Item!")
+    }
+
+    args.renderCustomizedMenuItems = renderCustomizedMenuItems
+    args.handleEditMenuItem = handleEditMenuItem
+    args.handleDeleteMenuItem = handleDeleteMenuItem
+
     return (
         <ThemeSelector>
             <CssBaseline />
@@ -41,28 +72,7 @@ export const SampleHelixMenuIcon = (args) => {
 /**
  * SampleHelixMenuIcon.args are arguments will provide to SampleHelixMenuIcon to work functionality
  */
-SampleHelixMenuIcon.args = {
-    renderCustomizedMenuItems: () => {
-        return (
-            <>
-              <MenuItem>
-                <ListItemIcon>
-                    <EditIcon fontSize="small" />
-                </ListItemIcon>
-                <Typography>Edit</Typography>
-              </MenuItem>
-              <MenuItem>
-                <ListItemIcon>
-                    <DeleteIcon fontSize="small" color="secondary" />
-                </ListItemIcon>
-                <Typography>Delete</Typography>
-              </MenuItem>
-            </>
-        )
-    },
-    handleEditMenuItem: () => null,
-    handleDeleteMenuItem: () => null,
-}
+SampleHelixMenuIcon.args = {}
 
 SampleHelixMenuIcon.parameters = {
     jest: ["HelixMenuIcon.test.js"],

@@ -12,13 +12,13 @@ function VerticalTabs() {
       setValue(newValue);
     };
   
-    const testTabs = ["Test #1", "Test #2", "Test #3"]
+    const reportTabs = ["Tab #1",  "Tab #2", "Tab #3"]
     
-    const panelReports = ["Report #1", "Report #2", "Report #3"]
+    const panelReports = ["Report Normalization #1", "Report Normalization #2", "Report Normalization #3"]
   
     // renderHelixTabs return a list of Helix Tab jsx object
     const renderHelixTabs = () => {
-      return testTabs.map((tab, tabIndex) => {
+      return reportTabs.map((tab, tabIndex) => {
         return (
             <Tab 
             key={tabIndex} 
@@ -66,35 +66,35 @@ it("should render Vertical Tabs component", () => {
 })
 
 describe("Vertical Tabs should", () => {
-    it("be at Test #1 tab and Report #1 panel should display", async () => {
+    it("be at Tab #1 tab and Report Normalization #1 panel should display", async () => {
         const { ...utils } = setup()
     
-        const tab = utils.getByText("Test #1")
+        const tab = utils.getByText("Tab #1")
     
         expect(utils.getByText("Report #1")).toBeDefined()
-        expect(utils.queryByText("Report #2")).toBeNull()
-        expect(utils.queryByText("Report #3")).toBeNull()
+        expect(utils.queryByText("Report Normalization #2")).toBeNull()
+        expect(utils.queryByText("Report Normalization #3")).toBeNull()
     })
     
-    it("clicked on Test #2 tab and Report #2 panel should display", () => {
+    it("clicked on Tab #2 tab and Report Normalization #2 panel should display", () => {
         const { ...utils } = setup()
     
-        const tab = utils.getByText("Test #2")
+        const tab = utils.getByText("Tab #2")
         fireEvent.click(tab)
     
-        expect(utils.getByText("Report #2")).toBeDefined()
-        expect(utils.queryByText("Report #1")).toBeNull()
-        expect(utils.queryByText("Report #3")).toBeNull()
+        expect(utils.getByText("Report Normalization #2")).toBeDefined()
+        expect(utils.queryByText("Report Normalization #1")).toBeNull()
+        expect(utils.queryByText("Report Normalization #3")).toBeNull()
     })
     
-    it("clicked on Test #3 tab and Report #3 panel should display", () => {
+    it("clicked on Tab #3 tab and Report Normalization #3 panel should display", () => {
         const { ...utils } = setup()
     
-        const tab = utils.getByText("Test #3")
+        const tab = utils.getByText("Tab #3")
         fireEvent.click(tab)
     
-        expect(utils.getByText("Report #3")).toBeDefined()
-        expect(utils.queryByText("Report #1")).toBeNull()
-        expect(utils.queryByText("Report #2")).toBeNull()
+        expect(utils.getByText("Report Normalization #3")).toBeDefined()
+        expect(utils.queryByText("Report Normalization #1")).toBeNull()
+        expect(utils.queryByText("Report Normalization #2")).toBeNull()
     })
 })

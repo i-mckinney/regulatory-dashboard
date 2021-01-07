@@ -80,7 +80,7 @@ it("should render Menu Icon Actions component", () => {
     expect(tab).toBeDefined()
 })
 
-it("click edit menu item from menu drop down list", () => {
+it("click edit menu item from menu drop down list and popup an alert one time", () => {
     const { ...utils } = setup()
     window.alert = jest.fn(() => ({}));
 
@@ -93,7 +93,7 @@ it("click edit menu item from menu drop down list", () => {
     expect(edit.id).toBe("edit")
 })
 
-it("click delete menu item from menu drop down list", () => {
+it("click delete menu item from menu drop down list and popup an alert one time", () => {
     const { ...utils } = setup()
     window.alert = jest.fn(() => ({}));
 
