@@ -2917,15 +2917,60 @@ exports[`Storyshots Helix Components/Helix Table with Collapsible Row Sample Hel
 </div>
 `;
 
+exports[`Storyshots Helix Components/Helix Text Field Sample Helix Text Field 1`] = `
+<div
+  className="MuiFormControl-root MuiTextField-root"
+>
+  <label
+    className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
+    data-shrink={false}
+  >
+    Full Name
+  </label>
+  <div
+    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
+    onClick={[Function]}
+  >
+    <input
+      aria-invalid={false}
+      autoFocus={false}
+      className="MuiInputBase-input MuiOutlinedInput-input"
+      disabled={false}
+      name="FullName"
+      onAnimationStart={[Function]}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      placeholder="John Doe"
+      required={false}
+      type="text"
+      value=""
+    />
+    <fieldset
+      aria-hidden={true}
+      className="PrivateNotchedOutline-root-105 MuiOutlinedInput-notchedOutline"
+    >
+      <legend
+        className="PrivateNotchedOutline-legendLabelled-107"
+      >
+        <span>
+          Full Name
+        </span>
+      </legend>
+    </fieldset>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Helix Components/Helix Vertical Tab with Tab Panel Sample Helix Vertical Tab With Tab Panel 1`] = `
 <div
-  className="MuiBox-root MuiBox-root-108 makeStyles-container-105"
+  className="MuiBox-root MuiBox-root-112 makeStyles-container-109"
 >
   <div
-    className="makeStyles-tabContainer-106"
+    className="makeStyles-tabContainer-110"
   >
     <div
-      className="MuiTabs-root makeStyles-tabs-107 MuiTabs-vertical"
+      className="MuiTabs-root makeStyles-tabs-111 MuiTabs-vertical"
     >
       <div
         className="MuiTabs-scrollable"
@@ -3007,7 +3052,7 @@ exports[`Storyshots Helix Components/Helix Vertical Tab with Tab Panel Sample He
               Tab #2
             </span>
             <span
-              className="PrivateTabIndicator-root-109 PrivateTabIndicator-colorPrimary-110 MuiTabs-indicator PrivateTabIndicator-vertical-112"
+              className="PrivateTabIndicator-root-113 PrivateTabIndicator-colorPrimary-114 MuiTabs-indicator PrivateTabIndicator-vertical-116"
               style={Object {}}
             />
           </button>
@@ -3054,7 +3099,7 @@ exports[`Storyshots Helix Components/Helix Vertical Tab with Tab Panel Sample He
     role="tabpanel"
   >
     <div
-      className="MuiBox-root MuiBox-root-114 makeStyles-canvas-113"
+      className="MuiBox-root MuiBox-root-118 makeStyles-canvas-117"
     >
       <ul>
         <li>
