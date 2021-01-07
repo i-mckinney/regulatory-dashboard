@@ -38,3 +38,7 @@ export const SampleHelixSwitch = (args) => {
  * SampleHelixSwitch.args are arguments will provide to SamplHelixSwitch to work functionality
  */
 SampleHelixSwitch.args = {}
+
+SampleHelixSwitch.parameters = {
+    jest: ["HelixSwitch.test.js"],
+};

@@ -63,3 +63,7 @@ SampleHelixMenuIcon.args = {
     handleEditMenuItem: () => null,
     handleDeleteMenuItem: () => null,
 }
+
+SampleHelixMenuIcon.parameters = {
+    jest: ["HelixMenuIcon.test.js"],
+};

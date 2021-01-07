@@ -40,3 +40,7 @@ export const SampleHelixLinearProgress = (args) => {
 SampleHelixLinearProgress.args = {
     value: 100
 }
+
+SampleHelixLinearProgress.parameters = {
+    jest: ["HelixLinearProgress.test.js"],
+};

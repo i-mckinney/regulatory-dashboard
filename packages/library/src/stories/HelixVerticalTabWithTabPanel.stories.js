@@ -83,3 +83,7 @@ SampleHelixVerticalTabWithTabPanel.args = {
     renderHelixPanelTabs: renderHelixPanelTabs,
     renderHelixTabs: renderHelixTabs
 }
+
+SampleHelixVerticalTabWithTabPanel.parameters = {
+    jest: ["HelixVerticalTab.test.js", "HelixTabPanel.test.js"],
+};

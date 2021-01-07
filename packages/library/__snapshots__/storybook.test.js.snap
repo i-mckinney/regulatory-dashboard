@@ -2925,7 +2925,7 @@ exports[`Storyshots Helix Components/Helix Text Field Sample Helix Text Field 1`
     className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined"
     data-shrink={false}
   >
-    Full Name
+    Cost Input
   </label>
   <div
     className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl"
@@ -2936,12 +2936,12 @@ exports[`Storyshots Helix Components/Helix Text Field Sample Helix Text Field 1`
       autoFocus={false}
       className="MuiInputBase-input MuiOutlinedInput-input"
       disabled={false}
-      name="FullName"
+      name="costInput"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      placeholder="John Doe"
+      placeholder="$1.99"
       required={false}
       type="text"
       value=""
@@ -2954,7 +2954,7 @@ exports[`Storyshots Helix Components/Helix Text Field Sample Helix Text Field 1`
         className="PrivateNotchedOutline-legendLabelled-107"
       >
         <span>
-          Full Name
+          Cost Input
         </span>
       </legend>
     </fieldset>

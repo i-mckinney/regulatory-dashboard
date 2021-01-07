@@ -35,6 +35,12 @@ export const SampleHelixTextField = (args) => {
     args.onChange = handleInput
     args.value = value
 
+    if (value[0] === "$") {
+        args.error = isNaN(value.slice(1)) ? true : false
+    } else {
+        args.error = isNaN(value) ? true : false
+    }
+
     return (
         <ThemeSelector>
             <CssBaseline />
@@ -47,7 +53,11 @@ export const SampleHelixTextField = (args) => {
  * SampleHelixTextField.args are arguments will provide to SampleHelixTable to work functionality
  */
 SampleHelixTextField.args = {
-    label: "Full Name",
-    name: "FullName",
-    placeholder: "John Doe",
+    label: "Cost Input",
+    name: "costInput",
+    placeholder: "$1.99",
 }
+
+SampleHelixTextField.parameters = {
+    jest: ["HelixTextField.test.js"],
+};

@@ -11,6 +11,8 @@ var _styles = require("@material-ui/core/styles");
 
 var _addonKnobs = require("@storybook/addon-knobs");
 
+var _light = _interopRequireDefault(require("./light"));
+
 var _dark = _interopRequireDefault(require("./dark"));
 
 var _testTheme = _interopRequireDefault(require("./testTheme"));
@@ -18,6 +20,7 @@ var _testTheme = _interopRequireDefault(require("./testTheme"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var themes = {
+  "default": _light["default"],
   dark: _dark["default"],
   tropical: _testTheme["default"]
 };
