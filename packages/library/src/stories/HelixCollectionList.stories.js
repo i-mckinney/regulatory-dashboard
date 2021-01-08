@@ -28,21 +28,9 @@ export default {
  * @param {object} args represents arguments that SampleHelixCollectionList needs
  */
 export const SampleHelixCollectionList = (args) => {
-    return (
-        <ThemeSelector>
-            <CssBaseline />
-            <HelixCollectionList {...args} />
-        </ThemeSelector>
-    )
-}
-
-/**
- * SampleHelixCollectionList.args are arguments will provide to SampleHelixCollectionList to work functionality
- */
-SampleHelixCollectionList.args = {
-    user: "Anon",
-    searchFilter: { search: (rows) => { return rows } },
-    data: [
+    const user =  "Anon"
+    const searchFilter = { search: (rows) => { return rows } }
+    const data = [
         {
             _id: '1',
         },
@@ -61,19 +49,46 @@ SampleHelixCollectionList.args = {
         {
             _id: '6',
         },
-    ],
+    ]
+
+    const renderCustomizedComponent = (user, data, handleComponent, handleEditMenuItem, handleDeleteMenuItem ) => {
+        return (
+            <Box component="span" m={1}>
+                <HelixButton text={`Component ${data._id}`} id={data._id} onChange={handleComponent} color="primary" />
+            </Box>
+        )
+    }
+
+    const handleComponent = () => {
+        return alert("Component is Clicked!") 
+    }
+
+    const handleEditComponent = () => null
+
+    const handleDeleteComponent = () => null
+
+    args.handleComponent = handleComponent
+    args.user = user
+    args.searchFilter = searchFilter
+    args.data = data
+    args.renderCustomizedComponent = renderCustomizedComponent
+    args.handleComponent = handleComponent
+    args.handleEditComponent = handleEditComponent
+    args.handleDeleteComponent = handleDeleteComponent
+    return (
+        <ThemeSelector>
+            <CssBaseline />
+            <HelixCollectionList {...args} />
+        </ThemeSelector>
+    )
+}
+
+/**
+ * SampleHelixCollectionList.args are arguments will provide to SampleHelixCollectionList to work functionality
+ */
+SampleHelixCollectionList.args = {
     elevation: 10,
     cellHeight: 200,
     spacing: 10,
     columnSpan: 3,
-    renderCustomizedComponent: () => {
-        return (
-            <Box component="span" m={1}>
-                <HelixButton text={"Click me!"} color="primary" />
-            </Box>
-        )
-    },
-    handleComponent: () => null,
-    handleEditComponent: () => null,
-    handleDeleteComponent: () => null,
 }
