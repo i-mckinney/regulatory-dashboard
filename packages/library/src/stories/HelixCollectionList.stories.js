@@ -92,3 +92,7 @@ SampleHelixCollectionList.args = {
     spacing: 10,
     columnSpan: 3,
 }
+
+SampleHelixCollectionList.parameters = {
+    jest: ["HelixCollectionList.test.js"],
+};
