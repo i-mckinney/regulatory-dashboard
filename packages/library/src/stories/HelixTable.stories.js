@@ -159,3 +159,7 @@ SampleHelixTable.args = {
     customHeadColumnKeyProp: customHeadColumnKeyProp,
     customBodyRowKeyProp: customBodyRowKeyProp,
 }
+
+SampleHelixTable.parameters = {
+    jest: ["HelixTable.test.js"],
+};
