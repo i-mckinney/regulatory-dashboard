@@ -147,12 +147,47 @@ it("should render a HelixTable", () => {
     expect(table).toBeDefined()
 })
 
-it("should have a search bar available for search", () => {
+it("should have a search bar and search for first name 'John' in the table", () => {
     const { ...utils } = setup()
 
     const textbox = utils.getByRole("textbox")
+    fireEvent.change(textbox, { target: { value: "John" } })
 
-    fireEvent.change(textbox, { target: { value: "Ray" } })
-    console.log(textbox.value)
+    expect(textbox.value).toBe("John")
+})
 
+it("search for last name 'Doe' in the table", () => {
+    const { ...utils } = setup()
+
+    const textbox = utils.getByRole("textbox")
+    fireEvent.change(textbox, { target: { value: "Doe" } })
+
+    expect(textbox.value).toBe("Doe")
+})
+
+it("search for 'Kircuit City' in the table", () => {
+    const { ...utils } = setup()
+
+    const textbox = utils.getByRole("textbox")
+    fireEvent.change(textbox, { target: { value: "Kircuit City" } })
+
+    expect(textbox.value).toBe("Kircuit City")
+})
+
+it("search for loan amount '125000' in the table", () => {
+    const { ...utils } = setup()
+
+    const textbox = utils.getByRole("textbox")
+    fireEvent.change(textbox, { target: { value: "125000" } })
+
+    expect(textbox.value).toBe("125000")
+})
+
+it("search for tax id '258456913' in the table", () => {
+    const { ...utils } = setup()
+
+    const textbox = utils.getByRole("textbox")
+    fireEvent.change(textbox, { target: { value: "258456913" } })
+
+    expect(textbox.value).toBe("258456913")
 })
