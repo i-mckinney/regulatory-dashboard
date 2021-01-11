@@ -11,22 +11,22 @@ import PropTypes from "prop-types";
 function ProfileModal(props) {
   const { topContainerClasses } = props;
   // anchorEl determines the target, where the modal points to when it is opened
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [anchorEl, setAnchorEl] = React.useState(null);
   // Boolean state to determine whether profile modal will be open or not
-  const openProfile = Boolean(anchorEl);
+  // const openProfile = Boolean(anchorEl);
 
   /**
    * When profile circle is clicked, modal's anchor will be set
    * to the profile circle, and modal will open on top of the circle
    * */
-  const openProfileModal = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const openProfileModal = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  // Closes profile modal
-  const closeProfileModal = () => {
-    setAnchorEl(null);
-  };
+  // // Closes profile modal
+  // const closeProfileModal = () => {
+  //   setAnchorEl(null);
+  // };
   return (
     <>
       <IconButton
@@ -55,7 +55,8 @@ function ProfileModal(props) {
         open={openProfile}
         onClose={closeProfileModal}
       >
-        <MenuItem>
+        {displayMenuItems()}
+        {/* <MenuItem>
           <Link href="/homepage">Home</Link>
         </MenuItem>
         <MenuItem>
@@ -64,7 +65,7 @@ function ProfileModal(props) {
         <MenuItem onClick={closeProfileModal}>My account</MenuItem>
         <MenuItem>
           <Link href="/">Log Out</Link>
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </>
   );
@@ -72,6 +73,10 @@ function ProfileModal(props) {
 
 ProfileModal.propTypes = {
   topContainerClasses: PropTypes.instanceOf(Object).isRequired,
+  displayMenuItems: PropTypes.func.isRequired,
+  openProfile: PropTypes.bool.isRequired,
+  openProfileModal: PropTypes.func.isRequired,
+  closeProfileModal: PropTypes.func.isRequired,
 };
 
 export default ProfileModal;

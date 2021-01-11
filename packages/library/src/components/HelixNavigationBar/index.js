@@ -42,11 +42,14 @@ function NavigationBar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          {displayAppName()}
+          {/* <Typography variant="h6" noWrap>
             Regulatory Dashboard
-          </Typography>
-          <NotificationsModal topContainerClasses={topContainerClasses} />
-          <ProfileModal topContainerClasses={topContainerClasses} />
+          </Typography> */}
+          {displayNotificationModal(topContainerClasses)}
+          {/* <NotificationsModal topContainerClasses={topContainerClasses} /> */}
+          {displayProfileModal(topContainerClasses)}
+          {/* <ProfileModal topContainerClasses={topContainerClasses} /> */}
         </Toolbar>
       </AppBar>
     </>
@@ -57,6 +60,9 @@ NavigationBar.propTypes = {
   topContainerClasses: PropTypes.instanceOf(Object).isRequired,
   sideNavOpen: PropTypes.bool.isRequired,
   setSideNavOpen: PropTypes.func.isRequired,
+  displayAppName: PropTypes.func.isRequired,
+  displayNotificationModal: PropTypes.func.isRequired,
+  displayProfileModal: PropTypes.func.isRequired,
 }
 
 export default NavigationBar

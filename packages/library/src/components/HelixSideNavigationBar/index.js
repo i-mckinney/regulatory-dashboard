@@ -66,57 +66,11 @@ function SideNavigationBar(props) {
         </div>
         <Divider />
         <List>
-          <Link color="inherit" href="/entity">
-            <ListItem button>
-              <ListItemIcon>
-                <AccountBalance />
-              </ListItemIcon>
-              <ListItemText primary="Entity" />
-            </ListItem>
-          </Link>
-          <Link color="inherit" href="/loan">
-            <ListItem button>
-              <ListItemIcon>
-                <CreditCard />
-              </ListItemIcon>
-              <ListItemText primary="Loan" />
-            </ListItem>
-          </Link>
-          <Link color="inherit" href="/reporttemplates">
-            <ListItem button>
-              <ListItemIcon>
-                <FeaturedPlayListIcon />
-              </ListItemIcon>
-              <ListItemText primary="Report Templates" />
-            </ListItem>
-          </Link>
-          <Link color="inherit" href="/myrequest">
-            <ListItem button>
-              <ListItemIcon>
-                <AccountBox />
-              </ListItemIcon>
-              <ListItemText primary="My Request" />
-            </ListItem>
-          </Link>
+          {displayMajorComponentLinks()}
         </List>
         <Divider />
         <List>
-          <Link color="inherit" href="/api-table">
-            <ListItem button>
-              <ListItemIcon>
-                <BusinessIcon />
-              </ListItemIcon>
-              <ListItemText primary="Custom API" />
-            </ListItem>
-          </Link>
-          <Link color="inherit" href="/">
-          <ListItem button>
-            <ListItemIcon>
-              <MeetingRoomIcon />
-            </ListItemIcon>
-            <ListItemText primary="Log Out" />
-          </ListItem>
-          </Link>
+          {displayMinorComponentsLinks()}
         </List>
       </Drawer>
     </>
@@ -128,6 +82,8 @@ SideNavigationBar.propTypes = {
   topContainerTheme: PropTypes.instanceOf(Object).isRequired,
   sideNavOpen: PropTypes.bool.isRequired,
   setSideNavOpen: PropTypes.func.isRequired,
+  displayMajorComponentLinks: PropTypes.func.isRequired,
+  displayMinorComponentsLinks:PropTypes.func.isRequired,
 }
 
 export default SideNavigationBar
