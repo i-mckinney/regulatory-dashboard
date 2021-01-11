@@ -177,4 +177,9 @@ SampleHelixTableWithCollapsibleRow.args = {
     customCellRender: customCellRender,
     customHeadColumnKeyProp: customHeadColumnKeyProp,
     customBodyRowKeyProp: customBodyRowKeyProp,
+    customCollapsibleRowRender: customCollapsibleRowRender,
 }
+
+SampleHelixTableWithCollapsibleRow.parameters = {
+    jest: ["HelixTable.test.js"],
+};
