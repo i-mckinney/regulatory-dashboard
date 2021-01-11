@@ -3,8 +3,6 @@ import clsx from "clsx"
 import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import PropTypes from "prop-types"
-import ProfileModal from "./ProfileModal"
-import NotificationsModal from "./NotificationsModal"
 
 /**
  * @param {object} topContainerClasses contains styling of useStyles for Container App
@@ -13,7 +11,7 @@ import NotificationsModal from "./NotificationsModal"
  * @return {jsx} top navigation bar to handle navigation in dashboard component
  */
 function NavigationBar(props) {
-  const { topContainerClasses, sideNavOpen, setSideNavOpen } = props
+  const { topContainerClasses, sideNavOpen, setSideNavOpen, displayAppName, displayNotificationModal, displayProfileModal } = props
 
   /** When you click hamburger icon, function gets invoked and makes Side Navbar visible */
   const openSideNavBar = () => {
