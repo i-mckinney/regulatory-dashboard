@@ -34,6 +34,8 @@ function SideNavigationBar(props) {
     topContainerTheme,
     sideNavOpen,
     setSideNavOpen,
+    displayMajorComponentLinks,
+    displayMinorComponentsLinks
   } = props
 
   // Hides side navigation bar
