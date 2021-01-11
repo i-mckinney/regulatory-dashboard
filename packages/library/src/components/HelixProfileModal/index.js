@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
  */
 
 function ProfileModal(props) {
-  const { topContainerClasses } = props;
+  const { topContainerClasses, anchorEl, openProfile, openProfileModal, closeProfileModal, displayMenuItems } = props;
   // anchorEl determines the target, where the modal points to when it is opened
   // const [anchorEl, setAnchorEl] = React.useState(null);
   // Boolean state to determine whether profile modal will be open or not
@@ -74,6 +74,7 @@ function ProfileModal(props) {
 ProfileModal.propTypes = {
   topContainerClasses: PropTypes.instanceOf(Object).isRequired,
   displayMenuItems: PropTypes.func.isRequired,
+  anchorEl: PropTypes.any.isRequired,
   openProfile: PropTypes.bool.isRequired,
   openProfileModal: PropTypes.func.isRequired,
   closeProfileModal: PropTypes.func.isRequired,
