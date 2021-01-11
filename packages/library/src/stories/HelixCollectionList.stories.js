@@ -54,7 +54,7 @@ export const SampleHelixCollectionList = (args) => {
     const renderCustomizedComponent = (user, data, handleComponent, handleEditMenuItem, handleDeleteMenuItem ) => {
         return (
             <Box component="span" m={1}>
-                <HelixButton text={`Component ${data._id}`} id={data._id} onChange={handleComponent} color="primary" />
+                <HelixButton text={`Component ${data._id}`} id={data._id} onClick={handleComponent} color="primary" />
             </Box>
         )
     }
