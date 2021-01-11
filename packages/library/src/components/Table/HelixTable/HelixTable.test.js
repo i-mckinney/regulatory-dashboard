@@ -147,133 +147,147 @@ it("should render a HelixTable", () => {
     expect(table).toBeDefined()
 })
 
-it("HelixTable contains three rows", () => {
-    const { ...utils } = setup()
-
-    const rowgroup = utils.queryAllByRole("rowgroup")
-    expect(rowgroup).toHaveLength(3)
-})
-
-it("HelixTable contains 9 header columns", () => {
-    const { ...utils } = setup()
-
-    const columnHeaders = utils.queryAllByRole("columnheader")
-
-    expect(columnHeaders).toHaveLength(9)
-})
-
-it("should have a search bar and search for first name 'John' in the table", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "John" } })
-
-    expect(textbox.value).toBe("John")
-})
-
-it("HelixTable contains first name 'John' after user inputted 'John' into textbox", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "John" } })
-    const firstName = utils.getByText("John")
+describe("HelixTable contains", () => {
+    it("three data set rows", () => {
+        const { ...utils } = setup()
     
-    expect(firstName.textContent).toBe("John")
-})
-
-it("search for last name 'Doe' in the table", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "Doe" } })
-
-    expect(textbox.value).toBe("Doe")
-})
-
-it("HelixTable contains two last name of 'Doe' after user inputted 'Doe' into textbox", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "Doe" } })
-    const lastName = utils.getAllByText("Doe")
-
-    expect(lastName[0].textContent).toBe("Doe")
-    expect(lastName[1].textContent).toBe("Doe")
-})
-
-it("search for business name 'Kircuit City' in the table", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "Kircuit City" } })
-
-    expect(textbox.value).toBe("Kircuit City")
-})
-
-it("HelixTable contains business name 'Kircuit City' after user inputted 'Kircuit City' into textbox", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "Kircuit City" } })
-    const businessName = utils.getByText("Kircuit City")
+        const rowgroup = utils.queryAllByRole("rowgroup")
+        expect(rowgroup).toHaveLength(3)
+    })
     
-    expect(businessName.textContent).toBe("Kircuit City")
-})
-
-it("search for loan amount '125000' in the table", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "125000" } })
-
-    expect(textbox.value).toBe("125000")
-})
-
-it("HelixTable contains loan amount '125000' after user inputted '125000' into textbox", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "125000" } })
-    const loanAmount = utils.getByText("125000")
+    it("nine header columns", () => {
+        const { ...utils } = setup()
     
-    expect(loanAmount.textContent).toBe("125000")
+        const columnHeaders = utils.queryAllByRole("columnheader")
+    
+        expect(columnHeaders).toHaveLength(9)
+    })
+    
+    it("search bar component", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+    
+        expect(textbox).toBeDefined()
+    })
+    
+    it("rows per page component combobox", () => {
+        const { ...utils } = setup()
+    
+        const combobox = utils.getByRole("combobox")
+    
+        expect(combobox).toBeDefined()
+    })
+    
+    it("options that are available in 5, 10, 25, 50, and all", () => {
+        const { ...utils } = setup()
+    
+        const options = utils.queryAllByRole("option")
+    
+        expect(options[0].value).toBe("5")
+        expect(options[1].value).toBe("10")
+        expect(options[2].value).toBe("25")
+        expect(options[3].value).toBe("50")
+        expect(options[4].value).toBe("-1")
+    })
 })
 
-it("search for tax id '258456913' in the table", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "258456913" } })
-
-    expect(textbox.value).toBe("258456913")
+describe("Can search for", () => {
+    it("first name 'John' in the table", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "John" } })
+    
+        expect(textbox.value).toBe("John")
+    })
+    
+    it("last name 'Doe' in the table", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "Doe" } })
+    
+        expect(textbox.value).toBe("Doe")
+    })
+    
+    it("business name 'Kircuit City' in the table", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "Kircuit City" } })
+    
+        expect(textbox.value).toBe("Kircuit City")
+    })
+    
+    it("loan amount '125000' in the table", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "125000" } })
+    
+        expect(textbox.value).toBe("125000")
+    })
+    
+    it("tax id '258456913' in the table", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "258456913" } })
+    
+        expect(textbox.value).toBe("258456913")
+    })
 })
 
-it("HelixTable contains tax id '258456913' after user inputted '258456913' into textbox", () => {
-    const { ...utils } = setup()
-
-    const textbox = utils.getByRole("textbox")
-    fireEvent.change(textbox, { target: { value: "258456913" } })
-    const taxId = utils.getByText("258456913")
-
-    expect(taxId.textContent).toBe("258456913")
-})
-
-it("Rows per page exist in this table container", () => {
-    const { ...utils } = setup()
-
-    const combobox = utils.getByRole("combobox")
-
-    expect(combobox).toBeDefined()
-})
-
-it("Options are available in 5, 10, 25, 50, and all", () => {
-    const { ...utils } = setup()
-
-    const options = utils.queryAllByRole("option")
-
-    expect(options[0].value).toBe("5")
-    expect(options[1].value).toBe("10")
-    expect(options[2].value).toBe("25")
-    expect(options[3].value).toBe("50")
-    expect(options[4].value).toBe("-1")
+describe("One of the rows in HelixTable contains", () => {
+    it("first name 'John' after user inputted 'John' into textbox", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "John" } })
+        const firstName = utils.getByText("John")
+        
+        expect(firstName.textContent).toBe("John")
+    })
+    
+    it("two last name of 'Doe' after user inputted 'Doe' into textbox", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "Doe" } })
+        const lastName = utils.getAllByText("Doe")
+    
+        expect(lastName[0].textContent).toBe("Doe")
+        expect(lastName[1].textContent).toBe("Doe")
+    })
+    
+    it("business name 'Kircuit City' after user inputted 'Kircuit City' into textbox", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "Kircuit City" } })
+        const businessName = utils.getByText("Kircuit City")
+        
+        expect(businessName.textContent).toBe("Kircuit City")
+    })
+    
+    it("loan amount '125000' after user inputted '125000' into textbox", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "125000" } })
+        const loanAmount = utils.getByText("125000")
+        
+        expect(loanAmount.textContent).toBe("125000")
+    })
+    
+    it("tax id '258456913' after user inputted '258456913' into textbox", () => {
+        const { ...utils } = setup()
+    
+        const textbox = utils.getByRole("textbox")
+        fireEvent.change(textbox, { target: { value: "258456913" } })
+        const taxId = utils.getByText("258456913")
+    
+        expect(taxId.textContent).toBe("258456913")
+    })
 })
