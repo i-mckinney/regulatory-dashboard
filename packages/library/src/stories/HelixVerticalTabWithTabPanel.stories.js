@@ -48,7 +48,7 @@ const renderHelixPanelTabs = (newValue) => {
         return (
             <HelixTabPanel key={panelTabIndex} value={newValue} index={panelTabIndex}>
                 <ul>
-                    <li>{`Tab #${panelTab}`}</li>
+                    <li>{`${panelTab}`}</li>
                 </ul>
             </HelixTabPanel>
         )
