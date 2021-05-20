@@ -1,16 +1,22 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { withRouter } from 'react-router-dom'
-import { StylesProvider, createGenerateClassName, makeStyles, Typography } from '@material-ui/core'
-import AddBoxIcon from '@material-ui/icons/AddBox'
-import SettingsIcon from '@material-ui/icons/Settings'
-import IconButton from '@material-ui/core/IconButton'
-import AssessmentIcon from '@material-ui/icons/Assessment'
-import EditIcon from '@material-ui/icons/Edit'
-import DeleteIcon from '@material-ui/icons/Delete'
-import ContactMail from "@material-ui/icons/ContactMail"
-import { HelixTable, HelixTableCell } from 'helixmonorepo-lib'
-import entities from '../apis/entities'
-import { sortableExcludes, columnExcludes, columnLabels } from './config'
+import React, { useState, useEffect, useMemo } from "react";
+import { withRouter } from "react-router-dom";
+import {
+  StylesProvider,
+  createGenerateClassName,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import SettingsIcon from "@material-ui/icons/Settings";
+import IconButton from "@material-ui/core/IconButton";
+import AssessmentIcon from "@material-ui/icons/Assessment";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ContactMail from "@material-ui/icons/ContactMail";
+import { HelixTable, HelixTableCell } from "helixmonorepo-lib";
+import entities from "../apis/entities";
+import { sortableExcludes, columnExcludes, columnLabels } from "./config";
+import EntityVisualizations from "./EntityVisualizations";
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "entity-",
@@ -246,6 +252,7 @@ function Entity(props) {
         <div className={entityClasses.header}>
           <Typography variant="h5">Entity</Typography>
         </div>
+        <EntityVisualizations />
         <HelixTable
           toggleSearch={true}
           displayCreateIcon={displayCreateEntityIcon}
