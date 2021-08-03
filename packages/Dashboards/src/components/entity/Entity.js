@@ -17,6 +17,8 @@ import { HelixTable, HelixTableCell } from "helixmonorepo-lib";
 import entities from "../apis/entities";
 import { sortableExcludes, columnExcludes, columnLabels } from "./config";
 import EntityVisualizations from "./EntityVisualizations";
+import { useQuery } from "@apollo/client";
+import { GET_ENTITIES } from "./graphql";
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "entity-",
@@ -69,6 +71,12 @@ function Entity(props) {
    * */
   // rows will stores entities from GET Method fetchEntities via Rest API
   const [rows, setRows] = useState([]);
+
+  // Querying AppSync GraphQL API for Entity data
+  const { loading, error, data } = useQuery(GET_ENTITIES);
+  if (loading) return "Loading...";
+  if (error) return `Error! ${error.message}`;
+  console.log("DATA:", data);
 
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], []);
