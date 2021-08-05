@@ -72,12 +72,6 @@ function Entity(props) {
   // rows will stores entities from GET Method fetchEntities via Rest API
   const [rows, setRows] = useState([]);
 
-  // Querying AppSync GraphQL API for Entity data
-  const { loading, error, data } = useQuery(GET_ENTITIES);
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
-  console.log("DATA:", data);
-
   // columns will store column header that we want to show in the front end
   const columns = useMemo(() => [], []);
 
@@ -104,29 +98,17 @@ function Entity(props) {
   };
 
   /**
-   * Renders only when it is mounted at first
-   * It will fetchEntitiess whenever Entity loads
+   * queries AppSync GraphQL API to receive an array of all entities associated with a company
    */
-  useEffect(() => {
-    /**
-     * fetchEntities calls backend api through get protocol to get all the entities
-     */
-    const fetchEntities = async () => {
-      const response = await entities.get("/5f7e1bb2ab26a664b6e950c8/entities");
+  const getGraphqlEntityData = async () => {
+    const { loading, error, data } = useQuery(GET_ENTITIES);
+    if (loading) return "Loading...";
+    if (error) return `Error! ${error.message}`;
+    const tableData = await data.listEntities;
+    setRows(tableData);
+  };
 
-      response.data.forEach((entity) => {
-        if (entity["createdAt"] !== undefined) {
-          isoToDate(entity, "createdAt");
-        }
-        if (entity["updatedAt"] !== undefined) {
-          isoToDate(entity, "updatedAt");
-        }
-      });
-      setRows(response.data);
-    };
-
-    fetchEntities();
-  }, [columns]);
+  getGraphqlEntityData();
 
   /**
    * @param {object} row the row is an object of data
